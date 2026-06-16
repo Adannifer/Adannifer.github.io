@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canton Fair — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="proj-hero">
+    <img class="proj-hero-img" src="cantonfair_pic%20copy/cover_pic.png"
+         alt="Canton Fair — crowded trade fair entrance" style="object-position: center 40%;">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">03 — Canton Fair × Yuanfang</span>
+      <h1 class="proj-title">CANTON<span class="pr-star">★</span>FAIR</h1>
+      <div class="proj-meta-row">
+        <span>Retail Brand Activation</span>
+        <span>Canton, China — 2025</span>
+        <span>Design Intern · Brand Experience & Event Marketing</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p>
+          Yuanfang is a food retail platform with a franchise-oriented business model. For the Canton Fair, the brand needed to communicate its platform identity, vendor network, food offerings, and offline store concept within a crowded, high-traffic fair environment.
+        </p>
+        <p>
+          The fair served multiple audience groups simultaneously: potential franchise partners evaluating business opportunities, individual entrepreneurs interested in the product, and general visitors exploring the floor. The design system had to speak to all three, creating a coherent brand presence that functioned as both retail environment and franchise pitch.
+        </p>
+        <p>
+          Responsibilities spanned pre-opening booth setup, store interior concept curation (product display layout, flower wall installation, signage placement), live broadcast graphics, and on-site visitor guidance through the Yuanfang sample store, where 80% of visitors were prospective franchise leads.
+        </p>
+        <div class="pr-tags">
+          <span class="tag">Retail Activation</span>
+          <span class="tag">Franchise Identity</span>
+          <span class="tag">Fair Design</span>
+          <span class="tag">Brand System</span>
+          <span class="tag">Live Broadcast</span>
+        </div>
+      </div>
+
+      <div class="proj-stats-grid">
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">80+</span>
+          <span class="proj-stat-l">Vendor Booths</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">20K+</span>
+          <span class="proj-stat-l">Visitors</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">13</span>
+          <span class="proj-stat-l">Day Sprint</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">80%</span>
+          <span class="proj-stat-l">Franchise Leads</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Brief -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Strategy Brief</h2>
+      <div class="proj-section-body">
+        <p>The Canton Fair is the world's largest trade fair, running 13 days with 20,000+ visitors across categories. Yuanfang's franchise food platform needed to communicate its brand to three fundamentally different audience types, simultaneously, within a high-traffic, visually competitive floor environment.</p>
+        <div class="info-grid">
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/franchisepartner.webp" alt=""></div><div class="ic-inner"><div class="ic-front"><b>Franchise Partners</b></div><div class="ic-back"><span>Evaluating the Yuanfang business model as an investment opportunity. Needed to see platform credibility, scale, and ROI framing at a glance.</span></div></div></div>
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/individual.png" alt=""></div><div class="ic-inner"><div class="ic-front"><b>Individual Entrepreneurs</b></div><div class="ic-back"><span>Interested in a single product or starting a small operation. Needed approachable pricing and a clear product story.</span></div></div></div>
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/general%20visitor.png" alt=""></div><div class="ic-inner"><div class="ic-front"><b>General Visitors</b></div><div class="ic-back"><span>Exploring the fair floor without a specific intent. Needed visual appeal, sampling opportunities, and guidance into the booth.</span></div></div></div>
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/challenge.png" alt=""></div><div class="ic-inner"><div class="ic-front"><b>Challenge</b></div><div class="ic-back"><span>Design a single brand presence that simultaneously functions as a retail environment, franchise pitch, and visitor experience, without losing coherence across all three.</span></div></div></div>
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/context.png" alt=""></div><div class="ic-inner"><div class="ic-front"><b>Context</b></div><div class="ic-back"><span>80+ vendor booths on the Yuanfang floor. The sample store was the primary conversion environment: 80% of sample-store visitors were prospective franchise leads.</span></div></div></div>
+          <div class="info-card"><div class="ic-photo"><img src="cantonfair_pic%20copy/vendor%2Bvisitors.jpg" alt=""></div><div class="ic-inner"><div class="ic-front"><b>My Role</b></div><div class="ic-back"><span>Design Intern covering booth setup, store interior curation, live broadcast graphics, product display layout, signage placement, and on-site visitor guidance.</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Space & Identity Design -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Space &amp; Identity Design</h2>
+      <div class="proj-section-body">
+        <p>The brand presence spanned two distinct environments: the main vendor floor and the Yuanfang sample store, each requiring different design priorities and audience communication logic.</p>
+        <div class="photo-cap-grid">
+          <div class="photo-item wide"><img src="cantonfair_pic%20copy/overview.png" alt="Canton Fair floor overview"><div class="photo-overlay"><p>Fair floor overview: 80+ vendor booths across the Yuanfang footprint. Signage and visual hierarchy had to work at distance before visitors stopped.</p></div></div>
+          <div class="photo-item"><img src="cantonfair_pic%20copy/shop1.png" alt="Yuanfang sample store front"><div class="photo-overlay"><p>Sample store exterior: designed to draw visitors off the main floor and into a conversion-optimized interior environment.</p></div></div>
+          <div class="photo-item"><img src="cantonfair_pic%20copy/shopproducts.jpg" alt="Product display layout"><div class="photo-overlay"><p>Product display: organized by category and franchise relevance, with franchise-facing SKUs prominently featured.</p></div></div>
+          <div class="photo-item"><img src="cantonfair_pic%20copy/mainprodcutprofile.jpg" alt="Main product profile display"><div class="photo-overlay"><p>Product profile system: each featured product included visual identity, origin story, and franchise positioning.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand System & Live Broadcast -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Brand Assets &amp; Live Broadcast</h2>
+      <div class="proj-section-body">
+        <p>Visual production extended beyond static signage into live-format content: the fair's live broadcast stream required real-time graphic support that maintained brand consistency while adapting to a dynamic on-floor environment.</p>
+        <div class="flow-grid">
+          <div class="flow-step"><b>Booth Signage</b><span>Print and display materials communicating platform identity, vendor categories, and franchise credentials at the booth level.</span></div>
+          <div class="flow-step"><b>Sample Store Interior</b><span>Product display layout, flower wall installation, and signage placement designed to guide visitors from browsing to conversion.</span></div>
+          <div class="flow-step"><b>Live Broadcast Graphics</b><span>On-screen overlays, titles, and product spotlights produced for the fair's live streaming coverage of the Yuanfang floor.</span></div>
+          <div class="flow-step"><b>Visitor Guidance System</b><span>Physical wayfinding from the main floor into the sample store, using directional cues, staff positioning, and threshold design.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13-Day Sprint -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">13-Day Sprint</h2>
+      <div class="proj-section-body">
+        <p>The fair ran for 13 consecutive days. Design and operations ran in parallel: assets were produced or adapted on-site as the event evolved and visitor patterns became clear.</p>
+        <div class="timeline-items">
+          <div class="time-row"><div class="time-date">Pre-Open</div><div class="time-body"><b>Booth Setup &amp; Store Dressing</b><p>Pre-opening day: booth assembly, product display layout, flower wall installation, and signage placement across all zones.</p></div></div>
+          <div class="time-row"><div class="time-date">Days 1–3</div><div class="time-body"><b>Visitor Flow Observation</b><p>Monitored which signage and display elements drew visitors in and which product profiles generated franchise inquiry. Adjusted placement accordingly.</p></div></div>
+          <div class="time-row"><div class="time-date">Days 4–8</div><div class="time-body"><b>Live Broadcast Production</b><p>On-site graphic support for live streaming coverage: real-time product spotlights, brand overlays, and floor highlights.</p></div></div>
+          <div class="time-row"><div class="time-date">Days 9–13</div><div class="time-body"><b>Sample Store Conversion</b><p>Full focus on visitor guidance through the sample store. 80% of store visitors identified as prospective franchise leads by event close.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact & Reflection -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Impact &amp; Reflection</h2>
+      <div class="proj-section-body">
+        <div class="closing-pair">
+          <div class="closing-card"><b>Impact</b><p>80+ vendor booths, 20,000+ fair visitors, and a sample store where 80% of visitors were prospective franchise partners. The design system successfully translated a franchise food platform into a coherent brand presence across three distinct audience contexts (retail, pitch, and general discovery) within a single physical environment.</p></div>
+          <div class="closing-card"><b>Reflection</b><p>The Canton Fair taught me that design at scale means designing for many simultaneous audiences, not one. The most critical skill wasn't creating standout visuals. It was understanding the conversion logic of each audience type and building a spatial and visual system that could speak to all three without contradiction.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section">
+      <div class="gallery-label">Documentation</div>
+      <div class="gallery-grid">
+        <div class="gallery-item wide">
+          <img src="cantonfair_pic%20copy/overview.png" alt="Aerial view of Canton Fair floor" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/shop1.png" alt="Yuanfang store front" loading="lazy">
+        </div>
+        <div class="gallery-item tall">
+          <img src="cantonfair_pic%20copy/vendor%2Bvisitors.jpg" alt="Vendors and visitors" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/shopproducts.jpg" alt="Shop products display" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/mainprodcutprofile.jpg" alt="Main product profile" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/vendorsales.jpg" alt="Vendor sales floor" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/vendor1.jpg" alt="Vendor booth" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/scale.jpg" alt="Scale of fair" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="cantonfair_pic%20copy/vendor2.jpg" alt="Vendor display" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="crimepartner.html" class="proj-back-link">← CrimePartner</a>
+    <a href="allknight.html" class="proj-next-link">
+      <span class="proj-next-label">Back to First</span>
+      <span class="proj-next-title">AllKnight★NYC →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(ls ~/.claude/skills/ 2>/dev/null && ls /Users/adannifer/Desktop/CC_Site/.claude/skills/ 2>/dev/null && ls /Users/adannifer/Desktop/CC_Site/ 2>/dev/null)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/impeccable/skills/impeccable)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/taste/skills/taste)",
+      "Bash(python3 -m json.tool)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/impeccable/.claude-plugin)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/taste/.claude-plugin)",
+      "Read(//Users/adannifer/.claude/**)",
+      "Bash(xargs ls -la)",
+      "Bash(xargs -I{} sh -c 'echo \"=== {} ===\"; cat \"{}\"')",
+      "Bash(find /Users/adannifer/Downloads/impeccable-main/plugin -type f | head -20 2>/dev/null; ls /Users/adannifer/Downloads/impeccable-main/plugin/ 2>/dev/null)",
+      "Bash(curl -fsSL https://bun.sh/install)",
+      "Bash(bash)",
+      "Bash(find ~/Downloads -name \"taste*\" -type d 2>/dev/null | head -5; find ~/Desktop/CC_Site -name \"taste*\" -type d 2>/dev/null)",
+      "Bash(cp /Users/adannifer/Downloads/taste-skill-main/skills/taste-skill/SKILL.md ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/taste/skills/taste/SKILL.md && find ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/taste -type f)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/impeccable/commands)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/taste/commands)",
+      "Bash(python3 -c ' *)",
+      "Bash(pip3 install *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(sed -i '' 's/young fandom community — developed over two months/young fandom community, developed over two months/' 's/DUMBO, Brooklyn — five minutes from the subway/DUMBO, Brooklyn, five minutes from the subway/' 's/Venue scouted and secured — 4,000+ sq ft/Venue scouted and secured: 4,000+ sq ft/' allknight.html)"
+    ]
+  }
+}

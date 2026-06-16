@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-13T00:00:00-04:00",
+  "title": "Design System: Jennifer Qian Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "hot-pink": {
+        "role": "primary",
+        "displayName": "Archive Hot Pink",
+        "canonical": "#ff1aa8",
+        "tonalRamp": ["#ffb6e2", "#ff73c7", "#ff1aa8", "#c9007b", "#6b003f"]
+      },
+      "signal-green": {
+        "role": "secondary",
+        "displayName": "Signal Green",
+        "canonical": "#d7ff45",
+        "tonalRamp": ["#f1ffb5", "#e4ff7a", "#d7ff45", "#8aaa12", "#445600"]
+      },
+      "soft-blue": {
+        "role": "tertiary",
+        "displayName": "Soft Interface Blue",
+        "canonical": "#8cc8ff",
+        "tonalRamp": ["#d7ecff", "#afd8ff", "#8cc8ff", "#3c87c8", "#174869"]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Portfolio Black",
+        "canonical": "#111113",
+        "tonalRamp": ["#3a3a40", "#202024", "#19191c", "#111113", "#0d0d0f"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Warm Ink",
+        "canonical": "#f7f1ea",
+        "tonalRamp": ["#ffffff", "#f7f1ea", "#d8d0c7", "#aaa3a0", "#6f6a68"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Poster Display",
+        "purpose": "Homepage and largest project-name moments only. Tight tracking is allowed here but must be tested."
+      },
+      "headline": {
+        "displayName": "Case Study Headline",
+        "purpose": "Large secondary headings and project subtitles."
+      },
+      "body": {
+        "displayName": "Evidence Body",
+        "purpose": "Recruiter-readable descriptions, case-study context, and table copy."
+      },
+      "label": {
+        "displayName": "System Label",
+        "purpose": "Navigation, tags, phases, and small evidence labels."
+      }
+    },
+    "elevation": {
+      "logoGlow": "drop-shadow(0 18px 60px rgba(255,26,168,.28))",
+      "cardAmbient": "0 28px 88px rgba(0,0,0,.34)",
+      "pinkHoverAura": "0 30px 90px rgba(255,26,168,.14)"
+    },
+    "motion": {
+      "defaultDuration": "220ms",
+      "imageTransition": "600ms",
+      "defaultEase": "ease",
+      "preferredBehavior": "Small hover shifts on cards and borders; avoid decorative motion that distracts from case-study evidence.",
+      "reducedMotion": "Disable large transforms and preserve visible content."
+    },
+    "breakpoints": {
+      "mobileStack": "980px"
+    },
+    "rules": [
+      "Reframe niche culture as transferable strategy.",
+      "Show systems, not just visuals.",
+      "Lead with evidence.",
+      "Balance expressive identity with hiring clarity.",
+      "Use pink as identity, green and blue as information signals."
+    ],
+    "antiReferences": [
+      "student portfolio",
+      "fine-art portfolio",
+      "Cargo default grid",
+      "fandom shrine",
+      "anime-only personal page",
+      "sterile corporate minimalism",
+      "generic agency-safe portfolio"
+    ]
+  }
+}

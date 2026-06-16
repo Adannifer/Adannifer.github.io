@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Range of Practice — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <style>
+    .range-section {
+      padding: 5rem 6vw 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .range-section:last-child { border-bottom: none; }
+    .range-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 0.6rem;
+    }
+    .range-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .range-meta {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+    .range-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink-dim);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+    }
+    .range-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .range-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    .range-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    .range-grid-2 img,
+    .range-grid-3 img,
+    .range-grid-4 img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      object-fit: cover;
+    }
+    .range-img-full img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+    }
+    .range-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+    .range-right-img img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+    }
+    .range-caption {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-top: 0.5rem;
+    }
+    .range-video-pair {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .range-video-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .range-vid-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .range-stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .range-stat { display: flex; flex-direction: column; }
+    .range-stat-n {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--pink);
+      letter-spacing: -0.04em;
+    }
+    .range-stat-l {
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    /* Masonry-feel for fashion collages */
+    .range-collage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    .range-collage-grid img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+    .range-collage-grid .tall {
+      grid-row: span 2;
+    }
+  </style>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <section class="proj-hero proj-hero--gradient">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">Range of Practice</span>
+      <h1 class="proj-title">Beyond<span class="pr-star">★</span>the<br>Brief</h1>
+      <div class="proj-meta-row">
+        <span>Motion · Collage · Exhibition · Branding · Illustration</span>
+        <span>2019 – 2025</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <!-- ── FASHION · COEXIST · HK HISTORY ─────── -->
+    <div id="fashion" class="range-section">
+      <div class="range-label">Collage · Fashion · Cultural History</div>
+      <h2 class="range-title">Coexist<span class="pr-star">★</span></h2>
+      <div class="range-meta">CUHK Summer School · 2024 · Mixed Media Collage</div>
+      <div class="range-overview">
+        <div>
+          <p class="range-body">A collage series created during a summer school at The Chinese University of Hong Kong, exploring how colonial history shaped Hong Kong's visual and cultural identity. Inspired by the pirate archetype and the layered aesthetics of occupation-era fashion, the work uses color collision and figure fragmentation to visualize coexistence — of cultures, of eras, of power.</p>
+          <div class="range-stat-row">
+            <div class="range-stat"><span class="range-stat-n">5</span><span class="range-stat-l">Collage Works</span></div>
+            <div class="range-stat"><span class="range-stat-n">HK</span><span class="range-stat-l">Cultural Research</span></div>
+            <div class="range-stat"><span class="range-stat-n">2024</span><span class="range-stat-l">CUHK</span></div>
+          </div>
+        </div>
+        <div class="range-right-img">
+          <img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt="Coexist — Collage 1">
+        </div>
+      </div>
+      <div class="range-grid-2" style="margin-bottom:0.75rem;">
+        <img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_2.jpg" alt="Coexist — Collage 2">
+        <img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt="Coexist — Collage 3">
+      </div>
+      <div class="range-grid-2" style="margin-bottom:0.75rem;">
+        <img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_4.jpg" alt="Coexist — Collage 4">
+        <img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_5.jpg" alt="Coexist — Collage 5">
+      </div>
+      <div class="range-img-full" style="margin-top:0.75rem;">
+        <img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt="Coexist — Mural Mockup">
+        <p class="range-caption">Mural application mockup</p>
+      </div>
+    </div>
+
+    <!-- ── MOTION & ANIMATION ─────────────────── -->
+    <div id="motion" class="range-section">
+      <div class="range-label">Motion · Stop Motion · Interactive · p5.js</div>
+      <h2 class="range-title">Motion<span class="pr-star">★</span>Work</h2>
+      <div class="range-meta">2023 – 2025 · NYU · Independent</div>
+      <p class="range-body">Motion and interactive work spanning 2D animation, stop motion, installation, and live p5.js coding — each exploring a different relationship between material, code, and audience.</p>
+
+      <!-- Row 1: Echo Curtain (portrait) + TongTong + JailBreak -->
+      <div class="range-video-pair" style="margin-bottom:1.5rem;">
+        <div>
+          <div class="range-vid-label">Echo Curtain · Interactive Installation</div>
+          <div style="position:relative; padding-top:177.78%;">
+            <iframe src="https://player.vimeo.com/video/1194880550?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="Echo Curtain"></iframe>
+          </div>
+        </div>
+        <div class="range-video-stack">
+          <div>
+            <div class="range-vid-label">TongTong · 2D Animation</div>
+            <div style="position:relative; padding-top:56.25%;">
+              <iframe src="https://player.vimeo.com/video/1201885554?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="TongTong_Animation"></iframe>
+            </div>
+          </div>
+          <div>
+            <div class="range-vid-label">JailBreak · Stop Motion</div>
+            <div style="position:relative; padding-top:56.25%;">
+              <iframe src="https://player.vimeo.com/video/1201879166?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="JailBreak_StopMotion_Animation"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Zhuque + Abstract + Touchable in one row, fixed height -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1.5rem; align-items:start;">
+        <div>
+          <div class="range-vid-label">Zhuque · p5.js Coding</div>
+          <div style="position:relative; height:400px;">
+            <iframe src="https://player.vimeo.com/video/1201899909?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="Zhuque_p5js_coding"></iframe>
+          </div>
+        </div>
+        <div>
+          <div class="range-vid-label">Abstract · Motion</div>
+          <div style="position:relative; height:400px;">
+            <iframe src="https://player.vimeo.com/video/1201900263?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="IMG_2580"></iframe>
+          </div>
+        </div>
+        <div>
+          <div class="range-vid-label">Touchable · Love &amp; Deep Space</div>
+          <div style="position:relative; height:400px;">
+            <iframe src="https://player.vimeo.com/video/1201900493?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="Touchable_LoveAnddeepspace_Animation"></iframe>
+          </div>
+        </div>
+      </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
+
+      <!-- Row 4: p5.js live interactive sketches -->
+      <div class="range-vid-label" style="margin-bottom:0.75rem;">Interactive · p5.js Live Sketches</div>
+      <div class="range-grid-2" style="margin-bottom:0.75rem;">
+        <iframe src="https://editor.p5js.org/JenniferQian/full/UbW2ADLTq" style="width:100%;height:420px;border-radius:14px;border:none;" loading="lazy"></iframe>
+        <iframe src="https://editor.p5js.org/JenniferQian/full/SOsuio0qh" style="width:100%;height:420px;border-radius:14px;border:none;" loading="lazy"></iframe>
+      </div>
+      <div class="range-grid-2">
+        <iframe src="https://editor.p5js.org/JenniferQian/full/gY60BrYRj" style="width:100%;height:420px;border-radius:14px;border:none;" loading="lazy"></iframe>
+        <iframe src="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" style="width:100%;height:420px;border-radius:14px;border:none;" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- ── GRAPHIC POSTERS ───────────────────── -->
+    <div id="posters" class="range-section">
+      <div class="range-label">Graphic Design · Typography</div>
+      <h2 class="range-title">Graphic<span class="pr-star">★</span>Posters</h2>
+      <div class="range-meta">NYU School Projects · 2023 – 2025</div>
+      <p class="range-body">A selection of poster work from NYU coursework — experimenting with typographic hierarchy, color theory, and visual storytelling across different conceptual briefs.</p>
+      <div class="range-grid-3" style="margin-bottom:0.75rem;">
+        <img src="range%20of%20practice/graphic%20poster/01.png" alt="Poster 01">
+        <img src="range%20of%20practice/graphic%20poster/02.png" alt="Poster 02">
+        <img src="range%20of%20practice/graphic%20poster/03.png" alt="Poster 03">
+      </div>
+      <div class="range-grid-3">
+        <img src="range%20of%20practice/graphic%20poster/04.png" alt="Poster 04">
+        <img src="range%20of%20practice/graphic%20poster/A4%20-%203.png" alt="Poster A4">
+        <img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="DILP Poster">
+      </div>
+    </div>
+
+    <!-- ── NYU BIA ────────────────────────────── -->
+    <div id="nyubia" class="range-section">
+      <div class="range-label">Student Club · Event Production · Visual Design</div>
+      <h2 class="range-title">NYU BIA<span class="pr-star">★</span></h2>
+      <div class="range-meta">Founder · Main Organizer · Visual Designer · 2024 – 2025</div>
+      <div class="range-overview">
+        <div>
+          <p class="range-body">NYU BIA (Bring It All) is a student-run information and community platform I founded for Chinese students at NYU — covering campus life, housing, dining, internships, and social connection. I serve as main organizer and visual designer for the annual Open House events, welcoming each incoming class with bilingual design systems and community programming.</p>
+          <div class="range-stat-row">
+            <div class="range-stat"><span class="range-stat-n">2</span><span class="range-stat-l">Annual Events</span></div>
+            <div class="range-stat"><span class="range-stat-n">✦</span><span class="range-stat-l">Founder</span></div>
+            <div class="range-stat"><span class="range-stat-n">NYU</span><span class="range-stat-l">New York</span></div>
+          </div>
+        </div>
+        <div class="range-right-img">
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/bia_logo.png" alt="NYU BIA Logo" style="border-radius:16px; background:rgba(18,9,30,0.6); padding:1.5rem;">
+        </div>
+      </div>
+      <div class="range-grid-2" style="margin-bottom:0.75rem;">
+        <div>
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt="NYU BIA 2030er Welcome">
+          <p class="range-caption">2030er Welcome Event — 2025</p>
+        </div>
+        <div>
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt="NYU BIA 2029er Welcome">
+          <p class="range-caption">2029er Welcome Event — 2024</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; align-items:start;">
+        <img src="range%20of%20practice/nyu%20bia%20open%20house/poster.png" alt="NYU BIA Poster" style="width:100%; border-radius:12px; display:block;">
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/Weixin%20Image_20260613234354_32344_133.jpg" alt="NYU BIA event" style="width:100%; border-radius:12px; display:block; object-fit:cover; height:220px;">
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/Weixin%20Image_20260613234401_32347_133.jpg" alt="NYU BIA open house" style="width:100%; border-radius:12px; display:block; object-fit:cover; height:220px;">
+          <img src="range%20of%20practice/nyu%20bia%20open%20house/Weixin%20Image_20260613234533_32349_133.jpg" alt="NYU BIA crowd" style="width:100%; border-radius:12px; display:block; object-fit:cover; height:220px;">
+        </div>
+      </div>
+      <div class="range-grid-2">
+        <img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt="NYU BIA Open House event" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/nyu%20bia%20open%20house/Weixin%20Image_20260613234905_32353_133.jpg" alt="NYU BIA event photo" style="height:260px; object-fit:cover;">
+      </div>
+    </div>
+
+    <!-- ── PERSONAL BRANDING ─────────────────── -->
+    <div id="branding" class="range-section">
+      <div class="range-label">Identity Design · Personal Brand</div>
+      <h2 class="range-title">Personal<span class="pr-star">★</span>Brand</h2>
+      <div class="range-meta">Self-Initiated · 2024</div>
+      <p class="range-body">A personal brand identity system — developing a visual language that reflects my practice at the intersection of cultural programming, digital design, and community building.</p>
+      <div class="range-grid-3">
+        <img src="range%20of%20practice/personal%20branding/FREE%20Label%20Tag%20-%20Flat%20Lay.png" alt="Personal brand — label tag mockup">
+        <img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt="Personal brand — signboard mockup">
+        <img src="range%20of%20practice/personal%20branding/mockup4.png" alt="Personal brand — mockup 4">
+      </div>
+    </div>
+
+    <!-- ── SCHOOL MASCOT ──────────────────────── -->
+    <div id="mascot" class="range-section">
+      <div class="range-label">Brand Identity · Mascot Design · Illustration</div>
+      <h2 class="range-title">Sea Dragon<span class="pr-star">★</span>System</h2>
+      <div class="range-meta">BASIS International School Parklane Harbour · 2019–2021</div>
+      <div class="range-overview">
+        <div>
+          <p class="range-body">A full mascot identity system I designed for my high school — BASIS International School Parklane Harbour in Huizhou, China. The sea dragon character reflects the school's waterfront identity and international spirit. The system is still in active use across school communications, merchandise, and events — and earned me the school's design award.</p>
+          <div class="range-stat-row">
+            <div class="range-stat"><span class="range-stat-n">★</span><span class="range-stat-l">Award Won</span></div>
+            <div class="range-stat"><span class="range-stat-n">In Use</span><span class="range-stat-l">Still Active</span></div>
+            <div class="range-stat"><span class="range-stat-n">BIPH</span><span class="range-stat-l">Huizhou, China</span></div>
+          </div>
+        </div>
+        <div class="range-right-img">
+          <img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt="Sea Dragon Mascot">
+        </div>
+      </div>
+      <div class="range-grid-3">
+        <img src="range%20of%20practice/school_mascot%20design/IMG_1057%202.JPG" alt="Mascot — front view" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt="Mascot — detail" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/school_mascot%20design/IMG_1059.JPG" alt="Mascot — display" style="height:260px; object-fit:cover;">
+      </div>
+      <div class="range-grid-2" style="margin-top:0.75rem;">
+        <img src="range%20of%20practice/school_mascot%20design/IMG_1060.JPG" alt="Mascot — installed" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/school_mascot%20design/IMG_1057.JPG" alt="Mascot — full" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1052.JPG" alt="Mascot — exhibition" style="height:260px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1056%202.JPG" alt="Mascot — display" style="height:260px; object-fit:cover;">
+      </div>
+    </div>
+
+    <!-- ── TRIBE ART EXHIBITION ───────────────── -->
+    <div id="tribe" class="range-section">
+      <div class="range-label">Exhibition · Curation · Student Art</div>
+      <h2 class="range-title">Tribe<span class="pr-star">★</span>Exhibition</h2>
+      <div class="range-meta">BASIS International School · Instructed by Jamie Lowe</div>
+      <p class="range-body">An annual student art exhibition at BASIS International School, instructed by Jamie Lowe. The exhibition brings together student artwork across painting, sculpture, mixed media, and installation — creating a shared space for creative expression within the school community.</p>
+      <div class="range-grid-3" style="margin-bottom:0.75rem;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt="Tribe — exhibition view 1" style="height:240px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1049.JPG" alt="Tribe — exhibition view 2" style="height:240px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1050.JPG" alt="Tribe — exhibition view 3" style="height:240px; object-fit:cover;">
+      </div>
+      <div class="range-grid-3" style="margin-bottom:0.75rem;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1051.JPG" alt="Tribe — detail 1" style="height:200px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt="Tribe — detail 3" style="height:200px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1054.JPG" alt="Tribe — detail 4" style="height:200px; object-fit:cover;">
+      </div>
+      <div class="range-grid-2">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1055%202.JPG" alt="Tribe — artwork 1" style="height:240px; object-fit:cover;">
+        <img src="range%20of%20practice/tribe_art_exhibition/IMG_1056.JPG" alt="Tribe — artwork 3" style="height:240px; object-fit:cover;">
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="index.html" class="proj-back-link">← Back to Work</a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

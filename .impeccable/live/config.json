@@ -1,0 +1,10 @@
+{
+  "files": ["outputs/personal_site/**/*.html", "jennifer_personal_website_pink.html"],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true,
+  "sourceRoot": "/Users/adannifer/Desktop/CC_Site",
+  "codexRef": "/Users/adannifer/Documents/Codex/2026-06-08/files-mentioned-by-the-user-jennifer",
+  "productDoc": "/Users/adannifer/Documents/Codex/2026-06-08/files-mentioned-by-the-user-jennifer/PRODUCT.md",
+  "designDoc": "/Users/adannifer/Documents/Codex/2026-06-08/files-mentioned-by-the-user-jennifer/DESIGN.md"
+}

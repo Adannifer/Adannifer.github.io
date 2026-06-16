@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jennifer Qian — Brand Experience & Community Campaigns</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Intro mercury melt: high-contrast gooey -->
+      <filter id="acid-gooey" x="-80%" y="-80%" width="260%" height="260%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" id="gooey-blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+          id="gooey-matrix"/>
+      </filter>
+      <!-- Hero acid mouse: soft blob on letters -->
+      <filter id="acid-hero" x="-8%" y="-8%" width="116%" height="116%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="hero-blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body>
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <!-- PHASE A: INTRO -->
+  <div id="intro">
+    <!-- Coin physical face — NOT under gooey filter -->
+    <div id="intro-coin-scene">
+      <div id="intro-coin">
+        <div id="coin-face"></div>
+      </div>
+    </div>
+    <!-- Acid zone: coin star + logo letters share the mercury gooey filter -->
+    <div id="acid-zone">
+      <div id="coin-star-wrap">
+        <div id="coin-star">★</div>
+      </div>
+      <div id="intro-logo">
+        <div id="intro-line1" class="intro-word">
+          <span class="iletter">J</span><span class="iletter">e</span><span class="iletter">n</span><span class="iletter">n</span><span class="iletter">i</span><span class="iletter">f</span><span class="iletter">e</span><span class="iletter">r</span>
+        </div>
+        <div id="intro-line-star" class="intro-word">
+          <span class="iletter iletter--star">★</span>
+        </div>
+        <div id="intro-line2" class="intro-word">
+          <span class="iletter iletter--pink">Q</span><span class="iletter iletter--pink">i</span><span class="iletter iletter--pink">a</span><span class="iletter iletter--pink">n</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- HERO — title-case Jennifer★Qian, acid mouse -->
+    <section id="hero">
+      <div id="hero-content">
+        <div id="hero-title-wrap">
+          <h1 id="hero-title">
+            <span class="hw" id="hw-jennifer"
+              ><span class="hc">J</span><span class="hc">e</span><span class="hc">n</span><span class="hc">n</span><span class="hc">i</span><span class="hc">f</span><span class="hc">e</span><span class="hc">r</span></span
+            ><span class="hw-star hc">★</span
+            ><span class="hw hw--pink" id="hw-qian"
+              ><span class="hc">Q</span><span class="hc">i</span><span class="hc">a</span><span class="hc">n</span></span>
+          </h1>
+          <p id="hero-sub">Brand Experience &amp; Community Campaigns — New York</p>
+        </div>
+      </div>
+      <div id="scroll-cue" aria-label="Scroll down">
+        <span class="sc-label">SCROLL</span>
+        <span class="sc-arrow">↓</span>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work">
+      <div class="section-header">
+        <span class="section-num">Selected Work</span>
+        <span class="section-rule"></span>
+      </div>
+
+      <div id="work-list">
+
+        <article class="project-row" onclick="location.href='allknight.html'" role="link" tabindex="0">
+          <div class="pr-info">
+            <div class="pr-index">01</div>
+            <div class="pr-body">
+              <div class="pr-top">
+                <h2 class="pr-title">AllKnight<span class="pr-star">★</span>NYC</h2>
+                <span class="pr-type">Anime & Cosplay Convention</span>
+              </div>
+              <p class="pr-desc">
+                Large-scale fandom convention for New York's young anime community: NPC recruitment, vendor programming, immersive game stations, visual identity, on-site experience design.
+              </p>
+              <div class="pr-tags">
+                <span class="tag">Event Production</span>
+                <span class="tag">Brand Identity</span>
+                <span class="tag">Experience Design</span>
+              </div>
+              <div class="pr-footer">
+                <span class="pr-role">Organizer · Visual Designer · Experience Designer</span>
+                <span class="pr-location">DUMBO, Brooklyn — 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="pr-cover">
+            <img src="allknight_pic%20copy/final-photo.jpg" alt="AllKnight NYC cosplay group" loading="lazy">
+            <div class="pr-cover-overlay"></div>
+          </div>
+        </article>
+
+        <article class="project-row" onclick="location.href='crimepartner.html'" role="link" tabindex="0">
+          <div class="pr-info">
+            <div class="pr-index">02</div>
+            <div class="pr-body">
+              <div class="pr-top">
+                <h2 class="pr-title">Crime<span class="pr-star">★</span>Partner</h2>
+                <span class="pr-type">Nightlife Campaign Series</span>
+              </div>
+              <p class="pr-desc">
+                Three-edition recurring nightlife series blending anime, cosplay, DJ live, and themed games, testing how fandom culture reshapes intimidating nightlife into participatory social space.
+              </p>
+              <div class="pr-tags">
+                <span class="tag">Nightlife</span>
+                <span class="tag">Community Building</span>
+                <span class="tag">Brand Campaign</span>
+              </div>
+              <div class="pr-footer">
+                <span class="pr-role">Organizer · Visual Designer · Experience Designer</span>
+                <span class="pr-location">New York City — 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="pr-cover">
+            <img src="crimepartner_pic%20copy/participants.png" alt="CrimePartner nightlife event" loading="lazy">
+            <div class="pr-cover-overlay"></div>
+          </div>
+        </article>
+
+        <article class="project-row" onclick="location.href='cantonfair.html'" role="link" tabindex="0">
+          <div class="pr-info">
+            <div class="pr-index">03</div>
+            <div class="pr-body">
+              <div class="pr-top">
+                <h2 class="pr-title">Canton<span class="pr-star">★</span>Fair</h2>
+                <span class="pr-type">Retail Brand Activation</span>
+              </div>
+              <p class="pr-desc">
+                Full brand experience deployment for Yuanfang food retail franchise across China's largest trade fair: booth design, store concept, franchise communication, live broadcast graphics.
+              </p>
+              <div class="pr-tags">
+                <span class="tag">Retail Activation</span>
+                <span class="tag">Franchise Identity</span>
+                <span class="tag">Fair Design</span>
+              </div>
+              <div class="pr-footer">
+                <span class="pr-role">Design Intern · Brand Experience & Event Marketing</span>
+                <span class="pr-location">Canton, China — 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="pr-cover">
+            <img src="cantonfair_pic%20copy/cover_pic.png" alt="Canton Fair brand activation" loading="lazy">
+            <div class="pr-cover-overlay"></div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- INTERACTION & EMERGING WORKFLOWS -->
+    <section id="work-lab">
+      <div class="section-header">
+        <span class="section-num">Interaction &amp; Emerging Workflows</span>
+        <span class="section-rule"></span>
+      </div>
+      <div class="lab-grid">
+
+        <article class="lab-card" onclick="location.href='fanscape.html'" role="link" tabindex="0">
+          <div class="lab-card-photo"><img src="Fanscape/new_cover.png" alt=""></div>
+          <div class="lab-num">04</div>
+          <div class="lab-type">App UI/UX · Information Architecture</div>
+          <h3 class="lab-title">Fan<span class="pr-star">★</span>scape</h3>
+          <p class="lab-desc">Map-based fandom discovery system that turns scattered cultural data into a navigable digital experience, organized by user intention.</p>
+          <div class="lab-tags">
+            <span class="tag">Product Design</span>
+            <span class="tag">UX</span>
+            <span class="tag">Information Architecture</span>
+            <span class="tag">Cultural Systems</span>
+          </div>
+          <div class="lab-role">Product Designer · IA Designer · Cultural Systems Designer</div>
+        </article>
+
+        <article class="lab-card" onclick="location.href='squeak.html'" role="link" tabindex="0">
+          <div class="lab-card-photo"><img src="Squeak/cover.png" alt=""></div>
+          <div class="lab-num">05</div>
+          <div class="lab-type">AI-Assisted Product Workflow</div>
+          <h3 class="lab-title">Squeak<span class="pr-star">★</span></h3>
+          <p class="lab-desc">AI-assisted civic product redesigning NYC rat reporting as a dual-mode experience for playful participation and anxious avoidance.</p>
+          <div class="lab-tags">
+            <span class="tag">AI Workflow</span>
+            <span class="tag">Civic Tech</span>
+            <span class="tag">Mobile UX</span>
+            <span class="tag">Emotional Design</span>
+          </div>
+          <div class="lab-role">Product Designer · UX Designer · AI-Assisted Prototyper</div>
+        </article>
+
+        <article class="lab-card" onclick="location.href='suffocatedlove.html'" role="link" tabindex="0">
+          <div class="lab-card-photo"><img src="Suffocated_Love/cover.jpg" alt=""></div>
+          <div class="lab-num">06</div>
+          <div class="lab-type">Wearable Experience · Speculative Design</div>
+          <h3 class="lab-title">Suffocated<span class="pr-star">★</span>Love</h3>
+          <p class="lab-desc">Wearable experience translating intimacy, control, and emotional pressure into body-based form, photography, and audience interpretation.</p>
+          <div class="lab-tags">
+            <span class="tag">Experience Design</span>
+            <span class="tag">Wearable</span>
+            <span class="tag">Speculative</span>
+            <span class="tag">Visual Storytelling</span>
+          </div>
+          <div class="lab-role">Experience Designer · Wearable Artist · Visual Director</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- RANGE OF PRACTICE -->
+    <section id="range-marquee">
+      <div class="section-header" style="padding:0 6vw; margin-bottom:1.2rem;">
+        <span class="section-num">Range of Practice</span>
+        <span class="section-rule"></span>
+      </div>
+      <p class="range-sub">Motion · Stop Motion · Interactive Installation · Event Design · Brand Systems · Data Visualization · App UI/UX</p>
+
+      <!-- Video editorial grid -->
+      <div class="range-video-grid">
+
+        <!-- Portrait: Echo Curtain (9:16) — tall left column -->
+        <div class="range-vid-cell range-vid-portrait">
+          <div class="range-vid-label">Echo Curtain · Interactive Installation</div>
+          <div style="position:relative; padding-top:177.78%;">
+            <iframe src="https://player.vimeo.com/video/1194880550?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="Echo Curtain"></iframe>
+          </div>
+        </div>
+
+        <!-- Right column: two landscape videos stacked -->
+        <div class="range-vid-stack">
+          <div class="range-vid-cell">
+            <div class="range-vid-label">TongTong · 2D Animation</div>
+            <div style="position:relative; padding-top:56.25%;">
+              <iframe src="https://player.vimeo.com/video/1201885554?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="TongTong_Animation"></iframe>
+            </div>
+          </div>
+          <div class="range-vid-cell">
+            <div class="range-vid-label">JailBreak · Stop Motion</div>
+            <div style="position:relative; padding-top:56.25%;">
+              <iframe src="https://player.vimeo.com/video/1201879166?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;" title="JailBreak_StopMotion_Animation"></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
+
+      <!-- Image strip -->
+      <div id="dock-viewport">
+        <div id="dock-inner">
+          <!-- Fashion / Coexist -->
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt=""></div>
+          <!-- Motion -->
+          <div class="dk-item" data-cat="Motion" data-name="Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_LoveAnddeepspace_Animation.MOV.png" alt=""></div>
+          <div class="dk-item" data-cat="Motion" data-name="Stop Motion" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/IMG_1525.mov.png" alt=""></div>
+          <div class="dk-item" data-cat="Motion" data-name="Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/IMG_2580.MOV.png" alt=""></div>
+          <!-- Graphic Posters -->
+          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
+          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
+          <div class="dk-item" data-cat="Graphic Poster" data-name="DILP Poster" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt=""></div>
+          <!-- NYU BIA -->
+          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt=""></div>
+          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt=""></div>
+          <div class="dk-item" data-cat="Event Production" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt=""></div>
+          <!-- Personal Branding -->
+          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
+          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
+          <!-- School Mascot -->
+          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt=""></div>
+          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt=""></div>
+          <!-- Tribe Art Exhibition -->
+          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt=""></div>
+          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt=""></div>
+          <!-- duplicates for seamless loop -->
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt=""></div>
+          <div class="dk-item" data-cat="Motion" data-name="Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_LoveAnddeepspace_Animation.MOV.png" alt=""></div>
+          <div class="dk-item" data-cat="Motion" data-name="Stop Motion" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/IMG_1525.mov.png" alt=""></div>
+          <div class="dk-item" data-cat="Motion" data-name="Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/IMG_2580.MOV.png" alt=""></div>
+          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
+          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
+          <div class="dk-item" data-cat="Graphic Poster" data-name="DILP Poster" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt=""></div>
+          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt=""></div>
+          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt=""></div>
+          <div class="dk-item" data-cat="Event Production" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
+          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
+          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt=""></div>
+          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt=""></div>
+          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt=""></div>
+          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt=""></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <span class="section-num">About</span>
+        <span class="section-rule"></span>
+      </div>
+      <div id="about-content">
+        <div id="about-portrait">
+          <img src="artist_pic.png" alt="Jennifer Qian" />
+        </div>
+        <div id="about-left">
+          <p class="about-statement">
+            I design experiences that make
+            <em>communities feel real.</em>
+          </p>
+          <p class="about-body">
+            My work sits at the intersection of visual design, event production, and cultural programming, building the brand systems, spatial logic, and social rituals that let subcultures gather and recognize themselves.
+          </p>
+          <div class="capability-list">
+            <div class="cap-item"><span class="cap-star">★</span><span class="cap-name">Brand Identity Systems</span></div>
+            <div class="cap-item"><span class="cap-star">★</span><span class="cap-name">Event & Experience Design</span></div>
+            <div class="cap-item"><span class="cap-star">★</span><span class="cap-name">Campaign & Content Strategy</span></div>
+            <div class="cap-item"><span class="cap-star">★</span><span class="cap-name">Community Programming</span></div>
+            <div class="cap-item"><span class="cap-star">★</span><span class="cap-name">Retail & Fair Activation</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div id="contact-inner">
+        <div class="section-header">
+          <span class="section-num">Contact</span>
+          <span class="section-rule"></span>
+        </div>
+        <h2 id="contact-cta">
+          Let's build<br/>something together<span class="pink-star">★</span>
+        </h2>
+        <a id="contact-email" href="mailto:qianlinzhiyi@gmail.com">qianlinzhiyi@gmail.com</a>
+        <div id="contact-links">
+          <a href="https://jenniferqian.cargo.site/" target="_blank" rel="noopener" class="contact-link">Portfolio ↗</a>
+          <a href="https://www.instagram.com/qiezixixi/" target="_blank" rel="noopener" class="contact-link">Instagram ↗</a>
+          <a href="https://www.linkedin.com/in/jennifer-linzhiyi-qian/" target="_blank" rel="noopener" class="contact-link">LinkedIn ↗</a>
+        </div>
+        <div id="contact-foot">
+          <span>Jennifer Qian</span><span class="pink-star">★</span><span>New York, 2026</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="floating-logo" aria-hidden="true">
+    <span id="fl-text"><span class="fl-jennifer">Jennifer</span><span class="fl-star">★</span><span class="fl-qian">Qian</span></span>
+  </div>
+
+  <script>
+  (function(){
+    const viewport = document.getElementById('dock-viewport');
+    const inner    = document.getElementById('dock-inner');
+    if (!viewport || !inner) return;
+
+    const BASE_W = 200, BASE_H = 260;
+    const MAX_W  = 320, MAX_H  = 416;
+    const RANGE  = 160; // tight: ~0.8 card width on each side
+
+    function applyDock(mouseX) {
+      const items = inner.querySelectorAll('.dk-item');
+      items.forEach(item => {
+        const r    = item.getBoundingClientRect();
+        const cx   = r.left + r.width / 2;
+        const dist = Math.abs(mouseX - cx);
+        // quadratic falloff: drops to 25% at half-range, 0 at full-range
+        const t = dist < RANGE ? Math.pow(1 - dist / RANGE, 2) : 0;
+        item.style.width  = (BASE_W + (MAX_W - BASE_W) * t) + 'px';
+        item.style.height = (BASE_H + (MAX_H - BASE_H) * t) + 'px';
+        item.style.transform = '';
+      });
+    }
+
+    function resetDock() {
+      inner.querySelectorAll('.dk-item').forEach(item => {
+        item.style.width  = '';
+        item.style.height = '';
+      });
+    }
+
+    viewport.addEventListener('mousemove', e => applyDock(e.clientX));
+    viewport.addEventListener('mouseleave', resetDock);
+  })();
+  </script>
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

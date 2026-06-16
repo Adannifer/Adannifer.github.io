@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrimePartner — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="proj-hero">
+    <img class="proj-hero-img" src="crimepartner_pic%20copy/participants.png"
+         alt="CrimePartner — crowd under geometric star ceiling" style="object-position: center 20%;">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">02 — CrimePartner</span>
+      <h1 class="proj-title">CRIME<span class="pr-star">★</span>PARTNER</h1>
+      <div class="proj-meta-row">
+        <span>Nightlife Campaign Series × 3</span>
+        <span>New York City — 2025</span>
+        <span>Organizer · Visual Designer · Experience Designer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p>
+          CrimePartner is a recurring nightlife meetup series that blends anime, cosplay, music, themed games, and social interaction. Across three events, the project tested how fandom culture could reshape nightlife into a more approachable and participatory social environment.
+        </p>
+        <p>
+          For many young audiences, nightlife can feel socially intimidating, especially arriving alone or in small groups. Anime, cosplay, and the CP (犯罪搭档) framing gave people a shared identity and a reason to engage with strangers. Each edition was iterated based on post-event surveys and real-time feedback.
+        </p>
+        <p>
+          The DJ setlist was rebuilt each edition after audience feedback. By edition 3, the VJ integrated anime clip projections with the DJ performance, and the random dance segment expanded to include K-pop challenges and trending audio, meeting the audience where they actually are.
+        </p>
+        <div class="pr-tags">
+          <span class="tag">Nightlife</span>
+          <span class="tag">Community Building</span>
+          <span class="tag">Brand Campaign</span>
+          <span class="tag">Social Design</span>
+          <span class="tag">DJ × VJ</span>
+        </div>
+      </div>
+
+      <div class="proj-stats-grid">
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">3</span>
+          <span class="proj-stat-l">Editions</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">50+</span>
+          <span class="proj-stat-l">Surveys</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">3×</span>
+          <span class="proj-stat-l">DJ Series</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">100%</span>
+          <span class="proj-stat-l">Iterated</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audience & Participation Model -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Audience &amp; Participation Model</h2>
+      <div class="proj-section-body">
+        <div class="info-grid">
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Core Fandom Participants</b></div><div class="ic-back"><span>Familiar with anime, cosplay, CP culture, and character-based social play. Came to perform their identity and find community.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Casual Participants</b></div><div class="ic-back"><span>Lightly familiar with anime culture, attracted by novelty, music, and atmosphere. Needed low-barrier entry points to engage.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Game-Oriented Participants</b></div><div class="ic-back"><span>Interested in game-centered formats. Audience surveys mentioned League of Legends, Stardew Valley, and social gaming.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Dance &amp; Music Participants</b></div><div class="ic-back"><span>Familiar with K-pop challenges, Douyin trends, and viral audio. The random dance section was built for this group.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Guests / DJ / VJ / Host</b></div><div class="ic-back"><span>Live roles that needed stage timing, visual assets, event information, and real-time coordination.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Design Challenge</b></div><div class="ic-back"><span>Make nightlife feel social and easy to enter for fandom communities, without depending on hardcore anime knowledge as the barrier.</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Evolution -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Event Evolution</h2>
+      <div class="proj-section-body">
+        <div class="evolution">
+          <article class="event-card">
+            <div class="event-card-img"><img src="crimepartner_pic%20copy/environment.jpg" alt="CP Night — stage environment"></div>
+            <div class="event-card-body"><small>Edition 1</small><b>CP Night</b><p>Tested whether a Valentine's Day / CP culture nightlife format could attract a recurring audience in NYC.</p></div>
+          </article>
+          <article class="event-card">
+            <div class="event-card-img"><img src="crimepartner_pic%20copy/environment1.jpg" alt="CP Night 2.0 — nightlife environment"></div>
+            <div class="event-card-body"><small>Edition 2</small><b>CP Night 2.0</b><p>Repeated the format to test recurring potential. DJ setlist rebuilt entirely from survey feedback.</p></div>
+          </article>
+          <article class="event-card">
+            <div class="event-card-img"><img src="crimepartner_pic%20copy/game1.jpg" alt="Game Night — audience interaction"></div>
+            <div class="event-card-body"><small>Edition 3</small><b>Game Night</b><p>Shifted toward a game-centered theme after survey data showed strong audience demand for interactive formats.</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaign Timeline -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Campaign Timeline</h2>
+      <div class="proj-section-body">
+        <div class="timeline-items">
+          <div class="time-row"><div class="time-date">Nov 8</div><div class="time-body"><b>Interest Post</b><p>First RedNote post introduced the concept (a game-only anime nightlife event) and asked what games the audience wanted. Functioned as both promotion and audience testing.</p></div></div>
+          <div class="time-row"><div class="time-date">Nov 30</div><div class="time-body"><b>Official Announcement</b><p>Poster launched the event identity, date, location, age requirement, and Respawn Game Only Night concept.</p></div></div>
+          <div class="time-row"><div class="time-date">Weekly</div><div class="time-body"><b>Guest Announcements</b><p>One cosplay guest released weekly to build a steady content rhythm and anticipation cycle leading up to the event.</p></div></div>
+          <div class="time-row"><div class="time-date">Jan 17</div><div class="time-body"><b>Stage Recruitment</b><p>Lunar New Year-themed post recruiting solo/duo performances: singing, skits, comedy, instrumental, interactive shows.</p></div></div>
+          <div class="time-row"><div class="time-date">Feb 4</div><div class="time-body"><b>Random Dance Song List</b><p>Published the playlist in advance so participants could prepare, reducing the participation friction of the dance section.</p></div></div>
+          <div class="time-row"><div class="time-date">Feb 5</div><div class="time-body"><b>DJ Announcement</b><p>Announced DJ direction to build confidence around the live music atmosphere and event energy.</p></div></div>
+          <div class="time-row"><div class="time-date">Feb 11</div><div class="time-body"><b>Stage Program Release</b><p>Published the full event schedule: entrance, performances, random dance, game sections, final dance round.</p></div></div>
+          <div class="time-row"><div class="time-date">Event Day</div><div class="time-body"><b>Live Execution</b><p>Shifted from content planning to real-time coordination across host, DJ, VJ, guests, stage, and audience flow.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual & Content System -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Visual &amp; Content System</h2>
+      <div class="proj-section-body">
+        <p>Every visual asset served a specific campaign function, not just promotion. Posts tested audience interest, built guest anticipation, recruited stage participants, prepared attendees for the dance section, and guided the live event flow.</p>
+        <div class="photo-cap-grid">
+          <div class="photo-item wide"><img src="crimepartner_pic%20copy/visuals.jpg" alt="CrimePartner stage visual system"><div class="photo-overlay"><p>Official visual identity: defined the nightclub atmosphere and translated the Game Night theme into stage-facing visuals.</p></div></div>
+          <div class="photo-item"><img src="crimepartner_pic%20copy/performance.jpg" alt="Live performance"><div class="photo-overlay"><p>Content rollout: guest and campaign visuals built anticipation before the event.</p></div></div>
+          <div class="photo-item"><img src="crimepartner_pic%20copy/dance1.jpg" alt="Random dance section"><div class="photo-overlay"><p>Dance song list: prepared users for the random dance section, reducing participation friction.</p></div></div>
+          <div class="photo-item"><img src="crimepartner_pic%20copy/game.jpg" alt="Game interaction"><div class="photo-overlay"><p>Game section: turned audience interest in games into a structured interaction format on the floor.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Operations -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Live Operations</h2>
+      <div class="proj-section-body">
+        <p>On event day, my partner hosted the program while I managed the live flow behind the scenes. I coordinated stage rehearsal, DJ/VJ cues, host transitions, and real-time schedule adjustments within a one-hour pre-opening preparation window.</p>
+        <div class="flow-grid">
+          <div class="flow-step"><b>Stage Rehearsal</b><span>Performance order, stage readiness, timing check before doors opened.</span></div>
+          <div class="flow-step"><b>DJ + VJ Alignment</b><span>Music cues and screen visuals aligned with the event theme and live atmosphere.</span></div>
+          <div class="flow-step"><b>Host Cueing</b><span>Cued transitions, announcements, and audience resets throughout the night.</span></div>
+          <div class="flow-step"><b>Performance Section</b><span>Kept stage programming legible and moving, timing each act.</span></div>
+          <div class="flow-step"><b>Random Dance</b><span>Used the pre-published playlist timing to help participants join confidently.</span></div>
+          <div class="flow-step"><b>Game Section</b><span>Maintained interaction pacing and transition points between games.</span></div>
+          <div class="flow-step"><b>Live Adjustment</b><span>Schedule shifts and unexpected issues managed in real time without audience disruption.</span></div>
+          <div class="flow-step"><b>Final Dance Round</b><span>Closed the event with a clear, participatory ending.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Loop -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Feedback Loop</h2>
+      <div class="proj-section-body">
+        <p>50+ post-event surveys and RedNote comment analysis drove every format decision between editions. The iteration process was systematic: collect → read signal → adjust format → test live.</p>
+        <div class="info-grid">
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Collect</b></div><div class="ic-back"><span>Post-event surveys and RedNote comments gathered data on DJ playlist, alcohol options, game ideas, theme preference, and atmosphere.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Read Signal</b></div><div class="ic-back"><span>Identified which formats felt too niche, too passive, or too hard to join, and where participation friction was highest.</span></div></div></div>
+          <div class="info-card"><div class="ic-inner"><div class="ic-front"><b>Adjust Format</b></div><div class="ic-back"><span>Expanded random dance, tuned DJ/VJ direction, reduced format complexity, and built Game Night from survey data.</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact & Reflection -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Impact &amp; Reflection</h2>
+      <div class="proj-section-body">
+        <div class="closing-pair">
+          <div class="closing-card"><b>Impact</b><p>Three recurring nightlife events, ~130 attendees per event. Developed from a theme-based anime party into a standardized nightlife format supported by campaign planning, audience feedback, guest promotion, programming design, and live operations.</p></div>
+          <div class="closing-card"><b>Reflection</b><p>CrimePartner taught me that recurring event design is not about a strong theme alone. It's about building a flexible system that responds to audience behavior. Each event became a test for the next one: comments, dance responses, complaints, and requests all became signals for the next iteration.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section">
+      <div class="gallery-label">Documentation</div>
+      <div class="gallery-grid">
+        <div class="gallery-item wide">
+          <img src="crimepartner_pic%20copy/environment.jpg" alt="Venue — purple DJ environment" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/environment1.jpg" alt="Venue interior" loading="lazy">
+        </div>
+        <div class="gallery-item tall">
+          <img src="crimepartner_pic%20copy/performance.jpg" alt="Live performance" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/dance1.jpg" alt="Random dance segment" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/game.jpg" alt="Game station" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/game1.jpg" alt="Interactive game" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/visuals.jpg" alt="VJ visuals" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/environment5.jpg" alt="Crowd" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/djvj.jpg" alt="Lighting production console" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="allknight.html" class="proj-back-link">← AllKnight NYC</a>
+    <a href="cantonfair.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Canton★Fair →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

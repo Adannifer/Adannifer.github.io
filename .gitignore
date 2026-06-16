@@ -1,0 +1,21 @@
+# Video files (served via Vimeo)
+*.mov
+*.MOV
+*.mp4
+*.MP4
+*.avi
+*.AVI
+
+# Large source files not needed on web
+*.psd
+*.PSD
+*.ai
+*.AI
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# PDFs and large source files
+*.pdf
+*.PDF

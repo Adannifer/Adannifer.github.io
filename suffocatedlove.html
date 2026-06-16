@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suffocated Love — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-img">
+      <img src="Suffocated_Love/cover.jpg" alt="Suffocated Love — sticky note wall with screens" style="object-position: center center;">
+    </div>
+    <div class="proj-hero-text">
+      <span class="proj-num">06 — Suffocated Love</span>
+      <h1 class="proj-title">SUFFOCATED<span class="pr-star">★</span>LOVE</h1>
+      <div class="proj-meta-row">
+        <span>Interactive Installation · Experience Design</span>
+        <span>2025</span>
+        <span>Experience Designer · Art Director · Data Visualizer</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p>
+          Suffocated Love (四面楚歌) is a seven-day interactive gallery installation that explores intimacy, visibility, and boundaries in celebrity culture. Each day, a new diary entry appears across three vertical screens — written in the first person as a celebrity living under constant public attention.
+        </p>
+        <p>
+          The tone shifts across seven days. Visitors read the diary, watch the images evolve from green to red, and respond by writing their thoughts on sticky notes placed around the screens. Their words become part of a living record of how we look at, follow, and imagine closeness with people we have never met.
+        </p>
+        <p>
+          The Chinese title 四面楚歌 means "surrounded on all sides" — a state of being enclosed by forces that arrive as love but feel like suffocation.
+        </p>
+        <div class="pr-tags">
+          <span class="tag">Interactive Installation</span>
+          <span class="tag">Experience Design</span>
+          <span class="tag">Celebrity Culture</span>
+          <span class="tag">Parasocial Relationships</span>
+          <span class="tag">Data Visualization</span>
+          <span class="tag">Participatory Art</span>
+        </div>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">7</span>
+            <span class="proj-stat-l">Days</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">3</span>
+            <span class="proj-stat-l">Screens</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">1</span>
+            <span class="proj-stat-l">Persona</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">100+</span>
+            <span class="proj-stat-l">Sticky Notes</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">5</span>
+            <span class="proj-stat-l">Emotional States</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">Live</span>
+            <span class="proj-stat-l">Installation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-right-col">
+        <div class="fanscape-img">
+          <img src="Suffocated_Love/overview.jpg" alt="Installation overview — screen with sticky note wall">
+        </div>
+      </div>
+    </div>
+
+    <!-- The Concept -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">The Concept</h2>
+      <div class="proj-section-body">
+        <div class="info-grid" style="grid-template-columns: repeat(3,1fr);">
+          <div class="research-card">
+            <h4>The Persona</h4>
+            <b>qiezbi_x — 6.7M Followers</b>
+            <p>The diary is written as a fictional celebrity with 6.7M followers and 120.8M likes. The character is recognizable but unnamed — familiar enough to feel real.</p>
+          </div>
+          <div class="research-card">
+            <h4>The Format</h4>
+            <b>7 Days, 3 Screens</b>
+            <p>Three vertical screens function like oversized phone displays. Each day a new entry appears. Visitors never see a completed story — only what has happened so far.</p>
+          </div>
+          <div class="research-card">
+            <h4>The Participation</h4>
+            <b>Sticky Notes as Response</b>
+            <p>Visitors write their thoughts or feelings on sticky notes and place them around the screens. Their words accumulate across the seven days, becoming a visible collective record.</p>
+          </div>
+        </div>
+
+        <div class="fanscape-img" style="margin-top: 2rem;">
+          <img src="Suffocated_Love/Screen%20Day/Frame%201.png" alt="Installation invitation card: Suffocated Love — exploring intimacy, visibility, and boundaries in celebrity culture" style="max-width: 480px; margin: 0 auto; display: block; border-radius: 12px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 7-Day Arc -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">The 7-Day Diary Arc</h2>
+      <div class="proj-section-body">
+        <p>The installation is designed as an emotional progression. The color, tone, and imagery shift over seven days — from adoration to surveillance to shutdown.</p>
+
+        <div style="display:flex; flex-direction:column; gap:2.5rem; margin-top:2rem;">
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#4cff91; margin-bottom:0.75rem;">Day 1 — Adoration</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day1.1.png" alt="Day 1.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day1.2.png" alt="Day 1.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day1.3.png" alt="Day 1.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#9ef5b0; margin-bottom:0.75rem;">Day 2 — Uncertainty</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day2.1.png" alt="Day 2.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day2.2.png" alt="Day 2.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day2.3.png" alt="Day 2.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#c8f5b4; margin-bottom:0.75rem;">Day 3 — Discomfort</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day3.1.png" alt="Day 3.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day3.2.png" alt="Day 3.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day3.3.png" alt="Day 3.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#ffb84c; margin-bottom:0.75rem;">Day 4 — Surveillance</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day4.1.png" alt="Day 4.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day4.2.png" alt="Day 4.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day4.3.png" alt="Day 4.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#ff7a3c; margin-bottom:0.75rem;">Day 5 — Obsession</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day5.1.png" alt="Day 5.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day5.2.png" alt="Day 5.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day5.3.png" alt="Day 5.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#ff3a3a; margin-bottom:0.75rem;">Day 6 — The Line Dissolves</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day6.1.png" alt="Day 6.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day6.2.png" alt="Day 6.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day6.3.png" alt="Day 6.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.65rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#ff5e5e; margin-bottom:0.75rem;">Day 7 — Shutdown</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+              <img src="Suffocated_Love/Screen%20Day/Day7.1.png" alt="Day 7.1" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day7.2.png" alt="Day 7.2" style="width:100%; border-radius:10px; display:block;">
+              <img src="Suffocated_Love/Screen%20Day/Day7.3.png" alt="Day 7.3" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Installation in Space -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Installation in Space</h2>
+      <div class="proj-section-body">
+        <p>Three portrait-format screens are installed on a gallery wall, spaced like a triptych. Each one functions as a visual diary page — images, text, and collage layered as if on a phone screen scaled to human height.</p>
+        <p>Between and around the screens, sticky notes from visitors accumulate over seven days. The wall becomes a living document of audience response alongside the celebrity's diary.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.5rem;">
+          <img src="Suffocated_Love/screen%20showcase/4/013491ae52bf68e6f90fb42325be0e96.jpg" alt="Visitors standing at Day 4 screens reading diary entries" style="width:100%; border-radius:12px; display:block;">
+          <img src="Suffocated_Love/screen%20showcase/1/28e13243b3639d2fa79ac4211a805009.jpg" alt="Gallery installation — person leaning in to read the screens" style="width:100%; border-radius:12px; display:block;">
+        </div>
+        <div style="margin-top:1rem;">
+          <img src="Suffocated_Love/screen%20showcase/7/3cdad94469b5bd9d9de2b71d8a9c0f7a.jpg" alt="Day 7 screen close-up — stalker fan news articles surrounding the celebrity" style="width:100%; border-radius:12px; display:block;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Audience Response -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Audience Response</h2>
+      <div class="proj-section-body">
+        <p>Visitors were invited to write their thoughts or feelings on sticky notes and place them around the screens. Over seven days, over 100 notes accumulated. Some expressed empathy for the celebrity. Some expressed guilt. Some were defensive. Some were direct confessions about their own fan behavior.</p>
+        <div style="margin-top:1.5rem;">
+          <img src="Suffocated_Love/sticky_notes_visualization.png" alt="Timeline of sticky notes collected across all 7 days of the installation" style="width:100%; border-radius:12px; display:block;">
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.75rem; margin-top:1rem;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(1).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(2).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(3).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(4).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(5).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(6).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(7).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+          <img src="Suffocated_Love/png%20stickynote/Untitled-2%20(8).png" alt="Sticky note" style="width:100%; border-radius:8px; display:block;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Visualization -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Data Visualization</h2>
+      <div class="proj-section-body">
+        <p>After the installation closed, the sticky notes were analyzed for emotional type and valence. The visualization maps each note across seven days, displayed as a feather form — green for positive, white for neutral, red for negative.</p>
+        <p style="margin-top:0.6rem; font-size:0.82rem; color:var(--ink-muted);">Days 1–2 show an overwhelmingly positive response. Day 4 is where the split begins. By Day 7, hard negative responses dominate — but soft negative and ambivalent notes persist alongside them. The audience was never unanimous.</p>
+        <div class="fanscape-img" style="margin-top:1.5rem;">
+          <img src="Suffocated_Love/result_data_visualization.png" alt="Feather-shaped emotional arc visualization — sticky note responses mapped across 7 days, green positive to red negative">
+        </div>
+        <div class="three-col-proof" style="margin-top:2rem;">
+          <div class="proof-col">
+            <h4>Positive (Green)</h4>
+            <p>Empathy, care, admiration. Viewers who connected emotionally with the persona and wished her well.</p>
+          </div>
+          <div class="proof-col">
+            <h4>Neutral (White)</h4>
+            <p>Observation, curiosity, reflection. Viewers who noted behavior without declaring a position.</p>
+          </div>
+          <div class="proof-col">
+            <h4>Negative (Red)</h4>
+            <p>Anger, defensiveness, obsession, guilt. Viewers who pushed back — or quietly recognized themselves.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Reflection</h2>
+      <div class="proj-section-body">
+        <div class="closing-pair">
+          <div class="closing-card">
+            <b>What This Proves</b>
+            <p>Suffocated Love demonstrates my ability to design experiences that unfold over time and involve real audience participation. The installation is not static — it accumulates. Each day adds new content, and the wall of sticky notes grows alongside it. The data visualization closes the loop by translating collective emotional response into a designed artifact.</p>
+          </div>
+          <div class="closing-card">
+            <b>Reflection</b>
+            <p>This project taught me that experience design can operate at the scale of feeling rather than function. The most important moment was reading the sticky notes and discovering that visitors did not all feel the same thing — some were sad, some were defensive, some were honest about their own behavior. That ambiguity was the point. It is what made the project real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="squeak.html" class="proj-back-link">← Squeak</a>
+    <a href="index.html" class="proj-next-link">
+      <span class="proj-next-label">Back to Start</span>
+      <span class="proj-next-title">All Work →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

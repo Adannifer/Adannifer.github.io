@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squeak — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-img"><img src="Squeak/cover.png" alt="Squeak — three phone screens"></div>
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">05 — Squeak</span>
+      <h1 class="proj-title">SQUEAK<span class="pr-star">★</span></h1>
+      <div class="proj-meta-row">
+        <span>AI-Assisted Product Workflow</span>
+        <span>2025</span>
+        <span>Product Designer · UX Designer · AI-Assisted Prototyper</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p>
+          Squeak is an AI-assisted product prototype that turns NYC rat reporting and avoidance into a playful civic experience. Instead of designing another formal reporting form, I used the project to explore how AI tools, emotional user segmentation, and human design judgment could work together in a fast product workflow.
+        </p>
+        <p>
+          The project reframes a common urban problem through a dual-mode system: one mode for users who are curious enough to document rat sightings, and another for users who are afraid of rats and simply want safer routes.
+        </p>
+        <p>
+          The core design question: how can one civic platform support both playful participation and emotional avoidance without forcing all users into the same experience?
+        </p>
+        <div class="pr-tags">
+          <span class="tag">AI Workflow</span>
+          <span class="tag">Civic Tech</span>
+          <span class="tag">Mobile UX</span>
+          <span class="tag">Emotional Design</span>
+          <span class="tag">Gamification</span>
+        </div>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">2</span>
+            <span class="proj-stat-l">User Modes</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">AI+</span>
+            <span class="proj-stat-l">Design Sprint</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">10</span>
+            <span class="proj-stat-l">Output Elements</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">7</span>
+            <span class="proj-stat-l">Workflow Steps</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">311</span>
+            <span class="proj-stat-l">Replaced</span>
+          </div>
+          <div class="proj-stat-item">
+            <span class="proj-stat-n">0</span>
+            <span class="proj-stat-l">Bureaucracy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-right-col">
+        <div style="position:relative; height:580px; border-radius:18px; overflow:hidden;">
+          <iframe src="https://player.vimeo.com/video/1177451982?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Squeak_Demo"></iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+      </div>
+    </div>
+
+    <!-- The Problem -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">The Problem</h2>
+      <div class="proj-section-body">
+        <p>NYC has a rat problem everyone knows about but no one agrees how to deal with. The existing civic tool — 311 — is slow, formal, and emotionally disconnected from how people actually experience rats in the city. Some people find rats funny and shareable. Others are genuinely afraid of them. No single reporting tool served both.</p>
+        <p>The design question: how do you build one civic platform that supports playful participation <em>and</em> emotional avoidance without forcing all users into the same experience?</p>
+      </div>
+    </div>
+
+    <!-- Moodboard -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Moodboard</h2>
+      <div class="proj-section-body">
+        <p>Research and visual reference — rat culture in NYC (data maps, street art, pop culture), competing civic apps, color palette exploration, and visual tone-setting.</p>
+        <div class="fanscape-img" style="margin-top:1.5rem;">
+          <img src="Squeak/moodboard.png" alt="Squeak moodboard — NYC rat culture, visual references, color palettes, competitive apps">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sitemap -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Sitemap</h2>
+      <div class="proj-section-body">
+        <p>The sitemap defined the dual-mode structure — splitting the app at onboarding into Rat Ranger and Squeak-Free Walker paths, each with distinct screens and interaction logic.</p>
+        <div class="fanscape-img" style="margin-top:1.5rem;">
+          <img src="Squeak/site%20map.png" alt="Squeak sitemap — dual-mode structure, Rat Ranger and Squeak-Free Walker flows">
+        </div>
+      </div>
+    </div>
+
+    <!-- Personas -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Personas</h2>
+      <div class="proj-section-body">
+        <p>Two personas defined the emotional range of the product — one driven by curiosity and play, the other by anxiety and avoidance. The design had to work for both without compromise.</p>
+        <div style="margin-top:1.5rem;">
+          <img src="Squeak/persona.png" alt="Persona 1 — Rat Ranger" style="width:100%; border-radius:12px; display:block;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Components -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Design System</h2>
+      <div class="proj-section-body">
+        <p>Components and visual language built in Figma — the yellow/purple palette, UI elements, icon set, and interaction patterns that carry across both modes.</p>
+        <div class="fanscape-img" style="margin-top:1.5rem;">
+          <img src="Squeak/Components.png" alt="Squeak design system — components, color palette, UI elements">
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Interface -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Final Interface</h2>
+      <div class="proj-section-body">
+        <p>The final screens built with FigMake — loading screen, onboarding, map view, filters, and rat reporting flows across both user modes.</p>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-top:1.5rem;">
+          <img src="Squeak/interface/Squeak%20loading%20page.png" alt="Squeak loading screen" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/on-boarding.png" alt="Onboarding" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Login.png" alt="Login" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Main%20page-zoom%20out.png" alt="Main map page" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Filter-nearBy%20me.png" alt="Filter — nearby me" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Filter-view%20all.png" alt="Filter — view all" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Sqeuak_RatAppNYC.png" alt="Squeak rat app screen 1" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Sqeuak_RatAppNYC%20(2).png" alt="Squeak rat app screen 3" style="width:100%; border-radius:12px; display:block;">
+          <img src="Squeak/interface/Sqeuak_RatAppNYC%20(3).png" alt="Squeak rat app screen 4" style="width:100%; border-radius:12px; display:block;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Reflection</h2>
+      <div class="proj-section-body">
+        <div class="closing-pair">
+          <div class="closing-card"><b>What This Proves</b><p>Squeak demonstrates my ability to integrate AI tools into a design workflow while still leading the product direction. The project shows that I can use AI for speed while applying human judgment to user segmentation, emotional design, interaction logic, and visual hierarchy. It connects to my broader practice: building systems that turn messy real-world behaviors into structured, engaging experiences.</p></div>
+          <div class="closing-card"><b>Reflection</b><p>Squeak taught me that civic design does not always need to feel serious to be useful. Playfulness can reduce fear and make participation easier. The most important design decision was the dual-mode structure: without separating Rat Rangers from Squeak-Free Walkers, the app would have forced very different users into the same experience. AI is a fast prototyping partner that still needs strategy, editing, and emotional intelligence.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="fanscape.html" class="proj-back-link">← Fanscape</a>
+    <a href="suffocatedlove.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Suffocated★Love →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>
