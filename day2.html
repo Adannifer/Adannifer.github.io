@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 2 — Bar Personality Quiz · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .day-hero {
+      padding: 140px 6vw 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 2px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title {
+      font-size: clamp(28px,5vw,56px); font-weight:700;
+      letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px;
+    }
+    .day-title .pink { color: var(--pink); }
+    .day-meta {
+      display:flex; flex-wrap:wrap; gap:24px;
+      font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:32px;
+    }
+    .day-statement {
+      max-width:760px; font-size:clamp(15px,2vw,18px);
+      line-height:1.65; color:var(--ink-dim);
+      border-left:2px solid var(--pink); padding-left:20px; font-style:italic;
+    }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label {
+      display:flex; align-items:center; gap:16px;
+      font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:32px; padding-top:64px;
+    }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ══ QUIZ SHELL ══ */
+    #quiz-shell { max-width: 680px; margin: 0 auto; }
+
+    .quiz-progress-wrap {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 40px;
+    }
+    .quiz-progress-bar {
+      flex: 1; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%; background: var(--pink); border-radius: 2px;
+      transition: width 0.4s ease; width: 0%;
+    }
+    .quiz-progress-label {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+    }
+
+    .quiz-q { display: none; animation: qFadeIn 0.35s ease both; }
+    .quiz-q.active { display: block; }
+    @keyframes qFadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-num {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 14px;
+    }
+    .q-text {
+      font-size: clamp(18px, 3vw, 26px); font-weight: 700;
+      line-height: 1.25; letter-spacing: -0.01em;
+      color: var(--ink); margin-bottom: 32px;
+    }
+    .q-options { display: flex; flex-direction: column; gap: 10px; }
+    .q-opt {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: rgba(18,9,30,0.42); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      text-align: left;
+    }
+    .q-opt:hover {
+      border-color: rgba(255,26,168,0.5);
+      background: rgba(74,26,111,0.32);
+      transform: translateX(4px);
+    }
+    .q-opt-key {
+      font-size: 11px; letter-spacing: 0.12em; font-weight: 700;
+      color: var(--pink); flex-shrink: 0; margin-top: 2px;
+    }
+    .q-opt-text { font-size: 14px; color: var(--ink-dim); line-height: 1.5; }
+
+    /* ══ RESULT ══ */
+    #quiz-result { display: none; animation: qFadeIn 0.5s ease both; max-width: 680px; margin: 0 auto; }
+
+    .result-type-label {
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 10px;
+    }
+    .result-type-name {
+      font-size: clamp(36px, 7vw, 72px); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 0.9;
+      color: var(--ink); margin-bottom: 6px;
+    }
+    .result-type-sub {
+      font-size: 14px; letter-spacing: 0.06em; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 32px;
+    }
+
+    .result-photo {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 32px;
+    }
+    .result-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .result-photo-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; color: var(--muted); text-align: center; padding: 40px;
+    }
+    .result-photo-placeholder .ph-num {
+      font-size: 64px; font-weight: 700; color: transparent;
+      -webkit-text-stroke: 1px rgba(255,26,168,0.3);
+    }
+    .result-photo-placeholder .ph-label {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5;
+    }
+
+    .result-body {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 32px;
+    }
+    @media (max-width: 600px) { .result-body { grid-template-columns: 1fr; } }
+    .result-block {
+      background: var(--charcoal); border: 1px solid var(--border); padding: 22px 20px;
+    }
+    .rb-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px;
+    }
+    .rb-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.65; }
+    .rb-text strong { color: var(--pink); }
+
+    .result-traits { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .trait-tag {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 12px; border: 1px solid rgba(255,26,168,0.35);
+      color: var(--pink); border-radius: 2px;
+    }
+    .result-quote {
+      border-left: 2px solid var(--pink); padding-left: 18px;
+      font-size: 16px; font-style: italic;
+      color: var(--ink-dim); line-height: 1.55; margin-bottom: 40px;
+    }
+    .quiz-restart {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 12px 24px; cursor: pointer;
+      transition: .2s; font-family: inherit;
+    }
+    .quiz-restart:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* ══ ALL TYPES ══ */
+    .types-grid {
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 2px; margin-bottom: 64px;
+    }
+    @media (max-width: 900px) { .types-grid { grid-template-columns: repeat(2,1fr); } }
+    .type-card {
+      background: var(--panel); border: 1px solid var(--border);
+      padding: 24px 18px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .tc-emoji { font-size: 22px; }
+    .tc-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .tc-desc { font-size: 11px; color: var(--muted); line-height: 1.55; }
+  </style>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 02</div>
+    <div class="day-num">02</div>
+    <h1 class="day-title">Which Bar Person<br><span class="pink">Are You?</span></h1>
+    <div class="day-meta">
+      <span>June 17, 2026</span>
+      <span>Interactive Design · Nightlife Culture</span>
+      <span>10 Questions</span>
+    </div>
+    <p class="day-statement">
+      Not everyone goes to the bar for the same reason. 10 questions. 5 archetypes. No wrong answers — only honest ones.
+    </p>
+  </div>
+
+  <div class="day-content">
+
+    <div class="day-section-label">Take the Quiz</div>
+
+    <!-- QUIZ -->
+    <div id="quiz-shell">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="prog"></div></div>
+        <div class="quiz-progress-label" id="prog-label">1 / 10</div>
+      </div>
+
+      <div class="quiz-q active" id="q1">
+        <div class="q-num">Question 01</div>
+        <div class="q-text">You arrive at the bar. What's your first move?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Find a spot at the bar counter, order something, and settle in.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Scan the room and figure out the best position for the group.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Head straight to whoever I know and immediately start talking.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Walk in, clock the vibe, briefly consider leaving.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Honestly? No plan. Let's see what happens.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q2">
+        <div class="q-num">Question 02</div>
+        <div class="q-text">Someone spills a drink near you. You:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Quietly hand them napkins. No big deal.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Alert the bartender immediately and get it handled.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">"Oh no! Are you okay?!" — and make it a whole moment.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Shift two steps to the left. Silently.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Offer them my drink. We're in this together now.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q3">
+        <div class="q-num">Question 03</div>
+        <div class="q-text">Your drink order tonight:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Whatever the bartender recommends. I trust the expert.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Something I already decided on the way here.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Whatever everyone else is having — and I'm ordering a round.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Something simple and classic. No performance.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Something I've never tried. What's the weirdest thing on the menu?</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q4">
+        <div class="q-num">Question 04</div>
+        <div class="q-text">The DJ puts on a song you love. You:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Feel it deeply. Show nothing. Sip your drink.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Check if everyone else is reacting the same way.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Immediately pull everyone onto the dancefloor.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Smile into your glass. That's enough.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Start dancing exactly where you're standing. No context needed.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q5">
+        <div class="q-num">Question 05</div>
+        <div class="q-text">It's midnight. Where are you in the night?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Deep in one very good conversation. Haven't moved in an hour.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Right on schedule. The night is going exactly as planned.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Three conversations deep with people I didn't know at 10pm.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Already gone, or about to be.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">This is when the real night starts.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q6">
+        <div class="q-num">Question 06</div>
+        <div class="q-text">A stranger approaches and starts talking to you:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">I engage, briefly, then return to my own thoughts.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Politely manage it while keeping track of the group.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Immediately introduce them to everyone else. New friend!</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Minimal signal. I hope they move on.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">No agenda. Let's see where this goes.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q7">
+        <div class="q-num">Question 07</div>
+        <div class="q-text">A friend in your group goes missing. You:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Notice before anyone else does. I track these things passively.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">I was already tracking everyone's location.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Start asking around immediately. Loudly.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Assume they're fine. They probably just left.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Go look for them, get distracted, end up somewhere else entirely.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q8">
+        <div class="q-num">Question 08</div>
+        <div class="q-text">The night isn't going how you expected. You:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Adapt. Lean into whatever is actually happening.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Quietly propose a new venue. I have a backup plan.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Announce a new plan and rally everyone. Let's go!</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">This is exactly what I expected. The bar is always like this.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Wait — the chaos IS the plan. This is the best part.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q9">
+        <div class="q-num">Question 09</div>
+        <div class="q-text">How do you leave?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">When the conversation reaches a natural pause.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">At the time I mentally set when I arrived.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">After one more round, a group hug, and fifteen minutes of goodbyes.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Without saying goodbye to most people.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">At 4am, still piecing together how it got to this.</span></div>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q10">
+        <div class="q-num">Question 10</div>
+        <div class="q-text">The morning after, you:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="ans('oracle')"><span class="q-opt-key">A</span><span class="q-opt-text">Remember exactly what everyone said, word for word.</span></div>
+          <div class="q-opt" onclick="ans('architect')"><span class="q-opt-key">B</span><span class="q-opt-text">Already have the group chat summary ready to send.</span></div>
+          <div class="q-opt" onclick="ans('catalyst')"><span class="q-opt-key">C</span><span class="q-opt-text">Wake up with three new contacts and no memory of adding them.</span></div>
+          <div class="q-opt" onclick="ans('ghost')"><span class="q-opt-key">D</span><span class="q-opt-text">Feel quietly relieved you went. And quietly relieved it's over.</span></div>
+          <div class="q-opt" onclick="ans('wildcard')"><span class="q-opt-key">E</span><span class="q-opt-text">Still reconstructing the timeline. There are gaps.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="quiz-result">
+      <div class="result-type-label">Your Bar Personality</div>
+      <div class="result-type-name" id="r-name">—</div>
+      <div class="result-type-sub" id="r-sub">—</div>
+
+      <div class="result-photo" id="r-photo">
+        <div class="result-photo-placeholder">
+          <div class="ph-num" id="r-photo-num">—</div>
+          <div class="ph-label">Photo coming soon</div>
+        </div>
+      </div>
+
+      <div class="result-quote" id="r-quote">—</div>
+
+      <div class="result-body">
+        <div class="result-block"><div class="rb-label">Personality</div><div class="rb-text" id="r-personality">—</div></div>
+        <div class="result-block"><div class="rb-label">At the bar, you're the one who</div><div class="rb-text" id="r-role">—</div></div>
+        <div class="result-block"><div class="rb-label">Your drink</div><div class="rb-text" id="r-drink">—</div></div>
+        <div class="result-block"><div class="rb-label">Your exit strategy</div><div class="rb-text" id="r-exit">—</div></div>
+      </div>
+
+      <div class="result-traits" id="r-traits"></div>
+      <button class="quiz-restart" onclick="restartQuiz()">↩ Retake the quiz</button>
+    </div>
+
+    <!-- All types -->
+    <div class="day-section-label">All 5 Bar Personalities</div>
+    <div class="types-grid">
+      <div class="type-card"><div class="tc-emoji">🃏</div><div class="tc-name">The Oracle</div><div class="tc-desc">Sits at the bar. Says little, sees everything. People come to them.</div></div>
+      <div class="type-card"><div class="tc-emoji">🗺️</div><div class="tc-name">The Architect</div><div class="tc-desc">Booked the venue, knows the plan, tracking the group. The night works because of them.</div></div>
+      <div class="type-card"><div class="tc-emoji">⚡</div><div class="tc-name">The Catalyst</div><div class="tc-desc">Makes things happen. Brings strangers together, orders rounds, starts the dancing.</div></div>
+      <div class="type-card"><div class="tc-emoji">👻</div><div class="tc-name">The Ghost</div><div class="tc-desc">Arrives late. Leaves without goodbye. Appears only when the vibe is exactly right.</div></div>
+      <div class="type-card"><div class="tc-emoji">🎲</div><div class="tc-name">The Wildcard</div><div class="tc-desc">No plan. Unpredictable. The timeline is unclear. The night is better because of it.</div></div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border);">
+      <a href="day1.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 01</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+      <a href="nightfile.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--pink);">Day 03 →</a>
+    </div>
+
+  </div>
+
+  <script>
+    const TYPES = {
+      oracle: {
+        name: 'The Oracle',
+        sub: '🃏 The one who already knew',
+        quote: '"I wasn\'t listening to the conversation. I was listening to the room."',
+        personality: 'Quiet, perceptive, magnetic. You don\'t need to <strong>perform</strong> presence — you have it. People come to you, and they\'re always glad they did.',
+        role: 'sits at the bar counter and makes people feel genuinely seen in a single conversation.',
+        drink: 'Whatever the bartender recommends. You trust expertise and you\'re never wrong.',
+        exit: 'When the conversation reaches its natural end. Which you can feel before the other person can.',
+        traits: ['Observer', 'Magnetic', 'Low Key', 'Perceptive', 'One Good Conversation'],
+        photoFile: null,
+      },
+      architect: {
+        name: 'The Architect',
+        sub: '🗺️ The one who made it possible',
+        quote: '"I have a backup bar in mind. Just in case."',
+        personality: 'Reliable, strategic, quietly indispensable. The night works because <strong>you</strong> made it work. You rarely get credit and you don\'t need it.',
+        role: 'knew the venue, made the reservation, and is currently tracking three people\'s location.',
+        drink: 'You decided before you left the house. Classic, well-made, no drama.',
+        exit: 'At the time you internally set when you arrived. Not early, not late. Exactly right.',
+        traits: ['Planner', 'Reliable', 'Quietly Powerful', 'Detail-Oriented', 'Group Anchor'],
+        photoFile: null,
+      },
+      catalyst: {
+        name: 'The Catalyst',
+        sub: '⚡ The one who made it happen',
+        quote: '"I just thought it would be fun if we all—" (the night changes forever)',
+        personality: 'Warm, charismatic, slightly chaotic in the best way. You don\'t start the night — you <strong>ignite</strong> it. Every good story tonight starts with you.',
+        role: 'introduces strangers to each other, orders rounds, and single-handedly fills the dancefloor.',
+        drink: 'Whatever everyone is having, plus a round you ordered without being asked.',
+        exit: 'After one more round, fifteen minutes of goodbyes, and a group hug that somehow pulls in people you just met.',
+        traits: ['Charismatic', 'High Energy', 'Connector', 'Warm', 'Story Starter'],
+        photoFile: null,
+      },
+      ghost: {
+        name: 'The Ghost',
+        sub: '👻 The one who was there and then wasn\'t',
+        quote: '"I had a great time." (texted after arriving home alone at 11pm)',
+        personality: 'Private, selective, effortlessly cool. You don\'t need much from the night — but when the vibe is <strong>exactly right</strong>, you\'re the most interesting person in the room.',
+        role: 'appears in the corner with a drink that\'s somehow always half full, then disappears without a trace.',
+        drink: 'Something classic and quiet. A whisky sour. A gin and tonic. Nothing that needs explaining.',
+        exit: 'Without saying goodbye to most people. They won\'t notice until you\'re already home.',
+        traits: ['Private', 'Selective', 'Effortless', 'Independent', 'Ghost Mode'],
+        photoFile: null,
+      },
+      wildcard: {
+        name: 'The Wildcard',
+        sub: '🎲 The one nobody predicted',
+        quote: '"Wait how is it 4am"',
+        personality: 'Unpredictable, emotionally all-in, kind of a lot — but in the way that makes everything more alive. The timeline is <strong>unclear</strong>. The night is better because of it.',
+        role: 'ordered shots for everyone, suggested karaoke, disappeared for 45 minutes, and is now the most popular person here.',
+        drink: 'Something you\'ve never had. Or three things. The order is not important.',
+        exit: 'At 4am, mid-sentence, still reconstructing the sequence of events.',
+        traits: ['Unpredictable', 'All In', 'Emotionally Present', 'Chaotic Good', 'Night Shifter'],
+        photoFile: null,
+      },
+    };
+
+    let scores = { oracle:0, architect:0, catalyst:0, ghost:0, wildcard:0 };
+    let current = 1;
+    const total = 10;
+
+    function ans(type) {
+      scores[type] += 3;
+      if (current < total) {
+        document.getElementById('q' + current).classList.remove('active');
+        current++;
+        const next = document.getElementById('q' + current);
+        next.style.animation = 'none';
+        requestAnimationFrame(() => { next.style.animation = ''; next.classList.add('active'); });
+        document.getElementById('prog').style.width = ((current-1)/total*100) + '%';
+        document.getElementById('prog-label').textContent = current + ' / ' + total;
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('prog').style.width = '100%';
+      document.getElementById('quiz-shell').style.display = 'none';
+      const winner = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+      const t = TYPES[winner];
+      document.getElementById('r-name').textContent = t.name;
+      document.getElementById('r-sub').textContent = t.sub;
+      document.getElementById('r-quote').textContent = t.quote;
+      document.getElementById('r-personality').innerHTML = t.personality;
+      document.getElementById('r-role').innerHTML = t.role;
+      document.getElementById('r-drink').innerHTML = t.drink;
+      document.getElementById('r-exit').innerHTML = t.exit;
+      document.getElementById('r-photo-num').textContent = t.name.split(' ').pop();
+      if (t.photoFile) {
+        document.getElementById('r-photo').innerHTML = `<img src="90days/${t.photoFile}" alt="${t.name}">`;
+      }
+      document.getElementById('r-traits').innerHTML = t.traits.map(tr => `<span class="trait-tag">${tr}</span>`).join('');
+      document.getElementById('quiz-result').style.display = 'block';
+      document.getElementById('quiz-result').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+
+    function restartQuiz() {
+      scores = { oracle:0, architect:0, catalyst:0, ghost:0, wildcard:0 };
+      current = 1;
+      document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
+      document.getElementById('q1').classList.add('active');
+      document.getElementById('prog').style.width = '0%';
+      document.getElementById('prog-label').textContent = '1 / 10';
+      document.getElementById('quiz-shell').style.display = 'block';
+      document.getElementById('quiz-result').style.display = 'none';
+      document.getElementById('quiz-shell').scrollIntoView({ behavior:'smooth' });
+    }
+  </script>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
