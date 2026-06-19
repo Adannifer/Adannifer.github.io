@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NIGHT FILE — NYC Night Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IM+Fell+English:ital@0;1&family=Playfair+Display:wght@700&family=Special+Elite&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0e0e0e;
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 32px 16px 60px; gap: 24px;
+    }
+
+    .app-bar { text-align: center; }
+    .app-title { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; letter-spacing: .3em; color: #fff; text-transform: uppercase; }
+    .app-title em { color: #c41a1a; font-style: normal; }
+    .app-sub { font-size: 9px; letter-spacing: .22em; color: #3a3a3a; text-transform: uppercase; margin-top: 2px; }
+
+    /* ── Upload form ── */
+    .uform {
+      width: 100%; max-width: 595px;
+      display: flex; flex-direction: column; gap: 14px;
+      position: relative;
+      padding: 80px 28px 30px;
+      background: linear-gradient(160deg, #d2b882 0%, #c6a46e 55%, #b89058 100%);
+      border: 6px solid transparent;
+      border-image: repeating-linear-gradient(-45deg,#b83020 0px,#b83020 5px,#1e100a 5px,#1e100a 10px) 6;
+    }
+    .uform::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    .uform::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 78px;
+      background: linear-gradient(170deg, #9a6e38, #b08448);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      z-index: 1;
+    }
+    .uform > * { position: relative; z-index: 2; }
+    .fl { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: #6a4820; margin-bottom: 3px; }
+    .fi { width: 100%; background: rgba(255,255,255,0.14); border: none; border-bottom: 1.5px solid #8a6438; color: #1e1008; font-family: 'Special Elite', cursive; font-size: 15px; padding: 9px 2px; outline: none; border-radius: 0; }
+    .fi:focus { border-bottom-color: #8a2010; }
+    .fi::placeholder { color: #a08050; font-style: italic; }
+    .fu { width: 100%; padding: 13px; background: rgba(150,105,55,0.18); border: 1.5px dashed #8a6438; color: #6a4820; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: .15s; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 4px; }
+    .fu:hover { border-color: #8a2010; color: #8a2010; background: rgba(138,32,16,0.08); }
+    .fu.ok { border-style: solid; border-color: #8a2010; color: #8a2010; }
+    .fgen { width: 100%; padding: 14px; background: #7a1c0c; border: 2px solid #5a1008; color: #f0e0c4; font-family: 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .04em; cursor: pointer; transition: .15s; border-radius: 4px; margin-top: 2px; }
+    .fgen:hover { background: #9a2410; }
+    .fgen:disabled { background: #6a5038; border-color: #4a3828; color: #9a7a58; cursor: not-allowed; }
+    input[type="file"] { display: none; }
+
+    /* ══════════════════════════════ CARD ══════════════════════════════ */
+    #card {
+      width: 595px;
+      background: #ede5d0;
+      display: none; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,.75), 0 2px 8px rgba(0,0,0,.4);
+      position: relative; overflow: hidden;
+    }
+    #card.vis { display: flex; }
+
+    #card::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 200;
+      background:
+        radial-gradient(ellipse at center, transparent 60%, rgba(60,40,10,.12) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='700'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='700' filter='url(%23g)' opacity='0.10'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    #card::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 201;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(26,20,16,.16) 0 1px, transparent 2px),
+        radial-gradient(circle at 82% 27%, rgba(26,20,16,.12) 0 1px, transparent 2px),
+        radial-gradient(circle at 34% 76%, rgba(196,26,26,.09) 0 1px, transparent 2px),
+        linear-gradient(92deg, transparent 0 46%, rgba(35,28,22,.045) 48% 49%, transparent 51% 100%);
+      background-size: 34px 34px, 47px 47px, 62px 62px, 100% 100%;
+      mix-blend-mode: multiply;
+      opacity: .75;
+    }
+
+    /* ── HEADER — light paper style ── */
+    .hdr {
+      position: relative;
+      min-height: 110px;
+      padding: 18px 26px 14px;
+      background: linear-gradient(180deg, #f0e7d4 0%, #e7dcc4 100%);
+      border-bottom: 2px solid #1a1410;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hdr::before {
+      content: '';
+      position: absolute; left: 24px; right: 24px; bottom: 25px;
+      border-top: 1.5px solid rgba(26,20,16,.78);
+      box-shadow: 0 4px 0 rgba(26,20,16,.12);
+    }
+    .hdr::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 24%, rgba(26,20,16,.16) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 62%, rgba(26,20,16,.10) 0 1px, transparent 2px),
+        linear-gradient(96deg, transparent 0 47%, rgba(35,28,22,.055) 48% 49%, transparent 51% 100%);
+      background-size: 32px 32px, 49px 49px, 100% 100%;
+      mix-blend-mode: multiply;
+      opacity: .65;
+    }
+    .hdr-brand {
+      position: relative; z-index: 1;
+      font-family: 'Great Vibes', cursive;
+      font-size: 72px; font-weight: 400;
+      letter-spacing: .02em;
+      line-height: .95;
+      color: #241812;
+    }
+    .hdr-sub {
+      position: relative; z-index: 1;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .22em;
+      color: #6a5038;
+      text-transform: uppercase;
+      margin-top: 6px;
+      padding-bottom: 16px;
+    }
+    .hdr-date-val {
+      position: absolute; z-index: 2;
+      right: 24px; top: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 7px;
+      letter-spacing: .12em;
+      color: rgba(26,20,16,.62);
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    /* ── BODY ── */
+    .body-row {
+      display: grid; grid-template-columns: 220px 1fr;
+      border-bottom: 2px solid #1a1410;
+    }
+
+    .photo-col {
+      border-right: 2px solid #1a1410;
+      padding: 16px 14px;
+      display: flex; flex-direction: column; gap: 8px;
+      background: #e5dcc6;
+      position: relative;
+    }
+    .photo-main {
+      width: 100%; flex: 1;
+      background: #c8bfae; border: 1px solid #a89880;
+      position: relative; overflow: hidden; min-height: 220px;
+    }
+    .photo-main img { display: none; }
+    .photo-main::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background:
+        radial-gradient(ellipse at center, transparent 40%, rgba(20,14,8,.45) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    .photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #8a7860; padding: 20px; }
+    .photo-placeholder-icon { font-size: 32px; opacity: .4; }
+    .photo-placeholder-text { font-size: 8px; letter-spacing: .2em; text-transform: uppercase; text-align: center; opacity: .5; }
+
+    .tape { position: absolute; z-index: 10; background: rgba(240,215,130,.45); border-top: 1px solid rgba(180,155,60,.2); border-bottom: 1px solid rgba(180,155,60,.2); }
+    .tape-top { width: 44px; height: 14px; top: 8px; left: 50%; transform: translateX(-50%) rotate(-2deg); }
+    .tape-bl  { width: 36px; height: 14px; bottom: 10px; left: 6px; transform: rotate(6deg); }
+    .photo-reel-label { font-family: 'Special Elite'; font-size: 8px; color: #8a7860; letter-spacing: .08em; text-align: right; }
+
+    .info-col { padding: 14px 16px; display: flex; flex-direction: column; gap: 0; }
+    .subj-label { font-size: 8px; letter-spacing: .22em; color: #7a6a58; text-transform: uppercase; }
+    .subj-name { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: #1a1410; line-height: 1.1; margin-top: 2px; word-break: break-word; }
+    .subj-ident { font-family: 'Special Elite'; font-size: 11px; color: #3a2e24; letter-spacing: .03em; margin-top: 5px; line-height: 1.4; border-bottom: 1px solid #c8b89c; padding-bottom: 8px; }
+    .subj-ident-sub { font-family: 'IBM Plex Mono'; font-size: 9px; color: #7a6a58; margin-top: 4px; line-height: 1.4; }
+
+    .desc-body { margin-top: 10px; flex: 1; display: flex; flex-direction: column; }
+    .desc-row {
+      display: grid; grid-template-columns: 82px 1fr;
+      border-bottom: 1px solid rgba(108,88,58,.24);
+      padding: 3px 0 4px; align-items: baseline;
+    }
+    .desc-row:last-child { border-bottom: none; }
+    .desc-row:nth-child(1), .desc-row:nth-child(5), .desc-row:nth-child(8) {
+      margin-top: 3px;
+      border-top: 1.5px solid rgba(26,20,16,.72);
+      padding-top: 5px;
+    }
+    .dr-label { font-family: 'IBM Plex Mono'; font-size: 7.5px; letter-spacing: .1em; color: #1a1410; font-weight: 700; }
+    .dr-val { font-family: 'Special Elite'; font-size: 9.5px; color: #1a1410; letter-spacing: .03em; text-shadow: .25px 0 rgba(26,20,16,.3); }
+
+    .star-inline { font-size: 11px; }
+    .star-inline.on { color: #c41a1a; }
+    .star-inline.off { color: #c8b89c; }
+
+    .sig-block { margin-top: auto; padding-top: 8px; border-top: 1px solid #c8b89c; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sig-line-el { font-family: 'Special Elite'; font-size: 14px; color: #1a1410; letter-spacing: .04em; border-bottom: 1px solid #1a1410; padding-bottom: 2px; min-height: 22px; }
+    .sig-label { font-family: 'IBM Plex Mono'; font-size: 7px; letter-spacing: .16em; color: #7a6a58; margin-top: 2px; }
+    .date-line-el { font-family: 'Special Elite'; font-size: 11px; color: #1a1410; letter-spacing: .06em; border-bottom: 1px solid #1a1410; padding-bottom: 2px; min-height: 20px; }
+
+    /* ── EVIDENCE ── */
+    .evidence-section { border-bottom: 2px solid #1a1410; position: relative; }
+    .desc-header {
+      background: #f2eddf;
+      border-bottom: 2px solid #1a1410;
+      color: #1a1410;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      padding: 6px 0 5px 18px;
+    }
+    .evidence-strip {
+      background:
+        radial-gradient(ellipse at 18% 88%, rgba(104,83,45,.17), transparent 35%),
+        radial-gradient(ellipse at 82% 72%, rgba(196,26,26,.06), transparent 28%),
+        #d8ceb0;
+      padding: 20px 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 18px 40px rgba(70,53,22,.08);
+    }
+    .evidence-strip::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(245,238,220,.28), rgba(128,96,55,.10)),
+        radial-gradient(circle at 16% 22%, rgba(28,20,12,.22) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 72% 38%, rgba(28,20,12,.18) 0 1px, transparent 2px),
+        linear-gradient(178deg, rgba(255,255,255,.08), transparent 18%, rgba(45,33,20,.07) 100%);
+      background-size: 100% 100%, 29px 29px, 41px 41px, 100% 100%;
+      mix-blend-mode: multiply;
+      opacity: .72;
+    }
+
+    .ev-item {
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-width: 0;
+      isolation: isolate;
+      animation: drinkDrop 0.55s cubic-bezier(.22,.68,0,1.2) both;
+    }
+    @keyframes drinkDrop {
+      0%   { opacity: 0; transform: translateY(-60px) scale(.9); }
+      60%  { opacity: 1; transform: translateY(6px) scale(1.02); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .ev-drink {
+      object-fit: contain; object-position: bottom;
+      display: block;
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      mix-blend-mode: multiply;
+      filter: grayscale(.08) sepia(.14) contrast(1.1) saturate(.88) brightness(.97) drop-shadow(0 10px 8px rgba(40,28,14,.28));
+    }
+    .ev-empty {
+      font-family: 'IM Fell English', Georgia, serif; font-style: italic;
+      font-size: 11px; letter-spacing: .06em; color: #a89878;
+      align-self: center; margin: auto; z-index: 2;
+    }
+    .ev-meta {
+      position: absolute; bottom: 18px; right: 20px; z-index: 40;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    }
+    .ev-count-num { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 700; color: #1a1410; line-height: 1; }
+    .ev-count-label { font-family: 'IBM Plex Mono'; font-size: 7px; letter-spacing: .2em; color: #7a6a58; text-transform: uppercase; }
+
+    @keyframes stampHit {
+      0%   { opacity: 0; transform: translateY(-80px) scale(1.24) rotate(-14deg); filter: blur(1px); }
+      55%  { opacity: .92; transform: translateY(6px) scale(.95) rotate(-12deg); filter: blur(0); }
+      74%  { transform: translateY(-2px) scale(1.01) rotate(-12deg); }
+      100% { opacity: .9; transform: translateY(0) scale(1) rotate(-12deg); }
+    }
+    .stamp {
+      position: absolute; z-index: 20;
+      right: 20px; bottom: 50px;
+      pointer-events: none;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 24px; font-weight: 900; letter-spacing: .22em;
+      color: rgba(190,32,26,.88);
+      border: 4px solid rgba(190,32,26,.76);
+      padding: 10px 18px;
+      text-transform: uppercase; white-space: nowrap;
+      opacity: .9;
+      mix-blend-mode: multiply;
+      filter: contrast(1.08) saturate(1.04) drop-shadow(0 2px 1px rgba(80,28,20,.10));
+      transform-origin: center;
+      transform: rotate(-12deg);
+    }
+    .stamp.stamp-hit { animation: stampHit .48s cubic-bezier(.16,1,.3,1) both; }
+
+    /* ── FOOTER ── */
+    .card-foot { background: #1a1410; padding: 6px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .foot-text { font-family: 'IBM Plex Mono'; font-size: 7px; letter-spacing: .14em; color: #3a3028; }
+    .foot-text em { color: #5a4a3a; font-style: normal; }
+
+    /* ── ACTIONS ── */
+    .actions { display: none; gap: 10px; width: 595px; }
+    .abtn { flex: 1; padding: 13px; background: #1a1a1a; border: 1px solid #282828; color: #555; font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: .15s; border-radius: 10px; }
+    .abtn:hover { border-color: #c41a1a; color: #c41a1a; }
+    .abtn.p { background: #1a0808; border-color: #c41a1a; color: #c41a1a; }
+  </style>
+</head>
+<body>
+
+  <div class="app-bar">
+    <div class="app-title">NIGHT<em>FILE</em></div>
+    <div class="app-sub">NYC Night Intelligence Division · Day 02 of 90</div>
+  </div>
+
+  <div class="uform" id="uform">
+    <div>
+      <div class="fl">Name</div>
+      <input class="fi" id="ni" type="text" placeholder="Tonight's name..." maxlength="22" />
+    </div>
+    <div>
+      <div class="fl">Subject Photo — Selfie</div>
+      <button class="fu" id="sb" onclick="document.getElementById('si').click()">+ Upload selfie</button>
+      <input type="file" id="si" accept="image/*" onchange="hSelfie(this)" />
+    </div>
+    <div>
+      <div class="fl">Drinks Evidence — PNG files, multiple allowed</div>
+      <button class="fu" id="db" onclick="document.getElementById('di').click()">+ Add drink photos</button>
+      <input type="file" id="di" accept="image/png,image/webp" multiple onchange="hDrinks(this)" />
+    </div>
+    <button class="fgen" id="gen" onclick="make()" disabled>Generate My File</button>
+  </div>
+
+  <!-- ═══════ CARD ═══════ -->
+  <div id="card">
+
+    <div class="hdr">
+      <div class="hdr-date-val" id="hdrDate">—</div>
+      <div class="hdr-brand">All Knight</div>
+      <div class="hdr-sub">NYC Night Intelligence Division</div>
+    </div>
+
+    <div class="body-row">
+      <div class="photo-col">
+        <div class="tape tape-top"></div>
+        <div class="photo-main" id="photoMain">
+          <div class="photo-placeholder" id="photoPH">
+            <div class="photo-placeholder-icon">◻</div>
+            <div class="photo-placeholder-text">Subject Photo<br>Upload Selfie</div>
+          </div>
+          <img id="pImg" src="" alt="" />
+        </div>
+        <div class="tape tape-bl"></div>
+        <div class="photo-reel-label" id="reelLabel">REEL 1-26</div>
+      </div>
+
+      <div class="info-col">
+        <div class="subj-label">Subject</div>
+        <div class="subj-name" id="sName">—</div>
+        <div class="subj-ident" id="sIdent">—</div>
+        <div class="subj-ident-sub" id="sIdentSub"></div>
+        <div class="desc-body">
+          <div class="desc-row"><span class="dr-label">Date:</span><span class="dr-val" id="infoDate">—</span></div>
+          <div class="desc-row"><span class="dr-label">Case No.:</span><span class="dr-val" id="infoCaseNo">—</span></div>
+          <div class="desc-row"><span class="dr-label">Status:</span><span class="dr-val" id="infoStatus">—</span></div>
+          <div class="desc-row"><span class="dr-label">Location:</span><span class="dr-val">NYC · NIGHTLIFE</span></div>
+          <div class="desc-row"><span class="dr-label">Drinks:</span><span class="dr-val" id="dDrinks">—</span></div>
+          <div class="desc-row"><span class="dr-label">Skill 01:</span><span class="dr-val" id="ds1">—</span></div>
+          <div class="desc-row"><span class="dr-label">Skill 02:</span><span class="dr-val" id="ds2">—</span></div>
+          <div class="desc-row"><span class="dr-label">Skill 03:</span><span class="dr-val" id="ds3">—</span></div>
+          <div class="desc-row"><span class="dr-label">Remarks:</span><span class="dr-val" id="dRemarks">—</span></div>
+          <div class="desc-row" style="border-bottom:none;"><span class="dr-label">Danger:</span><span class="dr-val" id="dDanger">—</span></div>
+        </div>
+        <div class="sig-block">
+          <div>
+            <div class="sig-line-el" id="sigEl"></div>
+            <div class="sig-label">Signature</div>
+          </div>
+          <div>
+            <div class="date-line-el" id="dateEl"></div>
+            <div class="sig-label">Date</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-section">
+      <div class="desc-header">Drinks Consumed · Evidence Log</div>
+      <div class="evidence-strip" id="evStrip">
+        <div class="ev-empty">No drinks recorded — sober file open</div>
+      </div>
+      <div class="stamp" id="stamp">UNVERIFIED</div>
+    </div>
+
+    <div class="card-foot">
+      <span class="foot-text">CASE FILE NO. <em id="ftCase">—</em></span>
+      <span class="foot-text">ID NO. <em id="ftId">—</em></span>
+      <span class="foot-text"><em id="ftDate">—</em></span>
+    </div>
+
+  </div>
+
+  <div class="actions" id="acts">
+    <button class="abtn" onclick="reset()">↩ Start over</button>
+    <button class="abtn p" onclick="dl()">↓ Save image</button>
+  </div>
+
+  <script>
+    let selfieUrl = null, drinkUrls = [];
+
+    const idents = [
+      { t:'The Door Oracle',             s:'Knows everyone\'s name. Remembers every entrance.' },
+      { t:'Bathroom Mirror Philosopher', s:'Late-night truth-teller. The mirror is her stage.' },
+      { t:'Dancefloor Diplomat',          s:'Defuses every awkward moment. Always in the right circle.' },
+      { t:'VIP Side Quest',               s:'Beyond the main plot, there\'s always somewhere better.' },
+      { t:'Afterparty Cartographer',      s:'Knows where the next stop is. Just follow.' },
+      { t:'Last Train Gambler',           s:'Always says she\'s leaving early. Always the last one out.' },
+      { t:'Main Character Energy',        s:'Tonight\'s story unfolds with her at the center.' },
+      { t:'Plot Twist Enthusiast',        s:'You will never guess what happens next.' },
+      { t:'Ghost of 3am',                s:'You thought she left — there she is around the corner.' },
+    ];
+    const skillMap = {
+      z: ['Sober Observer', 'Strategic Exit Planner', 'Silent Documenter'],
+      l: ['Confident Opener', 'Dance Floor Eligible', 'Story Collector'],
+      m: ['Overshares Appropriately', 'Makes Instant Best Friends', 'Karaoke Threat: RISING'],
+      h: ['Legally Unbothered', 'Unscheduled Monologue Mode', "Tomorrow's Regret in Progress"],
+      x: ['Full Chaos Protocol ON', 'Transcends Social Norms', "The Night's Final Form"],
+    };
+    const threats  = ['OBSERVATION ONLY','LOW CONCERN','MODERATE','HIGH THREAT','CRITICAL','TERMINATE'];
+    const stamps   = ['UNVERIFIED','ACTIVE THREAT','KNOWN ASSOCIATE','UNDER OBSERVATION','CLASSIFIED','NIGHT VERIFIED'];
+    const statuses = ['ACTIVE · FIELD','ACTIVE · OFF-DUTY','ACTIVE · UNDERCOVER','ACTIVE · SURVEILLANCE'];
+    const remarks  = ['Observed dancing alone','Last seen near bar cart','Evaded three exits','Unconfirmed karaoke','Extended bathroom absence'];
+
+    const sk  = n => n===0?'z': n<=2?'l': n<=4?'m': n<=6?'h':'x';
+    const dg  = n => Math.min(Math.ceil(n*.85),5);
+    const rnd = a => a[Math.floor(Math.random()*a.length)];
+    const uid = () => 'NF'+Date.now().toString(36).slice(-5).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();
+
+    /* ── Selfie: bake filter into canvas at high quality ── */
+    function hSelfie(el) {
+      if(!el.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const src = new Image();
+        src.onload = () => {
+          const c = document.createElement('canvas');
+          c.width = src.width; c.height = src.height;
+          const ctx = c.getContext('2d');
+          ctx.filter = 'grayscale(0.35) contrast(1.12) sepia(0.18) brightness(0.96)';
+          ctx.drawImage(src, 0, 0);
+          selfieUrl = c.toDataURL('image/jpeg', 0.97);
+          document.getElementById('sb').textContent = '✓ Selfie uploaded';
+          document.getElementById('sb').classList.add('ok');
+          chk();
+        };
+        src.src = e.target.result;
+      };
+      reader.readAsDataURL(el.files[0]);
+    }
+
+    /* ── Drinks: read as DataURL (avoids html2canvas CORS issues) ── */
+    function readFileAsDataURL(file) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+      });
+    }
+    async function hDrinks(el) {
+      const files = Array.from(el.files || []);
+      const b = document.getElementById('db');
+      b.textContent = 'Processing...';
+      drinkUrls = (await Promise.all(files.map(readFileAsDataURL))).filter(Boolean);
+      b.textContent = `✓ ${drinkUrls.length} drink photo${drinkUrls.length!==1?'s':''} added`;
+      b.classList.add('ok');
+      chk();
+    }
+    function chk() {
+      document.getElementById('gen').disabled = !document.getElementById('ni').value.trim();
+    }
+    document.getElementById('ni').addEventListener('input', chk);
+
+    /* ── Crop transparent padding from PNG ── */
+    function cropTransparent(src) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const cv = document.createElement('canvas');
+            cv.width = img.naturalWidth; cv.height = img.naturalHeight;
+            const ctx = cv.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const { width: W, height: H } = cv;
+            const data = ctx.getImageData(0, 0, W, H).data;
+            let minX=W, minY=H, maxX=-1, maxY=-1;
+            for (let y=0; y<H; y++) for (let x=0; x<W; x++) {
+              if (data[(y*W+x)*4+3] > 8) {
+                if (x<minX) minX=x; if (x>maxX) maxX=x;
+                if (y<minY) minY=y; if (y>maxY) maxY=y;
+              }
+            }
+            if (maxX<minX || maxY<minY) return resolve(src);
+            const pad = Math.max(4, Math.round(Math.min(W,H)*0.015));
+            minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad);
+            maxX=Math.min(W-1,maxX+pad); maxY=Math.min(H-1,maxY+pad);
+            const out = document.createElement('canvas');
+            out.width=maxX-minX+1; out.height=maxY-minY+1;
+            out.getContext('2d').drawImage(cv, minX, minY, out.width, out.height, 0, 0, out.width, out.height);
+            resolve(out.toDataURL('image/png'));
+          } catch(e) { resolve(src); }
+        };
+        img.onerror = () => resolve(src);
+        img.src = src;
+      });
+    }
+
+    /* ── White stroke via morphological dilation ── */
+    function applyStroke(url, sw, color) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const pad = sw + 2;
+          const c = document.createElement('canvas');
+          c.width = img.width + pad*2; c.height = img.height + pad*2;
+          const ctx = c.getContext('2d');
+          for (let dx=-sw; dx<=sw; dx++)
+            for (let dy=-sw; dy<=sw; dy++)
+              if (dx*dx+dy*dy<=sw*sw) ctx.drawImage(img, dx+pad, dy+pad);
+          ctx.globalCompositeOperation = 'source-in';
+          ctx.fillStyle = color;
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(img, pad, pad);
+          resolve(c.toDataURL('image/png'));
+        };
+        img.onerror = () => resolve(url);
+        img.src = url;
+      });
+    }
+
+    async function make() {
+      const name  = document.getElementById('ni').value.trim(); if(!name) return;
+      const id    = uid();
+      const ident = rnd(idents);
+      const danger= dg(drinkUrls.length);
+      const skills= skillMap[sk(drinkUrls.length)];
+      const date  = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+      document.getElementById('sName').textContent     = name;
+      document.getElementById('sIdent').textContent    = ident.t;
+      document.getElementById('sIdentSub').textContent = ident.s;
+      document.getElementById('infoDate').textContent  = date;
+      document.getElementById('hdrDate').textContent   = date;
+      document.getElementById('infoCaseNo').textContent= id;
+      document.getElementById('infoStatus').textContent= rnd(statuses);
+
+      if(selfieUrl) {
+        const pm = document.getElementById('photoMain');
+        pm.style.backgroundImage = `url(${selfieUrl})`;
+        pm.style.backgroundSize = 'cover';
+        pm.style.backgroundPosition = 'center top';
+        document.getElementById('photoPH').style.display = 'none';
+      }
+
+      // Evidence strip
+      const strip = document.getElementById('evStrip');
+      if(drinkUrls.length > 0) {
+        strip.innerHTML = '';
+        const n = drinkUrls.length;
+        const hLadder = [290, 280, 260, 240, 210, 185, 165, 148, 134, 122];
+        const h = hLadder[Math.min(n-1, hLadder.length-1)];
+        for (let i=0; i<drinkUrls.length; i++) {
+          const cropped    = await cropTransparent(drinkUrls[i]);
+          const strokedUrl = await applyStroke(cropped, 8, '#ffffff');
+          const item = document.createElement('div');
+          item.className = 'ev-item';
+          item.style.animationDelay = (i * 0.12) + 's';
+          const img = document.createElement('img');
+          img.src = strokedUrl;
+          img.className = 'ev-drink';
+          img.style.height = h + 'px';
+          img.style.maxWidth = Math.floor(h * 1.1) + 'px';
+          item.appendChild(img);
+          strip.appendChild(item);
+        }
+        const meta = document.createElement('div');
+        meta.className = 'ev-meta';
+        meta.innerHTML = `<div class="ev-count-num">${n}</div><div class="ev-count-label">drinks consumed</div>`;
+        strip.appendChild(meta);
+      }
+
+      document.getElementById('dDrinks').textContent  = drinkUrls.length > 0 ? `${drinkUrls.length} units consumed` : 'None recorded';
+      document.getElementById('dRemarks').textContent = rnd(remarks);
+      document.getElementById('ds1').textContent = skills[0];
+      document.getElementById('ds2').textContent = skills[1];
+      document.getElementById('ds3').textContent = skills[2];
+
+      const dd = document.getElementById('dDanger');
+      dd.innerHTML = '';
+      for(let i=1;i<=5;i++){
+        const s=document.createElement('span');
+        s.className='star-inline '+(i<=danger?'on':'off');
+        s.textContent='★'; dd.appendChild(s);
+      }
+      const threat=document.createElement('span');
+      threat.style.cssText='font-size:8px;letter-spacing:.1em;color:#7a6a58;margin-left:4px;';
+      threat.textContent=' '+threats[danger];
+      dd.appendChild(threat);
+
+      const stampEl = document.getElementById('stamp');
+      stampEl.textContent = rnd(stamps);
+      stampEl.classList.remove('stamp-hit');
+      void stampEl.offsetWidth;
+      stampEl.classList.add('stamp-hit');
+
+      document.getElementById('sigEl').textContent  = name;
+      document.getElementById('dateEl').textContent = date;
+      document.getElementById('ftCase').textContent = id;
+      document.getElementById('ftId').textContent   = id.slice(-8);
+      document.getElementById('ftDate').textContent = date;
+      document.getElementById('reelLabel').textContent = `REEL ${Math.floor(Math.random()*90)+1}-${Math.floor(Math.random()*30)+1}`;
+
+      document.getElementById('uform').style.display = 'none';
+      document.getElementById('card').classList.add('vis');
+      document.getElementById('acts').style.display = 'flex';
+    }
+
+    async function dl() {
+      try {
+        if (document.fonts && document.fonts.ready) await document.fonts.ready;
+        await Promise.all(Array.from(document.querySelectorAll('#card img')).map(img => {
+          if (img.complete && img.naturalWidth) return Promise.resolve();
+          if (img.decode) return img.decode().catch(() => {});
+          return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
+        }));
+
+        const card  = document.getElementById('card');
+        const strip = document.getElementById('evStrip');
+        const targetH = 900;
+        const currentH = card.getBoundingClientRect().height;
+        if (strip && currentH < targetH) {
+          const corr = Math.ceil(strip.getBoundingClientRect().height + (targetH - currentH));
+          strip.style.minHeight = corr + 'px';
+          strip.style.height    = corr + 'px';
+          await new Promise(r => requestAnimationFrame(r));
+        }
+        const cardRect   = card.getBoundingClientRect();
+        const stripHeight= Math.ceil(strip.getBoundingClientRect().height);
+
+        const canvas = await html2canvas(card, {
+          scale: 3,
+          useCORS: true,
+          allowTaint: false,
+          x: 0, y: 0, scrollX: 0, scrollY: 0,
+          windowWidth:  Math.ceil(Math.max(document.documentElement.clientWidth, cardRect.width)),
+          windowHeight: Math.ceil(Math.max(document.documentElement.scrollHeight, card.scrollHeight)),
+          backgroundColor: '#ede5d0',
+          logging: false,
+          imageTimeout: 15000,
+          onclone: clonedDoc => {
+            const cc = clonedDoc.getElementById('card');
+            const cs = clonedDoc.getElementById('evStrip');
+            if (cc) { cc.style.width = Math.ceil(cardRect.width)+'px'; cc.style.height='auto'; cc.style.minHeight=Math.ceil(card.scrollHeight)+'px'; cc.style.flexShrink='0'; }
+            if (cs) { cs.style.minHeight=stripHeight+'px'; cs.style.height=stripHeight+'px'; cs.style.flexShrink='0'; cs.style.alignItems='center'; }
+            clonedDoc.querySelectorAll('.ev-item, .ev-drink').forEach(el => {
+              el.style.animation='none'; el.style.transition='none';
+              el.style.visibility='visible'; el.style.opacity='1';
+              if (el.classList.contains('ev-item')) el.style.display='flex';
+            });
+            const stamp = clonedDoc.getElementById('stamp');
+            if (stamp) { stamp.style.animation='none'; stamp.style.opacity='.9'; }
+          },
+        });
+
+        const a = document.createElement('a');
+        a.download = 'nightfile.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+
+        strip.style.minHeight = '';
+        strip.style.height    = '';
+      } catch(e) {
+        alert('Save failed. Try Command+Shift+4 to screenshot the card.');
+      }
+    }
+
+    function reset() {
+      document.getElementById('uform').style.display='flex';
+      document.getElementById('card').classList.remove('vis');
+      document.getElementById('acts').style.display='none';
+      ['sb','db'].forEach(id=>{ const b=document.getElementById(id); b.classList.remove('ok'); });
+      document.getElementById('sb').textContent='+ Upload selfie';
+      document.getElementById('db').textContent='+ Add drink photos';
+      document.getElementById('ni').value='';
+      document.getElementById('pImg').style.display='none';
+      document.getElementById('photoPH').style.display='flex';
+      document.getElementById('evStrip').innerHTML='<div class="ev-empty">No drinks recorded — sober file open</div>';
+      selfieUrl=null; drinkUrls=[]; chk();
+    }
+  </script>
+</body>
+</html>
