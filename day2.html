@@ -773,7 +773,7 @@
         drink: 'Whatever the bartender recommends. You trust expertise and you\'re never wrong.',
         exit: 'When the conversation reaches its natural end. Which you can feel before the other person can.',
         traits: ['Observer', 'Magnetic', 'Low Key', 'Perceptive', 'One Good Conversation'],
-        svg: 'oracle', photoFile: '90days/day2.png',
+        svg: 'oracle',
       },
       architect: {
         name: 'The Architect',
@@ -852,9 +852,7 @@
       document.getElementById('r-role').innerHTML = t.role;
       document.getElementById('r-drink').innerHTML = t.drink;
       document.getElementById('r-exit').innerHTML = t.exit;
-      document.getElementById('r-photo').innerHTML = t.photoFile
-        ? `<img src="${t.photoFile}" alt="${t.name}" style="width:100%;height:100%;object-fit:cover;display:block;">`
-        : (SVG[t.svg] || '');
+      document.getElementById('r-photo').innerHTML = SVG[t.svg] || '';
       document.getElementById('r-traits').innerHTML = t.traits.map(tr => `<span class="trait-tag">${tr}</span>`).join('');
       document.getElementById('quiz-result').style.display = 'block';
       document.getElementById('quiz-result').scrollIntoView({ behavior:'smooth', block:'start' });
