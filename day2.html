@@ -351,12 +351,7 @@
       <div class="result-type-name" id="r-name">—</div>
       <div class="result-type-sub" id="r-sub">—</div>
 
-      <div class="result-photo" id="r-photo">
-        <div class="result-photo-placeholder">
-          <div class="ph-num" id="r-photo-num">—</div>
-          <div class="ph-label">Photo coming soon</div>
-        </div>
-      </div>
+      <div class="result-photo" id="r-photo"></div>
 
       <div class="result-quote" id="r-quote">—</div>
 
@@ -390,6 +385,384 @@
   </div>
 
   <script>
+    // pixel art: viewBox 0 0 480 360, shape-rendering crispEdges, P=16px block
+    const SVG = {
+
+      // ── ORACLE: alone at bar end, amber glass glow, half-face shadow ──
+      oracle: `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect width="480" height="360" fill="#0c0512"/>
+<rect x="300" width="180" height="360" fill="#1c0a04" opacity=".55"/>
+<!-- shelf & bottles -->
+<rect y="68" width="480" height="6" fill="#2a1406"/>
+<rect x="16" y="24" width="14" height="44" fill="#1a3020"/><rect x="16" y="20" width="14" height="8" fill="#0d1a10"/>
+<rect x="44" y="30" width="12" height="38" fill="#38100a"/><rect x="44" y="26" width="12" height="8" fill="#1e0806"/>
+<rect x="70" y="22" width="16" height="46" fill="#0e1e30"/><rect x="70" y="18" width="16" height="8" fill="#081018"/>
+<rect x="102" y="28" width="12" height="40" fill="#2a1830"/><rect x="102" y="24" width="12" height="8" fill="#160c18"/>
+<rect x="128" y="24" width="10" height="44" fill="#1a2808"/>
+<rect x="154" y="32" width="14" height="36" fill="#3a1808"/><rect x="154" y="28" width="14" height="8" fill="#200e04"/>
+<!-- bar counter -->
+<rect y="288" width="480" height="72" fill="#1e0e04"/>
+<rect y="280" width="480" height="12" fill="#3d2010"/>
+<rect y="274" width="480" height="8" fill="#5a3018"/>
+<!-- bar stool -->
+<rect x="72" y="224" width="64" height="60" fill="#120802"/>
+<rect x="84" y="212" width="40" height="16" fill="#1e1006"/>
+<!-- overhead lamp -->
+<rect x="196" y="0" width="16" height="8" fill="#2a1808"/>
+<rect x="200" y="8" width="8" height="48" fill="#1e1006"/>
+<rect x="188" y="54" width="32" height="12" fill="#f0c840" opacity=".9"/>
+<rect x="172" y="64" width="64" height="48" fill="#e09020" opacity=".07"/>
+<!-- figure: hair (chunky pixel) -->
+<rect x="108" y="134" width="72" height="20" fill="#0e0608"/>
+<rect x="108" y="134" width="18" height="72" fill="#0e0608"/>
+<rect x="108" y="196" width="18" height="16" fill="#0e0608"/>
+<!-- face - lit right half only -->
+<rect x="126" y="134" width="54" height="66" fill="#c8906a"/>
+<rect x="126" y="134" width="26" height="66" fill="#0e0608" opacity=".6"/>
+<!-- eyes -->
+<rect x="152" y="158" width="10" height="7" fill="#0e0608"/>
+<rect x="168" y="158" width="10" height="7" fill="#0e0608"/>
+<rect x="174" y="156" width="4" height="3" fill="#fff" opacity=".55"/>
+<!-- neck -->
+<rect x="144" y="200" width="28" height="24" fill="#b47e5a"/>
+<!-- body: dark velvet turtleneck -->
+<rect x="96" y="224" width="96" height="68" fill="#12091c"/>
+<rect x="134" y="220" width="28" height="8" fill="#1e1232"/>
+<!-- arm stretched on bar -->
+<rect x="192" y="254" width="120" height="20" fill="#12091c"/>
+<rect x="304" y="254" width="22" height="18" fill="#c8906a"/>
+<!-- glass amber -->
+<rect x="332" y="234" width="36" height="48" fill="#c07828" opacity=".3"/>
+<rect x="328" y="228" width="44" height="10" fill="#f0e060" opacity=".45"/>
+<rect x="336" y="238" width="10" height="28" fill="#fff" opacity=".12"/>
+<!-- amber glow halo -->
+<rect x="294" y="210" width="110" height="72" fill="#e08820" opacity=".07"/>
+<!-- floor -->
+<rect y="352" width="480" height="8" fill="#0a0408"/>
+</svg>`,
+
+      // ── ARCHITECT: standing against wall, phone blue glow, crowd dots bg ──
+      architect: `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect width="480" height="360" fill="#080c18"/>
+<!-- crowd bg: blurred pixel dots -->
+<rect x="0" y="120" width="480" height="240" fill="#0d1020"/>
+<rect x="20" y="160" width="28" height="60" fill="#1a1430" opacity=".7"/>
+<rect x="70" y="140" width="24" height="80" fill="#141228" opacity=".6"/>
+<rect x="120" y="155" width="20" height="70" fill="#1e1838" opacity=".5"/>
+<rect x="310" y="145" width="26" height="75" fill="#1a1430" opacity=".6"/>
+<rect x="360" y="160" width="22" height="65" fill="#141228" opacity=".55"/>
+<rect x="416" y="148" width="28" height="72" fill="#1e1838" opacity=".5"/>
+<!-- wall panel behind figure -->
+<rect x="180" y="0" width="120" height="360" fill="#0c1022"/>
+<rect x="180" y="0" width="4" height="360" fill="#1e2840"/>
+<rect x="296" y="0" width="4" height="360" fill="#1e2840"/>
+<!-- figure hair -->
+<rect x="216" y="88" width="64" height="18" fill="#0c0810"/>
+<rect x="216" y="88" width="16" height="10" fill="#0c0810"/>
+<rect x="264" y="88" width="16" height="50" fill="#0c0810"/>
+<!-- bun/updo -->
+<rect x="240" y="78" width="36" height="16" fill="#0c0810"/>
+<rect x="248" y="72" width="20" height="10" fill="#1a1018"/>
+<!-- face -->
+<rect x="216" y="100" width="64" height="60" fill="#c89070"/>
+<!-- face detail -->
+<rect x="228" y="120" width="10" height="8" fill="#0c0810"/>
+<rect x="250" y="120" width="10" height="8" fill="#0c0810"/>
+<rect x="230" y="118" width="4" height="3" fill="#fff" opacity=".5"/>
+<!-- neck -->
+<rect x="234" y="160" width="28" height="22" fill="#b47e5a"/>
+<!-- blazer body navy -->
+<rect x="200" y="182" width="100" height="120" fill="#1a2848"/>
+<!-- lapels -->
+<rect x="230" y="182" width="18" height="50" fill="#e8e4dc"/>
+<rect x="248" y="182" width="18" height="50" fill="#e8e4dc"/>
+<rect x="234" y="182" width="28" height="60" fill="#1a2848"/>
+<!-- left arm down -->
+<rect x="200" y="182" width="24" height="100" fill="#1a2848"/>
+<!-- right arm: phone hand -->
+<rect x="276" y="182" width="24" height="80" fill="#1a2848"/>
+<rect x="276" y="262" width="24" height="28" fill="#c89070"/>
+<!-- PHONE -->
+<rect x="282" y="212" width="36" height="60" fill="#0e1018" rx="3"/>
+<rect x="284" y="218" width="32" height="48" fill="#3c8cf0" opacity=".85"/>
+<!-- phone screen glow spill -->
+<rect x="276" y="208" width="50" height="72" fill="#4080f0" opacity=".12"/>
+<rect x="260" y="200" width="80" height="88" fill="#2040c0" opacity=".06"/>
+<!-- map dots on screen suggestion -->
+<rect x="290" y="228" width="4" height="4" fill="#fff" opacity=".7"/>
+<rect x="300" y="238" width="4" height="4" fill="#ff4488" opacity=".9"/>
+<rect x="294" y="248" width="4" height="4" fill="#fff" opacity=".5"/>
+<!-- trousers -->
+<rect x="210" y="302" width="40" height="60" fill="#141e30"/>
+<rect x="258" y="302" width="40" height="60" fill="#141e30"/>
+<!-- shoes -->
+<rect x="206" y="350" width="48" height="10" fill="#0e1018"/>
+<rect x="254" y="350" width="48" height="10" fill="#0e1018"/>
+<!-- overhead cool light -->
+<rect x="232" y="0" width="32" height="6" fill="#1a2030"/>
+<rect x="240" y="6" width="16" height="36" fill="#141828"/>
+<rect x="226" y="40" width="44" height="8" fill="#a0c0f0" opacity=".6"/>
+<rect x="210" y="46" width="76" height="50" fill="#6090e0" opacity=".05"/>
+</svg>`,
+
+      // ── CATALYST: center stage, arms wide open, crowd around, neon warm ──
+      catalyst: `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect width="480" height="360" fill="#100810"/>
+<!-- dance floor glow from below -->
+<rect y="300" width="480" height="60" fill="#1a0818"/>
+<rect y="296" width="480" height="8" fill="#c01878" opacity=".3"/>
+<!-- neon lights top -->
+<rect x="0" y="0" width="480" height="10" fill="#1c0c1e"/>
+<rect x="40" y="4" width="60" height="6" fill="#ff1aa8" opacity=".7"/>
+<rect x="150" y="4" width="40" height="6" fill="#f0c000" opacity=".6"/>
+<rect x="260" y="4" width="60" height="6" fill="#00d4ff" opacity=".6"/>
+<rect x="380" y="4" width="50" height="6" fill="#ff1aa8" opacity=".5"/>
+<!-- pink spotlight -->
+<rect x="180" y="10" width="120" height="260" fill="#ff1aa8" opacity=".04"/>
+<rect x="200" y="10" width="80" height="180" fill="#ff1aa8" opacity=".04"/>
+<!-- CROWD left (blurred pixel figures) -->
+<rect x="0" y="180" width="30" height="140" fill="#2a1420" opacity=".8"/>
+<rect x="20" y="160" width="28" height="30" fill="#241018" opacity=".7"/>
+<rect x="50" y="190" width="26" height="130" fill="#1e1018" opacity=".7"/>
+<rect x="60" y="168" width="24" height="26" fill="#1e1018" opacity=".6"/>
+<rect x="86" y="195" width="30" height="125" fill="#2a1020" opacity=".6"/>
+<rect x="90" y="174" width="24" height="24" fill="#220e1a" opacity=".6"/>
+<!-- CROWD right -->
+<rect x="352" y="185" width="30" height="135" fill="#2a1420" opacity=".8"/>
+<rect x="356" y="163" width="26" height="26" fill="#241018" opacity=".7"/>
+<rect x="386" y="192" width="28" height="128" fill="#1e1018" opacity=".7"/>
+<rect x="390" y="170" width="22" height="24" fill="#1e1018" opacity=".6"/>
+<rect x="418" y="188" width="32" height="132" fill="#2a1020" opacity=".6"/>
+<rect x="422" y="166" width="26" height="26" fill="#220e1a" opacity=".6"/>
+<!-- main figure hair: black, wild -->
+<rect x="200" y="88" width="80" height="22" fill="#0e0810"/>
+<rect x="196" y="100" width="12" height="30" fill="#0e0810"/>
+<rect x="276" y="96" width="16" height="28" fill="#0e0810"/>
+<rect x="208" y="82" width="20" height="12" fill="#180c14"/>
+<rect x="256" y="80" width="22" height="14" fill="#180c14"/>
+<!-- face: head thrown back, laughing -->
+<rect x="208" y="100" width="64" height="58" fill="#d09878"/>
+<!-- mouth open laugh -->
+<rect x="222" y="138" width="36" height="16" fill="#1a0810"/>
+<rect x="228" y="140" width="24" height="10" fill="#ff6088" opacity=".5"/>
+<!-- eyes closed (curved lines = rects) -->
+<rect x="220" y="120" width="14" height="5" fill="#0e0810"/>
+<rect x="246" y="120" width="14" height="5" fill="#0e0810"/>
+<!-- cheek blush -->
+<rect x="210" y="132" width="14" height="8" fill="#e06070" opacity=".35"/>
+<rect x="256" y="132" width="14" height="8" fill="#e06070" opacity=".35"/>
+<!-- neck -->
+<rect x="228" y="158" width="24" height="22" fill="#c08868"/>
+<!-- metallic/shiny top -->
+<rect x="196" y="180" width="88" height="70" fill="#c0308c"/>
+<rect x="210" y="176" width="60" height="8" fill="#e040a0"/>
+<!-- arms WIDE OPEN -->
+<!-- left arm -->
+<rect x="100" y="190" width="100" height="22" fill="#c0308c"/>
+<rect x="96" y="188" width="28" height="26" fill="#d09878"/>
+<!-- right arm -->
+<rect x="280" y="190" width="100" height="22" fill="#c0308c"/>
+<rect x="356" y="188" width="28" height="26" fill="#d09878"/>
+<!-- bangles on left wrist -->
+<rect x="96" y="186" width="22" height="6" fill="#f0c000"/>
+<rect x="96" y="194" width="22" height="4" fill="#f0a000"/>
+<rect x="96" y="200" width="22" height="4" fill="#c08000"/>
+<!-- skirt/bottom -->
+<rect x="196" y="250" width="88" height="80" fill="#901c68"/>
+<!-- legs -->
+<rect x="212" y="320" width="24" height="44" fill="#2a1820"/>
+<rect x="248" y="320" width="24" height="44" fill="#2a1820"/>
+<!-- heels -->
+<rect x="210" y="352" width="28" height="8" fill="#c0308c"/>
+<rect x="246" y="352" width="28" height="8" fill="#c0308c"/>
+<!-- spotlight circle on floor -->
+<rect x="160" y="328" width="160" height="16" fill="#ff1aa8" opacity=".1"/>
+<!-- confetti pixel dots -->
+<rect x="130" y="120" width="8" height="8" fill="#f0c000" opacity=".8"/>
+<rect x="160" y="80" width="6" height="6" fill="#ff1aa8" opacity=".7"/>
+<rect x="320" y="100" width="8" height="8" fill="#00d4ff" opacity=".7"/>
+<rect x="340" y="140" width="6" height="6" fill="#f0c000" opacity=".8"/>
+<rect x="110" y="200" width="6" height="6" fill="#ff1aa8" opacity=".6"/>
+<rect x="370" y="90" width="8" height="8" fill="#80ff80" opacity=".6"/>
+<rect x="420" y="160" width="6" height="6" fill="#f0c000" opacity=".7"/>
+</svg>`,
+
+      // ── GHOST: split light/dark, all black, near exit door, half silhouette ──
+      ghost: `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<!-- right half: dark exit -->
+<rect width="480" height="360" fill="#080608"/>
+<!-- left half: warm bar spill -->
+<rect width="240" height="360" fill="#1a0c08" opacity=".7"/>
+<!-- door frame -->
+<rect x="280" y="40" width="10" height="300" fill="#281808"/>
+<rect x="290" y="40" width="150" height="10" fill="#281808"/>
+<rect x="290" y="330" width="150" height="10" fill="#281808"/>
+<!-- door outside: cold dark -->
+<rect x="290" y="50" width="150" height="280" fill="#04040c"/>
+<!-- street glow faint outside -->
+<rect x="290" y="260" width="150" height="70" fill="#202028" opacity=".5"/>
+<!-- bar interior left: warm pixel crowd dots -->
+<rect x="0" y="160" width="32" height="160" fill="#2a1408" opacity=".5"/>
+<rect x="8" y="144" width="26" height="24" fill="#241004" opacity=".4"/>
+<rect x="48" y="170" width="28" height="150" fill="#1e1006" opacity=".4"/>
+<rect x="52" y="152" width="22" height="22" fill="#1a0e04" opacity=".4"/>
+<rect x="90" y="165" width="24" height="155" fill="#201008" opacity=".35"/>
+<!-- bar glow left edge -->
+<rect x="0" y="0" width="160" height="360" fill="#c05010" opacity=".04"/>
+<!-- FIGURE: all black, center of split -->
+<!-- coat draped on arm (carrying it) -->
+<rect x="80" y="248" width="56" height="8" fill="#0e0c10"/><!-- arm with coat hanging -->
+<rect x="80" y="256" width="20" height="56" fill="#0e0c10"/><!-- coat hem -->
+<!-- hair: straight black, below shoulder -->
+<rect x="168" y="90" width="72" height="24" fill="#0a0810"/>
+<rect x="168" y="90" width="16" height="120" fill="#0a0810"/>
+<rect x="224" y="90" width="16" height="100" fill="#0a0810"/>
+<!-- face: half in warm light, half in shadow -->
+<rect x="184" y="110" width="56" height="62" fill="#c08f72"/>
+<!-- dark shadow covers left half of face -->
+<rect x="184" y="110" width="30" height="62" fill="#080608" opacity=".72"/>
+<!-- eye visible (right side only) -->
+<rect x="222" y="130" width="10" height="7" fill="#0a0810"/>
+<rect x="224" y="128" width="4" height="3" fill="#fff" opacity=".4"/>
+<!-- tiny pearl earring -->
+<rect x="238" y="144" width="6" height="6" fill="#f0f0ee"/>
+<rect x="239" y="145" width="4" height="4" fill="#d0d0cc" opacity=".8"/>
+<!-- neck -->
+<rect x="196" y="172" width="26" height="22" fill="#b07e62"/>
+<!-- all-black outfit: leather jacket shape -->
+<rect x="164" y="194" width="100" height="130" fill="#080810"/>
+<rect x="164" y="194" width="22" height="130" fill="#0c0c18"/><!-- jacket left panel -->
+<rect x="242" y="194" width="22" height="130" fill="#0c0c18"/><!-- jacket right panel -->
+<!-- jacket collar V -->
+<rect x="196" y="194" width="18" height="40" fill="#0e0e1e"/>
+<rect x="214" y="194" width="18" height="40" fill="#0e0e1e"/>
+<!-- arm down left (coat in hand) -->
+<rect x="164" y="194" width="22" height="120" fill="#080810"/>
+<rect x="160" y="306" width="28" height="18" fill="#c08f72"/><!-- hand -->
+<!-- coat hanging from hand (jacket shape below) -->
+<rect x="136" y="310" width="54" height="8" fill="#100c14" opacity=".8"/>
+<rect x="148" y="318" width="30" height="42" fill="#0e0c12" opacity=".7"/>
+<!-- arm right down -->
+<rect x="242" y="194" width="22" height="100" fill="#080810"/>
+<rect x="242" y="290" width="22" height="18" fill="#c08f72"/>
+<!-- legs black -->
+<rect x="184" y="324" width="28" height="40" fill="#080810"/>
+<rect x="220" y="324" width="28" height="40" fill="#080810"/>
+<!-- the split light boundary: hard vertical line -->
+<rect x="238" y="0" width="3" height="360" fill="#c05820" opacity=".15"/>
+<!-- floor reflections: warm left, cold right -->
+<rect x="0" y="340" width="260" height="20" fill="#180c04" opacity=".4"/>
+<rect x="260" y="340" width="220" height="20" fill="#04040c" opacity=".3"/>
+</svg>`,
+
+      // ── WILDCARD: 2am chaos, pointing, layered outfit, neon multicolor ──
+      wildcard: `<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect width="480" height="360" fill="#0c0810"/>
+<!-- chaotic neon light bars top -->
+<rect y="0" width="480" height="8" fill="#0e0c14"/>
+<rect x="0" y="0" width="120" height="8" fill="#ff1aa8" opacity=".6"/>
+<rect x="140" y="0" width="80" height="8" fill="#00d4ff" opacity=".5"/>
+<rect x="240" y="0" width="100" height="8" fill="#f0c000" opacity=".55"/>
+<rect x="360" y="0" width="120" height="8" fill="#80ff40" opacity=".4"/>
+<!-- light streaks (motion) -->
+<rect x="0" y="8" width="480" height="3" fill="#ff1aa8" opacity=".1"/>
+<rect x="60" y="11" width="360" height="2" fill="#00d4ff" opacity=".08"/>
+<!-- floor neon reflection -->
+<rect y="330" width="480" height="30" fill="#1a0c1a"/>
+<rect x="80" y="326" width="80" height="6" fill="#ff1aa8" opacity=".2"/>
+<rect x="220" y="326" width="100" height="6" fill="#00d4ff" opacity=".15"/>
+<rect x="360" y="326" width="80" height="6" fill="#f0c000" opacity=".18"/>
+<!-- chaotic crowd BG (multiple colors) -->
+<rect x="0" y="170" width="26" height="140" fill="#2a0818" opacity=".8"/>
+<rect x="4" y="152" width="22" height="22" fill="#220610" opacity=".7"/>
+<rect x="38" y="180" width="24" height="130" fill="#1a0c20" opacity=".7"/>
+<rect x="40" y="160" width="20" height="24" fill="#140a18" opacity=".6"/>
+<rect x="74" y="175" width="22" height="135" fill="#200818" opacity=".65"/>
+<!-- right crowd -->
+<rect x="356" y="172" width="26" height="138" fill="#0c1828" opacity=".8"/>
+<rect x="360" y="152" width="22" height="24" fill="#081220" opacity=".7"/>
+<rect x="390" y="180" width="24" height="130" fill="#0e1420" opacity=".7"/>
+<rect x="418" y="168" width="28" height="142" fill="#0c1828" opacity=".65"/>
+<!-- FIGURE -->
+<!-- hair: wild motion (mid-air strands) -->
+<rect x="200" y="78" width="80" height="18" fill="#0c0810"/>
+<rect x="192" y="88" width="18" height="40" fill="#0c0810"/>
+<rect x="274" y="86" width="20" height="36" fill="#0c0810"/>
+<!-- flying strand left -->
+<rect x="174" y="72" width="32" height="8" fill="#0c0810" opacity=".8"/>
+<rect x="164" y="64" width="18" height="12" fill="#0c0810" opacity=".6"/>
+<!-- flying strand right -->
+<rect x="282" y="70" width="30" height="8" fill="#0c0810" opacity=".8"/>
+<rect x="306" y="60" width="16" height="14" fill="#0c0810" opacity=".6"/>
+<!-- face: intense, wide eyes -->
+<rect x="200" y="96" width="80" height="66" fill="#d09878"/>
+<!-- eyeshadow smudge: dramatic -->
+<rect x="210" y="112" width="22" height="12" fill="#6020a0" opacity=".55"/>
+<rect x="248" y="112" width="22" height="12" fill="#6020a0" opacity=".55"/>
+<!-- eyes wide open -->
+<rect x="212" y="116" width="14" height="10" fill="#0c0810"/>
+<rect x="254" y="116" width="14" height="10" fill="#0c0810"/>
+<rect x="214" y="114" width="6" height="4" fill="#fff" opacity=".7"/>
+<rect x="256" y="114" width="6" height="4" fill="#fff" opacity=".7"/>
+<!-- smudged liner flick -->
+<rect x="206" y="124" width="20" height="4" fill="#1a0832" opacity=".7"/>
+<rect x="254" y="124" width="22" height="4" fill="#1a0832" opacity=".7"/>
+<!-- mouth: mid-sentence open -->
+<rect x="222" y="142" width="36" height="14" fill="#1a0818"/>
+<rect x="226" y="144" width="28" height="8" fill="#e04070" opacity=".4"/>
+<!-- neck -->
+<rect x="224" y="162" width="32" height="22" fill="#c08868"/>
+<!-- LAYERED OUTFIT -->
+<!-- base: mini dress -->
+<rect x="196" y="184" width="88" height="80" fill="#e840b0"/>
+<!-- someone else's jacket half off shoulder -->
+<rect x="160" y="180" width="44" height="100" fill="#1a1428" opacity=".9"/>
+<rect x="156" y="176" width="52" height="14" fill="#24203c" opacity=".85"/><!-- half on shoulder -->
+<rect x="300" y="196" width="30" height="80" fill="#1a1428" opacity=".5"/><!-- other sleeve barely on -->
+<!-- left arm: pointing finger straight at viewer -->
+<rect x="100" y="196" width="100" height="22" fill="#e840b0"/>
+<rect x="96" y="194" width="30" height="26" fill="#d09878"/>
+<!-- pointing index finger -->
+<rect x="68" y="198" width="32" height="10" fill="#d09878"/>
+<rect x="64" y="198" width="12" height="10" fill="#d09878"/>
+<!-- other hand: holding mystery drink -->
+<rect x="278" y="200" width="20" height="22" fill="#d09878"/>
+<rect x="278" y="188" width="24" height="16" fill="#00d4ff" opacity=".7"/><!-- glass cyan -->
+<rect x="280" y="192" width="20" height="8" fill="#00f0ff" opacity=".5"/>
+<!-- bangles on pointing arm -->
+<rect x="96" y="192" width="24" height="5" fill="#f0c000"/>
+<rect x="96" y="199" width="24" height="4" fill="#ff4488"/>
+<rect x="96" y="205" width="24" height="4" fill="#00d4ff"/>
+<!-- skirt bottom -->
+<rect x="196" y="264" width="88" height="60" fill="#c020a0"/>
+<!-- legs -->
+<rect x="206" y="318" width="28" height="44" fill="#2a1020"/>
+<rect x="250" y="318" width="28" height="44" fill="#2a1020"/>
+<!-- shoes chaotic colors -->
+<rect x="202" y="350" width="34" height="10" fill="#f0c000"/>
+<rect x="246" y="350" width="34" height="10" fill="#ff1aa8"/>
+<!-- neon light splashes on figure -->
+<rect x="196" y="184" width="88" height="10" fill="#ff1aa8" opacity=".12"/>
+<rect x="200" y="96" width="80" height="8" fill="#00d4ff" opacity=".06"/>
+<!-- floating text bubble "WAIT HOW IS IT 4AM" in pixel -->
+<rect x="310" y="110" width="140" height="48" fill="#1a0c20" opacity=".9"/>
+<rect x="306" y="114" width="4" height="40" fill="#ff1aa8" opacity=".7"/>
+<rect x="310" y="108" width="140" height="4" fill="#ff1aa8" opacity=".7"/>
+<rect x="450" y="114" width="4" height="40" fill="#ff1aa8" opacity=".7"/>
+<rect x="310" y="152" width="140" height="4" fill="#ff1aa8" opacity=".7"/>
+<!-- pixel text inside bubble -->
+<rect x="318" y="120" width="6" height="8" fill="#ff1aa8" opacity=".8"/>
+<rect x="328" y="120" width="4" height="8" fill="#ff1aa8" opacity=".8"/>
+<rect x="336" y="120" width="6" height="8" fill="#ff1aa8" opacity=".8"/>
+<rect x="346" y="120" width="8" height="8" fill="#ff1aa8" opacity=".8"/>
+<rect x="358" y="120" width="4" height="8" fill="#ff1aa8" opacity=".8"/>
+<!-- speech bubble tail pointing left-down -->
+<rect x="302" y="152" width="14" height="10" fill="#1a0c20" opacity=".9"/>
+<rect x="298" y="158" width="10" height="8" fill="#1a0c20" opacity=".9"/>
+<rect x="294" y="164" width="8" height="6" fill="#1a0c20" opacity=".9"/>
+</svg>`,
+    };
+
     const TYPES = {
       oracle: {
         name: 'The Oracle',
@@ -400,7 +773,7 @@
         drink: 'Whatever the bartender recommends. You trust expertise and you\'re never wrong.',
         exit: 'When the conversation reaches its natural end. Which you can feel before the other person can.',
         traits: ['Observer', 'Magnetic', 'Low Key', 'Perceptive', 'One Good Conversation'],
-        photoFile: null,
+        svg: 'oracle',
       },
       architect: {
         name: 'The Architect',
@@ -411,7 +784,7 @@
         drink: 'You decided before you left the house. Classic, well-made, no drama.',
         exit: 'At the time you internally set when you arrived. Not early, not late. Exactly right.',
         traits: ['Planner', 'Reliable', 'Quietly Powerful', 'Detail-Oriented', 'Group Anchor'],
-        photoFile: null,
+        svg: 'architect',
       },
       catalyst: {
         name: 'The Catalyst',
@@ -422,7 +795,7 @@
         drink: 'Whatever everyone is having, plus a round you ordered without being asked.',
         exit: 'After one more round, fifteen minutes of goodbyes, and a group hug that somehow pulls in people you just met.',
         traits: ['Charismatic', 'High Energy', 'Connector', 'Warm', 'Story Starter'],
-        photoFile: null,
+        svg: 'catalyst',
       },
       ghost: {
         name: 'The Ghost',
@@ -433,7 +806,7 @@
         drink: 'Something classic and quiet. A whisky sour. A gin and tonic. Nothing that needs explaining.',
         exit: 'Without saying goodbye to most people. They won\'t notice until you\'re already home.',
         traits: ['Private', 'Selective', 'Effortless', 'Independent', 'Ghost Mode'],
-        photoFile: null,
+        svg: 'ghost',
       },
       wildcard: {
         name: 'The Wildcard',
@@ -444,7 +817,7 @@
         drink: 'Something you\'ve never had. Or three things. The order is not important.',
         exit: 'At 4am, mid-sentence, still reconstructing the sequence of events.',
         traits: ['Unpredictable', 'All In', 'Emotionally Present', 'Chaotic Good', 'Night Shifter'],
-        photoFile: null,
+        svg: 'wildcard',
       },
     };
 
@@ -479,10 +852,7 @@
       document.getElementById('r-role').innerHTML = t.role;
       document.getElementById('r-drink').innerHTML = t.drink;
       document.getElementById('r-exit').innerHTML = t.exit;
-      document.getElementById('r-photo-num').textContent = t.name.split(' ').pop();
-      if (t.photoFile) {
-        document.getElementById('r-photo').innerHTML = `<img src="90days/${t.photoFile}" alt="${t.name}">`;
-      }
+      document.getElementById('r-photo').innerHTML = SVG[t.svg] || '';
       document.getElementById('r-traits').innerHTML = t.traits.map(tr => `<span class="trait-tag">${tr}</span>`).join('');
       document.getElementById('quiz-result').style.display = 'block';
       document.getElementById('quiz-result').scrollIntoView({ behavior:'smooth', block:'start' });
