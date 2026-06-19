@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 4 — JoyDotz Instagram Launch · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 2px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title {
+      font-size: clamp(28px,5vw,56px); font-weight:700;
+      letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px;
+    }
+    .day-title .pink { color: var(--pink); }
+    .day-meta {
+      display:flex; flex-wrap:wrap; gap:24px; font-size:12px;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px;
+    }
+    .day-statement {
+      max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65;
+      color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic;
+    }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label {
+      display:flex; align-items:center; gap:16px; font-size:10px;
+      letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);
+      margin-bottom:32px; padding-top:64px;
+    }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── carousel options ── */
+    .carousel-grid {
+      display: flex; flex-direction: column; gap: 40px; margin-bottom: 64px;
+    }
+    .carousel-option {
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .carousel-option img {
+      width: 100%; display: block; border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    .carousel-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .carousel-label {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    }
+    .carousel-copy {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .copy-pill {
+      font-size: 11px; color: var(--ink-dim); letter-spacing: 0.04em;
+      border: 1px solid var(--border); padding: 4px 10px; border-radius: 2px;
+      font-style: italic;
+    }
+
+    /* ── brand context ── */
+    .brand-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 64px;
+    }
+    @media (max-width: 700px) { .brand-block { grid-template-columns: 1fr; } }
+    .brand-cell {
+      background: var(--charcoal); border: 1px solid var(--border); padding: 28px 24px;
+    }
+    .bc-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .bc-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.7; }
+    .bc-text strong { color: var(--pink); }
+
+    /* ── design decisions ── */
+    .decision-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 64px; }
+    .decision-row {
+      background: var(--panel); border: 1px solid var(--border);
+      padding: 22px 24px; display: grid; grid-template-columns: 160px 1fr; gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .decision-row { grid-template-columns: 1fr; } }
+    .dr-label {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--pink); padding-top: 2px;
+    }
+    .dr-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.65; }
+  </style>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 04</div>
+    <div class="day-num">04</div>
+    <h1 class="day-title">JoyDotz<br><span class="pink">Instagram Launch Post</span></h1>
+    <div class="day-meta">
+      <span>June 19, 2026</span>
+      <span>Brand Identity · Social Content</span>
+      <span>Swedish Falls</span>
+    </div>
+    <p class="day-statement">
+      A Chinese-manufactured pimple patch entering the US market needed a full visual rebrand. Today: the first Instagram carousel — three copy directions, one aesthetic language.
+    </p>
+  </div>
+
+  <div class="day-content">
+
+    <!-- Brand context -->
+    <div class="day-section-label">Brand Context</div>
+    <div class="brand-block">
+      <div class="brand-cell">
+        <div class="bc-label">The Brand</div>
+        <div class="bc-text">
+          <strong>JoyDotz</strong> by Swedish Falls — a pimple patch designed for the US Gen Z skincare market.
+          Manufactured in China, repositioned for an American audience that buys on feeling, not function.
+        </div>
+      </div>
+      <div class="brand-cell">
+        <div class="bc-label">The Brief</div>
+        <div class="bc-text">
+          Full visual rebrand from factory product to soft lifestyle brand. First Instagram post:
+          introduce the product's emotional identity — <strong>comfort, gentleness, a tiny reset</strong> — not a clinical claim.
+        </div>
+      </div>
+      <div class="brand-cell">
+        <div class="bc-label">Aesthetic Direction</div>
+        <div class="bc-text">
+          Lavender aura gradient, butterfly motifs, sparkle texture. Coded as dreamy and soft — signals
+          <strong>self-care ritual</strong>, not medical. Targets the "healing era" visual language of TikTok skincare.
+        </div>
+      </div>
+      <div class="brand-cell">
+        <div class="bc-label">Format</div>
+        <div class="bc-text">
+          3-slide Instagram carousel. Each slide is a standalone moment — works as a swipe story
+          or as a grid preview. Three copy variants tested for voice and positioning.
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel options -->
+    <div class="day-section-label">3 Copy Directions</div>
+    <div class="carousel-grid">
+
+      <div class="carousel-option">
+        <img src="90days/day3/6 copy.png" alt="JoyDotz carousel option A" />
+        <div class="carousel-meta">
+          <div class="carousel-label">Option A — Brand Introduction</div>
+          <div class="carousel-copy">
+            <span class="copy-pill">A dreamy little reset for your skin.</span>
+            <span class="copy-pill">joydotz</span>
+            <span class="copy-pill">I'm your little comfort dot.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-option">
+        <img src="90days/day3/7 copy.png" alt="JoyDotz carousel option B" />
+        <div class="carousel-meta">
+          <div class="carousel-label">Option B — Soft Benefit</div>
+          <div class="carousel-copy">
+            <span class="copy-pill">Tiny dots, soft comfort.</span>
+            <span class="copy-pill">Clearer skin, softer mood.</span>
+            <span class="copy-pill">I don't fix everything, but I make it feel softer.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-option">
+        <img src="90days/day3/8 copy.png" alt="JoyDotz carousel option C" />
+        <div class="carousel-meta">
+          <div class="carousel-label">Option C — Personality First</div>
+          <div class="carousel-copy">
+            <span class="copy-pill">Comfort, but make it cute.</span>
+            <span class="copy-pill">Little things, gently made.</span>
+            <span class="copy-pill">I'm your soft little reset.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Design decisions -->
+    <div class="day-section-label">Design Decisions</div>
+    <div class="decision-list">
+      <div class="decision-row">
+        <div class="dr-label">No product shot</div>
+        <div class="dr-text">The first post doesn't show the patch. It sells the feeling — the emotional identity has to land before the product can. US Gen Z buys the vibe first.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">First person copy</div>
+        <div class="dr-text">"I'm your little comfort dot" — the product speaks. This is a common device in the soft skincare category (COSRX, Starface) because it makes the product feel like a companion, not a solution.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Lavender + aura gradient</div>
+        <div class="dr-text">Signals "healing era" — the aesthetic language of TikTok self-care in 2024–25. Butterfly motif adds the dreamy, weightless quality that positions this away from clinical skincare.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">3-panel carousel</div>
+        <div class="dr-text">Each panel works as a standalone tile on the grid, but swiping creates a cinematic reveal. The copy arc moves from scene-setting → product moment → emotional payoff.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border);">
+      <a href="nightfile.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 03</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+    </div>
+
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
