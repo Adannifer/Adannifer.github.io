@@ -40,7 +40,6 @@
     }
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
-    /* poster display */
     .poster-wrap {
       display: flex; justify-content: center; margin-bottom: 64px;
     }
@@ -49,35 +48,10 @@
       border: 1px solid var(--border);
     }
 
-    /* event context */
-    .context-block {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 64px;
+    .about-block {
+      max-width: 640px; font-size: 15px; color: var(--ink-dim); line-height: 1.8;
     }
-    @media (max-width: 700px) { .context-block { grid-template-columns: 1fr; } }
-    .context-cell {
-      background: var(--charcoal); border: 1px solid var(--border); padding: 28px 24px;
-      border-radius: 0;
-    }
-    .cc-label {
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 12px;
-    }
-    .cc-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.7; }
-    .cc-text strong { color: var(--pink); }
-
-    /* design decisions */
-    .decision-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 64px; }
-    .decision-row {
-      background: var(--panel); border: 1px solid var(--border);
-      padding: 22px 24px; display: grid; grid-template-columns: 160px 1fr; gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 700px) { .decision-row { grid-template-columns: 1fr; } }
-    .dr-label {
-      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--pink); padding-top: 2px;
-    }
-    .dr-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.65; }
+    .about-block strong { color: var(--ink); }
   </style>
 </head>
 <body class="project-page">
@@ -107,7 +81,7 @@
       <span>CrimePartner NYC</span>
     </div>
     <p class="day-statement">
-      CrimePartner 3.0 is coming. The theme: 共犯之夜 异界重启. This is the first drop.
+      共犯之夜 异界重启. The first drop for CrimePartner 3.0.
     </p>
   </div>
 
@@ -118,55 +92,12 @@
       <img src="90days/day5 version2.png" alt="CrimePartner 3.0 Reveal Poster" />
     </div>
 
-    <div class="day-section-label">Event Context</div>
-    <div class="context-block">
-      <div class="context-cell">
-        <div class="cc-label">The Event</div>
-        <div class="cc-text">
-          <strong>CrimePartner</strong> is a recurring nightlife experience in NYC built around cosplay, gaming culture, and second-world aesthetics. 3.0 escalates the format with a game night premise.
-        </div>
-      </div>
-      <div class="context-cell">
-        <div class="cc-label">The Concept</div>
-        <div class="cc-text">
-          共犯之夜 异界重启. Crime night, alternate world reboot. The tagline positions 3.0 as a new chapter with higher stakes and a darker, more immersive tone.
-        </div>
-      </div>
-      <div class="context-cell">
-        <div class="cc-label">Date</div>
-        <div class="cc-text">
-          <strong>September 26.</strong> 制服 Only dress code. 18+ venue. 2次元 CP主题.
-        </div>
-      </div>
-      <div class="context-cell">
-        <div class="cc-label">Status</div>
-        <div class="cc-text">
-          Reveal poster. Design may adjust before final publish. Two versions explored today.
-        </div>
-      </div>
+    <div class="day-section-label">What is CrimePartner</div>
+    <div class="about-block">
+      <strong>CrimePartner</strong> is a recurring nightlife event I produce in NYC for the Chinese gaming and cosplay community. Each edition has a theme, a dress code, and a reason to show up in character. 3.0 is the biggest version yet — a full game night reboot, September 26, 制服 Only.
     </div>
 
-    <div class="day-section-label">Design Decisions</div>
-    <div class="decision-list">
-      <div class="decision-row">
-        <div class="dr-label">Gothic lettering</div>
-        <div class="dr-text">The chrome blackletter treatment for "CrimePartner" references underground event aesthetics. Heavy, textured, slightly distressed. Signals danger and exclusivity without being legible at a glance.</div>
-      </div>
-      <div class="decision-row">
-        <div class="dr-label">Bilingual title</div>
-        <div class="dr-text">共犯之夜 异界重启 sits below the English. The dual-language layout reflects the actual audience: NYC-based Chinese community in gaming and cosplay culture. Neither version translates the other.</div>
-      </div>
-      <div class="decision-row">
-        <div class="dr-label">Dark background</div>
-        <div class="dr-text">Near-black with subtle texture. Keeps the focus on the title treatment and date. Sets a more serious tone than CrimePartner's previous iterations.</div>
-      </div>
-      <div class="decision-row">
-        <div class="dr-label">Minimal information</div>
-        <div class="dr-text">Only the essentials: name, date, dress code. A reveal poster withholds. The goal is intrigue, not explanation. Details come in the next drop.</div>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border);">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border); margin-top:64px;">
       <a href="day4.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 04</a>
       <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
     </div>
