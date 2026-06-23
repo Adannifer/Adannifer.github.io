@@ -107,13 +107,14 @@
     .style-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
+      gap: 10px;
       margin-bottom: 64px;
     }
     @media (max-width: 780px) { .style-grid { grid-template-columns: 1fr; } }
     .style-cell {
-      background: var(--panel);
-      border: 1px solid var(--border);
+      background: rgba(18,9,30,0.48);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 16px;
       padding: 28px 24px;
       display: flex;
       flex-direction: column;
@@ -148,8 +149,9 @@
 
     /* ── Reflection ── */
     .reflection-block {
-      background: var(--charcoal);
-      border: 1px solid var(--border);
+      background: rgba(26,16,40,0.52);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 20px;
       padding: 40px 36px;
       display: grid;
       grid-template-columns: 1fr 1fr;

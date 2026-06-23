@@ -69,11 +69,13 @@
 
     /* ── brand context ── */
     .brand-block {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 64px;
     }
     @media (max-width: 700px) { .brand-block { grid-template-columns: 1fr; } }
     .brand-cell {
-      background: var(--charcoal); border: 1px solid var(--border); padding: 28px 24px;
+      background: rgba(26,16,40,0.52);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px;
     }
     .bc-label {
       font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -83,9 +85,11 @@
     .bc-text strong { color: var(--pink); }
 
     /* ── design decisions ── */
-    .decision-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 64px; }
+    .decision-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 64px; }
     .decision-row {
-      background: var(--panel); border: 1px solid var(--border);
+      background: rgba(18,9,30,0.48);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 16px;
       padding: 22px 24px; display: grid; grid-template-columns: 160px 1fr; gap: 24px;
       align-items: start;
     }

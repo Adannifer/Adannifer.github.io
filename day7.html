@@ -41,10 +41,12 @@
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
     /* prompt + image pairs */
-    .prompt-list { display: flex; flex-direction: column; gap: 2px; }
+    .prompt-list { display: flex; flex-direction: column; gap: 12px; }
     .prompt-block {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 0; overflow: hidden;
+      background: rgba(18,9,30,0.48);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
     }
     .prompt-images {
       display: flex; gap: 2px; background: var(--border);
