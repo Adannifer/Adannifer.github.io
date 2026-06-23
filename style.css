@@ -900,6 +900,46 @@ img { display: block; max-width: 100%; }
   max-width: 170px;
 }
 
+/* ── Day page info table ── */
+.day-info-table {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 36px;
+  background: rgba(10,20,10,0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(180,255,80,0.2);
+  border-radius: 14px;
+  overflow: hidden;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: 0 0 32px rgba(180,255,80,0.04), inset 0 1px 0 rgba(180,255,80,0.08);
+}
+.dit-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0;
+  padding: 13px 18px;
+  border-bottom: 1px solid rgba(180,255,80,0.08);
+  align-items: start;
+}
+.dit-row:last-child { border-bottom: none; }
+.dit-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(180,255,80,0.65);
+  padding-top: 2px;
+  font-weight: 700;
+}
+.dit-val {
+  font-size: 12.5px;
+  color: rgba(247,241,234,0.85);
+  line-height: 1.55;
+}
+
+
 /* ── 90 Days overview table ── */
 .making-table-wrap {
   padding: 48px 6vw 80px;
