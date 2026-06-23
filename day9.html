@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 9 · Word Grid Poster · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <style>
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 6px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title { font-size: clamp(28px,5vw,56px); font-weight:700; letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px; }
+    .day-title .green { color: var(--green); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic; }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:40px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Studio layout ── */
+    .studio {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 860px) { .studio { grid-template-columns: 1fr; } }
+
+    /* ── Controls ── */
+    .controls-panel { display: flex; flex-direction: column; gap: 24px; }
+    .ctrl-label {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px;
+    }
+    .words-textarea {
+      width: 100%; min-height: 160px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--ink);
+      font-family: 'Space Grotesk', var(--font-body);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 0.06em;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+      line-height: 1.8;
+      transition: border-color 0.2s;
+    }
+    .words-textarea:focus { border-color: var(--pink); }
+    .words-textarea::placeholder { color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      position: relative;
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--pink); background: rgba(180,255,80,0.04); }
+    .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+    .upload-zone-icon { font-size: 24px; margin-bottom: 6px; }
+    .upload-zone-label { font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
+    .upload-zone.has-photo .upload-zone-label { color: var(--pink); }
+
+    /* ── Color picker row ── */
+    .color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .color-swatch {
+      width: 28px; height: 28px; border-radius: 4px; cursor: pointer;
+      border: 2px solid transparent; transition: border-color 0.15s;
+    }
+    .color-swatch.active { border-color: var(--ink); }
+
+    /* ── Generate btn ── */
+    .generate-btn {
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--pink); color: #0e0b1a;
+      border: none; border-radius: 10px;
+      font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+      font-family: inherit; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .generate-btn:hover { opacity: 0.88; }
+
+    /* ── Canvas area ── */
+    .canvas-col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .canvas-wrap {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 16px 60px rgba(0,0,0,0.4);
+    }
+    #posterCanvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    .download-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 10px 26px; border: 1px solid var(--pink);
+      border-radius: 20px; background: none; color: var(--pink);
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .download-btn:hover { background: rgba(180,255,80,0.1); }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 09</div>
+    <div class="day-num-bg">09</div>
+    <h1 class="day-title">Word Grid<br><span class="green">Poster Generator</span></h1>
+    <div class="day-meta">
+      <span>June 24, 2026</span>
+      <span>Interactive · Poster Tool</span>
+      <span>Photo + Type</span>
+    </div>
+    <p class="day-statement">
+      Type your words, upload a photo. The grid places them like a crossword, overlaid on your image. Download as a poster.
+    </p>
+    <div class="day-info-table">
+      <div class="dit-row">
+        <span class="dit-label">What</span>
+        <span class="dit-val">Crossword-style word art generator. Your words placed on your photo.</span>
+      </div>
+      <div class="dit-row">
+        <span class="dit-label">For</span>
+        <span class="dit-val">Instagram posts, event flyers, album-cover aesthetics</span>
+      </div>
+      <div class="dit-row">
+        <span class="dit-label">Use</span>
+        <span class="dit-val">Type your tags or a phrase. Upload a portrait. Download the poster.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="day-section-label">Make It</div>
+
+    <div class="studio">
+
+      <!-- Controls -->
+      <div class="controls-panel">
+
+        <div>
+          <div class="ctrl-label">Your words — one per line or comma separated</div>
+          <textarea class="words-textarea" id="wordsInput" placeholder="LOVE&#10;SUNDAY&#10;LOST&#10;FOUND&#10;ROAD TRIP">LOVE
+SUNDAY
+LOST
+FOUND
+BLOOM</textarea>
+        </div>
+
+        <div>
+          <div class="ctrl-label">Cell color</div>
+          <div class="color-row" id="colorRow">
+            <div class="color-swatch active" data-color="#e8b4b0" style="background:#e8b4b0;"></div>
+            <div class="color-swatch" data-color="#a8c4e0" style="background:#a8c4e0;"></div>
+            <div class="color-swatch" data-color="#b4e0b4" style="background:#b4e0b4;"></div>
+            <div class="color-swatch" data-color="#e8e0a0" style="background:#e8e0a0;"></div>
+            <div class="color-swatch" data-color="#d0b4e8" style="background:#d0b4e8;"></div>
+            <div class="color-swatch" data-color="#f0f0f0" style="background:#f0f0f0;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ctrl-label">Photo (optional)</div>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="photoInput" accept="image/*" />
+            <div class="upload-zone-icon">↑</div>
+            <div class="upload-zone-label" id="uploadLabel">Drop photo or click to upload</div>
+          </div>
+        </div>
+
+        <button class="generate-btn" onclick="generate()">Generate Poster</button>
+      </div>
+
+      <!-- Canvas -->
+      <div class="canvas-col">
+        <div class="canvas-wrap">
+          <canvas id="posterCanvas" width="560" height="560"></canvas>
+        </div>
+        <button class="download-btn" onclick="downloadPoster()">↓ Download PNG</button>
+      </div>
+
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border); margin-top:64px;">
+      <a href="day8.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 08</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+    </div>
+  </div>
+
+  <script>
+  // ── Config ─────────────────────────────────────────────────
+  const GS = 14;       // grid cells
+  const CS = 40;       // cell size px
+  const CW = GS * CS;  // canvas width = 560
+
+  let userPhoto = null;
+  let cellColor = '#e8b4b0';
+
+  // ── Photo upload ───────────────────────────────────────────
+  document.getElementById('photoInput').addEventListener('change', e => {
+    loadFile(e.target.files[0]);
+  });
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('drag-over');
+    loadFile(e.dataTransfer.files[0]);
+  });
+  function loadFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        userPhoto = img;
+        zone.classList.add('has-photo');
+        document.getElementById('uploadLabel').textContent = file.name;
+        generate();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── Color swatches ─────────────────────────────────────────
+  document.querySelectorAll('.color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      cellColor = sw.dataset.color;
+      generate();
+    });
+  });
+
+  // ── Crossword placement ────────────────────────────────────
+  function buildCrossword(words, ordered = false) {
+    const cells = {};
+    const placements = [];
+
+    const get = (r, c) => (r >= 0 && r < GS && c >= 0 && c < GS) ? cells[`${r},${c}`] : undefined;
+    const set = (r, c, v) => { cells[`${r},${c}`] = v; };
+
+    function canPlace(word, sr, sc, dir) {
+      const dr = dir === 'v' ? 1 : 0, dc = dir === 'h' ? 1 : 0;
+      const er = sr + dr * (word.length - 1), ec = sc + dc * (word.length - 1);
+      if (sr < 0 || er >= GS || sc < 0 || ec >= GS) return false;
+      if (get(sr - dr, sc - dc)) return false;
+      if (get(er + dr, ec + dc)) return false;
+      const pdr = dir === 'h' ? 1 : 0, pdc = dir === 'v' ? 1 : 0;
+      for (let i = 0; i < word.length; i++) {
+        const r = sr + dr * i, c = sc + dc * i;
+        const ex = get(r, c);
+        if (ex) { if (ex.letter !== word[i]) return false; }
+        else { if (get(r - pdr, c - pdc) || get(r + pdr, c + pdc)) return false; }
+      }
+      return true;
+    }
+
+    function place(word, sr, sc, dir, wi) {
+      const dr = dir === 'v' ? 1 : 0, dc = dir === 'h' ? 1 : 0;
+      for (let i = 0; i < word.length; i++) {
+        set(sr + dr * i, sc + dc * i, { letter: word[i], wi });
+      }
+      placements.push({ word, r: sr, c: sc, dir });
+    }
+
+    // Sentence mode starts at top, random mode starts at center
+    const w0 = words[0];
+    const r0 = ordered ? 1 : Math.floor(GS / 2);
+    const c0 = Math.max(0, Math.floor((GS - w0.length) / 2));
+    place(w0, r0, c0, 'h', 0);
+
+    // frontRow: for ordered mode, new words must appear at or below this row
+    let frontRow = ordered ? r0 + 2 : 0;
+
+    for (let wi = 1; wi < words.length; wi++) {
+      const word = words[wi];
+      let placed = false;
+
+      // Try intersections
+      for (const p of [...placements].reverse()) {
+        if (placed) break;
+        const oppDir = p.dir === 'h' ? 'v' : 'h';
+        for (let ei = 0; ei < p.word.length && !placed; ei++) {
+          for (let ni = 0; ni < word.length && !placed; ni++) {
+            if (p.word[ei] === word[ni]) {
+              const startR = p.dir === 'h' ? p.r - ni : p.r + ei;
+              const startC = p.dir === 'h' ? p.c + ei : p.c - ni;
+              if (canPlace(word, startR, startC, oppDir)) {
+                if (ordered) {
+                  // Word midpoint must be at or below frontRow
+                  const midR = startR + (oppDir === 'v' ? Math.floor(word.length / 2) : 0);
+                  if (midR < frontRow - 1) continue;
+                }
+                place(word, startR, startC, oppDir, wi);
+                const endR = oppDir === 'v' ? startR + word.length - 1 : startR;
+                if (ordered) frontRow = Math.max(frontRow, endR + 1);
+                placed = true;
+              }
+            }
+          }
+        }
+      }
+
+      // Fallback: scan from frontRow downward (ordered) or full grid (random)
+      if (!placed) {
+        const scanFrom = ordered ? frontRow : 0;
+        for (const dir of ['h', 'v']) {
+          for (let r = scanFrom; r < GS && !placed; r++) {
+            for (let c = 0; c < GS && !placed; c++) {
+              if (canPlace(word, r, c, dir)) {
+                place(word, r, c, dir, wi);
+                if (ordered) frontRow = Math.max(frontRow, r + 2);
+                placed = true;
+              }
+            }
+          }
+        }
+        // Last resort: anywhere on the grid
+        if (!placed) {
+          for (const dir of ['h', 'v']) {
+            for (let r = 0; r < GS && !placed; r++) {
+              for (let c = 0; c < GS && !placed; c++) {
+                if (canPlace(word, r, c, dir)) {
+                  place(word, r, c, dir, wi);
+                  placed = true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return cells;
+  }
+
+  // ── Canvas rendering ───────────────────────────────────────
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return [r,g,b];
+  }
+
+  function render(cells) {
+    const canvas = document.getElementById('posterCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = CW; canvas.height = CW;
+
+    // 1. Background
+    if (userPhoto) {
+      // Cover-fit, grayscale
+      const scale = Math.max(CW / userPhoto.width, CW / userPhoto.height);
+      const sw = userPhoto.width * scale, sh = userPhoto.height * scale;
+      ctx.filter = 'grayscale(90%) contrast(1.05) brightness(0.95)';
+      ctx.drawImage(userPhoto, (CW - sw) / 2, (CW - sh) / 2, sw, sh);
+      ctx.filter = 'none';
+      // Dusty pink tint
+      const [r,g,b] = hexToRgb(cellColor);
+      ctx.fillStyle = `rgba(${r},${g},${b},0.28)`;
+      ctx.fillRect(0, 0, CW, CW);
+    } else {
+      // No photo: light dusty background
+      const [r,g,b] = hexToRgb(cellColor);
+      ctx.fillStyle = `rgb(${Math.min(255,r+40)},${Math.min(255,g+40)},${Math.min(255,b+40)})`;
+      ctx.fillRect(0, 0, CW, CW);
+    }
+
+    // 2. Grain noise
+    addGrain(ctx, CW, CW, userPhoto ? 28 : 16);
+
+    // 3. Word cell fills
+    const [cr,cg,cb] = hexToRgb(cellColor);
+    for (let r = 0; r < GS; r++) {
+      for (let c = 0; c < GS; c++) {
+        if (cells[`${r},${c}`]) {
+          ctx.fillStyle = `rgba(${cr},${cg},${cb},0.9)`;
+          ctx.fillRect(c * CS, r * CS, CS, CS);
+        }
+      }
+    }
+
+    // 4. Grid lines (over everything, under letters)
+    ctx.strokeStyle = 'rgba(80,50,45,0.22)';
+    ctx.lineWidth = 0.8;
+    for (let i = 0; i <= GS; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CS, 0); ctx.lineTo(i * CS, CW); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CS); ctx.lineTo(CW, i * CS); ctx.stroke();
+    }
+
+    // 5. Letters
+    ctx.font = 'bold 20px "Space Grotesk", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(30,15,12,0.92)';
+    for (let r = 0; r < GS; r++) {
+      for (let c = 0; c < GS; c++) {
+        const cell = cells[`${r},${c}`];
+        if (cell) ctx.fillText(cell.letter, c * CS + CS / 2, r * CS + CS / 2 + 1);
+      }
+    }
+  }
+
+  function addGrain(ctx, w, h, intensity) {
+    const d = ctx.getImageData(0, 0, w, h);
+    for (let i = 0; i < d.data.length; i += 4) {
+      const n = (Math.random() - 0.5) * intensity;
+      d.data[i]   = Math.min(255, Math.max(0, d.data[i]   + n));
+      d.data[i+1] = Math.min(255, Math.max(0, d.data[i+1] + n));
+      d.data[i+2] = Math.min(255, Math.max(0, d.data[i+2] + n));
+    }
+    ctx.putImageData(d, 0, 0);
+  }
+
+  // ── Generate ───────────────────────────────────────────────
+  function generate() {
+    const raw = document.getElementById('wordsInput').value;
+    // Sentence = any single line that contains a space between words
+    const isSentence = raw.split('\n').some(l => l.trim().includes(' '));
+    const words = raw.split(/[\n,\s]+/)
+      .map(w => w.trim().toUpperCase().replace(/[^A-Z]/g, ''))
+      .filter(w => w.length >= 2)
+      .slice(0, 12);
+    if (!words.length) return;
+
+    const cells = buildCrossword(words, isSentence);
+    document.fonts.ready.then(() => render(cells));
+  }
+
+  // ── Download ───────────────────────────────────────────────
+  function downloadPoster() {
+    const canvas = document.getElementById('posterCanvas');
+    const a = document.createElement('a');
+    a.download = 'word-grid-poster.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }
+
+  // Init
+  generate();
+  </script>
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 8 · Word Search Generator · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Pacifico&family=Honk&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 6px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title {
+      font-size: clamp(28px,5vw,56px); font-weight:700;
+      letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px;
+    }
+    .day-title .green { color: var(--green); }
+    .day-meta {
+      display:flex; flex-wrap:wrap; gap:24px; font-size:12px;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px;
+    }
+    .day-statement {
+      max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65;
+      color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic;
+    }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label {
+      display:flex; align-items:center; gap:16px; font-size:10px;
+      letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);
+      margin-bottom:32px; padding-top:64px;
+    }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Theme bar ── */
+    .theme-bar {
+      display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .theme-btn {
+      font-size: 13px; letter-spacing: 0.02em;
+      padding: 9px 20px; border: 1.5px solid var(--border);
+      border-radius: 24px; background: rgba(255,255,255,0.04); color: var(--muted);
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .theme-btn.active {
+      border-color: var(--pink); color: var(--pink);
+      background: rgba(180,255,80,0.09);
+      font-weight: 600;
+    }
+    .theme-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--ink); }
+    .theme-hint {
+      font-size: 11px; letter-spacing: 0.06em; color: var(--muted);
+      margin-bottom: 28px; font-style: italic;
+    }
+
+    /* ── Game panels ── */
+    .game-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .game-panel {
+      position: relative;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(40px) saturate(1.6) brightness(1.05);
+      -webkit-backdrop-filter: blur(40px) saturate(1.6) brightness(1.05);
+      border-radius: 22px;
+      padding: 28px 28px 24px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.22),
+        0 0 0 1.5px rgba(180,255,80,0.18),
+        0 12px 48px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.28);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .game-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg,
+        #ff6b6b 0%, #ffd93d 18%, #b4ff50 36%,
+        #4ecdc4 54%, #7b8cff 72%, #ff6b9d 90%, #ff6b6b 100%);
+      z-index: 2;
+    }
+    .words-panel {
+      position: relative;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(40px) saturate(1.6) brightness(1.05);
+      -webkit-backdrop-filter: blur(40px) saturate(1.6) brightness(1.05);
+      border-radius: 18px;
+      padding: 18px 28px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.22),
+        0 0 0 1.5px rgba(180,255,80,0.18),
+        0 8px 32px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.28);
+      width: fit-content;
+    }
+
+    /* ── Game layout (grid + controls inside grid panel) ── */
+    .game-layout {
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+
+    /* ── Grid ── */
+    .grid-outer { position: relative; }
+    .word-grid {
+      display: grid; gap: 3px;
+      width: fit-content;
+      user-select: none; -webkit-user-select: none;
+    }
+    .grid-cell {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900;
+      font-family: 'Fredoka One', cursive;
+      cursor: pointer; position: relative;
+      border-radius: 7px;
+      transition: background 0.1s;
+      line-height: 1;
+      -webkit-text-stroke: 1.5px #3d0020;
+      paint-order: stroke fill;
+    }
+    @media (max-width: 540px) { .grid-cell { width: 30px; height: 30px; font-size: 15px; border-radius: 5px; } }
+    .grid-cell.selecting { background: rgba(255,255,255,0.16); }
+    .grid-cell.found-cell { border-radius: 7px; }
+
+    /* ── Per-theme fonts ── */
+    /* Red Flag Bingo — Bebas Neue: tall, aggressive, condensed */
+    [data-theme="redflag"] .grid-cell {
+      font-family: 'Bungee Inline', sans-serif;
+      font-size: 22px; letter-spacing: 0.03em;
+      -webkit-text-stroke: 1.5px #000000;
+    }
+    [data-theme="redflag"] .word-item {
+      font-family: 'Bungee Inline', sans-serif;
+      font-size: 20px; letter-spacing: 0.05em;
+      -webkit-text-stroke: 1px #000000;
+    }
+
+    /* Main Character — Pacifico: bubbly script, glamorous */
+    [data-theme="mainchar"] .grid-cell {
+      font-family: 'Pacifico', cursive;
+      font-size: 17px; letter-spacing: 0;
+      -webkit-text-stroke: 1px #1a003d;
+    }
+    [data-theme="mainchar"] .word-item {
+      font-family: 'Pacifico', cursive;
+      font-size: 16px; letter-spacing: 0;
+      -webkit-text-stroke: 0.8px #1a003d;
+    }
+
+    /* Pick Your Poison — Honk: neon display, party energy */
+    [data-theme="nightout"] .grid-cell {
+      font-family: 'Honk', system-ui;
+      font-size: 26px; letter-spacing: 0;
+      -webkit-text-stroke: 0;
+    }
+    [data-theme="nightout"] .word-item {
+      font-family: 'Honk', system-ui;
+      font-size: 26px; letter-spacing: 0;
+      -webkit-text-stroke: 0;
+    }
+
+    /* Soft Launch Era — Fredoka One: round, soft, cute */
+    [data-theme="softlaunch"] .grid-cell {
+      font-family: 'Fredoka One', cursive;
+      font-size: 22px; letter-spacing: 0.02em;
+      -webkit-text-stroke: 1.5px #3d001a;
+    }
+    [data-theme="softlaunch"] .word-item {
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px; letter-spacing: 0.02em;
+      -webkit-text-stroke: 1px #3d001a;
+    }
+
+    /* ── Word list ── */
+    .word-list-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px; text-align: center;
+    }
+    .word-list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; justify-content: center; }
+    .word-item {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 18px; font-weight: 800; letter-spacing: 0.04em;
+      font-family: 'Lilita One', cursive;
+      transition: all 0.3s;
+      -webkit-text-stroke: 0.8px rgba(255,255,255,0.6);
+      paint-order: stroke fill;
+    }
+    .word-item.found { text-decoration: line-through; opacity: 0.35; -webkit-text-stroke: 0; }
+    .word-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--border); flex-shrink: 0; transition: background 0.3s;
+    }
+
+    /* ── Controls ── */
+    .game-controls { display: flex; gap: 12px; margin-top: 28px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .gen-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 9px 22px; border: 1px solid var(--pink);
+      border-radius: 20px; background: none; color: var(--pink);
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .gen-btn:hover { background: rgba(180,255,80,0.1); }
+    .score-label {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .score-label span { color: var(--pink); font-weight: 700; }
+
+    /* ── Congrats overlay ── */
+    .congrats-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(6,4,16,0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      align-items: center; justify-content: center;
+    }
+    .congrats-overlay.visible { display: flex; }
+    .congrats-modal {
+      background: #12091e;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 48px 40px 40px;
+      max-width: 480px; width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 0 1.5px rgba(180,255,80,0.2), 0 32px 80px rgba(0,0,0,0.6);
+    }
+    .congrats-title {
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 8px;
+    }
+    .congrats-headline {
+      font-family: 'Lilita One', cursive;
+      font-size: 42px; line-height: 1.1;
+      color: #fff; margin-bottom: 32px;
+    }
+    .congrats-words {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; margin-bottom: 36px;
+    }
+    .congrats-word {
+      font-family: 'Lilita One', cursive;
+      font-size: 28px;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.8);
+      paint-order: stroke fill;
+      display: inline-block;
+    }
+    .congrats-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .c-btn {
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 11px 26px; border-radius: 22px;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .c-btn-primary {
+      background: var(--pink); color: #0e0b1a;
+      border: none; font-weight: 700;
+    }
+    .c-btn-primary:hover { opacity: 0.88; }
+    .c-btn-ghost {
+      background: none; color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .c-btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: var(--ink); }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 08</div>
+    <div class="day-num-bg">08</div>
+    <h1 class="day-title">Word Search<br><span class="green">Game Generator</span></h1>
+    <div class="day-meta">
+      <span>June 23, 2026</span>
+      <span>Interactive · Game Design</span>
+      <span>Engagement Tool</span>
+    </div>
+    <p class="day-statement">
+      Pick a theme. Find the hidden words. Hit Generate for a fresh puzzle. Built for branded Instagram engagement posts and venue activations.
+    </p>
+    <div class="day-info-table">
+      <div class="dit-row">
+        <span class="dit-label">What</span>
+        <span class="dit-val">Themed word search with 5 hidden answers per game, regenerates instantly.</span>
+      </div>
+      <div class="dit-row">
+        <span class="dit-label">For</span>
+        <span class="dit-val">Brands, event pages, Instagram story engagement</span>
+      </div>
+      <div class="dit-row">
+        <span class="dit-label">Use</span>
+        <span class="dit-val">Post as a Story prompt: "Find your vibe, comment your answers." Comment = engagement.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="day-section-label">Play It</div>
+
+    <div class="theme-bar">
+      <button class="theme-btn active" data-theme="redflag">Red Flag Bingo</button>
+      <button class="theme-btn" data-theme="mainchar">Main Character</button>
+      <button class="theme-btn" data-theme="nightout">Pick Your Poison</button>
+      <button class="theme-btn" data-theme="softlaunch">Soft Launch Era</button>
+    </div>
+    <p class="theme-hint">Find all 5 words to see your result.</p>
+
+    <div class="game-wrap" id="gameWrap" data-theme="redflag">
+      <div class="game-panel">
+        <div class="word-grid" id="wordGrid"></div>
+      </div>
+
+      <div class="game-controls">
+        <button class="gen-btn" onclick="newGame()">↻ New Puzzle</button>
+        <div class="score-label">Found <span id="scoreNum">0</span> / <span id="scoreTotal">5</span></div>
+      </div>
+
+      <div class="words-panel">
+        <div class="word-list-label">Words to find</div>
+        <div class="word-list" id="wordList"></div>
+      </div>
+    </div>
+
+    <!-- Congrats overlay -->
+    <div class="congrats-overlay" id="congratsOverlay">
+      <div class="congrats-modal">
+        <div class="congrats-title">You found them all</div>
+        <div class="congrats-headline" id="congratsHeadline">lol iconic</div>
+        <div class="congrats-words" id="congratsWords"></div>
+        <div class="congrats-actions">
+          <button class="c-btn c-btn-primary" onclick="closeModal(); newGame()">Play Again</button>
+          <button class="c-btn c-btn-ghost" onclick="closeModal()">See the Board</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border); margin-top:64px;">
+      <a href="day7.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 07</a>
+      <a href="day9.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">Day 09 →</a>
+    </div>
+  </div>
+
+  <script>
+  // ── Themes ─────────────────────────────────────────────────
+  const THEMES = {
+    redflag: {
+      words: ['GHOST', 'TOXIC', 'LIAR', 'CHEAP', 'DRAMA'],
+      colors: ['#ff6b6b', '#ff6b9d', '#ffd93d', '#ff6b35', '#e63946'],
+      result: 'babe you know too much 💀',
+      // all reds, pinks, hot corals
+      letterColors: ['#ff1744','#ff4081','#f50057','#ff6b6b','#e63946','#ff6b9d','#c62828','#ff5252']
+    },
+    mainchar: {
+      words: ['SLAY', 'ICONIC', 'GLOW', 'BOSS', 'REAL'],
+      colors: ['#b4ff50', '#ffd93d', '#4ecdc4', '#7b8cff', '#ff6b9d'],
+      result: 'you literally ate that 🌟',
+      // all golds, yellows, warm champagne
+      letterColors: ['#ffd93d','#ffb300','#ffe066','#ffc400','#ffca28','#ffd54f','#f9a825','#fff176']
+    },
+    nightout: {
+      words: ['SHOTS', 'DISCO', 'RAVE', 'NEON', 'VIBE'],
+      colors: ['#ff6b9d', '#7b8cff', '#ff6b6b', '#4ecdc4', '#ffd93d'],
+      result: 'this is your night 🍸',
+      // full neon rainbow — most colorful
+      letterColors: ['#ff1aa8','#7b8cff','#b4ff50','#ff6b35','#4ecdc4','#ffd93d','#ff6b6b','#c77dff']
+    },
+    softlaunch: {
+      words: ['CUTE', 'CHILL', 'COZY', 'MOOD', 'SOFT'],
+      colors: ['#ff6b9d', '#4ecdc4', '#ffd93d', '#b4ff50', '#7b8cff'],
+      result: 'softcore but make it art 🌸',
+      // all soft pastels — pinks, lavenders, blush
+      letterColors: ['#ffb3c6','#ffc8dd','#ff85a1','#ffafcc','#e0aaff','#c8b6ff','#bde0fe','#ffd6ff']
+    }
+  };
+
+  const ROTS = [-5,-3,-2,0,1,2,4,-4];
+
+  // ── State ──────────────────────────────────────────────────
+  const GS = 10;
+  let grid = [], wordData = [], foundWords = new Set();
+  let isSelecting = false, selStart = null, selCur = null;
+  let currentTheme = 'redflag';
+
+  // ── Build grid ─────────────────────────────────────────────
+  function buildGrid(words) {
+    grid = Array.from({length: GS}, () => Array(GS).fill(''));
+    wordData = [];
+    const theme = THEMES[currentTheme];
+    const DIRS = [[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+
+    words.forEach((word, wi) => {
+      let placed = false, tries = 0;
+      while (!placed && tries++ < 300) {
+        const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
+        const r = Math.floor(Math.random() * GS);
+        const c = Math.floor(Math.random() * GS);
+        const er = r + dir[0] * (word.length - 1);
+        const ec = c + dir[1] * (word.length - 1);
+        if (er < 0 || er >= GS || ec < 0 || ec >= GS) continue;
+        let ok = true;
+        const cells = [];
+        for (let i = 0; i < word.length; i++) {
+          const tr = r + dir[0]*i, tc = c + dir[1]*i;
+          if (grid[tr][tc] && grid[tr][tc] !== word[i]) { ok = false; break; }
+          cells.push([tr, tc]);
+        }
+        if (!ok) continue;
+        cells.forEach(([tr,tc], i) => { grid[tr][tc] = word[i]; });
+        wordData.push({ word, color: theme.colors[wi], cells });
+        placed = true;
+      }
+    });
+
+    const abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let r = 0; r < GS; r++)
+      for (let c = 0; c < GS; c++)
+        if (!grid[r][c]) grid[r][c] = abc[Math.floor(Math.random() * 26)];
+  }
+
+  // ── Render ─────────────────────────────────────────────────
+  function renderGrid() {
+    const el = document.getElementById('wordGrid');
+    el.style.gridTemplateColumns = `repeat(${GS}, 1fr)`;
+    el.innerHTML = '';
+    const lc = THEMES[currentTheme].letterColors;
+    for (let r = 0; r < GS; r++) {
+      for (let c = 0; c < GS; c++) {
+        const s = (r * 13 + c * 7) % 8;
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell';
+        cell.dataset.r = r; cell.dataset.c = c;
+        cell.textContent = grid[r][c];
+        cell.style.color = lc[s];
+        cell.style.transform = `rotate(${ROTS[(r*5+c*3)%8]}deg)`;
+        cell.addEventListener('mousedown', onDown);
+        cell.addEventListener('mouseover', onOver);
+        cell.addEventListener('touchstart', onTouchStart, {passive:false});
+        cell.addEventListener('touchmove', onTouchMove, {passive:false});
+        el.appendChild(cell);
+      }
+    }
+    // Re-apply found highlights
+    foundWords.forEach(w => {
+      const wd = wordData.find(x => x.word === w);
+      if (wd) wd.cells.forEach(([r,c]) => paintCell(r, c, wd.color));
+    });
+  }
+
+  function renderWordList() {
+    const el = document.getElementById('wordList');
+    el.innerHTML = '';
+    THEMES[currentTheme].words.forEach((word, i) => {
+      const item = document.createElement('div');
+      const isFound = foundWords.has(word);
+      item.className = 'word-item' + (isFound ? ' found' : '');
+      item.style.color = isFound ? '' : THEMES[currentTheme].colors[i];
+      const dot = document.createElement('span');
+      dot.className = 'word-dot';
+      if (isFound) dot.style.background = THEMES[currentTheme].colors[i];
+      item.appendChild(dot);
+      item.appendChild(document.createTextNode(word));
+      el.appendChild(item);
+    });
+    document.getElementById('scoreNum').textContent = foundWords.size;
+    document.getElementById('scoreTotal').textContent = THEMES[currentTheme].words.length;
+  }
+
+  // ── Cell helpers ───────────────────────────────────────────
+  function cellEl(r, c) { return document.querySelector(`.grid-cell[data-r="${r}"][data-c="${c}"]`); }
+
+  function paintCell(r, c, color) {
+    const el = cellEl(r, c);
+    if (!el) return;
+    el.style.background = color + '28';
+    el.style.color = color;
+    el.style.transform = 'rotate(0deg)';
+    el.style.boxShadow = `inset 0 0 0 1px ${color}55`;
+    el.classList.add('found-cell');
+  }
+
+  function clearSelecting() {
+    document.querySelectorAll('.grid-cell.selecting').forEach(el => el.classList.remove('selecting'));
+  }
+
+  // ── Selection helpers ──────────────────────────────────────
+  function getLine(r1, c1, r2, c2) {
+    const dr = r2 - r1, dc = c2 - c1;
+    const adR = Math.abs(dr), adC = Math.abs(dc);
+    if (dr !== 0 && dc !== 0 && adR !== adC) return null; // not diagonal
+    const len = Math.max(adR, adC);
+    const sr = Math.sign(dr), sc = Math.sign(dc);
+    const cells = [];
+    for (let i = 0; i <= len; i++) cells.push([r1 + sr*i, c1 + sc*i]);
+    return cells;
+  }
+
+  function checkWord(cells) {
+    if (!cells || cells.length < 2) return null;
+    const fwd = cells.map(([r,c]) => grid[r][c]).join('');
+    const rev = fwd.split('').reverse().join('');
+    return wordData.find(wd => (wd.word === fwd || wd.word === rev) && !foundWords.has(wd.word));
+  }
+
+  function commit() {
+    if (!isSelecting || !selStart || !selCur) return;
+    const cells = getLine(+selStart.dataset.r, +selStart.dataset.c, +selCur.dataset.r, +selCur.dataset.c);
+    const found = checkWord(cells);
+    if (found) {
+      foundWords.add(found.word);
+      found.cells.forEach(([r,c]) => paintCell(r, c, found.color));
+      renderWordList();
+      if (foundWords.size === THEMES[currentTheme].words.length) {
+        setTimeout(showCongrats, 400);
+      }
+    }
+    clearSelecting();
+    isSelecting = false; selStart = null; selCur = null;
+  }
+
+  function showCongrats() {
+    const theme = THEMES[currentTheme];
+    document.getElementById('congratsHeadline').textContent = theme.result;
+    const wordsEl = document.getElementById('congratsWords');
+    wordsEl.innerHTML = '';
+    theme.words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.className = 'congrats-word';
+      span.textContent = word;
+      span.style.color = theme.colors[i];
+      wordsEl.appendChild(span);
+    });
+    document.getElementById('congratsOverlay').classList.add('visible');
+  }
+
+  function closeModal() {
+    document.getElementById('congratsOverlay').classList.remove('visible');
+  }
+  document.getElementById('congratsOverlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  // ── Mouse ──────────────────────────────────────────────────
+  function onDown(e) {
+    e.preventDefault();
+    isSelecting = true; selStart = e.currentTarget; selCur = e.currentTarget;
+    clearSelecting(); e.currentTarget.classList.add('selecting');
+  }
+  function onOver(e) {
+    if (!isSelecting) return;
+    selCur = e.currentTarget;
+    clearSelecting();
+    const cells = getLine(+selStart.dataset.r, +selStart.dataset.c, +selCur.dataset.r, +selCur.dataset.c);
+    if (cells) cells.forEach(([r,c]) => { const el = cellEl(r,c); if(el) el.classList.add('selecting'); });
+  }
+  document.addEventListener('mouseup', commit);
+
+  // ── Touch ──────────────────────────────────────────────────
+  function cellFromTouch(e) {
+    const t = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    return el && el.classList.contains('grid-cell') ? el : null;
+  }
+  function onTouchStart(e) {
+    e.preventDefault();
+    const el = cellFromTouch(e);
+    if (!el) return;
+    isSelecting = true; selStart = el; selCur = el;
+    clearSelecting(); el.classList.add('selecting');
+  }
+  function onTouchMove(e) {
+    if (!isSelecting) return; e.preventDefault();
+    const el = cellFromTouch(e);
+    if (!el || el === selCur) return;
+    selCur = el;
+    clearSelecting();
+    const cells = getLine(+selStart.dataset.r, +selStart.dataset.c, +selCur.dataset.r, +selCur.dataset.c);
+    if (cells) cells.forEach(([r,c]) => { const ce = cellEl(r,c); if(ce) ce.classList.add('selecting'); });
+  }
+  document.addEventListener('touchend', commit);
+
+  // ── Theme switching ────────────────────────────────────────
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTheme = btn.dataset.theme;
+      document.getElementById('gameWrap').dataset.theme = currentTheme;
+      newGame();
+    });
+  });
+
+  // ── New game ───────────────────────────────────────────────
+  function newGame() {
+    foundWords = new Set();
+    buildGrid(THEMES[currentTheme].words);
+    renderGrid();
+    renderWordList();
+  }
+
+  newGame();
+  </script>
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
