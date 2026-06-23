@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 6 · Summer Fandom Mixer Copy Kit · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 6px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title {
+      font-size: clamp(28px,5vw,56px); font-weight:700;
+      letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px;
+    }
+    .day-title .pink { color: var(--pink); }
+    .day-meta {
+      display:flex; flex-wrap:wrap; gap:24px; font-size:12px;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px;
+    }
+    .day-statement {
+      max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65;
+      color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic;
+    }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label {
+      display:flex; align-items:center; gap:16px; font-size:10px;
+      letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);
+      margin-bottom:32px; padding-top:64px;
+    }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* context */
+    .context-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 8px;
+    }
+    @media (max-width: 700px) { .context-block { grid-template-columns: 1fr; } }
+    .context-cell {
+      background: var(--charcoal); border: 1px solid var(--border); padding: 24px;
+    }
+    .cc-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .cc-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.7; }
+    .cc-text strong { color: var(--pink); }
+
+    /* event name */
+    .event-name-block {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px 36px; text-align: center; margin-bottom: 4px;
+    }
+    .event-name {
+      font-size: clamp(32px, 6vw, 64px); font-weight: 700;
+      letter-spacing: -0.02em; color: var(--fg); line-height: 1.1; margin-bottom: 12px;
+    }
+    .event-name .pink { color: var(--pink); }
+    .event-name-sub { font-size: 13px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* copy rows */
+    .copy-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+    .copy-row {
+      background: var(--panel); border: 1px solid var(--border);
+      padding: 20px 24px; display: grid; grid-template-columns: 140px 1fr 36px; gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .copy-row { grid-template-columns: 1fr 36px; gap: 12px; } .copy-row .cr-label { display: none; } }
+    .cr-label {
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); padding-top: 3px;
+    }
+    .cr-text { font-size: 14px; color: var(--ink-dim); line-height: 1.65; }
+    .cr-copy-btn {
+      background: none; border: 1px solid var(--border); border-radius: 6px;
+      color: var(--muted); font-size: 10px; cursor: pointer; padding: 6px 8px;
+      transition: border-color 0.2s, color 0.2s; white-space: nowrap; align-self: start;
+    }
+    .cr-copy-btn:hover { border-color: var(--pink); color: var(--pink); }
+    .cr-copy-btn.copied { border-color: #7fff7f; color: #7fff7f; }
+
+    /* rsvp pills */
+    .rsvp-row {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;
+    }
+    .rsvp-pill {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 20px; padding: 10px 20px;
+      font-size: 13px; color: var(--ink-dim); cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .rsvp-pill:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* eventbrite block */
+    .eventbrite-block {
+      background: var(--charcoal); border: 1px solid var(--border);
+      border-radius: 12px; padding: 32px 28px; margin-bottom: 8px;
+    }
+    .eb-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .eb-text { font-size: 14px; color: var(--ink-dim); line-height: 1.8; }
+  </style>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 06</div>
+    <div class="day-num-bg">06</div>
+    <h1 class="day-title">Summer Fandom<br><span class="pink">Mixer Copy Kit</span></h1>
+    <div class="day-meta">
+      <span>June 21, 2026</span>
+      <span>Copywriting · Event</span>
+      <span>NYU · CrimePartner</span>
+    </div>
+    <p class="day-statement">
+      A reusable copy kit for a fandom mixer. One prompt, one session, a full set of captions, invites, and RSVP buttons ready to paste.
+    </p>
+  </div>
+
+  <div class="day-content">
+
+    <div class="day-section-label">Event Setting</div>
+    <div class="context-block">
+      <div class="context-cell">
+        <div class="cc-label">Who</div>
+        <div class="cc-text">NYU students, anime and game friends, nightlife regulars. People who know what a mixer is but have never been to one they actually liked.</div>
+      </div>
+      <div class="context-cell">
+        <div class="cc-label">Where and When</div>
+        <div class="cc-text">Downtown NYC, summer night. After class, after work. Low-pressure by design.</div>
+      </div>
+      <div class="context-cell">
+        <div class="cc-label">Vibe</div>
+        <div class="cc-text"><strong>Cute chaos.</strong> Fandom-forward but not cringe. Social but not exhausting. The kind of night you show up to not knowing anyone and leave with a group chat.</div>
+      </div>
+      <div class="context-cell">
+        <div class="cc-label">Tool Used</div>
+        <div class="cc-text">Claude. One prompt, one round of compression, manual edits to remove anything that sounded like a marketing email.</div>
+      </div>
+    </div>
+
+    <div class="day-section-label">Event Name</div>
+    <div class="event-name-block">
+      <div class="event-name">AFTER<span class="pink">★</span>HOURS</div>
+      <div class="event-name-sub">A Summer Fandom Mixer · New York City</div>
+    </div>
+
+    <div class="day-section-label">Poster Headlines</div>
+    <div class="copy-list">
+      <div class="copy-row">
+        <div class="cr-label">H1</div>
+        <div class="cr-text">Your people are out tonight.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'Your people are out tonight.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">H2</div>
+        <div class="cr-text">Come as you are. Stay for the chaos.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'Come as you are. Stay for the chaos.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">H3</div>
+        <div class="cr-text">Summer night. No agenda. Bring a friend.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'Summer night. No agenda. Bring a friend.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">H4</div>
+        <div class="cr-text">Downtown NYC. Fandom welcome.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'Downtown NYC. Fandom welcome.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">H5</div>
+        <div class="cr-text">We're doing a thing. You should come.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'We\'re doing a thing. You should come.')">Copy</button>
+      </div>
+    </div>
+
+    <div class="day-section-label">Instagram Captions</div>
+    <div class="copy-list">
+      <div class="copy-row">
+        <div class="cr-label">Caption 1</div>
+        <div class="cr-text">summer night mixer for the anime kids, the game kids, and the kids who stayed after class to talk about nothing important. downtown nyc. come through. link in bio.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'summer night mixer for the anime kids, the game kids, and the kids who stayed after class to talk about nothing important. downtown nyc. come through. link in bio.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">Caption 2</div>
+        <div class="cr-text">no dress code, no agenda. just a room full of people who get it. AFTERHOURS mixer this summer — details in bio.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'no dress code, no agenda. just a room full of people who get it. AFTERHOURS mixer this summer — details in bio.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">Caption 3</div>
+        <div class="cr-text">the mixer where you show up not knowing anyone and leave in a group chat. NYU x fandom x nightlife. this summer in NYC.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'the mixer where you show up not knowing anyone and leave in a group chat. NYU x fandom x nightlife. this summer in NYC.')">Copy</button>
+      </div>
+    </div>
+
+    <div class="day-section-label">WeChat / Discord Invites</div>
+    <div class="copy-list">
+      <div class="copy-row">
+        <div class="cr-label">Invite 1</div>
+        <div class="cr-text">hey — we're doing a small fandom mixer this summer, downtown NYC, very low-key. anime, games, nightlife people. you'd fit right in.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'hey — we\'re doing a small fandom mixer this summer, downtown NYC, very low-key. anime, games, nightlife people. you\'d fit right in.')">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div class="cr-label">Invite 2</div>
+        <div class="cr-text">AFTERHOURS mixer this summer. NYU + fandom crowd, summer night, downtown. drop a 👀 if you want the details.</div>
+        <button class="cr-copy-btn" onclick="copyText(this, 'AFTERHOURS mixer this summer. NYU + fandom crowd, summer night, downtown. drop a 👀 if you want the details.')">Copy</button>
+      </div>
+    </div>
+
+    <div class="day-section-label">Eventbrite Description</div>
+    <div class="eventbrite-block">
+      <div class="eb-label">Event Description</div>
+      <div class="eb-text">
+        AFTERHOURS is a small summer mixer for NYU students, anime and gaming fans, and anyone who orbits the NYC fandom and nightlife scene. No panels. No scheduled activities. Just a good room, a summer night, and a crowd that gets weird about the same things you do.<br><br>
+        Expect: new people, familiar fandoms, actual conversations, the kind of night you screenshot the group chat from.<br><br>
+        Downtown NYC. Summer 2026. Free to attend, RSVP to hold your spot.
+      </div>
+    </div>
+
+    <div class="day-section-label">RSVP Button Copy</div>
+    <div class="rsvp-row">
+      <div class="rsvp-pill">I'm in</div>
+      <div class="rsvp-pill">Save my spot</div>
+      <div class="rsvp-pill">Count me in</div>
+      <div class="rsvp-pill">Yes, I'll be there</div>
+      <div class="rsvp-pill">Coming through</div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border); margin-top:64px;">
+      <a href="day5.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 05</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+    </div>
+
+  </div>
+
+  <script>
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
