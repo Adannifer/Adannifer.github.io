@@ -324,9 +324,51 @@
 </head>
 <body>
 
-  <div class="app-bar">
-    <div class="app-title">NIGHT<em>FILE</em></div>
-    <div class="app-sub">NYC Night Intelligence Division · Day 02 of 90</div>
+  <!-- ── Day page header ── -->
+  <div style="
+    width:100%; max-width:760px;
+    padding: 100px 24px 0;
+    display:flex; flex-direction:column; gap:0;
+    font-family:'IBM Plex Mono',monospace;
+  ">
+    <div style="
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+      color:#c41a1a; border:1px solid rgba(196,26,26,0.4);
+      padding:5px 12px; border-radius:6px; margin-bottom:28px;
+      width:fit-content;
+    "><span style="width:5px;height:5px;border-radius:50%;background:#c41a1a;display:inline-block;"></span>
+      90 Days of Making with AI · Day 03
+    </div>
+
+    <div style="font-size:clamp(32px,7vw,64px); font-weight:700; line-height:1; letter-spacing:-0.02em; color:#fff; margin-bottom:20px;">
+      All Knight<br><span style="color:#c41a1a;">Night File</span>
+    </div>
+
+    <div style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#555; margin-bottom:28px; display:flex; gap:24px; flex-wrap:wrap;">
+      <span>June 18, 2026</span>
+      <span>Interactive Tool · Nightlife</span>
+      <span>AllKnight NYC</span>
+    </div>
+
+    <p style="
+      font-size:15px; line-height:1.7; color:rgba(255,255,255,0.55);
+      border-left:2px solid #c41a1a; padding-left:18px;
+      max-width:600px; margin-bottom:16px; font-style:italic;
+      font-family:'IBM Plex Mono',monospace;
+    ">
+      Scan the QR code at the venue, upload your photos from that night, and walk away with a shareable intelligence dossier. Guests post it. The venue gets free promo. No photographer needed.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:24px; margin-bottom:48px; font-size:11px; color:#555; letter-spacing:0.06em;">
+      <span><span style="color:#c41a1a;">FOR</span> &nbsp;Nightlife venues, event producers</span>
+      <span><span style="color:#c41a1a;">USE</span> &nbsp;On-site UGC tool. Style adapts per venue.</span>
+    </div>
+
+    <div style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#333; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
+      <span>Try it</span>
+      <span style="flex:1; height:1px; background:#222;"></span>
+    </div>
   </div>
 
   <div class="uform" id="uform">
@@ -715,5 +757,13 @@
       selfieUrl=null; drinkUrls=[]; chk();
     }
   </script>
+
+  <!-- bottom nav -->
+  <div style="width:100%; max-width:760px; padding:64px 24px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #222; margin-top:40px; font-family:'IBM Plex Mono',monospace;">
+    <a href="day2.html" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#555; text-decoration:none;">← Day 02</a>
+    <a href="index.html#making" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#555; text-decoration:none;">90 Days Index</a>
+    <a href="day4.html" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#555; text-decoration:none;">Day 04 →</a>
+  </div>
+
 </body>
 </html>
