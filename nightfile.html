@@ -402,12 +402,12 @@
       <input class="fi" id="ni" type="text" placeholder="Tonight's name..." maxlength="22" />
     </div>
     <div>
-      <div class="fl">Subject Photo — Selfie</div>
+      <div class="fl">Subject Photo / Selfie</div>
       <button class="fu" id="sb" onclick="document.getElementById('si').click()">+ Upload selfie</button>
       <input type="file" id="si" accept="image/*" onchange="hSelfie(this)" />
     </div>
     <div>
-      <div class="fl">Drinks Evidence — PNG files, multiple allowed</div>
+      <div class="fl">Drinks Evidence: PNG files, multiple allowed</div>
       <button class="fu" id="db" onclick="document.getElementById('di').click()">+ Add drink photos</button>
       <input type="file" id="di" accept="image/png,image/webp" multiple onchange="hDrinks(this)" />
     </div>
@@ -470,7 +470,7 @@
     <div class="evidence-section">
       <div class="desc-header">Drinks Consumed · Evidence Log</div>
       <div class="evidence-strip" id="evStrip">
-        <div class="ev-empty">No drinks recorded — sober file open</div>
+        <div class="ev-empty">No drinks recorded. Sober file open.</div>
       </div>
       <div class="stamp" id="stamp">UNVERIFIED</div>
     </div>
@@ -500,7 +500,7 @@
       { t:'Last Train Gambler',           s:'Always says she\'s leaving early. Always the last one out.' },
       { t:'Main Character Energy',        s:'Tonight\'s story unfolds with her at the center.' },
       { t:'Plot Twist Enthusiast',        s:'You will never guess what happens next.' },
-      { t:'Ghost of 3am',                s:'You thought she left — there she is around the corner.' },
+      { t:'Ghost of 3am',                s:'You thought she left. There she is around the corner.' },
     ];
     const skillMap = {
       z: ['Sober Observer', 'Strategic Exit Planner', 'Silent Documenter'],
@@ -778,7 +778,7 @@
       document.getElementById('ni').value='';
       document.getElementById('pImg').style.display='none';
       document.getElementById('photoPH').style.display='flex';
-      document.getElementById('evStrip').innerHTML='<div class="ev-empty">No drinks recorded — sober file open</div>';
+      document.getElementById('evStrip').innerHTML='<div class="ev-empty">No drinks recorded. Sober file open.</div>';
       selfieUrl=null; drinkUrls=[]; chk();
     }
   </script>
