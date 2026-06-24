@@ -1243,7 +1243,7 @@ body.day-page {
 .bubble-acid {
   display: block;
   font-size: 1.55em;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   filter: url(#acid-bubble);
   line-height: 1.35;
