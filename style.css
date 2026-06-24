@@ -1185,7 +1185,14 @@ body.day-page {
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 5rem;
-  align-items: start;
+  align-items: stretch;
+}
+
+#about-bubbles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
 }
 
 #about-portrait {
@@ -1198,7 +1205,7 @@ body.day-page {
 
 #about-portrait img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   border-radius: 2px;
