@@ -316,10 +316,14 @@
     .foot-text em { color: #5a4a3a; font-style: normal; }
 
     /* ── ACTIONS ── */
-    .actions { display: none; gap: 10px; width: 595px; }
+    .actions { display: none; gap: 10px; width: 595px; max-width: 100%; }
     .abtn { flex: 1; padding: 13px; background: #1a1a1a; border: 1px solid #282828; color: #555; font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: .15s; border-radius: 10px; }
     .abtn:hover { border-color: #c41a1a; color: #c41a1a; }
     .abtn.p { background: #1a0808; border-color: #c41a1a; color: #c41a1a; }
+
+    /* ── Mobile card scaler ── */
+    .card-scaler { width: 100%; max-width: 595px; overflow: hidden; display: flex; justify-content: center; }
+    #card { transform-origin: top center; }
   </style>
 </head>
 <body>
@@ -415,6 +419,7 @@
   </div>
 
   <!-- ═══════ CARD ═══════ -->
+  <div class="card-scaler" id="cardScaler">
   <div id="card">
 
     <div class="hdr">
@@ -482,10 +487,11 @@
     </div>
 
   </div>
+  </div><!-- /card-scaler -->
 
   <div class="actions" id="acts">
     <button class="abtn" onclick="reset()">↩ Start over</button>
-    <button class="abtn p" onclick="dl()">↓ Save image</button>
+    <button class="abtn p" id="dlBtn" onclick="dl()">↓ Save image</button>
   </div>
 
   <script>
@@ -646,21 +652,23 @@
         document.getElementById('photoPH').style.display = 'none';
       }
 
-      // Evidence strip
+      // Evidence strip — process all drinks in parallel
       const strip = document.getElementById('evStrip');
       if(drinkUrls.length > 0) {
         strip.innerHTML = '';
         const n = drinkUrls.length;
         const hLadder = [290, 280, 260, 240, 210, 185, 165, 148, 134, 122];
         const h = hLadder[Math.min(n-1, hLadder.length-1)];
-        for (let i=0; i<drinkUrls.length; i++) {
-          const cropped    = await cropTransparent(drinkUrls[i]);
-          const strokedUrl = await applyStroke(cropped, 8, '#ffffff');
+        const processedUrls = await Promise.all(drinkUrls.map(async url => {
+          const cropped = await cropTransparent(url);
+          return applyStroke(cropped, 8, '#ffffff');
+        }));
+        for (let i=0; i<processedUrls.length; i++) {
           const item = document.createElement('div');
           item.className = 'ev-item';
           item.style.animationDelay = (i * 0.12) + 's';
           const img = document.createElement('img');
-          img.src = strokedUrl;
+          img.src = processedUrls[i];
           img.className = 'ev-drink';
           img.style.height = h + 'px';
           img.style.maxWidth = Math.floor(h * 1.1) + 'px';
@@ -707,6 +715,21 @@
       document.getElementById('uform').style.display = 'none';
       document.getElementById('card').classList.add('vis');
       document.getElementById('acts').style.display = 'flex';
+      scaleCard();
+    }
+
+    function scaleCard() {
+      const card = document.getElementById('card');
+      const scaler = document.getElementById('cardScaler');
+      const vw = scaler.offsetWidth;
+      const scale = vw < 595 ? vw / 595 : 1;
+      card.style.transform = scale < 1 ? `scale(${scale})` : '';
+      card.style.marginBottom = scale < 1 ? `${-(card.offsetHeight * (1 - scale))}px` : '';
+    }
+    window.addEventListener('resize', scaleCard);
+
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      document.getElementById('dlBtn').textContent = '↓ Open image · long-press to save';
     }
 
     async function dl() {
@@ -756,10 +779,16 @@
           },
         });
 
-        const a = document.createElement('a');
-        a.download = 'nightfile.png';
-        a.href = canvas.toDataURL('image/png');
-        a.click();
+        const dataUrl = canvas.toDataURL('image/png');
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          window.open(dataUrl, '_blank');
+        } else {
+          const a = document.createElement('a');
+          a.download = 'nightfile.png';
+          a.href = dataUrl;
+          a.click();
+        }
 
         strip.style.minHeight = '';
         strip.style.height    = '';
