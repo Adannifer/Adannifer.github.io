@@ -1215,18 +1215,51 @@ body.day-page {
 #about-portrait:hover img { filter: grayscale(0%) contrast(1); }
 
 .about-bubble {
-  padding: 24px 28px;
+  padding: 28px 32px 32px;
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease, border-color 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: bubbleIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.about-bubble:nth-child(2) { animation-delay: 0.15s; }
+@keyframes bubbleIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.about-bubble:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  border-color: rgba(255,255,255,0.22);
 }
 .about-bubble strong { font-weight: 600; color: var(--pink); }
 .about-bubble-alt {
   background: rgba(180,255,80,0.05);
-  border-color: rgba(180,255,80,0.15);
+  border-color: rgba(180,255,80,0.18);
+}
+.about-bubble-alt:hover { border-color: rgba(180,255,80,0.4); }
+.bubble-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  border: 1px solid rgba(255,105,180,0.35);
+  border-radius: 100px;
+  padding: 3px 10px;
+  width: fit-content;
+}
+.about-bubble-alt .bubble-tag {
+  color: var(--green);
+  border-color: rgba(180,255,80,0.35);
 }
 
 .about-statement {
