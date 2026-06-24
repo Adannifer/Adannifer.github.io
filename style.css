@@ -1215,16 +1215,15 @@ body.day-page {
 #about-portrait:hover img { filter: grayscale(0%) contrast(1); }
 
 .about-bubble {
-  margin-top: 14px;
-  padding: 14px 16px;
+  padding: 24px 28px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px;
-  font-size: 12px;
-  line-height: 1.7;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.8;
   color: var(--muted);
 }
-.about-bubble strong { font-weight: 500; color: var(--ink); }
+.about-bubble strong { font-weight: 600; color: var(--pink); }
 .about-bubble-alt {
   background: rgba(180,255,80,0.05);
   border-color: rgba(180,255,80,0.15);
