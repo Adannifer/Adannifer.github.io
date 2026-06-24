@@ -23,6 +23,12 @@
         <feColorMatrix in="blur" mode="matrix"
           values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
       </filter>
+      <filter id="acid-bubble" x="-20%" y="-60%" width="140%" height="220%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="bubble-blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
       <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
               color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
@@ -479,11 +485,11 @@
       <div id="about-bubbles">
         <div class="about-bubble" data-bubble="fit">
           <span class="bubble-tag">Best fit</span>
-          I work best with <strong>cultural brands, community-driven organizations, and experience-led campaigns</strong> — from nightlife and fandom events to retail activations and brand launches.
+          I work best with <strong class="bubble-acid">Cultural Brands, Community-Driven Organizations, and Experience-Led Campaigns</strong> from nightlife and fandom events to retail activations and brand launches.
         </div>
         <div class="about-bubble about-bubble-alt" data-bubble="open">
           <span class="bubble-tag">Open to</span>
-          <strong>Full-time and internship opportunities</strong> in brand design, experience design, and visual communication — especially within cultural, lifestyle, or community-focused organizations.
+          <strong class="bubble-acid">Full-Time and Internship Opportunities</strong> in brand design, experience design, and visual communication, especially within cultural, lifestyle, or community-focused organizations.
         </div>
       </div>
     </section>

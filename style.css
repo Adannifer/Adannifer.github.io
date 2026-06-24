@@ -1239,7 +1239,18 @@ body.day-page {
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   border-color: rgba(255,255,255,0.22);
 }
-.about-bubble strong { font-weight: 600; color: var(--pink); }
+.about-bubble strong { font-weight: 700; color: var(--pink); }
+.bubble-acid {
+  display: block;
+  font-size: 1.15em;
+  letter-spacing: 0.04em;
+  filter: url(#acid-bubble);
+  line-height: 1.4;
+}
+.bubble-acid .bc {
+  display: inline-block;
+  will-change: transform;
+}
 .about-bubble-alt {
   background: rgba(180,255,80,0.05);
   border-color: rgba(180,255,80,0.18);

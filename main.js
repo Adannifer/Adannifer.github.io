@@ -284,6 +284,51 @@ function initHeroAcid() {
 }
 
 /* ════════════════════════════════════════
+   BUBBLE ACID — same mercury effect on about-bubble strong text
+   ════════════════════════════════════════ */
+function initBubbleAcid() {
+  const strongs = document.querySelectorAll('.bubble-acid');
+  if (!strongs.length) return;
+  const bubbleBlur = document.getElementById('bubble-blur');
+
+  strongs.forEach(el => {
+    const text = el.textContent;
+    el.innerHTML = text.split('').map(ch =>
+      ch === ' ' ? ' ' : `<span class="bc">${ch}</span>`
+    ).join('');
+  });
+
+  const allChars = document.querySelectorAll('.bubble-acid .bc');
+
+  document.addEventListener('mousemove', e => {
+    let maxForce = 0;
+    allChars.forEach(c => {
+      const r  = c.getBoundingClientRect();
+      const cx = r.left + r.width * 0.5;
+      const cy = r.top  + r.height * 0.5;
+      const d  = Math.hypot(e.clientX - cx, e.clientY - cy);
+      const rad = 140;
+      if (d < rad) {
+        const t  = 1 - d / rad;
+        const f  = t * t * 28;
+        const ax = Math.atan2(e.clientY - cy, e.clientX - cx);
+        maxForce = Math.max(maxForce, t);
+        gsap.to(c, { x: -Math.cos(ax) * f, y: -Math.sin(ax) * f,
+          duration: 0.28, ease: 'power2.out', overwrite: 'auto' });
+      } else {
+        gsap.to(c, { x: 0, y: 0,
+          duration: 0.85, ease: 'elastic.out(1, 0.45)', overwrite: 'auto' });
+      }
+    });
+    if (bubbleBlur) {
+      gsap.to(bubbleBlur, { attr: { stdDeviation: maxForce * 4 },
+        duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    }
+  });
+}
+initBubbleAcid();
+
+/* ════════════════════════════════════════
    PHASE B — SCROLL STICKY SHRINK
    The floating logo bridges hero → nav
    ════════════════════════════════════════ */
