@@ -877,11 +877,13 @@ img { display: block; max-width: 100%; }
   object-fit: cover;
   object-position: center top;
   opacity: 1;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.45s ease, filter 0.45s ease;
   z-index: 2;
 }
 
-.day-item:hover .day-img { opacity: 0; }
+.day-item:hover .day-img {
+  filter: blur(3px) brightness(0.35);
+}
 
 .day-title {
   font-size: 0.82rem;
@@ -1223,6 +1225,10 @@ body.day-page {
   color: var(--muted);
   margin-bottom: 1rem;
   max-width: 50ch;
+}
+.about-body strong {
+  font-weight: 500;
+  color: var(--ink);
 }
 
 .capability-list {
