@@ -1183,8 +1183,8 @@ body.day-page {
 
 #about-content {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 6rem;
+  grid-template-columns: 360px 1fr;
+  gap: 5rem;
   align-items: start;
 }
 
@@ -1204,6 +1204,22 @@ body.day-page {
   transition: filter 0.5s;
 }
 #about-portrait:hover img { filter: grayscale(0%) contrast(1); }
+
+.about-bubble {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.about-bubble strong { font-weight: 500; color: var(--ink); }
+.about-bubble-alt {
+  background: rgba(180,255,80,0.05);
+  border-color: rgba(180,255,80,0.15);
+}
 
 .about-statement {
   font-size: clamp(1.8rem, 3.5vw, 3rem);
