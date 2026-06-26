@@ -6,7 +6,7 @@
   <title>Day 11 · Fingerprint · Jennifer Qian</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body.day-page { --pink: #b4ff50; }
 
@@ -25,38 +25,48 @@
     .fp-studio { max-width:660px; margin:0 auto; padding:0 6vw 100px; }
 
     /* ── Prompt ── */
-    .fp-prompt-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
-    .fp-prompt-text {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(20px,3.5vw,30px);
-      line-height: 1.4;
-      color: var(--ink);
-      margin-bottom: 28px;
+    /* ── Input rows ── */
+    .fp-input-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
     }
+    .fp-input-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+      padding-top: 14px;
+      min-width: 80px;
+    }
+    .fp-input-label.love { color: #2563eb; }
+    .fp-input-label.hate { color: #dc2626; }
+    .fp-input-label .star { font-size: 18px; }
 
-    /* ── Textarea ── */
     .fp-textarea {
-      width: 100%;
-      min-height: 100px;
+      flex: 1;
+      min-height: 80px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--ink);
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: 15px;
-      line-height: 1.75;
-      padding: 16px 18px;
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 14px 16px;
       resize: vertical;
       outline: none;
       transition: border-color 0.2s;
       box-sizing: border-box;
-      margin-bottom: 10px;
     }
-    .fp-textarea:focus { border-color: var(--pink); }
+    .fp-textarea.love:focus { border-color: #2563eb; }
+    .fp-textarea.hate:focus { border-color: #dc2626; }
     .fp-textarea::placeholder { color: var(--muted); }
-    .fp-char-hint { font-size:10px; letter-spacing:0.1em; color:var(--muted); text-align:right; margin-bottom:32px; }
+    .fp-char-hint { font-size:10px; letter-spacing:0.1em; color:var(--muted); text-align:right; margin-bottom:28px; }
 
     /* ── Canvas wrap ── */
     .fp-canvas-wrap {
@@ -131,7 +141,7 @@
       <span>Generative Art · Identity</span>
     </div>
     <p class="day-statement">
-      Answer today's question. Press and hold the canvas. Your fingerprint forms from your words — one ring at a time.
+      List what you love. List what you hate. Press and hold the canvas — your fingerprint forms from your words, one ridge at a time.
     </p>
   </div>
 
@@ -140,16 +150,15 @@
 
     <div class="fp-studio">
 
-      <div class="fp-prompt-label">Today's question</div>
-      <div class="fp-prompt-text" id="fpPrompt">—</div>
-
-      <textarea
-        class="fp-textarea"
-        id="fpText"
-        placeholder="Write your answer here…"
-        rows="4"
-      ></textarea>
-      <div class="fp-char-hint"><span id="charCount">0</span> characters · your words will loop to fill the fingerprint</div>
+      <div class="fp-input-row">
+        <div class="fp-input-label love"><span class="star">★</span> LOVE</div>
+        <textarea class="fp-textarea love" id="fpLove" placeholder="running, hot coffee, the first day of spring, staying up too late reading…" rows="3"></textarea>
+      </div>
+      <div class="fp-input-row">
+        <div class="fp-input-label hate"><span class="star">★</span> HATE</div>
+        <textarea class="fp-textarea hate" id="fpHate" placeholder="alarm clocks, wet socks, people who talk in cinemas, slow wifi…" rows="3"></textarea>
+      </div>
+      <div class="fp-char-hint">your words loop to fill every ridge</div>
 
       <div class="fp-canvas-wrap" id="canvasWrap">
         <div class="hold-ring" id="holdRing"></div>
@@ -169,144 +178,122 @@
   </div>
 
   <script>
-  /* ── Prompts ── */
-  const PROMPTS = [
-    "What did you want to say today but didn't?",
-    "Describe how your body felt this morning.",
-    "What are you pretending not to know?",
-    "What feeling has been following you around lately?",
-    "What did you notice today that nobody else probably did?",
-    "Who were you today?",
-    "What would you tell yourself from a year ago?",
-    "What did today ask of you?",
-    "What do you keep almost saying?",
-    "What stayed with you today?",
-    "What does your body remember that your mind has forgotten?",
-    "What were you afraid to want?",
-  ];
-
-  const todayPrompt = PROMPTS[new Date().getDate() % PROMPTS.length];
-  document.getElementById('fpPrompt').textContent = '"' + todayPrompt + '"';
-
-  /* ── Textarea char count ── */
-  const fpText = document.getElementById('fpText');
-  fpText.addEventListener('input', () => {
-    document.getElementById('charCount').textContent = fpText.value.length;
-  });
-
-  /* ── Canvas / fingerprint state ── */
+  /* ── Canvas setup ── */
   const canvas = document.getElementById('fp-canvas');
   const ctx    = canvas.getContext('2d');
   const W = 560, H = 700;
   const CX = W / 2, CY = H / 2 + 10;
 
-  // Archimedean spiral params
-  const SPIRAL_START = 3;
-  const RIDGE_GAP    = 16;
-  const MAX_TURNS    = 19;
-  const FONT_SIZE    = 11;
-  const CHAR_W       = FONT_SIZE * 0.52;
-  const OVAL_Y       = 0.84;
-  const CHARS_PER_TICK = 60;
-  const INTERVAL_MS  = 60;
-  const EGG_RX = 218, EGG_RY = 278;
+  /* ── Spiral params ── */
+  const SPIRAL_START   = 3;
+  const RIDGE_GAP      = 17;
+  const MAX_TURNS      = 18;
+  const FONT_SIZE      = 13;
+  const CHAR_W         = FONT_SIZE * 0.58;
+  const OVAL_Y         = 0.83;
+  const CHARS_PER_TICK = 55;
+  const INTERVAL_MS    = 60;
+  const EGG_RX = 215, EGG_RY = 272;
 
-  // Pre-compute spiral: array of {x,y,angle} for each character slot
-  let spiralPath = [];
-  let charCursor = 0;   // how far we've drawn along the path
+  const COLOR_LOVE = [37, 99, 235];   // blue
+  const COLOR_HATE = [220, 38, 38];   // red
+
+  let spiralPath = [];   // [{x, y, tangent, skip, turn}]
+  let charCursor = 0;
   let isHolding  = false;
   let holdTimer  = null;
   let isComplete = false;
+  let loveLoop   = '';
+  let hateLoop   = '';
+  let loveCursor = 0;
+  let hateCursor = 0;
 
+  /* ── Build spiral path ── */
   function buildSpiralPath() {
     spiralPath = [];
-    const b = RIDGE_GAP / (2 * Math.PI); // growth per radian
+    const b = RIDGE_GAP / (2 * Math.PI);
     const maxTheta = MAX_TURNS * 2 * Math.PI;
-    let theta = SPIRAL_START / b; // starting angle so r = SPIRAL_START
+    let theta = SPIRAL_START / b;
 
     while (theta < maxTheta) {
       const r = b * theta;
-      if (r > 255) break;
+      if (r > 250) break;
 
-      // Progressive oval: outer rings flatten more (fingerprint arcs)
-      const ovalY = OVAL_Y - 0.14 * Math.min(1, r / 230);
-
-      // Organic ridge perturbation — amplitude grows outward
-      const nAmp = 1.8 + r * 0.012;
+      const ovalY = OVAL_Y - 0.13 * Math.min(1, r / 220);
+      const nAmp  = 1.9 + r * 0.013;
       const noise = nAmp * Math.sin(theta * 2.8 + r * 0.07)
                   + (nAmp * 0.4) * Math.cos(theta * 5.5 + r * 0.05);
       const rr = r + noise;
 
       const x = CX + Math.cos(theta) * rr;
       const y = CY + Math.sin(theta) * rr * ovalY;
-
       const dx = -Math.sin(theta) * rr + Math.cos(theta) * b;
       const dy = ( Math.cos(theta) * rr + Math.sin(theta) * b) * ovalY;
       const tangent = Math.atan2(dy, dx);
+      const turn = Math.floor(theta / (2 * Math.PI));
+      const skip = Math.random() < 0.07;
 
-      // Ridge break: randomly omit ~8% of positions (broken ridge texture)
-      const skip = Math.random() < 0.08;
-      spiralPath.push({ x, y, tangent, skip });
+      spiralPath.push({ x, y, tangent, turn, skip });
 
       const step = Math.max(0.04, CHAR_W / (rr + 1));
       theta += step;
     }
   }
 
-  /* ── Loop source text ── */
-  function loopText(str) {
-    if (!str.trim()) str = todayPrompt + ' ';
-    const n = spiralPath.length;
+  /* ── Loop text helper ── */
+  function makeLoop(str, fallback) {
+    if (!str.trim()) str = fallback;
     let out = '';
-    while (out.length < n) out += str + ' ';
+    while (out.length < spiralPath.length + 200) out += str + '  ';
     return out;
   }
 
   /* ── Init canvas ── */
   function initCanvas() {
-    ctx.fillStyle = '#f4efe6';
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
-    drawIdleHint();
-  }
-
-  function drawIdleHint() {
     ctx.save();
-    ctx.fillStyle = 'rgba(30,14,50,0.20)';
-    ctx.font = '11px "Courier New", monospace';
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.font = '12px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('press and hold to begin', CX, CY);
+    ctx.fillText('press & hold to begin', CX, CY);
     ctx.restore();
   }
 
-  /* ── Draw next chunk of spiral characters ── */
-  let sourceText = '';
-
+  /* ── Draw chunk ── */
   function drawChunk() {
     if (charCursor >= spiralPath.length) { onComplete(); return; }
 
     const end = Math.min(charCursor + CHARS_PER_TICK, spiralPath.length);
     ctx.save();
-    ctx.font = `bold ${FONT_SIZE}px "Courier New", monospace`;
+    ctx.font = `600 ${FONT_SIZE}px 'Caveat', cursive`;
     ctx.textBaseline = 'middle';
 
     for (let i = charCursor; i < end; i++) {
-      const { x, y, tangent, skip } = spiralPath[i];
+      const { x, y, tangent, turn, skip } = spiralPath[i];
       if (skip) continue;
-      // Egg-shape edge fade
+
       const ex = (x - CX) / EGG_RX;
       const ey = (y - CY) / EGG_RY;
       const edgeDist = ex * ex + ey * ey;
       if (edgeDist > 1) continue;
-      const edgeFade = edgeDist < 0.6 ? 1 : Math.pow(1 - (edgeDist - 0.6) / 0.4, 1.4);
-      // Slight per-char opacity jitter for ink texture
-      const jitter = 0.85 + Math.random() * 0.15;
-      ctx.fillStyle = `rgba(10,4,20,${jitter * edgeFade})`;
+      const edgeFade = edgeDist < 0.6 ? 1 : Math.pow(1 - (edgeDist - 0.6) / 0.4, 1.5);
+
+      const isLove = (turn % 2 === 0);
+      const [r, g, b2] = isLove ? COLOR_LOVE : COLOR_HATE;
+      const alpha = (0.82 + Math.random() * 0.18) * edgeFade;
+      ctx.fillStyle = `rgba(${r},${g},${b2},${alpha})`;
+
+      const txt = isLove ? loveLoop : hateLoop;
+      const cur = isLove ? loveCursor++ : hateCursor++;
+      const ch  = txt[cur % txt.length] || ' ';
+
       const angle = Math.abs(tangent) > Math.PI / 2 ? tangent + Math.PI : tangent;
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      ctx.fillText(sourceText[i % sourceText.length], 0, 0);
+      ctx.fillText(ch, 0, 0);
       ctx.restore();
     }
 
@@ -326,8 +313,14 @@
   function startHold(e) {
     e.preventDefault();
     if (isComplete) return;
-    // Rebuild text source on first hold (in case user typed after last reset)
-    if (charCursor === 0) sourceText = loopText(fpText.value.trim());
+    if (charCursor === 0) {
+      const love = document.getElementById('fpLove').value.trim();
+      const hate = document.getElementById('fpHate').value.trim();
+      loveLoop   = makeLoop(love, 'running hot coffee the first day of spring staying up too late reading ');
+      hateLoop   = makeLoop(hate, 'alarm clocks wet socks people who talk in cinemas slow wifi ');
+      loveCursor = 0;
+      hateCursor = 0;
+    }
     isHolding = true;
     document.getElementById('canvasWrap').classList.add('holding');
     drawChunk();
@@ -353,10 +346,9 @@
 
   /* ── Reset ── */
   function resetFP() {
-    charCursor = 0;
-    isHolding  = false;
-    isComplete = false;
-    sourceText = '';
+    charCursor = 0; loveCursor = 0; hateCursor = 0;
+    isHolding  = false; isComplete = false;
+    loveLoop   = ''; hateLoop = '';
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
     document.getElementById('dlBtn').style.display = 'none';
@@ -367,25 +359,12 @@
   function downloadFP() {
     const dataUrl = canvas.toDataURL('image/png');
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
-      window.open(dataUrl, '_blank');
-    } else {
+    if (isMobile) { window.open(dataUrl, '_blank'); }
+    else {
       const a = document.createElement('a');
-      a.download = 'fingerprint.png';
-      a.href = dataUrl;
-      a.click();
+      a.download = 'fingerprint.png'; a.href = dataUrl; a.click();
     }
   }
-
-  /* ── Reset when text changes significantly ── */
-  let lastResetLen = 0;
-  fpText.addEventListener('input', () => {
-    const len = fpText.value.length;
-    if (charCursor < 50 && Math.abs(len - lastResetLen) > 15) {
-      resetFP();
-      lastResetLen = len;
-    }
-  });
 
   buildSpiralPath();
   initCanvas();
