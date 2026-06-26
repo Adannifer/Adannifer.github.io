@@ -188,12 +188,12 @@
   const CX = W / 2, CY = H / 2 + 20;
 
   /* ── Fingerprint parameters ── */
-  const NUM_RINGS   = 18;      // total ridges
-  const RING_GAP    = 15;      // px between ring centres
-  const BASE_FONT   = 12;      // inner ring font size
+  const NUM_RINGS   = 20;      // total ridges
+  const RING_GAP    = 16;      // px between ring centres
+  const BASE_FONT   = 11;      // inner ring font size
   const OUTER_FONT  = 15;      // outer ring font size
   const INTERVAL_MS = 280;     // ms per ring reveal while holding
-  const EGG_RX = 192, EGG_RY = 275; // portrait egg: taller than wide
+  const EGG_RX = 190, EGG_RY = 268; // portrait egg
 
   let rings        = [];  // array of pre-computed ring paths
   let ringCumLens  = [];  // cumulative arc lengths per ring
@@ -207,25 +207,26 @@
 
   // Whorl core sits below canvas centre — outer rings radiate up from it
   const CORE_X = CX;
-  const CORE_Y = CY + 115;  // whorl sits in lower third of egg
+  const CORE_Y = CY + 45;   // whorl sits just below centre
 
   /* ── Build concentric rings centred at whorl core ── */
   function buildRings() {
     rings = []; ringCumLens = []; ringTotalLen = [];
 
     for (let j = 0; j < NUM_RINGS; j++) {
-      const r0 = RING_GAP * (j + 1);
-      if (r0 > 255) break;
+      // Dense near core, sparse toward edges — like a real fingerprint
+      const r0 = j < 8 ? 10 * (j + 1) : 80 + 22 * (j - 7);
+      if (r0 > 355) break;
 
-      const t = j / (NUM_RINGS - 1);          // 0 = inner, 1 = outer
-      // Outer rings stretch slightly wider horizontally
+      const t = j / (NUM_RINGS - 1);
       const scaleX = 1 + t * 0.28;
 
       const ring = [];
-      const STEPS = 600;
+      const STEPS = 700;
 
       for (let s = 0; s < STEPS; s++) {
-        const theta = (s / STEPS) * 2 * Math.PI;
+        // Start path from top of ring (3π/2) so text reads left→right on upper arc
+        const theta = (s / STEPS) * 2 * Math.PI + Math.PI * 1.5;
 
         // Organic ridge noise — amplitude grows with radius
         const nAmp = 1.8 + r0 * 0.013;
@@ -335,13 +336,7 @@
   function initCanvas() {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
-    // Egg outline — always visible, text stays inside
     ctx.save();
-    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.ellipse(CX, CY, EGG_RX, EGG_RY, 0, 0, Math.PI * 2);
-    ctx.stroke();
     ctx.fillStyle = 'rgba(0,0,0,0.12)';
     ctx.font = '12px "Courier New", monospace';
     ctx.textAlign = 'center';
