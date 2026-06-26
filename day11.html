@@ -205,56 +205,45 @@
   let holdTimer    = null;
   let isComplete   = false;
 
-  /* ── Build ridge paths as horizontal arcs stacked top-to-bottom ── */
+  // Whorl core sits below canvas centre — outer rings radiate up from it
+  const CORE_X = CX;
+  const CORE_Y = CY + 115;  // whorl sits in lower third of egg
+
+  /* ── Build concentric rings centred at whorl core ── */
   function buildRings() {
     rings = []; ringCumLens = []; ringTotalLen = [];
 
     for (let j = 0; j < NUM_RINGS; j++) {
-      // Stack arcs evenly within the egg height
-      const frac = j / (NUM_RINGS - 1);              // 0 = top, 1 = bottom
-      const yBase = CY - EGG_RY * 0.95 + frac * EGG_RY * 1.90;
+      const r0 = RING_GAP * (j + 1);
+      if (r0 > 255) break;
 
-      // Arch height: upper ridges arch up more (fingerprint loop region)
-      // Clamp so arch never exceeds the egg boundary at this y
-      const rawArch = (1 - frac) * 42 + frac * 5;
-      const yTop = yBase - rawArch;
-      // If peak would exit egg, reduce arch to stay inside
-      const archH = yTop < CY - EGG_RY + 8 ? Math.max(5, yBase - (CY - EGG_RY + 8)) : rawArch;
-
-      // X span at this y determined by egg ellipse
-      const yDist = yBase - CY;
-      const xHalf = EGG_RX * Math.sqrt(Math.max(0, 1 - (yDist / EGG_RY) ** 2));
-      if (xHalf < 15) continue;
+      const t = j / (NUM_RINGS - 1);          // 0 = inner, 1 = outer
+      // Outer rings stretch slightly wider horizontally
+      const scaleX = 1 + t * 0.28;
 
       const ring = [];
-      const STEPS = 250;
+      const STEPS = 600;
 
-      for (let s = 0; s <= STEPS; s++) {
-        const u = s / STEPS;                        // 0 = left, 1 = right
-        const x = CX - xHalf + u * xHalf * 2;
+      for (let s = 0; s < STEPS; s++) {
+        const theta = (s / STEPS) * 2 * Math.PI;
 
-        // Arch upward, peaks at centre of ridge
-        const arch = archH * Math.sin(u * Math.PI);
+        // Organic ridge noise — amplitude grows with radius
+        const nAmp = 1.8 + r0 * 0.013;
+        const noise = nAmp * Math.sin(theta * 2.8 + r0 * 0.08)
+                    + (nAmp * 0.4) * Math.cos(theta * 5.5 + r0 * 0.06);
+        const r = r0 + noise;
 
-        // Organic noise for ridge texture
-        const noise = 2.8 * Math.sin(u * 9.2 + j * 1.8 + 0.4)
-                    + 1.1 * Math.cos(u * 15.8 + j * 0.7);
+        const x = CORE_X + Math.cos(theta) * r * scaleX;
+        const y = CORE_Y + Math.sin(theta) * r;
 
-        const y = yBase - arch + noise;
-
-        // Tangent via forward difference
-        const du = 0.006;
-        const arch2 = archH * Math.sin((u + du) * Math.PI);
-        const noise2 = 2.8 * Math.sin((u + du) * 9.2 + j * 1.8 + 0.4)
-                     + 1.1 * Math.cos((u + du) * 15.8 + j * 0.7);
-        const x2 = CX - xHalf + (u + du) * xHalf * 2;
-        const y2 = yBase - arch2 + noise2;
-        const tangent = Math.atan2(y2 - y, x2 - x);
+        // Tangent along ring
+        const dx = -Math.sin(theta) * r * scaleX;
+        const dy =  Math.cos(theta) * r;
+        const tangent = Math.atan2(dy, dx);
 
         ring.push({ x, y, tangent });
       }
 
-      // Pre-compute cumulative arc lengths
       const cumLen = [0];
       let arcLen = 0;
       for (let i = 1; i < ring.length; i++) {
@@ -306,19 +295,22 @@
     for (let ci = 0; ci < numChars; ci++) {
       const { x, y, tangent } = sampleRing(j, ci * charStep);
 
-      // Fade out near the left/right edges of each arc
-      const u = (x - (CX - EGG_RX)) / (EGG_RX * 2);
-      const edgeFade = Math.min(1, Math.sin(u * Math.PI) * 5);
-      if (edgeFade <= 0) continue;
+      // Clip to egg — skip anything outside
+      const ex = (x - CX) / EGG_RX;
+      const ey = (y - CY) / EGG_RY;
+      const d  = ex * ex + ey * ey;
+      if (d > 1) continue;
+      // Soft fade at the very edge
+      const edgeFade = d > 0.82 ? Math.pow((1 - d) / 0.18, 1.4) : 1;
 
-      // Occasional ridge break (very sparse — just enough for ink texture)
+      // Occasional ridge break
       if (Math.random() < 0.012) continue;
 
-      const alpha  = (0.78 + Math.random() * 0.22) * edgeFade;
+      const alpha = (0.78 + Math.random() * 0.22) * edgeFade;
       ctx.fillStyle = `rgba(8,3,18,${alpha})`;
 
-      // Arcs go left→right, tangent always near 0° — no flip needed
-      const angle = tangent;
+      // Keep text upright: flip if tangent points left
+      const angle = Math.abs(tangent) > Math.PI / 2 ? tangent + Math.PI : tangent;
 
       ctx.save();
       ctx.translate(x, y);
@@ -343,10 +335,10 @@
   function initCanvas() {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
-    // Faint egg outline as guide
+    // Egg outline — always visible, text stays inside
     ctx.save();
-    ctx.strokeStyle = 'rgba(0,0,0,0.07)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.ellipse(CX, CY, EGG_RX, EGG_RY, 0, 0, Math.PI * 2);
     ctx.stroke();
