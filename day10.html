@@ -169,10 +169,10 @@
 
         <div>
           <div class="ctrl-label">Upload photo</div>
-          <div class="upload-zone" id="uploadZone">
+          <label class="upload-zone" id="uploadZone" for="photoInput">
             <div class="upload-icon">↑</div>
             <div class="upload-text" id="uploadText">Click or drag photo here</div>
-          </div>
+          </label>
           <input type="file" id="photoInput" accept="image/*" style="display:none">
         </div>
 
@@ -258,7 +258,6 @@
     const uploadZone = document.getElementById('uploadZone');
     const photoInput = document.getElementById('photoInput');
 
-    uploadZone.onclick = () => photoInput.click();
     uploadZone.ondragover = e => { e.preventDefault(); uploadZone.classList.add('over'); };
     uploadZone.ondragleave = () => uploadZone.classList.remove('over');
     uploadZone.ondrop = e => {
