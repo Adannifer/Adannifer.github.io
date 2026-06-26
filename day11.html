@@ -198,20 +198,66 @@
   const canvas = document.getElementById('fp-canvas');
   const ctx    = canvas.getContext('2d');
   const W = 560, H = 700;
-  const CX = W / 2, CY = H / 2 + 30;
+  const CX = W / 2, CY = H / 2 + 10;
 
-  const RING_SPACING = 5.2;
-  const MIN_R        = 5;
-  const MAX_R        = 238;
-  const FONT_SIZE    = 5.2;
-  const CHAR_W       = FONT_SIZE * 0.56;
-  const INTERVAL_MS  = 70;
+  // Archimedean spiral params
+  const SPIRAL_START = 3;    // starting radius (px)
+  const RIDGE_GAP    = 5.0;  // spacing between spiral turns (px)
+  const MAX_TURNS    = 42;   // total turns in fingerprint
+  const FONT_SIZE    = 4.8;
+  const CHAR_W       = FONT_SIZE * 0.54; // monospace char width
+  const OVAL_Y       = 0.80; // vertical compression (fingerprint is oval)
+  const CHARS_PER_TICK = 160; // chars added per interval tick
+  const INTERVAL_MS  = 60;
 
-  let currentR   = MIN_R;
-  let ringIndex  = 0;
+  // Pre-compute spiral: array of {x,y,angle} for each character slot
+  let spiralPath = [];
+  let charCursor = 0;   // how far we've drawn along the path
   let isHolding  = false;
   let holdTimer  = null;
   let isComplete = false;
+
+  function buildSpiralPath() {
+    spiralPath = [];
+    const b = RIDGE_GAP / (2 * Math.PI); // growth per radian
+    const maxTheta = MAX_TURNS * 2 * Math.PI;
+    let theta = SPIRAL_START / b; // starting angle so r = SPIRAL_START
+
+    while (theta < maxTheta) {
+      const r = b * theta;
+      if (r > 260) break;
+
+      // Organic ridge perturbation (two sine waves = fingerprint texture)
+      const noise = 1.3 * Math.sin(theta * 2.8 + r * 0.09)
+                  + 0.6 * Math.cos(theta * 6.5 + r * 0.06);
+      const rr = r + noise;
+
+      // Oval: compress y axis
+      const x = CX + Math.cos(theta) * rr;
+      const y = CY + Math.sin(theta) * rr * OVAL_Y;
+
+      // Tangent angle to spiral: dθ direction
+      // d/dθ [r·cos θ, r·sin θ·OVAL_Y] → tangent
+      const dx = -Math.sin(theta) * rr + Math.cos(theta) * b;
+      const dy = ( Math.cos(theta) * rr + Math.sin(theta) * b) * OVAL_Y;
+      const tangent = Math.atan2(dy, dx);
+
+      spiralPath.push({ x, y, tangent });
+
+      // Step along spiral: arc length ≈ r * dθ  →  dθ = CHAR_W / r
+      const step = Math.max(0.04, CHAR_W / (rr + 1));
+      theta += step;
+    }
+  }
+
+  /* ── Loop source text ── */
+  function loopText(str) {
+    if (!str.trim()) str = todayPrompt + ' ';
+    const n = spiralPath.length;
+    let out = '';
+    while (out.length < n) out += str + ' ';
+    return out;
+  }
 
   /* ── Init canvas ── */
   function initCanvas() {
@@ -222,7 +268,7 @@
 
   function drawIdleHint() {
     ctx.save();
-    ctx.fillStyle = 'rgba(30,14,50,0.22)';
+    ctx.fillStyle = 'rgba(30,14,50,0.20)';
     ctx.font = '11px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -230,52 +276,31 @@
     ctx.restore();
   }
 
-  /* ── Loop text to fill ring circumference ── */
-  function loopText(str, count) {
-    if (!str.trim()) str = todayPrompt + ' ';
-    let out = '';
-    while (out.length < count) out += str + ' ';
-    return out.slice(0, count);
-  }
+  /* ── Draw next chunk of spiral characters ── */
+  let sourceText = '';
 
-  /* ── Draw one ring ── */
-  function drawRing() {
-    if (currentR > MAX_R) { onComplete(); return; }
+  function drawChunk() {
+    if (charCursor >= spiralPath.length) { onComplete(); return; }
 
-    const r        = currentR;
-    const userStr  = fpText.value.trim();
-    const circum   = 2 * Math.PI * r;
-    const nChars   = Math.max(3, Math.floor(circum / CHAR_W));
-    const text     = loopText(userStr, nChars);
-    const dir      = ringIndex % 2 === 0 ? 1 : -1;
-    const angleStep = (2 * Math.PI * dir) / nChars;
-    const startOff = ringIndex * 0.18; // slight rotation per ring → spiral feel
-
+    const end = Math.min(charCursor + CHARS_PER_TICK, spiralPath.length);
     ctx.save();
-    ctx.font      = `${FONT_SIZE}px "Courier New", monospace`;
-    ctx.fillStyle = `rgba(20,8,40,${0.72 + Math.random() * 0.18})`;
+    ctx.font = `${FONT_SIZE}px "Courier New", monospace`;
     ctx.textBaseline = 'middle';
 
-    for (let i = 0; i < nChars; i++) {
-      const angle = -Math.PI / 2 + startOff + i * angleStep;
-      // Organic ridge noise: two overlapping sine waves
-      const noise = Math.sin(angle * 5 + r * 0.14) * 1.4
-                  + Math.cos(angle * 11 + r * 0.09) * 0.7;
-      const rr = r + noise;
-      // Slight vertical compression for fingerprint oval shape
-      const x = CX + Math.cos(angle) * rr;
-      const y = CY + Math.sin(angle) * rr * 0.88;
-
+    for (let i = charCursor; i < end; i++) {
+      const { x, y, tangent } = spiralPath[i];
+      // Fade in opacity as fingerprint grows denser toward outside
+      const progress = i / spiralPath.length;
+      ctx.fillStyle = `rgba(20,8,40,${0.55 + progress * 0.35})`;
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate(angle + (Math.PI / 2) * dir);
-      ctx.fillText(text[i], 0, 0);
+      ctx.rotate(tangent);
+      ctx.fillText(sourceText[i % sourceText.length], 0, 0);
       ctx.restore();
     }
 
     ctx.restore();
-    currentR  += RING_SPACING;
-    ringIndex += 1;
+    charCursor = end;
   }
 
   function onComplete() {
@@ -290,12 +315,14 @@
   function startHold(e) {
     e.preventDefault();
     if (isComplete) return;
+    // Rebuild text source on first hold (in case user typed after last reset)
+    if (charCursor === 0) sourceText = loopText(fpText.value.trim());
     isHolding = true;
     document.getElementById('canvasWrap').classList.add('holding');
-    drawRing();
+    drawChunk();
     holdTimer = setInterval(() => {
       if (!isHolding) { clearInterval(holdTimer); return; }
-      drawRing();
+      drawChunk();
     }, INTERVAL_MS);
   }
 
@@ -304,8 +331,7 @@
     isHolding = false;
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
-    // Show download if any rings drawn
-    if (ringIndex > 0) document.getElementById('dlBtn').style.display = 'inline-block';
+    if (charCursor > 0) document.getElementById('dlBtn').style.display = 'inline-block';
   }
 
   canvas.addEventListener('mousedown',  startHold);
@@ -316,10 +342,10 @@
 
   /* ── Reset ── */
   function resetFP() {
-    currentR   = MIN_R;
-    ringIndex  = 0;
+    charCursor = 0;
     isHolding  = false;
     isComplete = false;
+    sourceText = '';
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
     document.getElementById('dlBtn').style.display = 'none';
@@ -344,13 +370,13 @@
   let lastResetLen = 0;
   fpText.addEventListener('input', () => {
     const len = fpText.value.length;
-    // Only auto-reset if user clears and rewrites (>20 char delta while < 10 drawn rings)
-    if (ringIndex < 10 && Math.abs(len - lastResetLen) > 15) {
+    if (charCursor < 50 && Math.abs(len - lastResetLen) > 15) {
       resetFP();
       lastResetLen = len;
     }
   });
 
+  buildSpiralPath();
   initCanvas();
   </script>
 
