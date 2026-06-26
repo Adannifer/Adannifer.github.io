@@ -275,6 +275,7 @@
           photo = img;
           uploadZone.classList.add('ok');
           document.getElementById('uploadText').textContent = '✓ Photo loaded';
+          generate();
         };
         img.src = ev.target.result;
       };
@@ -282,13 +283,12 @@
     }
 
     /* ── Font fit ── */
-    function fitFont(ctx, text, maxW) {
+    function fitFont(ctx, text, maxW, maxH) {
       let lo = 8, hi = 600;
-      ctx.font = `900 ${hi}px Anton, Impact, sans-serif`;
       while (hi - lo > 0.5) {
         const mid = (lo + hi) / 2;
         ctx.font = `900 ${mid}px Anton, Impact, sans-serif`;
-        ctx.measureText(text).width < maxW ? lo = mid : hi = mid;
+        ctx.measureText(text).width < maxW && mid < maxH ? lo = mid : hi = mid;
       }
       return lo;
     }
@@ -297,8 +297,9 @@
     function drawWords(tc, words, PAD) {
       const maxW = W - PAD * 2;
       const rowH = H / words.length;
+      const maxH = rowH * 0.88;
       words.forEach((word, i) => {
-        const fs = fitFont(tc, word, maxW);
+        const fs = fitFont(tc, word, maxW, maxH);
         tc.font = `900 ${fs}px Anton, Impact, sans-serif`;
         tc.textBaseline = 'middle';
         const tw = tc.measureText(word).width;
