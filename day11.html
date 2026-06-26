@@ -25,48 +25,38 @@
     .fp-studio { max-width:660px; margin:0 auto; padding:0 6vw 100px; }
 
     /* ── Prompt ── */
-    /* ── Input rows ── */
-    .fp-input-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-    .fp-input-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Caveat', cursive;
-      font-size: 20px;
+    /* ── Prompt ── */
+    .fp-prompt-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+    .fp-prompt-text {
+      font-family: 'Caveat', Georgia, serif;
+      font-size: clamp(20px,3.5vw,28px);
       font-weight: 600;
-      white-space: nowrap;
-      padding-top: 14px;
-      min-width: 80px;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 22px;
     }
-    .fp-input-label.love { color: #2563eb; }
-    .fp-input-label.hate { color: #dc2626; }
-    .fp-input-label .star { font-size: 18px; }
 
+    /* ── Textarea ── */
     .fp-textarea {
-      flex: 1;
-      min-height: 80px;
+      width: 100%;
+      min-height: 100px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--ink);
       font-family: 'Caveat', cursive;
       font-size: 16px;
-      line-height: 1.6;
-      padding: 14px 16px;
+      line-height: 1.7;
+      padding: 16px 18px;
       resize: vertical;
       outline: none;
       transition: border-color 0.2s;
       box-sizing: border-box;
+      margin-bottom: 10px;
     }
-    .fp-textarea.love:focus { border-color: #2563eb; }
-    .fp-textarea.hate:focus { border-color: #dc2626; }
+    .fp-textarea:focus { border-color: var(--pink); }
     .fp-textarea::placeholder { color: var(--muted); }
-    .fp-char-hint { font-size:10px; letter-spacing:0.1em; color:var(--muted); text-align:right; margin-bottom:28px; }
+    .fp-char-hint { font-size:10px; letter-spacing:0.1em; color:var(--muted); text-align:right; margin-bottom:32px; }
 
     /* ── Canvas wrap ── */
     .fp-canvas-wrap {
@@ -141,7 +131,7 @@
       <span>Generative Art · Identity</span>
     </div>
     <p class="day-statement">
-      List what you love. List what you hate. Press and hold the canvas — your fingerprint forms from your words, one ridge at a time.
+      Answer today's question. Press and hold the canvas — your fingerprint forms from your words, one ridge at a time.
     </p>
   </div>
 
@@ -150,15 +140,10 @@
 
     <div class="fp-studio">
 
-      <div class="fp-input-row">
-        <div class="fp-input-label love"><span class="star">★</span> LOVE</div>
-        <textarea class="fp-textarea love" id="fpLove" placeholder="running, hot coffee, the first day of spring, staying up too late reading…" rows="3"></textarea>
-      </div>
-      <div class="fp-input-row">
-        <div class="fp-input-label hate"><span class="star">★</span> HATE</div>
-        <textarea class="fp-textarea hate" id="fpHate" placeholder="alarm clocks, wet socks, people who talk in cinemas, slow wifi…" rows="3"></textarea>
-      </div>
-      <div class="fp-char-hint">your words loop to fill every ridge</div>
+      <div class="fp-prompt-label">Today's question</div>
+      <div class="fp-prompt-text" id="fpPrompt">—</div>
+      <textarea class="fp-textarea" id="fpText" placeholder="Write your answer here…" rows="4"></textarea>
+      <div class="fp-char-hint">your words will loop to fill every ridge</div>
 
       <div class="fp-canvas-wrap" id="canvasWrap">
         <div class="hold-ring" id="holdRing"></div>
@@ -178,82 +163,194 @@
   </div>
 
   <script>
-  /* ── Canvas setup ── */
+  /* ── Prompts ── */
+  const PROMPTS = [
+    "What did you want to say today but didn't?",
+    "Describe how your body felt this morning.",
+    "What are you pretending not to know?",
+    "What feeling has been following you around lately?",
+    "What did you notice today that nobody else probably did?",
+    "Who were you today?",
+    "What would you tell yourself from a year ago?",
+    "What did today ask of you?",
+    "What do you keep almost saying?",
+    "What stayed with you today?",
+    "What does your body remember that your mind has forgotten?",
+    "What were you afraid to want?",
+  ];
+  const todayPrompt = PROMPTS[new Date().getDate() % PROMPTS.length];
+  document.getElementById('fpPrompt').textContent = '“' + todayPrompt + '”';
+
+  /* ── Canvas ── */
   const canvas = document.getElementById('fp-canvas');
   const ctx    = canvas.getContext('2d');
   const W = 560, H = 700;
-  const CX = W / 2, CY = H / 2 + 10;
+  const CX = W / 2, CY = H / 2 + 20;
 
-  /* ── Spiral params ── */
-  const SPIRAL_START   = 3;
-  const RIDGE_GAP      = 17;
-  const MAX_TURNS      = 18;
-  const FONT_SIZE      = 13;
-  const CHAR_W         = FONT_SIZE * 0.58;
-  const OVAL_Y         = 0.83;
-  const CHARS_PER_TICK = 55;
-  const INTERVAL_MS    = 60;
-  const EGG_RX = 215, EGG_RY = 272;
+  /* ── Fingerprint parameters ── */
+  const NUM_RINGS   = 18;      // total ridges
+  const RING_GAP    = 15;      // px between ring centres
+  const BASE_FONT   = 12;      // inner ring font size
+  const OUTER_FONT  = 15;      // outer ring font size
+  const INTERVAL_MS = 280;     // ms per ring reveal while holding
+  const EGG_RX = 192, EGG_RY = 275; // portrait egg: taller than wide
 
-  const COLOR_LOVE = [37, 99, 235];   // blue
-  const COLOR_HATE = [220, 38, 38];   // red
+  let rings        = [];  // array of pre-computed ring paths
+  let ringCumLens  = [];  // cumulative arc lengths per ring
+  let ringTotalLen = [];  // total arc length per ring
+  let revealCount  = 0;
+  let textCursor   = 0;   // position in sourceText across all rings
+  let sourceText   = '';
+  let isHolding    = false;
+  let holdTimer    = null;
+  let isComplete   = false;
 
-  let spiralPath = [];   // [{x, y, tangent, skip, turn}]
-  let charCursor = 0;
-  let isHolding  = false;
-  let holdTimer  = null;
-  let isComplete = false;
-  let loveLoop   = '';
-  let hateLoop   = '';
-  let loveCursor = 0;
-  let hateCursor = 0;
+  /* ── Build ridge paths as horizontal arcs stacked top-to-bottom ── */
+  function buildRings() {
+    rings = []; ringCumLens = []; ringTotalLen = [];
 
-  /* ── Build spiral path ── */
-  function buildSpiralPath() {
-    spiralPath = [];
-    const b = RIDGE_GAP / (2 * Math.PI);
-    const maxTheta = MAX_TURNS * 2 * Math.PI;
-    let theta = SPIRAL_START / b;
+    for (let j = 0; j < NUM_RINGS; j++) {
+      // Stack arcs evenly within the egg height
+      const frac = j / (NUM_RINGS - 1);              // 0 = top, 1 = bottom
+      const yBase = CY - EGG_RY * 0.95 + frac * EGG_RY * 1.90;
 
-    while (theta < maxTheta) {
-      const r = b * theta;
-      if (r > 250) break;
+      // Arch height: upper ridges arch up more (fingerprint loop region)
+      // Clamp so arch never exceeds the egg boundary at this y
+      const rawArch = (1 - frac) * 42 + frac * 5;
+      const yTop = yBase - rawArch;
+      // If peak would exit egg, reduce arch to stay inside
+      const archH = yTop < CY - EGG_RY + 8 ? Math.max(5, yBase - (CY - EGG_RY + 8)) : rawArch;
 
-      const ovalY = OVAL_Y - 0.13 * Math.min(1, r / 220);
-      const nAmp  = 1.9 + r * 0.013;
-      const noise = nAmp * Math.sin(theta * 2.8 + r * 0.07)
-                  + (nAmp * 0.4) * Math.cos(theta * 5.5 + r * 0.05);
-      const rr = r + noise;
+      // X span at this y determined by egg ellipse
+      const yDist = yBase - CY;
+      const xHalf = EGG_RX * Math.sqrt(Math.max(0, 1 - (yDist / EGG_RY) ** 2));
+      if (xHalf < 15) continue;
 
-      const x = CX + Math.cos(theta) * rr;
-      const y = CY + Math.sin(theta) * rr * ovalY;
-      const dx = -Math.sin(theta) * rr + Math.cos(theta) * b;
-      const dy = ( Math.cos(theta) * rr + Math.sin(theta) * b) * ovalY;
-      const tangent = Math.atan2(dy, dx);
-      const turn = Math.floor(theta / (2 * Math.PI));
-      const skip = Math.random() < 0.07;
+      const ring = [];
+      const STEPS = 250;
 
-      spiralPath.push({ x, y, tangent, turn, skip });
+      for (let s = 0; s <= STEPS; s++) {
+        const u = s / STEPS;                        // 0 = left, 1 = right
+        const x = CX - xHalf + u * xHalf * 2;
 
-      const step = Math.max(0.04, CHAR_W / (rr + 1));
-      theta += step;
+        // Arch upward, peaks at centre of ridge
+        const arch = archH * Math.sin(u * Math.PI);
+
+        // Organic noise for ridge texture
+        const noise = 2.8 * Math.sin(u * 9.2 + j * 1.8 + 0.4)
+                    + 1.1 * Math.cos(u * 15.8 + j * 0.7);
+
+        const y = yBase - arch + noise;
+
+        // Tangent via forward difference
+        const du = 0.006;
+        const arch2 = archH * Math.sin((u + du) * Math.PI);
+        const noise2 = 2.8 * Math.sin((u + du) * 9.2 + j * 1.8 + 0.4)
+                     + 1.1 * Math.cos((u + du) * 15.8 + j * 0.7);
+        const x2 = CX - xHalf + (u + du) * xHalf * 2;
+        const y2 = yBase - arch2 + noise2;
+        const tangent = Math.atan2(y2 - y, x2 - x);
+
+        ring.push({ x, y, tangent });
+      }
+
+      // Pre-compute cumulative arc lengths
+      const cumLen = [0];
+      let arcLen = 0;
+      for (let i = 1; i < ring.length; i++) {
+        const ddx = ring[i].x - ring[i - 1].x;
+        const ddy = ring[i].y - ring[i - 1].y;
+        arcLen += Math.sqrt(ddx * ddx + ddy * ddy);
+        cumLen.push(arcLen);
+      }
+
+      rings.push(ring);
+      ringCumLens.push(cumLen);
+      ringTotalLen.push(arcLen);
     }
   }
 
-  /* ── Loop text helper ── */
-  function makeLoop(str, fallback) {
-    if (!str.trim()) str = fallback;
+  /* ── Sample a position along ring at arc-length target ── */
+  function sampleRing(j, targetLen) {
+    const cumLen = ringCumLens[j];
+    const ring   = rings[j];
+    let lo = 0, hi = ring.length - 1;
+    while (lo < hi - 1) {
+      const mid = (lo + hi) >> 1;
+      if (cumLen[mid] <= targetLen) lo = mid; else hi = mid;
+    }
+    const span = (cumLen[lo + 1] || cumLen[lo]) - cumLen[lo];
+    const frac = span > 0 ? (targetLen - cumLen[lo]) / span : 0;
+    const nx   = ring[lo + 1] ? ring[lo + 1].x : ring[lo].x;
+    const ny   = ring[lo + 1] ? ring[lo + 1].y : ring[lo].y;
+    return {
+      x: ring[lo].x + frac * (nx - ring[lo].x),
+      y: ring[lo].y + frac * (ny - ring[lo].y),
+      tangent: ring[lo].tangent,
+    };
+  }
+
+  /* ── Draw one complete ring ── */
+  function drawRing(j) {
+    const t        = j / (rings.length - 1);
+    const fontSize = BASE_FONT + t * (OUTER_FONT - BASE_FONT);
+    const charStep = fontSize * 0.66; // character spacing along arc
+
+    ctx.save();
+    ctx.font = `600 ${fontSize}px 'Caveat', cursive`;
+    ctx.textBaseline = 'middle';
+
+    const totalLen = ringTotalLen[j];
+    const numChars = Math.floor(totalLen / charStep);
+
+    for (let ci = 0; ci < numChars; ci++) {
+      const { x, y, tangent } = sampleRing(j, ci * charStep);
+
+      // Fade out near the left/right edges of each arc
+      const u = (x - (CX - EGG_RX)) / (EGG_RX * 2);
+      const edgeFade = Math.min(1, Math.sin(u * Math.PI) * 5);
+      if (edgeFade <= 0) continue;
+
+      // Occasional ridge break (very sparse — just enough for ink texture)
+      if (Math.random() < 0.012) continue;
+
+      const alpha  = (0.78 + Math.random() * 0.22) * edgeFade;
+      ctx.fillStyle = `rgba(8,3,18,${alpha})`;
+
+      // Arcs go left→right, tangent always near 0° — no flip needed
+      const angle = tangent;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillText(sourceText[textCursor % sourceText.length], 0, 0);
+      ctx.restore();
+
+      textCursor++;
+    }
+    ctx.restore();
+  }
+
+  /* ── Loop text ── */
+  function makeSource(str) {
+    if (!str.trim()) str = todayPrompt + ' ';
     let out = '';
-    while (out.length < spiralPath.length + 200) out += str + '  ';
+    while (out.length < 12000) out += str + '  ';
     return out;
   }
 
-  /* ── Init canvas ── */
+  /* ── Canvas background ── */
   function initCanvas() {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
+    // Faint egg outline as guide
     ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.ellipse(CX, CY, EGG_RX, EGG_RY, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
     ctx.font = '12px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -261,49 +358,16 @@
     ctx.restore();
   }
 
-  /* ── Draw chunk ── */
-  function drawChunk() {
-    if (charCursor >= spiralPath.length) { onComplete(); return; }
-
-    const end = Math.min(charCursor + CHARS_PER_TICK, spiralPath.length);
-    ctx.save();
-    ctx.font = `600 ${FONT_SIZE}px 'Caveat', cursive`;
-    ctx.textBaseline = 'middle';
-
-    for (let i = charCursor; i < end; i++) {
-      const { x, y, tangent, turn, skip } = spiralPath[i];
-      if (skip) continue;
-
-      const ex = (x - CX) / EGG_RX;
-      const ey = (y - CY) / EGG_RY;
-      const edgeDist = ex * ex + ey * ey;
-      if (edgeDist > 1) continue;
-      const edgeFade = edgeDist < 0.6 ? 1 : Math.pow(1 - (edgeDist - 0.6) / 0.4, 1.5);
-
-      const isLove = (turn % 2 === 0);
-      const [r, g, b2] = isLove ? COLOR_LOVE : COLOR_HATE;
-      const alpha = (0.82 + Math.random() * 0.18) * edgeFade;
-      ctx.fillStyle = `rgba(${r},${g},${b2},${alpha})`;
-
-      const txt = isLove ? loveLoop : hateLoop;
-      const cur = isLove ? loveCursor++ : hateCursor++;
-      const ch  = txt[cur % txt.length] || ' ';
-
-      const angle = Math.abs(tangent) > Math.PI / 2 ? tangent + Math.PI : tangent;
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(angle);
-      ctx.fillText(ch, 0, 0);
-      ctx.restore();
-    }
-
-    ctx.restore();
-    charCursor = end;
+  /* ── Reveal next ring ── */
+  function revealNext() {
+    if (revealCount >= rings.length) { onComplete(); return; }
+    drawRing(revealCount);
+    revealCount++;
+    if (revealCount >= rings.length) onComplete();
   }
 
   function onComplete() {
-    isHolding  = false;
-    isComplete = true;
+    isHolding = false; isComplete = true;
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
     document.getElementById('dlBtn').style.display = 'inline-block';
@@ -312,21 +376,17 @@
   /* ── Hold interaction ── */
   function startHold(e) {
     e.preventDefault();
-    if (isComplete) return;
-    if (charCursor === 0) {
-      const love = document.getElementById('fpLove').value.trim();
-      const hate = document.getElementById('fpHate').value.trim();
-      loveLoop   = makeLoop(love, 'running hot coffee the first day of spring staying up too late reading ');
-      hateLoop   = makeLoop(hate, 'alarm clocks wet socks people who talk in cinemas slow wifi ');
-      loveCursor = 0;
-      hateCursor = 0;
+    if (isComplete || revealCount >= rings.length) return;
+    if (revealCount === 0) {
+      sourceText = makeSource(document.getElementById('fpText').value.trim());
+      textCursor = 0;
     }
     isHolding = true;
     document.getElementById('canvasWrap').classList.add('holding');
-    drawChunk();
+    revealNext();
     holdTimer = setInterval(() => {
       if (!isHolding) { clearInterval(holdTimer); return; }
-      drawChunk();
+      revealNext();
     }, INTERVAL_MS);
   }
 
@@ -335,7 +395,7 @@
     isHolding = false;
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
-    if (charCursor > 0) document.getElementById('dlBtn').style.display = 'inline-block';
+    if (revealCount > 0) document.getElementById('dlBtn').style.display = 'inline-block';
   }
 
   canvas.addEventListener('mousedown',  startHold);
@@ -346,9 +406,8 @@
 
   /* ── Reset ── */
   function resetFP() {
-    charCursor = 0; loveCursor = 0; hateCursor = 0;
-    isHolding  = false; isComplete = false;
-    loveLoop   = ''; hateLoop = '';
+    revealCount = 0; textCursor = 0;
+    isHolding = false; isComplete = false; sourceText = '';
     clearInterval(holdTimer);
     document.getElementById('canvasWrap').classList.remove('holding');
     document.getElementById('dlBtn').style.display = 'none';
@@ -358,15 +417,15 @@
   /* ── Download ── */
   function downloadFP() {
     const dataUrl = canvas.toDataURL('image/png');
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) { window.open(dataUrl, '_blank'); }
-    else {
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.open(dataUrl, '_blank');
+    } else {
       const a = document.createElement('a');
       a.download = 'fingerprint.png'; a.href = dataUrl; a.click();
     }
   }
 
-  buildSpiralPath();
+  buildRings();
   initCanvas();
   </script>
 
