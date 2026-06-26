@@ -294,36 +294,40 @@
     }
 
     /*
-     * drawWords — zero-gap stacking, rows stretched vertically to fill frame.
-     * Each row is width-fitted first, then all rows are scaled in Y together
-     * so their total height = availableH. A fixed PAD border is left on all sides.
+     * drawWords — true zero-gap stacking using actualBoundingBox measurements.
+     * Uses the real rendered glyph height (ascent+descent) for each row, not
+     * the em-box fs which includes empty space above/below. All rows scaled in
+     * Y together to fill availH. PAD border on all sides.
      */
     function drawWords(ctx, words, PAD) {
       const availW = W - PAD * 2;
       const availH = H - PAD * 2;
 
-      // 1. Measure each word at the largest font that fills the width
+      // 1. Fit font to width, then measure true glyph bounds
+      ctx.textBaseline = 'alphabetic';
       const items = words.map(word => {
         const fs = fitFontW(ctx, word, availW);
         ctx.font = `${fs}px Anton, Impact, sans-serif`;
-        const tw = ctx.measureText(word).width;
-        return { word, fs, tw };
+        const m  = ctx.measureText(word);
+        const asc  = m.actualBoundingBoxAscent;
+        const desc = m.actualBoundingBoxDescent;
+        return { word, fs, tw: m.width, asc, glyphH: asc + desc };
       });
 
-      // 2. Compute vertical scale so all rows together fill availH with zero gap
-      const totalNatH = items.reduce((s, it) => s + it.fs, 0);
-      const scaleY = availH / totalNatH;
+      // 2. Scale Y so sum of true glyph heights = availH (zero visual gap)
+      const totalGlyphH = items.reduce((s, it) => s + it.glyphH, 0);
+      const scaleY = availH / totalGlyphH;
 
-      // 3. Draw each row: translate to its top edge, scale Y, draw at y=0
-      ctx.textBaseline = 'top';
+      // 3. Draw each row starting from PAD, rows touch exactly
       let curY = PAD;
-      items.forEach(({ word, fs, tw }) => {
-        const rowH = fs * scaleY;
+      items.forEach(({ word, fs, tw, asc, glyphH }) => {
+        const rowH = glyphH * scaleY;
         ctx.save();
         ctx.translate(0, curY);
         ctx.scale(1, scaleY);
         ctx.font = `${fs}px Anton, Impact, sans-serif`;
-        ctx.fillText(word, (W - tw) / 2, 0);
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(word, (W - tw) / 2, asc);
         ctx.restore();
         curY += rowH;
       });
