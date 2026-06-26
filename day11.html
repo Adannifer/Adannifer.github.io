@@ -188,7 +188,7 @@
   const CX = W / 2, CY = H / 2 + 20;
 
   /* ── Fingerprint parameters ── */
-  const NUM_RINGS   = 20;      // total ridges
+  const NUM_RINGS   = 24;      // total ridges
   const RING_GAP    = 16;      // px between ring centres
   const BASE_FONT   = 11;      // inner ring font size
   const OUTER_FONT  = 15;      // outer ring font size
@@ -214,9 +214,9 @@
     rings = []; ringCumLens = []; ringTotalLen = [];
 
     for (let j = 0; j < NUM_RINGS; j++) {
-      // Dense near core, sparse toward edges — like a real fingerprint
-      const r0 = j < 8 ? 10 * (j + 1) : 80 + 22 * (j - 7);
-      if (r0 > 355) break;
+      // Dense near core, moderately sparse toward edges
+      const r0 = j < 12 ? 6 * (j + 1) : 72 + 10 * (j - 11);
+      if (r0 > 300) break;
 
       const t = j / (NUM_RINGS - 1);
       const scaleX = 1 + t * 0.28;
