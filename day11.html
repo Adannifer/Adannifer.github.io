@@ -201,14 +201,15 @@
   const CX = W / 2, CY = H / 2 + 10;
 
   // Archimedean spiral params
-  const SPIRAL_START = 3;    // starting radius (px)
-  const RIDGE_GAP    = 5.0;  // spacing between spiral turns (px)
-  const MAX_TURNS    = 42;   // total turns in fingerprint
-  const FONT_SIZE    = 4.8;
-  const CHAR_W       = FONT_SIZE * 0.54; // monospace char width
-  const OVAL_Y       = 0.80; // vertical compression (fingerprint is oval)
-  const CHARS_PER_TICK = 160; // chars added per interval tick
+  const SPIRAL_START = 3;
+  const RIDGE_GAP    = 16;
+  const MAX_TURNS    = 19;
+  const FONT_SIZE    = 11;
+  const CHAR_W       = FONT_SIZE * 0.52;
+  const OVAL_Y       = 0.84;
+  const CHARS_PER_TICK = 60;
   const INTERVAL_MS  = 60;
+  const EGG_RX = 218, EGG_RY = 278;
 
   // Pre-compute spiral: array of {x,y,angle} for each character slot
   let spiralPath = [];
@@ -225,26 +226,28 @@
 
     while (theta < maxTheta) {
       const r = b * theta;
-      if (r > 260) break;
+      if (r > 255) break;
 
-      // Organic ridge perturbation (two sine waves = fingerprint texture)
-      const noise = 1.3 * Math.sin(theta * 2.8 + r * 0.09)
-                  + 0.6 * Math.cos(theta * 6.5 + r * 0.06);
+      // Progressive oval: outer rings flatten more (fingerprint arcs)
+      const ovalY = OVAL_Y - 0.14 * Math.min(1, r / 230);
+
+      // Organic ridge perturbation — amplitude grows outward
+      const nAmp = 1.8 + r * 0.012;
+      const noise = nAmp * Math.sin(theta * 2.8 + r * 0.07)
+                  + (nAmp * 0.4) * Math.cos(theta * 5.5 + r * 0.05);
       const rr = r + noise;
 
-      // Oval: compress y axis
       const x = CX + Math.cos(theta) * rr;
-      const y = CY + Math.sin(theta) * rr * OVAL_Y;
+      const y = CY + Math.sin(theta) * rr * ovalY;
 
-      // Tangent angle to spiral: dθ direction
-      // d/dθ [r·cos θ, r·sin θ·OVAL_Y] → tangent
       const dx = -Math.sin(theta) * rr + Math.cos(theta) * b;
-      const dy = ( Math.cos(theta) * rr + Math.sin(theta) * b) * OVAL_Y;
+      const dy = ( Math.cos(theta) * rr + Math.sin(theta) * b) * ovalY;
       const tangent = Math.atan2(dy, dx);
 
-      spiralPath.push({ x, y, tangent });
+      // Ridge break: randomly omit ~8% of positions (broken ridge texture)
+      const skip = Math.random() < 0.08;
+      spiralPath.push({ x, y, tangent, skip });
 
-      // Step along spiral: arc length ≈ r * dθ  →  dθ = CHAR_W / r
       const step = Math.max(0.04, CHAR_W / (rr + 1));
       theta += step;
     }
@@ -284,17 +287,25 @@
 
     const end = Math.min(charCursor + CHARS_PER_TICK, spiralPath.length);
     ctx.save();
-    ctx.font = `${FONT_SIZE}px "Courier New", monospace`;
+    ctx.font = `bold ${FONT_SIZE}px "Courier New", monospace`;
     ctx.textBaseline = 'middle';
 
     for (let i = charCursor; i < end; i++) {
-      const { x, y, tangent } = spiralPath[i];
-      // Fade in opacity as fingerprint grows denser toward outside
-      const progress = i / spiralPath.length;
-      ctx.fillStyle = `rgba(20,8,40,${0.55 + progress * 0.35})`;
+      const { x, y, tangent, skip } = spiralPath[i];
+      if (skip) continue;
+      // Egg-shape edge fade
+      const ex = (x - CX) / EGG_RX;
+      const ey = (y - CY) / EGG_RY;
+      const edgeDist = ex * ex + ey * ey;
+      if (edgeDist > 1) continue;
+      const edgeFade = edgeDist < 0.6 ? 1 : Math.pow(1 - (edgeDist - 0.6) / 0.4, 1.4);
+      // Slight per-char opacity jitter for ink texture
+      const jitter = 0.85 + Math.random() * 0.15;
+      ctx.fillStyle = `rgba(10,4,20,${jitter * edgeFade})`;
+      const angle = Math.abs(tangent) > Math.PI / 2 ? tangent + Math.PI : tangent;
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate(tangent);
+      ctx.rotate(angle);
       ctx.fillText(sourceText[i % sourceText.length], 0, 0);
       ctx.restore();
     }
