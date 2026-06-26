@@ -282,48 +282,50 @@
       reader.readAsDataURL(file);
     }
 
-    /* ── Font fit (binary search for size fitting width & height) ── */
-    function fitFont(ctx, text, maxW, maxH) {
-      let lo = 8, hi = 600;
+    /* ── Font fit: width only, no height constraint ── */
+    function fitFontW(ctx, text, maxW) {
+      let lo = 8, hi = 800;
       while (hi - lo > 0.5) {
         const mid = (lo + hi) / 2;
         ctx.font = `${mid}px Anton, Impact, sans-serif`;
-        ctx.measureText(text).width < maxW && mid < maxH ? lo = mid : hi = mid;
+        ctx.measureText(text).width <= maxW ? lo = mid : hi = mid;
       }
       return lo;
     }
 
-    /* ── Draw one line, nudging letter spacing only when word nearly fills the row ── */
-    function drawLine(ctx, text, maxW, y, fs) {
-      ctx.font = `${fs}px Anton, Impact, sans-serif`;
-      ctx.textBaseline = 'middle';
-      const chars = [...text];
-      const naturalW = ctx.measureText(text).width;
-      const fillRatio = naturalW / maxW;
-      // Only expand when the word already covers ≥65% of the row width
-      if (fillRatio >= 0.65 && chars.length > 1) {
-        const extra = maxW - naturalW;
-        const gap = extra / (chars.length - 1);
-        let xPos = (W - maxW) / 2;
-        chars.forEach((ch, i) => {
-          ctx.fillText(ch, xPos, y);
-          xPos += ctx.measureText(ch).width + (i < chars.length - 1 ? gap : 0);
-        });
-      } else {
-        ctx.fillText(text, (W - naturalW) / 2, y);
-      }
-    }
+    /*
+     * drawWords — zero-gap stacking, rows stretched vertically to fill frame.
+     * Each row is width-fitted first, then all rows are scaled in Y together
+     * so their total height = availableH. A fixed PAD border is left on all sides.
+     */
+    function drawWords(ctx, words, PAD) {
+      const availW = W - PAD * 2;
+      const availH = H - PAD * 2;
 
-    /* ── Draw all words onto a context ── */
-    function drawWords(tc, words, PAD) {
-      const maxW = W - PAD * 2;
-      const rowH = H / words.length;
-      const maxH = rowH * 0.88;
-      words.forEach((word, i) => {
-        const fs = fitFont(tc, word, maxW, maxH);
-        tc.font = `${fs}px Anton, Impact, sans-serif`;
-        const y = rowH * i + rowH * 0.5;
-        drawLine(tc, word, maxW, y, fs);
+      // 1. Measure each word at the largest font that fills the width
+      const items = words.map(word => {
+        const fs = fitFontW(ctx, word, availW);
+        ctx.font = `${fs}px Anton, Impact, sans-serif`;
+        const tw = ctx.measureText(word).width;
+        return { word, fs, tw };
+      });
+
+      // 2. Compute vertical scale so all rows together fill availH with zero gap
+      const totalNatH = items.reduce((s, it) => s + it.fs, 0);
+      const scaleY = availH / totalNatH;
+
+      // 3. Draw each row: translate to its top edge, scale Y, draw at y=0
+      ctx.textBaseline = 'top';
+      let curY = PAD;
+      items.forEach(({ word, fs, tw }) => {
+        const rowH = fs * scaleY;
+        ctx.save();
+        ctx.translate(0, curY);
+        ctx.scale(1, scaleY);
+        ctx.font = `${fs}px Anton, Impact, sans-serif`;
+        ctx.fillText(word, (W - tw) / 2, 0);
+        ctx.restore();
+        curY += rowH;
       });
     }
 
