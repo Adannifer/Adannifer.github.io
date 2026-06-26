@@ -287,7 +287,7 @@
       let lo = 8, hi = 600;
       while (hi - lo > 0.5) {
         const mid = (lo + hi) / 2;
-        ctx.font = `900 ${mid}px Anton, Impact, sans-serif`;
+        ctx.font = `${mid}px Anton, Impact, sans-serif`;
         ctx.measureText(text).width < maxW && mid < maxH ? lo = mid : hi = mid;
       }
       return lo;
@@ -365,6 +365,7 @@
 
     /* ── Main generate ── */
     async function generate() {
+      try { await document.fonts.load('48px Anton'); } catch(e) {}
       await document.fonts.ready;
 
       const words = [
@@ -383,22 +384,25 @@
 
       // 2. Photo clipped through letterforms
       if (photo) {
-        const tc = document.createElement('canvas');
-        tc.width = W; tc.height = H;
-        const tctx = tc.getContext('2d');
+        // Build text-only mask canvas (all words in white on transparent)
+        const mask = document.createElement('canvas');
+        mask.width = W; mask.height = H;
+        const mctx = mask.getContext('2d');
+        mctx.fillStyle = '#fff';
+        drawWords(mctx, words, PAD);
 
-        // Draw photo to fill canvas
+        // Draw photo, then clip with mask in one destination-in pass
+        const pc = document.createElement('canvas');
+        pc.width = W; pc.height = H;
+        const pctx = pc.getContext('2d');
         const scale = Math.max(W / photo.width, H / photo.height);
         const pw = photo.width * scale, ph = photo.height * scale;
         const px = (W - pw) / 2, py = (H - ph) / 2;
-        tctx.drawImage(photo, px, py, pw, ph);
+        pctx.drawImage(photo, px, py, pw, ph);
+        pctx.globalCompositeOperation = 'destination-in';
+        pctx.drawImage(mask, 0, 0);
 
-        // Clip: keep only where text is
-        tctx.globalCompositeOperation = 'destination-in';
-        tctx.fillStyle = '#fff';
-        drawWords(tctx, words, PAD);
-
-        ctx.drawImage(tc, 0, 0);
+        ctx.drawImage(pc, 0, 0);
       } else {
         // No photo: ghost text hint
         ctx.fillStyle = 'rgba(255,255,255,0.18)';
