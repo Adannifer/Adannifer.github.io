@@ -185,7 +185,7 @@
   const canvas = document.getElementById('fp-canvas');
   const ctx    = canvas.getContext('2d');
   const W = 560, H = 700;
-  const CX = W / 2, CY = H / 2 + 20;
+  const CX = W / 2, CY = H / 2 - 10;
 
   /* ── Fingerprint parameters ── */
   const NUM_RINGS   = 24;      // total ridges
@@ -207,7 +207,7 @@
 
   // Whorl core sits below canvas centre — outer rings radiate up from it
   const CORE_X = CX;
-  const CORE_Y = CY + 115;  // whorl sits near bottom of egg — outer rings show as upper arcs
+  const CORE_Y = CY + 100;  // whorl sits near bottom of egg — outer rings show as upper arcs
 
   /* ── Build concentric rings centred at whorl core ── */
   function buildRings() {
@@ -215,8 +215,8 @@
 
     for (let j = 0; j < NUM_RINGS; j++) {
       // Dense near core, moderately sparse toward edges
-      const r0 = j < 12 ? 6 * (j + 1) : 72 + 10 * (j - 11);
-      if (r0 > 300) break;
+      const r0 = j < 8 ? 6 * (j + 1) : 48 + 22 * (j - 7);
+      if (r0 > 340) break;
 
       const t = j / (NUM_RINGS - 1);
       const scaleX = 1 + t * 0.28;
