@@ -247,12 +247,12 @@
     customWrap.title = 'Custom color';
     customWrap.innerHTML = `<span>+</span><input type="color" id="colorPicker" value="#FF3EB5">`;
     customWrap.onclick = () => document.getElementById('colorPicker').click();
+    swatchRow.appendChild(customWrap);
     document.getElementById('colorPicker').oninput = e => {
       bgColor = e.target.value;
       document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
       customWrap.style.background = bgColor;
     };
-    swatchRow.appendChild(customWrap);
 
     /* ── Photo upload ── */
     const uploadZone = document.getElementById('uploadZone');
