@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 10 · Editorial Poster Generator · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <style>
+    body.day-page { --pink: #b4ff50; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 6px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg { font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size: clamp(28px,5vw,56px); font-weight:700; letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px; }
+    .day-title .green { color: var(--green); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic; }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:40px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Studio layout ── */
+    .studio {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 860px) { .studio { grid-template-columns: 1fr; } }
+
+    /* ── Controls panel ── */
+    .ctrl-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      position: sticky;
+      top: 100px;
+    }
+    .ctrl-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .ctrl-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--ink); font-family: inherit; font-size: 15px;
+      font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 12px 14px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .ctrl-input:focus { border-color: var(--pink); }
+    .ctrl-input::placeholder { color: var(--muted); font-weight: 400; text-transform: none; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 1.5px dashed var(--border); border-radius: 12px;
+      padding: 28px 16px; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .upload-zone:hover, .upload-zone.over { border-color: var(--pink); background: rgba(180,255,80,0.04); }
+    .upload-zone.ok { border-style: solid; border-color: var(--pink); }
+    .upload-icon { font-size: 24px; opacity: 0.4; }
+    .upload-text { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── Color swatches ── */
+    .swatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .swatch {
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: transform 0.2s, border-color 0.2s;
+    }
+    .swatch:hover { transform: scale(1.12); }
+    .swatch.active { border-color: var(--ink); transform: scale(1.12); }
+    .swatch-custom {
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      border: 1.5px dashed var(--border); overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: var(--muted); transition: border-color 0.2s;
+    }
+    .swatch-custom:hover { border-color: var(--pink); }
+    #colorPicker { position: absolute; opacity: 0; width: 0; height: 0; }
+
+    /* ── Generate button ── */
+    .gen-btn {
+      width: 100%; padding: 16px; background: var(--pink);
+      border: none; border-radius: 10px;
+      color: #0a0a0a; font-family: inherit; font-size: 13px;
+      font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+    }
+    .gen-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .gen-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+    /* ── Canvas & output ── */
+    .canvas-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    #poster {
+      max-width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      display: block;
+    }
+    .dl-btn {
+      padding: 12px 32px; background: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--muted); font-family: inherit; font-size: 11px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+      display: none;
+    }
+    .dl-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* ── info table ── */
+    .day-info-table { margin-top: 32px; }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 10</div>
+    <div class="day-num-bg">10</div>
+    <h1 class="day-title">Editorial<br><span class="green">Poster Generator</span></h1>
+    <div class="day-meta">
+      <span>Jun 25, 2026</span>
+      <span>Graphic Design · Typography</span>
+    </div>
+    <p class="day-statement">
+      Type three words. Upload a photo. Pick a color. Get an editorial poster with halftone dots, grain, and photo clipped through the letterforms.
+    </p>
+
+    <div class="day-info-table">
+      <div class="dit-row"><span class="dit-label">What</span><span class="dit-val">Three-word editorial poster with photo-through-text typography.</span></div>
+      <div class="dit-row"><span class="dit-label">Effect</span><span class="dit-val">Halftone dots + film grain + photo letterform masking.</span></div>
+      <div class="dit-row"><span class="dit-label">Export</span><span class="dit-val">Download as PNG. Open in new tab on mobile and long-press to save.</span></div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="day-section-label">Try it</div>
+
+    <div class="studio">
+
+      <!-- ── Controls ── -->
+      <div class="ctrl-panel">
+
+        <div>
+          <div class="ctrl-label">Upload photo</div>
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">↑</div>
+            <div class="upload-text" id="uploadText">Click or drag photo here</div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" style="display:none">
+        </div>
+
+        <div>
+          <div class="ctrl-label">Word 1</div>
+          <input class="ctrl-input" id="w1" type="text" placeholder="BROKE" maxlength="14" />
+        </div>
+        <div>
+          <div class="ctrl-label">Word 2</div>
+          <input class="ctrl-input" id="w2" type="text" placeholder="BUT" maxlength="14" />
+        </div>
+        <div>
+          <div class="ctrl-label">Word 3</div>
+          <input class="ctrl-input" id="w3" type="text" placeholder="BOUJEE" maxlength="14" />
+        </div>
+
+        <div>
+          <div class="ctrl-label">Background color</div>
+          <div class="swatch-row" id="swatchRow"></div>
+        </div>
+
+        <button class="gen-btn" id="genBtn" onclick="generate()">Generate Poster</button>
+      </div>
+
+      <!-- ── Canvas output ── -->
+      <div class="canvas-wrap">
+        <canvas id="poster" width="560" height="700"></canvas>
+        <button class="dl-btn" id="dlBtn" onclick="download()">↓ Save poster</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- bottom nav -->
+  <div style="width:100%; max-width:760px; padding:64px 6vw; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); margin:0 auto; font-family:inherit;">
+    <a href="day9.html" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none;">← Day 09</a>
+    <a href="index.html#making" style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none;">Index</a>
+  </div>
+
+  <script>
+    /* ── State ── */
+    let photo = null;
+    let bgColor = '#FF3EB5';
+    const W = 560, H = 700;
+
+    const COLORS = [
+      { hex: '#FF3EB5', name: 'Hot Pink' },
+      { hex: '#E8190B', name: 'Red' },
+      { hex: '#CC00FF', name: 'Purple' },
+      { hex: '#CCFF00', name: 'Acid' },
+      { hex: '#0047FF', name: 'Blue' },
+      { hex: '#FF6B00', name: 'Orange' },
+    ];
+
+    /* ── Build swatches ── */
+    const swatchRow = document.getElementById('swatchRow');
+    COLORS.forEach(c => {
+      const s = document.createElement('div');
+      s.className = 'swatch' + (c.hex === bgColor ? ' active' : '');
+      s.style.background = c.hex;
+      s.title = c.name;
+      s.onclick = () => {
+        bgColor = c.hex;
+        document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+        s.classList.add('active');
+      };
+      swatchRow.appendChild(s);
+    });
+    // Custom color picker
+    const customWrap = document.createElement('div');
+    customWrap.className = 'swatch-custom';
+    customWrap.title = 'Custom color';
+    customWrap.innerHTML = `<span>+</span><input type="color" id="colorPicker" value="#FF3EB5">`;
+    customWrap.onclick = () => document.getElementById('colorPicker').click();
+    document.getElementById('colorPicker').oninput = e => {
+      bgColor = e.target.value;
+      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+      customWrap.style.background = bgColor;
+    };
+    swatchRow.appendChild(customWrap);
+
+    /* ── Photo upload ── */
+    const uploadZone = document.getElementById('uploadZone');
+    const photoInput = document.getElementById('photoInput');
+
+    uploadZone.onclick = () => photoInput.click();
+    uploadZone.ondragover = e => { e.preventDefault(); uploadZone.classList.add('over'); };
+    uploadZone.ondragleave = () => uploadZone.classList.remove('over');
+    uploadZone.ondrop = e => {
+      e.preventDefault();
+      uploadZone.classList.remove('over');
+      if (e.dataTransfer.files[0]) loadPhoto(e.dataTransfer.files[0]);
+    };
+    photoInput.onchange = e => { if (e.target.files[0]) loadPhoto(e.target.files[0]); };
+
+    function loadPhoto(file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          photo = img;
+          uploadZone.classList.add('ok');
+          document.getElementById('uploadText').textContent = '✓ Photo loaded';
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* ── Font fit ── */
+    function fitFont(ctx, text, maxW) {
+      let lo = 8, hi = 600;
+      ctx.font = `900 ${hi}px Anton, Impact, sans-serif`;
+      while (hi - lo > 0.5) {
+        const mid = (lo + hi) / 2;
+        ctx.font = `900 ${mid}px Anton, Impact, sans-serif`;
+        ctx.measureText(text).width < maxW ? lo = mid : hi = mid;
+      }
+      return lo;
+    }
+
+    /* ── Draw text on a context (for clipping or direct) ── */
+    function drawWords(tc, words, PAD) {
+      const maxW = W - PAD * 2;
+      const rowH = H / words.length;
+      words.forEach((word, i) => {
+        const fs = fitFont(tc, word, maxW);
+        tc.font = `900 ${fs}px Anton, Impact, sans-serif`;
+        tc.textBaseline = 'middle';
+        const tw = tc.measureText(word).width;
+        const x = (W - tw) / 2;
+        const y = rowH * i + rowH * 0.5;
+        tc.fillText(word, x, y);
+      });
+    }
+
+    /* ── Halftone ── */
+    function addHalftone(ctx) {
+      const spacing = 7, maxR = 2.4;
+      ctx.save();
+      ctx.fillStyle = 'rgba(0,0,0,1)';
+      for (let row = 0; row * spacing < H + spacing; row++) {
+        const offX = (row % 2) * (spacing / 2);
+        for (let col = -1; col * spacing < W + spacing; col++) {
+          const x = col * spacing + offX;
+          const y = row * spacing;
+          const wave = 0.5 + 0.5 * Math.sin(x * 0.07) * Math.cos(y * 0.07);
+          const r = maxR * (0.5 + 0.5 * wave);
+          ctx.globalAlpha = 0.06 + 0.07 * wave;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+
+    /* ── Lace overlay — thin circles grid ── */
+    function addLace(ctx) {
+      const spacing = 18;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+      ctx.lineWidth = 0.6;
+      for (let row = 0; row * spacing < H + spacing; row++) {
+        const offX = (row % 2) * (spacing / 2);
+        for (let col = -1; col * spacing < W + spacing; col++) {
+          const x = col * spacing + offX;
+          const y = row * spacing;
+          ctx.globalAlpha = 0.4 + 0.3 * Math.random();
+          ctx.beginPath();
+          ctx.arc(x, y, spacing * 0.38, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    /* ── Film grain ── */
+    function addGrain(ctx, intensity) {
+      const imgData = ctx.getImageData(0, 0, W, H);
+      const d = imgData.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const n = (Math.random() - 0.5) * intensity;
+        d[i]   = Math.min(255, Math.max(0, d[i]   + n));
+        d[i+1] = Math.min(255, Math.max(0, d[i+1] + n));
+        d[i+2] = Math.min(255, Math.max(0, d[i+2] + n));
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    /* ── Main generate ── */
+    async function generate() {
+      await document.fonts.ready;
+
+      const words = [
+        (document.getElementById('w1').value.trim() || 'BROKE').toUpperCase(),
+        (document.getElementById('w2').value.trim() || 'BUT').toUpperCase(),
+        (document.getElementById('w3').value.trim() || 'BOUJEE').toUpperCase(),
+      ];
+
+      const canvas = document.getElementById('poster');
+      const ctx = canvas.getContext('2d');
+      const PAD = 14;
+
+      // 1. Fill background
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. Photo clipped through letterforms
+      if (photo) {
+        const tc = document.createElement('canvas');
+        tc.width = W; tc.height = H;
+        const tctx = tc.getContext('2d');
+
+        // Draw photo to fill canvas
+        const scale = Math.max(W / photo.width, H / photo.height);
+        const pw = photo.width * scale, ph = photo.height * scale;
+        const px = (W - pw) / 2, py = (H - ph) / 2;
+        tctx.drawImage(photo, px, py, pw, ph);
+
+        // Clip: keep only where text is
+        tctx.globalCompositeOperation = 'destination-in';
+        tctx.fillStyle = '#fff';
+        drawWords(tctx, words, PAD);
+
+        ctx.drawImage(tc, 0, 0);
+      } else {
+        // No photo: ghost text hint
+        ctx.fillStyle = 'rgba(255,255,255,0.18)';
+        drawWords(ctx, words, PAD);
+      }
+
+      // 3. Lace overlay
+      addLace(ctx);
+
+      // 4. Halftone dots
+      addHalftone(ctx);
+
+      // 5. Film grain
+      addGrain(ctx, 24);
+
+      // 6. Show download
+      document.getElementById('dlBtn').style.display = 'inline-block';
+    }
+
+    /* ── Download ── */
+    function download() {
+      const canvas = document.getElementById('poster');
+      const dataUrl = canvas.toDataURL('image/png');
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.open(dataUrl, '_blank');
+      } else {
+        const a = document.createElement('a');
+        a.download = 'poster.png';
+        a.href = dataUrl;
+        a.click();
+      }
+    }
+
+    // Draw placeholder on load
+    window.addEventListener('load', () => {
+      const canvas = document.getElementById('poster');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FF3EB5';
+      ctx.fillRect(0, 0, W, H);
+      document.fonts.ready.then(() => {
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        drawWords(ctx, ['BROKE','BUT','BOUJEE'], 14);
+        addHalftone(ctx);
+        addGrain(ctx, 20);
+      });
+    });
+  </script>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
