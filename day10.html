@@ -178,15 +178,15 @@
 
         <div>
           <div class="ctrl-label">Word 1</div>
-          <input class="ctrl-input" id="w1" type="text" placeholder="DREAMS" maxlength="14" />
+          <input class="ctrl-input" id="w1" type="text" placeholder="DREAMS" maxlength="20" />
         </div>
         <div>
           <div class="ctrl-label">Word 2</div>
-          <input class="ctrl-input" id="w2" type="text" placeholder="IN" maxlength="14" />
+          <input class="ctrl-input" id="w2" type="text" placeholder="IN" maxlength="20" />
         </div>
         <div>
           <div class="ctrl-label">Word 3</div>
-          <input class="ctrl-input" id="w3" type="text" placeholder="BAGS" maxlength="14" />
+          <input class="ctrl-input" id="w3" type="text" placeholder="BAGS" maxlength="20" />
         </div>
 
         <div>
@@ -282,7 +282,7 @@
       reader.readAsDataURL(file);
     }
 
-    /* ── Font fit ── */
+    /* ── Font fit (binary search for size fitting width & height) ── */
     function fitFont(ctx, text, maxW, maxH) {
       let lo = 8, hi = 600;
       while (hi - lo > 0.5) {
@@ -293,19 +293,37 @@
       return lo;
     }
 
-    /* ── Draw text on a context (for clipping or direct) ── */
+    /* ── Draw one line, nudging letter spacing only when word nearly fills the row ── */
+    function drawLine(ctx, text, maxW, y, fs) {
+      ctx.font = `${fs}px Anton, Impact, sans-serif`;
+      ctx.textBaseline = 'middle';
+      const chars = [...text];
+      const naturalW = ctx.measureText(text).width;
+      const fillRatio = naturalW / maxW;
+      // Only expand when the word already covers ≥65% of the row width
+      if (fillRatio >= 0.65 && chars.length > 1) {
+        const extra = maxW - naturalW;
+        const gap = extra / (chars.length - 1);
+        let xPos = (W - maxW) / 2;
+        chars.forEach((ch, i) => {
+          ctx.fillText(ch, xPos, y);
+          xPos += ctx.measureText(ch).width + (i < chars.length - 1 ? gap : 0);
+        });
+      } else {
+        ctx.fillText(text, (W - naturalW) / 2, y);
+      }
+    }
+
+    /* ── Draw all words onto a context ── */
     function drawWords(tc, words, PAD) {
       const maxW = W - PAD * 2;
       const rowH = H / words.length;
       const maxH = rowH * 0.88;
       words.forEach((word, i) => {
         const fs = fitFont(tc, word, maxW, maxH);
-        tc.font = `900 ${fs}px Anton, Impact, sans-serif`;
-        tc.textBaseline = 'middle';
-        const tw = tc.measureText(word).width;
-        const x = (W - tw) / 2;
+        tc.font = `${fs}px Anton, Impact, sans-serif`;
         const y = rowH * i + rowH * 0.5;
-        tc.fillText(word, x, y);
+        drawLine(tc, word, maxW, y, fs);
       });
     }
 
