@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 11 · Fingerprint · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    body.day-page { --pink: #b4ff50; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pink); border:1px solid var(--pink); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(28px,5vw,56px); font-weight:700; letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px; }
+    .day-title .green { color:var(--green); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Studio ── */
+    .fp-studio { max-width:660px; margin:0 auto; padding:0 6vw 100px; }
+
+    /* ── Prompt ── */
+    .fp-prompt-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+    .fp-prompt-text {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(20px,3.5vw,30px);
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    /* ── Textarea ── */
+    .fp-textarea {
+      width: 100%;
+      min-height: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.75;
+      padding: 16px 18px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    .fp-textarea:focus { border-color: var(--pink); }
+    .fp-textarea::placeholder { color: var(--muted); }
+    .fp-char-hint { font-size:10px; letter-spacing:0.1em; color:var(--muted); text-align:right; margin-bottom:32px; }
+
+    /* ── Canvas wrap ── */
+    .fp-canvas-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    #fp-canvas {
+      display: block;
+      border-radius: 4px;
+      cursor: crosshair;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      max-width: 100%;
+    }
+
+    /* ── Hold ring ── */
+    .hold-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 80px; height: 80px;
+      margin: -40px 0 0 -40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(247,241,234,0.18);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .holding .hold-ring { opacity: 1; animation: holdPulse 0.9s ease-in-out infinite; }
+    @keyframes holdPulse { 0%,100%{transform:scale(1);opacity:0.3} 50%{transform:scale(1.4);opacity:0.08} }
+
+    /* ── Buttons ── */
+    .fp-btn-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .fp-btn {
+      padding:11px 28px; background:none;
+      border:1px solid var(--border); border-radius:8px;
+      color:var(--muted); font-family:inherit; font-size:11px;
+      letter-spacing:0.14em; text-transform:uppercase;
+      cursor:pointer; transition:border-color 0.2s, color 0.2s;
+    }
+    .fp-btn:hover { border-color:var(--pink); color:var(--pink); }
+    .fp-btn.primary { border-color:var(--pink); color:var(--pink); display:none; }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 11</div>
+    <div class="day-num-bg">11</div>
+    <h1 class="day-title">Your Words,<br><span class="green">Your Fingerprint</span></h1>
+    <div class="day-meta">
+      <span>Jun 26, 2026</span>
+      <span>Generative Art · Identity</span>
+    </div>
+    <p class="day-statement">
+      Answer today's question. Press and hold the canvas. Your fingerprint forms from your words — one ring at a time.
+    </p>
+  </div>
+
+  <div class="day-content" style="padding:0 0 0;">
+    <div class="day-section-label" style="padding:0 6vw;">Try it</div>
+
+    <div class="fp-studio">
+
+      <div class="fp-prompt-label">Today's question</div>
+      <div class="fp-prompt-text" id="fpPrompt">—</div>
+
+      <textarea
+        class="fp-textarea"
+        id="fpText"
+        placeholder="Write your answer here…"
+        rows="4"
+      ></textarea>
+      <div class="fp-char-hint"><span id="charCount">0</span> characters · your words will loop to fill the fingerprint</div>
+
+      <div class="fp-canvas-wrap" id="canvasWrap">
+        <div class="hold-ring" id="holdRing"></div>
+        <canvas id="fp-canvas" width="560" height="700"></canvas>
+        <div class="fp-btn-row">
+          <button class="fp-btn" onclick="resetFP()">↺ Start over</button>
+          <button class="fp-btn primary" id="dlBtn" onclick="downloadFP()">↓ Save fingerprint</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="width:100%;max-width:760px;padding:64px 6vw;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);margin:0 auto;font-family:inherit;">
+    <a href="day10.html" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">← Day 10</a>
+    <a href="index.html#making" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Index</a>
+  </div>
+
+  <script>
+  /* ── Prompts ── */
+  const PROMPTS = [
+    "What did you want to say today but didn't?",
+    "Describe how your body felt this morning.",
+    "What are you pretending not to know?",
+    "What feeling has been following you around lately?",
+    "What did you notice today that nobody else probably did?",
+    "Who were you today?",
+    "What would you tell yourself from a year ago?",
+    "What did today ask of you?",
+    "What do you keep almost saying?",
+    "What stayed with you today?",
+    "What does your body remember that your mind has forgotten?",
+    "What were you afraid to want?",
+  ];
+
+  const todayPrompt = PROMPTS[new Date().getDate() % PROMPTS.length];
+  document.getElementById('fpPrompt').textContent = '"' + todayPrompt + '"';
+
+  /* ── Textarea char count ── */
+  const fpText = document.getElementById('fpText');
+  fpText.addEventListener('input', () => {
+    document.getElementById('charCount').textContent = fpText.value.length;
+  });
+
+  /* ── Canvas / fingerprint state ── */
+  const canvas = document.getElementById('fp-canvas');
+  const ctx    = canvas.getContext('2d');
+  const W = 560, H = 700;
+  const CX = W / 2, CY = H / 2 + 30;
+
+  const RING_SPACING = 5.2;
+  const MIN_R        = 5;
+  const MAX_R        = 238;
+  const FONT_SIZE    = 5.2;
+  const CHAR_W       = FONT_SIZE * 0.56;
+  const INTERVAL_MS  = 70;
+
+  let currentR   = MIN_R;
+  let ringIndex  = 0;
+  let isHolding  = false;
+  let holdTimer  = null;
+  let isComplete = false;
+
+  /* ── Init canvas ── */
+  function initCanvas() {
+    ctx.fillStyle = '#f4efe6';
+    ctx.fillRect(0, 0, W, H);
+    drawIdleHint();
+  }
+
+  function drawIdleHint() {
+    ctx.save();
+    ctx.fillStyle = 'rgba(30,14,50,0.22)';
+    ctx.font = '11px "Courier New", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('press and hold to begin', CX, CY);
+    ctx.restore();
+  }
+
+  /* ── Loop text to fill ring circumference ── */
+  function loopText(str, count) {
+    if (!str.trim()) str = todayPrompt + ' ';
+    let out = '';
+    while (out.length < count) out += str + ' ';
+    return out.slice(0, count);
+  }
+
+  /* ── Draw one ring ── */
+  function drawRing() {
+    if (currentR > MAX_R) { onComplete(); return; }
+
+    const r        = currentR;
+    const userStr  = fpText.value.trim();
+    const circum   = 2 * Math.PI * r;
+    const nChars   = Math.max(3, Math.floor(circum / CHAR_W));
+    const text     = loopText(userStr, nChars);
+    const dir      = ringIndex % 2 === 0 ? 1 : -1;
+    const angleStep = (2 * Math.PI * dir) / nChars;
+    const startOff = ringIndex * 0.18; // slight rotation per ring → spiral feel
+
+    ctx.save();
+    ctx.font      = `${FONT_SIZE}px "Courier New", monospace`;
+    ctx.fillStyle = `rgba(20,8,40,${0.72 + Math.random() * 0.18})`;
+    ctx.textBaseline = 'middle';
+
+    for (let i = 0; i < nChars; i++) {
+      const angle = -Math.PI / 2 + startOff + i * angleStep;
+      // Organic ridge noise: two overlapping sine waves
+      const noise = Math.sin(angle * 5 + r * 0.14) * 1.4
+                  + Math.cos(angle * 11 + r * 0.09) * 0.7;
+      const rr = r + noise;
+      // Slight vertical compression for fingerprint oval shape
+      const x = CX + Math.cos(angle) * rr;
+      const y = CY + Math.sin(angle) * rr * 0.88;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle + (Math.PI / 2) * dir);
+      ctx.fillText(text[i], 0, 0);
+      ctx.restore();
+    }
+
+    ctx.restore();
+    currentR  += RING_SPACING;
+    ringIndex += 1;
+  }
+
+  function onComplete() {
+    isHolding  = false;
+    isComplete = true;
+    clearInterval(holdTimer);
+    document.getElementById('canvasWrap').classList.remove('holding');
+    document.getElementById('dlBtn').style.display = 'inline-block';
+  }
+
+  /* ── Hold interaction ── */
+  function startHold(e) {
+    e.preventDefault();
+    if (isComplete) return;
+    isHolding = true;
+    document.getElementById('canvasWrap').classList.add('holding');
+    drawRing();
+    holdTimer = setInterval(() => {
+      if (!isHolding) { clearInterval(holdTimer); return; }
+      drawRing();
+    }, INTERVAL_MS);
+  }
+
+  function endHold(e) {
+    if (!isHolding) return;
+    isHolding = false;
+    clearInterval(holdTimer);
+    document.getElementById('canvasWrap').classList.remove('holding');
+    // Show download if any rings drawn
+    if (ringIndex > 0) document.getElementById('dlBtn').style.display = 'inline-block';
+  }
+
+  canvas.addEventListener('mousedown',  startHold);
+  canvas.addEventListener('mouseup',    endHold);
+  canvas.addEventListener('mouseleave', endHold);
+  canvas.addEventListener('touchstart', startHold, { passive: false });
+  canvas.addEventListener('touchend',   endHold);
+
+  /* ── Reset ── */
+  function resetFP() {
+    currentR   = MIN_R;
+    ringIndex  = 0;
+    isHolding  = false;
+    isComplete = false;
+    clearInterval(holdTimer);
+    document.getElementById('canvasWrap').classList.remove('holding');
+    document.getElementById('dlBtn').style.display = 'none';
+    initCanvas();
+  }
+
+  /* ── Download ── */
+  function downloadFP() {
+    const dataUrl = canvas.toDataURL('image/png');
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.open(dataUrl, '_blank');
+    } else {
+      const a = document.createElement('a');
+      a.download = 'fingerprint.png';
+      a.href = dataUrl;
+      a.click();
+    }
+  }
+
+  /* ── Reset when text changes significantly ── */
+  let lastResetLen = 0;
+  fpText.addEventListener('input', () => {
+    const len = fpText.value.length;
+    // Only auto-reset if user clears and rewrites (>20 char delta while < 10 drawn rings)
+    if (ringIndex < 10 && Math.abs(len - lastResetLen) > 15) {
+      resetFP();
+      lastResetLen = len;
+    }
+  });
+
+  initCanvas();
+  </script>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
