@@ -178,15 +178,15 @@
 
         <div>
           <div class="ctrl-label">Word 1</div>
-          <input class="ctrl-input" id="w1" type="text" placeholder="TELL ME" maxlength="20" />
+          <input class="ctrl-input" id="w1" type="text" placeholder="BODIES OF" maxlength="20" />
         </div>
         <div>
           <div class="ctrl-label">Word 2</div>
-          <input class="ctrl-input" id="w2" type="text" placeholder="YOU" maxlength="20" />
+          <input class="ctrl-input" id="w2" type="text" placeholder="MODERN" maxlength="20" />
         </div>
         <div>
           <div class="ctrl-label">Word 3</div>
-          <input class="ctrl-input" id="w3" type="text" placeholder="LOVE ME" maxlength="20" />
+          <input class="ctrl-input" id="w3" type="text" placeholder="HATE" maxlength="20" />
         </div>
 
         <div>
@@ -393,9 +393,9 @@
       await document.fonts.ready;
 
       const words = [
-        (document.getElementById('w1').value.trim() || 'TELL ME').toUpperCase(),
-        (document.getElementById('w2').value.trim() || 'YOU').toUpperCase(),
-        (document.getElementById('w3').value.trim() || 'LOVE ME').toUpperCase(),
+        (document.getElementById('w1').value.trim() || 'BODIES OF').toUpperCase(),
+        (document.getElementById('w2').value.trim() || 'MODERN').toUpperCase(),
+        (document.getElementById('w3').value.trim() || 'HATE').toUpperCase(),
       ];
 
       const canvas = document.getElementById('poster');
@@ -469,7 +469,7 @@
       ctx.fillRect(0, 0, W, H);
       document.fonts.ready.then(() => {
         ctx.fillStyle = 'rgba(255,255,255,0.12)';
-        drawWords(ctx, ['TELL ME','YOU','LOVE ME'], 14);
+        drawWords(ctx, ['BODIES OF','MODERN','HATE'], 14);
         addHalftone(ctx);
         addGrain(ctx, 20);
       });
