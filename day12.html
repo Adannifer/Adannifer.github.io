@@ -363,67 +363,6 @@
       ctx.fill();
       ctx.restore();
 
-      // ── Edge-snap: find strong edges near the lasso interior and tighten fill ──
-      edgeSnap(r, g, b);
-    }
-
-    /* ── Edge snap: for pixels at the boundary of the fill, pull them to nearby image edges ──
-       Detects where the fill overlaps a background (high-contrast boundary inside the lasso)
-       and erodes those pixels away, making the silhouette follow the real person outline. */
-    function edgeSnap(fillR, fillG, fillB) {
-      const W = canvas.width, H = canvas.height;
-      const imageData = ctx.getImageData(0, 0, W, H);
-      const d = imageData.data;
-
-      // Find filled pixels and check if any 4-neighbor is NOT filled (boundary pixels).
-      // For boundary pixels that are on the "wrong side" of a strong image edge, erase them.
-      const SNAP_RADIUS = 3;  // how many px inward to search for the real edge
-      const EDGE_THRESH = 35; // gradient magnitude threshold
-
-      for (let y = 1; y < H - 1; y++) {
-        for (let x = 1; x < W - 1; x++) {
-          const i = (y * W + x) * 4;
-          if (d[i] !== fillR || d[i+1] !== fillG || d[i+2] !== fillB) continue;
-
-          // Check if this is a boundary pixel (any neighbor not filled)
-          const isBoundary =
-            d[i - 4] !== fillR || d[i + 4] !== fillR ||
-            d[i - W*4] !== fillR || d[i + W*4] !== fillR;
-          if (!isBoundary) continue;
-
-          // Sample original image gradient at this pixel using the snapshot
-          // (snapshot was saved before fill, but we already committed to undoStack)
-          // Use Sobel on the current image — non-fill pixels are still original
-          // Check neighbors for a strong edge within SNAP_RADIUS pixels outward
-          let hasNearbyOriginal = false;
-          for (let dy = -SNAP_RADIUS; dy <= SNAP_RADIUS && !hasNearbyOriginal; dy++) {
-            for (let dx = -SNAP_RADIUS; dx <= SNAP_RADIUS && !hasNearbyOriginal; dx++) {
-              const nx = x + dx, ny = y + dy;
-              if (nx < 1 || nx >= W-1 || ny < 1 || ny >= H-1) continue;
-              const ni = (ny * W + nx) * 4;
-              if (d[ni] === fillR && d[ni+1] === fillG && d[ni+2] === fillB) continue;
-              // Gradient at this original pixel
-              const gx = d[ni+4] - d[ni-4];
-              const gy = d[ni+W*4] - d[ni-W*4];
-              if (Math.abs(gx) + Math.abs(gy) > EDGE_THRESH) hasNearbyOriginal = true;
-            }
-          }
-          // If there's a nearby strong edge outside the fill, erase this boundary pixel
-          if (hasNearbyOriginal) {
-            d[i] = d[i+1] = d[i+2] = d[i+3] = 0; // mark for restore
-          }
-        }
-      }
-
-      // Restore erased boundary pixels from the last undo snapshot
-      const orig = undoStack[undoStack.length - 1].data;
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i+3] === 0 && orig[i+3] !== 0) {
-          d[i] = orig[i]; d[i+1] = orig[i+1]; d[i+2] = orig[i+2]; d[i+3] = orig[i+3];
-        }
-      }
-
-      ctx.putImageData(imageData, 0, 0);
     }
 
     /* ── Flood fill fallback (click with no drag) ── */
