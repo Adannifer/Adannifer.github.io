@@ -300,8 +300,14 @@
       const W = canvas.width, H = canvas.height;
 
       // Find which person mask covers the click point
+      // Sort smallest-area first so background people take priority over the large foreground subject
+      const sorted = [...segments].sort((a, b) => {
+        const aArea = a.data.reduce((s, v) => s + v, 0);
+        const bArea = b.data.reduce((s, v) => s + v, 0);
+        return aArea - bArea;
+      });
       let foundMask = null;
-      for (const seg of segments) {
+      for (const seg of sorted) {
         // seg.data dimensions may differ from canvas — scale coordinates
         const mx = Math.min(seg.width  - 1, Math.floor(clickX * seg.width  / W));
         const my = Math.min(seg.height - 1, Math.floor(clickY * seg.height / H));
