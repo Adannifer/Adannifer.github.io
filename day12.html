@@ -181,9 +181,9 @@
             <!-- swatches injected by JS -->
           </div>
           <div class="mc-tolerance-row">
-            <span class="mc-tolerance-label">Spread</span>
-            <input type="range" class="mc-slider" id="tolSlider" min="5" max="120" value="40" />
-            <span class="mc-tol-val" id="tolVal">40</span>
+            <span class="mc-tolerance-label">Connect</span>
+            <input type="range" class="mc-slider" id="tolSlider" min="5" max="100" value="25" />
+            <span class="mc-tol-val" id="tolVal">25</span>
           </div>
         </div>
 
@@ -299,52 +299,97 @@
 
     function floodFill(startX, startY, tolerance) {
       const W = canvas.width, H = canvas.height;
-      const imageData = ctx.getImageData(0, 0, W, H);
-      const data = imageData.data;
+      const N = W * H;
 
-      const idx = (startY * W + startX) * 4;
-      const targetR = data[idx], targetG = data[idx+1], targetB = data[idx+2];
-
-      const [fillR, fillG, fillB] = hexToRGB(PALETTE[currentColor].hex);
-      const fillA = PALETTE[currentColor].alpha;
-
-      // Push undo snapshot
+      // Snapshot for undo before any changes
       undoStack.push(ctx.getImageData(0, 0, W, H));
       if (undoStack.length > 20) undoStack.shift();
       document.getElementById('undoBtn').disabled = false;
 
-      const visited = new Uint8Array(W * H);
-      const queue = [startX + startY * W];
-      visited[startX + startY * W] = 1;
+      const imageData = ctx.getImageData(0, 0, W, H);
+      const data = imageData.data;
 
-      while (queue.length) {
-        const pos = queue.pop();
+      const startPos = startY * W + startX;
+      const targetR = data[startPos*4], targetG = data[startPos*4+1], targetB = data[startPos*4+2];
+      const [fillR, fillG, fillB] = hexToRGB(PALETTE[currentColor].hex);
+
+      // ── Step 1: BFS flood fill → build boolean mask ──
+      const mask = new Uint8Array(N);
+      const stack = [startPos];
+      mask[startPos] = 1;
+
+      while (stack.length) {
+        const pos = stack.pop();
         const px = pos % W, py = (pos / W) | 0;
-        const i = pos * 4;
-
-        // Blend fill color over existing pixel
-        const a = fillA / 255;
-        data[i]   = Math.round(fillR * a + data[i]   * (1 - a));
-        data[i+1] = Math.round(fillG * a + data[i+1] * (1 - a));
-        data[i+2] = Math.round(fillB * a + data[i+2] * (1 - a));
-        data[i+3] = 255;
-
-        const neighbors = [
-          px-1 >= 0     ? pos - 1 : -1,
-          px+1 <  W     ? pos + 1 : -1,
-          py-1 >= 0     ? pos - W : -1,
-          py+1 <  H     ? pos + W : -1,
-        ];
-        for (const n of neighbors) {
-          if (n < 0 || visited[n]) continue;
+        const expand = (n) => {
+          if (n < 0 || n >= N || mask[n]) return;
           const ni = n * 4;
           const dr = data[ni]   - targetR;
           const dg = data[ni+1] - targetG;
           const db = data[ni+2] - targetB;
           if (Math.sqrt(dr*dr + dg*dg + db*db) <= tolerance) {
-            visited[n] = 1;
-            queue.push(n);
+            mask[n] = 1;
+            stack.push(n);
           }
+        };
+        if (px > 0)   expand(pos - 1);
+        if (px < W-1) expand(pos + 1);
+        if (py > 0)   expand(pos - W);
+        if (py < H-1) expand(pos + W);
+      }
+
+      // ── Step 2: BFS dilation — expand mask outward by DILATION px ──
+      // (bridges gaps between differently-colored parts of the same person)
+      const DILATION = 10;
+      const dilated = mask.slice();
+      const dilQueue = [];
+      let dilHead = 0;
+      for (let i = 0; i < N; i++) { if (mask[i]) dilQueue.push([i, 0]); }
+
+      while (dilHead < dilQueue.length) {
+        const [pos, dist] = dilQueue[dilHead++];
+        if (dist >= DILATION) continue;
+        const px = pos % W, py = (pos / W) | 0;
+        const spread = (n) => {
+          if (n < 0 || n >= N || dilated[n]) return;
+          dilated[n] = 1;
+          dilQueue.push([n, dist + 1]);
+        };
+        if (px > 0)   spread(pos - 1);
+        if (px < W-1) spread(pos + 1);
+        if (py > 0)   spread(pos - W);
+        if (py < H-1) spread(pos + W);
+      }
+
+      // ── Step 3: Flood fill from image border → mark true "outside" pixels ──
+      // Dilated pixels block propagation, so enclosed holes stay unmarked.
+      const outside = new Uint8Array(N);
+      const outStack = [];
+      const markOut = (pos) => {
+        if (pos < 0 || pos >= N || outside[pos] || dilated[pos]) return;
+        outside[pos] = 1;
+        outStack.push(pos);
+      };
+      for (let x = 0; x < W; x++) { markOut(x); markOut((H-1)*W + x); }
+      for (let y = 0; y < H; y++) { markOut(y*W); markOut(y*W + W-1); }
+
+      while (outStack.length) {
+        const pos = outStack.pop();
+        const px = pos % W, py = (pos / W) | 0;
+        if (px > 0)   markOut(pos - 1);
+        if (px < W-1) markOut(pos + 1);
+        if (py > 0)   markOut(pos - W);
+        if (py < H-1) markOut(pos + W);
+      }
+
+      // ── Step 4: Paint — anything enclosed (not outside) gets solid fill ──
+      for (let i = 0; i < N; i++) {
+        if (!outside[i] && dilated[i]) {
+          const pi = i * 4;
+          data[pi]   = fillR;
+          data[pi+1] = fillG;
+          data[pi+2] = fillB;
+          data[pi+3] = 255;
         }
       }
 
