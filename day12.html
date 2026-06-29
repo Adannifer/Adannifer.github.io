@@ -267,10 +267,10 @@
       isWorking = true;
       try {
         segments = await net.segmentMultiPerson(canvas, {
-          internalResolution: 'high',
-          segmentationThreshold: 0.7,
-          maxDetections: 10,
-          scoreThreshold: 0.5,
+          internalResolution: 'full',
+          segmentationThreshold: 0.4,
+          maxDetections: 20,
+          scoreThreshold: 0.15,
           nmsRadius: 20,
         });
         const n = segments.length;
