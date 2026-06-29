@@ -267,10 +267,10 @@
       isWorking = true;
       try {
         segments = await net.segmentMultiPerson(canvas, {
-          internalResolution: 'medium',
-          segmentationThreshold: 0.5,
+          internalResolution: 'high',
+          segmentationThreshold: 0.7,
           maxDetections: 10,
-          scoreThreshold: 0.3,
+          scoreThreshold: 0.5,
           nmsRadius: 20,
         });
         const n = segments.length;
@@ -340,41 +340,41 @@
     }
 
     /* ── Crayon fill ──
-       Fills the mask with a directional stripe pattern that
-       leaves organic gaps — the characteristic crayon-over-paper look. */
+       Solid-ish fill with slight edge roughness and tiny random holes
+       — matches the reference "thick marker/crayon" look. */
     function fillCrayon(mask, W, H, r, g, b) {
       const imageData = ctx.getImageData(0, 0, W, H);
       const data = imageData.data;
 
-      const PERIOD  = 7;    // stripe period in px
-      const GAP     = 0.32; // fraction of each stripe that's a gap
-      const angle   = Math.PI / 4.2;
-      const ca = Math.cos(angle), sa = Math.sin(angle);
-
-      // Precompute a lightweight noise table to avoid Math.random() per pixel
-      const NOISE_LEN = 512;
-      const noise = new Float32Array(NOISE_LEN);
-      for (let i = 0; i < NOISE_LEN; i++) noise[i] = Math.random();
+      // Small LUT for fast pseudo-random values
+      const LUT = new Uint8Array(1024);
+      for (let i = 0; i < LUT.length; i++) LUT[i] = Math.random() * 255;
+      const rng = (x, y) => LUT[((x * 7 + y * 13) >>> 0) & 1023] / 255;
 
       for (let y = 0; y < H; y++) {
         for (let x = 0; x < W; x++) {
           if (!mask[y * W + x]) continue;
 
-          // Directional wave — creates stripe gaps like crayon strokes
-          const proj = x * ca + y * sa;
-          const wave = Math.sin(proj / PERIOD * Math.PI * 2);
+          const n = rng(x, y);
 
-          // Add slight per-pixel noise for organic edge texture
-          const n = noise[(x * 7 + y * 13) & (NOISE_LEN - 1)];
+          // Edge pixels: check if near boundary of mask, add slight roughness
+          const isEdge = (
+            y > 0     && !mask[(y-1)*W+x] ||
+            y < H-1   && !mask[(y+1)*W+x] ||
+            x > 0     && !mask[y*W+x-1]   ||
+            x < W-1   && !mask[y*W+x+1]
+          );
 
-          if (wave < -1 + GAP * 2 + n * 0.15) continue;  // gap pixel
+          // Drop ~18% of edge pixels and ~4% of interior pixels for crayon gaps
+          const dropRate = isEdge ? 0.20 : 0.04;
+          if (n < dropRate) continue;
 
           const pi = (y * W + x) * 4;
           data[pi]   = r;
           data[pi+1] = g;
           data[pi+2] = b;
-          // Vary alpha slightly along the stripe for depth
-          data[pi+3] = 195 + Math.round(n * 45);
+          // Slight alpha variation for hand-drawn warmth
+          data[pi+3] = 210 + Math.round(n * 35);
         }
       }
 
