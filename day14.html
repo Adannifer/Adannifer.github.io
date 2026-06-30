@@ -220,14 +220,13 @@
   <script>
   (() => {
     /* ── Constants ── */
-    const FW = 1080, FH = 1920;
+    const FW = 701, FH = 1891;
 
-    // Slot positions in frame-pixel coordinates (x, y, w, h)
-    // Adjusted to match the black cutout areas in the frame
+    // Slot positions measured from the actual white areas in day14_frame.jpg
     const SLOTS = [
-      { x: 38,  y: 172, w: 1004, h: 428, label: 'Hello Kitty' },  // top HK frame
-      { x: 60,  y: 620, w: 960,  h: 258, label: 'Angel'       },  // middle hearts frame
-      { x: 178, y: 892, w: 724,  h: 272, label: 'Heart'       },  // bottom heart frame
+      { x: 85,  y: 262, w: 540, h: 478, label: 'Hello Kitty' },
+      { x: 40,  y: 782, w: 655, h: 336, label: 'Angel'       },
+      { x: 140, y: 1285, w: 420, h: 244, label: 'Heart'      },
     ];
 
     /* ── State ── */
@@ -244,7 +243,7 @@
 
     /* ── Load frame ── */
     frameImg.onload = () => { redraw(); buildSlotSVG(); };
-    frameImg.src = '90days/day14_frame.png';
+    frameImg.src = '90days/day14_frame.jpg';
 
     /* ── Redraw canvas ── */
     function redraw() {
