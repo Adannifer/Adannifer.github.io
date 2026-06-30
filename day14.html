@@ -19,7 +19,6 @@
     .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
-    /* ── Booth ── */
     .booth-wrap {
       max-width: 460px;
       margin: 0 auto;
@@ -30,106 +29,65 @@
       gap: 20px;
     }
 
-    /* ── Step indicator ── */
-    .booth-steps {
-      display: flex;
-      gap: 8px;
-      align-items: center;
+    /* Live composite canvas — shows frame + webcam in current slot */
+    #boothCanvas {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(255,110,180,0.2);
     }
-    .step-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--border);
-      transition: background 0.3s;
-    }
-    .step-dot.done { background: var(--accent); }
-    .step-dot.active { background: #fff; transform: scale(1.3); }
 
-    /* ── Cam view ── */
-    .cam-box {
+    /* Hidden video source */
+    #camVideo { display: none; }
+
+    /* Step dots */
+    .booth-steps { display:flex; gap:8px; align-items:center; }
+    .step-dot { width:8px; height:8px; border-radius:50%; background:var(--border); transition:background 0.3s; }
+    .step-dot.done { background:var(--accent); }
+    .step-dot.active { background:#fff; transform:scale(1.3); }
+
+    /* Countdown overlay shown over canvas */
+    .countdown-wrap {
       position: relative;
       width: 100%;
-      max-width: 360px;
-      aspect-ratio: 3/4;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #0a0a14;
-      border: 2px solid var(--border);
+      max-width: 300px;
     }
-    .cam-box.active { border-color: var(--accent); box-shadow: 0 0 24px rgba(255,110,180,0.3); }
-    .cam-box.hidden { display: none; }
-
-    #camVideo {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transform: scaleX(-1);
-      display: block;
-    }
-    .cam-overlay {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+    #boothCanvas { display: block; }
+    #countdownOverlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px; font-weight: 700;
+      color: white;
+      text-shadow: 0 0 40px rgba(255,110,180,0.9), 0 0 80px rgba(255,110,180,0.5);
       pointer-events: none;
+      display: none;
     }
-    .countdown-num {
-      font-size: 96px; font-weight: 700;
-      color: white; line-height: 1;
-      text-shadow: 0 0 40px rgba(255,110,180,0.8);
-      opacity: 0;
-      transition: opacity 0.15s;
-    }
-    .countdown-num.show { opacity: 1; }
-    .flash {
-      position: absolute; inset: 0;
-      background: white;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.05s;
-    }
-    .flash.show { opacity: 1; }
 
-    /* ── Slot label ── */
     .slot-label {
       font-size: 11px; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--accent);
       text-align: center;
     }
-
-    /* ── Result frame ── */
-    .result-box {
-      width: 100%;
-      max-width: 360px;
-      border-radius: 16px;
-      overflow: hidden;
-      display: none;
-      box-shadow: 0 24px 60px rgba(255,110,180,0.25);
-    }
-    .result-box canvas {
-      width: 100%; display: block;
-    }
-
-    /* ── Buttons ── */
-    .booth-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .booth-btn {
-      padding: 13px 28px;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      color: var(--muted);
-      font-family: inherit; font-size: 12px;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-    .booth-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .booth-btn.primary { border-color: var(--accent); color: var(--accent); }
-    .booth-btn.primary:hover { background: var(--accent); color: #0a0a14; }
-    .booth-btn:disabled { opacity: 0.3; pointer-events: none; }
-
     .booth-status {
       font-size: 12px; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--muted);
       text-align: center; min-height: 18px;
     }
+    .booth-btn-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .booth-btn {
+      padding: 13px 28px; background: none;
+      border: 1px solid var(--border); border-radius: 24px;
+      color: var(--muted); font-family: inherit; font-size: 12px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .booth-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .booth-btn.primary { border-color: var(--accent); color: var(--accent); }
+    .booth-btn.primary:hover { background: var(--accent); color: #0a0a14; }
+    .booth-btn:disabled { opacity: 0.3; pointer-events: none; }
   </style>
 </head>
 <body class="project-page day-page">
@@ -167,34 +125,29 @@
 
     <div class="booth-wrap">
 
-      <div class="booth-steps" id="stepsRow">
+      <div class="booth-steps">
         <div class="step-dot active" id="dot0"></div>
         <div class="step-dot" id="dot1"></div>
         <div class="step-dot" id="dot2"></div>
       </div>
 
-      <div class="slot-label" id="slotLabel">Get ready to snap photo 1 of 3</div>
+      <div class="slot-label" id="slotLabel">Ready to shoot</div>
 
-      <!-- Live camera view -->
-      <div class="cam-box" id="camBox">
-        <video id="camVideo" autoplay playsinline muted></video>
-        <div class="cam-overlay">
-          <div class="countdown-num" id="countdownNum"></div>
-        </div>
-        <div class="flash" id="flashEl"></div>
+      <!-- Live composite canvas -->
+      <div class="countdown-wrap">
+        <canvas id="boothCanvas"></canvas>
+        <div id="countdownOverlay"></div>
       </div>
 
-      <!-- Final composite result -->
-      <div class="result-box" id="resultBox">
-        <canvas id="resultCanvas"></canvas>
-      </div>
+      <!-- Hidden video source -->
+      <video id="camVideo" autoplay playsinline muted></video>
 
-      <div class="booth-status" id="boothStatus">Allow camera access to begin</div>
+      <div class="booth-status" id="boothStatus"></div>
 
-      <div class="booth-btn-row" id="btnRow">
+      <div class="booth-btn-row">
         <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
-        <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Instead</button>
-        <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap Photo 1</button>
+        <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
+        <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
         <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
         <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" style="display:none">↓ Save Strip</button>
         <button class="booth-btn" id="restartBtn" onclick="restartBooth()" style="display:none">↺ Start Over</button>
@@ -207,49 +160,111 @@
   <script src="script.js" defer></script>
   <script>
   (() => {
-    /* ── Frame dimensions and slot positions (measured from day14_frame2.png 600×1550) ── */
+    /* ── Frame: 600×1550, transparent slots ── */
     const FW = 600, FH = 1550;
     const SLOTS = [
-      { x: 47,  y: 239, w: 504, h: 364, name: 'Hello Kitty' },
-      { x: 44,  y: 632, w: 555, h: 297, name: 'Angel'       },
-      { x: 123, y: 1064, w: 341, h: 219, name: 'Heart'      },
+      { x: 47,  y: 239,  w: 504, h: 364 },
+      { x: 44,  y: 632,  w: 555, h: 297 },
+      { x: 123, y: 1064, w: 341, h: 219 },
     ];
+    const NAMES = ['Hello Kitty', 'Angel', 'Heart'];
 
     /* ── State ── */
-    let stream      = null;
-    let photos      = [null, null, null];  // captured images per slot
-    let current     = 0;  // which slot we're on
-    let counting    = false;
-    let frameImg    = null;
+    let stream    = null;
+    let frameImg  = null;
+    let photos    = [null, null, null];
+    let current   = 0;
+    let counting  = false;
+    let rafId     = null;
+    let done      = false;
 
-    /* ── Elements ── */
-    const camBox      = document.getElementById('camBox');
-    const camVideo    = document.getElementById('camVideo');
-    const countdownEl = document.getElementById('countdownNum');
-    const flashEl     = document.getElementById('flashEl');
-    const resultBox   = document.getElementById('resultBox');
-    const resultCvs   = document.getElementById('resultCanvas');
-    const resultCtx   = resultCvs.getContext('2d');
+    /* ── Canvas ── */
+    const canvas = document.getElementById('boothCanvas');
+    const ctx    = canvas.getContext('2d');
+    canvas.width  = FW;
+    canvas.height = FH;
+    const camVideo = document.getElementById('camVideo');
 
     /* ── Load frame ── */
-    function loadFrame(cb) {
-      if (frameImg) { cb(); return; }
-      frameImg = new Image();
-      frameImg.onload = cb;
-      frameImg.src = '90days/day14_frame2.png';
-    }
-
-    /* ── Helpers ── */
-    function setStatus(msg) { document.getElementById('boothStatus').textContent = msg; }
-    function setLabel(msg)  { document.getElementById('slotLabel').textContent = msg; }
-
-    function showBtn(...ids) {
-      ['startBtn','uploadBtn','snapBtn','retakeBtn','saveBtn','restartBtn'].forEach(id => {
-        const el = document.getElementById(id);
-        el.style.display = ids.includes(id) ? '' : 'none';
+    function loadFrame() {
+      return new Promise(res => {
+        if (frameImg) { res(); return; }
+        frameImg = new Image();
+        frameImg.onload = res;
+        frameImg.src = '90days/day14_frame2.png';
       });
     }
 
+    /* ── draw cover helper ── */
+    function drawCover(img, x, y, w, h, mirror) {
+      const r  = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      const sw = w / r, sh = h / r;
+      const sx = (img.naturalWidth  - sw) / 2;
+      const sy = (img.naturalHeight - sh) / 2;
+      if (mirror) {
+        ctx.save();
+        ctx.translate(x + w, y);
+        ctx.scale(-1, 1);
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        ctx.restore();
+      } else {
+        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+      }
+    }
+
+    /* ── Draw video into a slot ── */
+    function drawVideoInSlot(s) {
+      if (!camVideo.videoWidth) return;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(s.x, s.y, s.w, s.h);
+      ctx.clip();
+      const r  = Math.max(s.w / camVideo.videoWidth, s.h / camVideo.videoHeight);
+      const vw = camVideo.videoWidth * r, vh = camVideo.videoHeight * r;
+      const vx = s.x + (s.w - vw) / 2;
+      const vy = s.y + (s.h - vh) / 2;
+      // mirror
+      ctx.translate(s.x + s.w, s.y);
+      ctx.scale(-1, 1);
+      ctx.drawImage(camVideo, -(vx - s.x), vy - s.y, vw, vh);
+      ctx.restore();
+    }
+
+    /* ── Main render loop ── */
+    function render() {
+      ctx.clearRect(0, 0, FW, FH);
+
+      // Draw captured photos
+      SLOTS.forEach((s, i) => {
+        if (photos[i]) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(s.x, s.y, s.w, s.h);
+          ctx.clip();
+          drawCover(photos[i], s.x, s.y, s.w, s.h, false);
+          ctx.restore();
+        }
+      });
+
+      // Draw live video in current slot if webcam active and not done
+      if (stream && !done && current < 3 && !photos[current]) {
+        drawVideoInSlot(SLOTS[current]);
+      }
+
+      // Frame overlay on top
+      if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
+
+      if (!done) rafId = requestAnimationFrame(render);
+    }
+
+    /* ── UI helpers ── */
+    function showBtns(...ids) {
+      ['startBtn','uploadBtn','snapBtn','retakeBtn','saveBtn','restartBtn'].forEach(id => {
+        document.getElementById(id).style.display = ids.includes(id) ? '' : 'none';
+      });
+    }
+    function setStatus(t) { document.getElementById('boothStatus').textContent = t; }
+    function setLabel(t)  { document.getElementById('slotLabel').textContent = t; }
     function updateDots() {
       for (let i = 0; i < 3; i++) {
         const d = document.getElementById(`dot${i}`);
@@ -257,136 +272,119 @@
       }
     }
 
-    /* ── Draw cover (object-fit:cover equivalent) ── */
-    function drawCover(ctx, img, x, y, w, h) {
-      const r  = Math.max(w / img.naturalWidth, h / img.naturalHeight);
-      const sw = w / r, sh = h / r;
-      const sx = (img.naturalWidth  - sw) / 2;
-      const sy = (img.naturalHeight - sh) / 2;
-      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
-    }
-
-    /* ── Composite and show ── */
-    function renderComposite(target) {
-      const ctx = target.getContext('2d');
-      target.width  = FW;
-      target.height = FH;
-      ctx.clearRect(0, 0, FW, FH);
-      // 1. Draw photos into their slots first
-      SLOTS.forEach((s, i) => {
-        if (!photos[i]) return;
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(s.x, s.y, s.w, s.h);
-        ctx.clip();
-        drawCover(ctx, photos[i], s.x, s.y, s.w, s.h);
-        ctx.restore();
-      });
-      // 2. Frame PNG on top (transparent areas show photos through)
-      ctx.drawImage(frameImg, 0, 0, FW, FH);
-    }
-
-    function showPreview() {
-      renderComposite(resultCvs);
-    }
-
-    /* ── Start booth ── */
+    /* ── Start ── */
     window.startBooth = async () => {
+      document.getElementById('startBtn').disabled = true;
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
         camVideo.srcObject = stream;
-        camBox.classList.add('active');
-        showBtn('snapBtn', 'uploadBtn');
+        await loadFrame();
+        rafId = requestAnimationFrame(render);
+        showBtns('snapBtn', 'uploadBtn');
+        setLabel(`Photo 1 of 3 — ${NAMES[0]}`);
         setStatus('');
-        setLabel(`Photo 1 of 3 — ${SLOTS[0].name}`);
-        document.getElementById('snapBtn').textContent = '📸 Snap Photo 1';
-        loadFrame(() => {});
+        updateDots();
       } catch(e) {
-        setStatus('Camera blocked — use Upload Instead');
-        showBtn('uploadBtn');
+        setStatus('Camera not available — use Upload');
+        showBtns('uploadBtn');
+        await loadFrame();
+        render();
       }
     };
 
-    /* ── Snap ── */
+    /* ── Snap with countdown ── */
     window.triggerSnap = () => {
       if (counting) return;
       counting = true;
-      showBtn();  // hide all during countdown
-      let count = 3;
-      countdownEl.textContent = count;
-      countdownEl.classList.add('show');
-
-      const interval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countdownEl.textContent = count;
+      showBtns();
+      const overlay = document.getElementById('countdownOverlay');
+      let n = 3;
+      overlay.textContent = n;
+      overlay.style.display = 'block';
+      const iv = setInterval(() => {
+        n--;
+        if (n > 0) {
+          overlay.textContent = n;
         } else {
-          clearInterval(interval);
-          countdownEl.classList.remove('show');
-          doCapture();
+          clearInterval(iv);
+          overlay.style.display = 'none';
+          capture();
         }
       }, 1000);
     };
 
-    function doCapture() {
-      // Flash effect
-      flashEl.classList.add('show');
-      setTimeout(() => flashEl.classList.remove('show'), 120);
-
-      // Capture from video
-      const tmp = document.createElement('canvas');
-      tmp.width  = camVideo.videoWidth  || 640;
-      tmp.height = camVideo.videoHeight || 480;
-      const tc = tmp.getContext('2d');
-      tc.translate(tmp.width, 0);
-      tc.scale(-1, 1);
-      tc.drawImage(camVideo, 0, 0);
-
-      const img = new Image();
-      img.onload = () => {
-        photos[current] = img;
-        counting = false;
-        afterCapture();
-      };
-      img.src = tmp.toDataURL('image/jpeg', 0.95);
+    function capture() {
+      // Flash
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillRect(0, 0, FW, FH);
+      setTimeout(() => {
+        // Snapshot current video frame
+        const tmp = document.createElement('canvas');
+        tmp.width  = camVideo.videoWidth  || 640;
+        tmp.height = camVideo.videoHeight || 480;
+        const tc = tmp.getContext('2d');
+        tc.drawImage(camVideo, 0, 0); // not mirrored — we'll mirror on display
+        const img = new Image();
+        img.onload = () => {
+          photos[current] = img;
+          counting = false;
+          advance();
+        };
+        img.src = tmp.toDataURL('image/jpeg', 0.95);
+      }, 80);
     }
 
-    function afterCapture() {
-      loadFrame(() => {
-        showPreview();
+    function advance() {
+      if (current < 2) {
+        current++;
+        updateDots();
+        setLabel(`Photo ${current + 1} of 3 — ${NAMES[current]}`);
+        showBtns('snapBtn', 'retakeBtn', 'uploadBtn');
+        setStatus('');
+      } else {
+        // All done
+        done = true;
+        cancelAnimationFrame(rafId);
+        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+        // Final render
+        ctx.clearRect(0, 0, FW, FH);
+        SLOTS.forEach((s, i) => {
+          if (!photos[i]) return;
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(s.x, s.y, s.w, s.h);
+          ctx.clip();
+          // mirror the captured photo back for natural selfie look
+          const r  = Math.max(s.w / photos[i].naturalWidth, s.h / photos[i].naturalHeight);
+          const sw = s.w / r, sh = s.h / r;
+          const sx = (photos[i].naturalWidth  - sw) / 2;
+          const sy = (photos[i].naturalHeight - sh) / 2;
+          ctx.save();
+          ctx.translate(s.x + s.w, s.y);
+          ctx.scale(-1, 1);
+          ctx.drawImage(photos[i], sx, sy, sw, sh, 0, 0, s.w, s.h);
+          ctx.restore();
+          ctx.restore();
+        });
+        ctx.drawImage(frameImg, 0, 0, FW, FH);
 
-        if (current < 2) {
-          current++;
-          updateDots();
-          setLabel(`Photo ${current + 1} of 3 — ${SLOTS[current].name}`);
-          document.getElementById('snapBtn').textContent = `📸 Snap Photo ${current + 1}`;
-          showBtn('snapBtn', 'retakeBtn', 'uploadBtn');
-          setStatus('');
-        } else {
-          // All done
-          updateDots();
-          camBox.classList.add('hidden');
-          resultBox.style.display = 'block';
-          if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-          setLabel('Your strip is ready!');
-          showBtn('saveBtn', 'restartBtn');
-          setStatus('');
-        }
-      });
-    }
-
-    /* ── Retake last ── */
-    window.retake = () => {
-      if (current > 0 && photos[current - 1] && !photos[current]) {
-        current--;
+        updateDots();
+        setLabel('Your strip is ready!');
+        showBtns('saveBtn', 'restartBtn');
+        setStatus('');
       }
+    }
+
+    /* ── Retake ── */
+    window.retake = () => {
+      if (current > 0 && photos[current] === null) current--;
       photos[current] = null;
+      done = false;
       updateDots();
-      setLabel(`Retake photo ${current + 1} of 3 — ${SLOTS[current].name}`);
-      document.getElementById('snapBtn').textContent = `📸 Snap Photo ${current + 1}`;
-      showBtn('snapBtn', 'uploadBtn');
+      setLabel(`Photo ${current + 1} of 3 — ${NAMES[current]}`);
+      showBtns('snapBtn', 'uploadBtn');
       setStatus('');
-      showPreview();
+      if (stream && !rafId) rafId = requestAnimationFrame(render);
     };
 
     /* ── Upload fallback ── */
@@ -394,7 +392,6 @@
       document.getElementById('fileInput').value = '';
       document.getElementById('fileInput').click();
     };
-
     document.getElementById('fileInput').addEventListener('change', e => {
       const f = e.target.files[0];
       if (!f) return;
@@ -404,39 +401,36 @@
         photos[current] = img;
         URL.revokeObjectURL(url);
         counting = false;
-        loadFrame(afterCapture);
+        advance();
       };
       img.src = url;
     });
 
     /* ── Save ── */
     window.saveFinal = () => {
-      const out = document.createElement('canvas');
-      renderComposite(out);
       const a = document.createElement('a');
-      a.href = out.toDataURL('image/png');
+      a.href = canvas.toDataURL('image/png');
       a.download = 'selfish-booth.png';
       a.click();
     };
 
     /* ── Restart ── */
     window.restartBooth = () => {
-      photos   = [null, null, null];
-      current  = 0;
-      camBox.classList.remove('hidden', 'active');
-      resultBox.style.display = 'none';
+      photos = [null, null, null];
+      current = 0; done = false;
+      cancelAnimationFrame(rafId); rafId = null;
       updateDots();
-      setLabel('Get ready to snap photo 1 of 3');
-      showBtn('startBtn');
-      setStatus('Allow camera access to begin');
-      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      setLabel('Ready to shoot');
+      showBtns('startBtn');
+      setStatus('');
+      ctx.clearRect(0, 0, FW, FH);
+      if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
     };
 
-    /* ── Also allow webcam to auto-start preview loop ── */
-    // Show preview canvas updating live during capture
-    setInterval(() => {
-      if (stream && photos.some(Boolean)) showPreview();
-    }, 500);
+    /* ── Initial frame render ── */
+    loadFrame().then(() => {
+      ctx.drawImage(frameImg, 0, 0, FW, FH);
+    });
 
   })();
   </script>
