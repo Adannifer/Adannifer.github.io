@@ -20,13 +20,34 @@
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
     .booth-wrap {
-      max-width: 460px;
+      max-width: 760px;
       margin: 0 auto;
       padding: 0 6vw 100px;
       display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .booth-frame-col {
+      flex-shrink: 0;
+      width: min(280px, 40vw);
+    }
+
+    .booth-controls-col {
+      flex: 1;
+      display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 20px;
+      padding-top: 16px;
+      position: sticky;
+      top: 80px;
+    }
+
+    @media (max-width: 540px) {
+      .booth-wrap { flex-direction: column; align-items: center; }
+      .booth-frame-col { width: 100%; max-width: 300px; }
+      .booth-controls-col { position: static; width: 100%; max-width: 300px; }
     }
 
     /* Live composite canvas — shows frame + webcam in current slot */
@@ -125,34 +146,37 @@
 
     <div class="booth-wrap">
 
-      <div class="booth-steps">
-        <div class="step-dot active" id="dot0"></div>
-        <div class="step-dot" id="dot1"></div>
-        <div class="step-dot" id="dot2"></div>
+      <!-- Left: frame canvas -->
+      <div class="booth-frame-col">
+        <div class="countdown-wrap">
+          <canvas id="boothCanvas"></canvas>
+          <div id="countdownOverlay"></div>
+        </div>
+        <video id="camVideo" autoplay playsinline muted></video>
       </div>
 
-      <div class="slot-label" id="slotLabel">Ready to shoot</div>
+      <!-- Right: controls -->
+      <div class="booth-controls-col">
+        <div class="booth-steps">
+          <div class="step-dot active" id="dot0"></div>
+          <div class="step-dot" id="dot1"></div>
+          <div class="step-dot" id="dot2"></div>
+        </div>
 
-      <!-- Live composite canvas -->
-      <div class="countdown-wrap">
-        <canvas id="boothCanvas"></canvas>
-        <div id="countdownOverlay"></div>
+        <div class="slot-label" id="slotLabel">Ready to shoot</div>
+
+        <div class="booth-status" id="boothStatus"></div>
+
+        <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
+          <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
+          <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
+          <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
+          <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
+          <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" style="display:none">↓ Save Strip</button>
+          <button class="booth-btn" id="restartBtn" onclick="restartBooth()" style="display:none">↺ Start Over</button>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" />
       </div>
-
-      <!-- Hidden video source -->
-      <video id="camVideo" autoplay playsinline muted></video>
-
-      <div class="booth-status" id="boothStatus"></div>
-
-      <div class="booth-btn-row">
-        <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
-        <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
-        <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
-        <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
-        <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" style="display:none">↓ Save Strip</button>
-        <button class="booth-btn" id="restartBtn" onclick="restartBooth()" style="display:none">↺ Start Over</button>
-      </div>
-      <input type="file" id="fileInput" accept="image/*" style="display:none" />
 
     </div>
   </div>
