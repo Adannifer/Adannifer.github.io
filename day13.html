@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 13 · Patch Lab · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --pink: #b4ff50; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pink); border:1px solid var(--pink); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(28px,5vw,56px); font-weight:700; letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px; }
+    .day-title .green { color:var(--green); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Layout ── */
+    .pl-body { max-width:900px; margin:0 auto; padding:0 6vw 100px; }
+
+    /* ── Die-line banner ── */
+    .pl-dieline {
+      width:100%; border-radius:16px; overflow:hidden;
+      margin-bottom:56px; border:1px solid var(--border);
+    }
+    .pl-dieline img { width:100%; display:block; }
+
+    /* ── Product trio ── */
+    .pl-trio {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+      margin-bottom:64px;
+    }
+    @media(max-width:600px){ .pl-trio { grid-template-columns:1fr; } }
+
+    .pl-product {
+      background:rgba(255,255,255,0.04); border:1px solid var(--border);
+      border-radius:16px; padding:24px 20px 20px; text-align:center;
+    }
+    .pl-product img { width:100%; border-radius:12px; display:block; margin-bottom:16px; }
+    .pl-product-name { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--pink); margin-bottom:6px; }
+    .pl-product-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+
+    /* ── Process timeline ── */
+    .pl-process { display:flex; flex-direction:column; gap:48px; }
+
+    .pl-step { display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start; }
+    .pl-step-num {
+      width:40px; height:40px; border-radius:50%; background:rgba(180,255,80,0.08);
+      border:1px solid rgba(180,255,80,0.25); color:var(--pink);
+      font-size:12px; font-weight:700; letter-spacing:0.06em;
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .pl-step-content {}
+    .pl-step-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .pl-step-title { font-size:16px; font-weight:600; color:var(--ink); margin-bottom:10px; line-height:1.3; }
+    .pl-step-body { font-size:13px; color:var(--muted); line-height:1.7; }
+
+    /* ── Learnings ── */
+    .pl-learnings {
+      margin-top:64px; border-top:1px solid var(--border); padding-top:48px;
+    }
+    .pl-learnings-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:24px; }
+    .pl-learning-list { display:flex; flex-direction:column; gap:12px; }
+    .pl-learning {
+      display:flex; gap:12px; align-items:baseline;
+      font-size:13px; color:var(--muted); line-height:1.65;
+    }
+    .pl-learning::before { content:'→'; color:var(--pink); flex-shrink:0; font-size:11px; }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 13</div>
+    <div class="day-num-bg">13</div>
+    <h1 class="day-title">Patch<br><span class="green">Lab</span></h1>
+    <div class="day-meta">
+      <span>Jun 30, 2026</span>
+      <span>Product · AI Image Generation</span>
+    </div>
+    <p class="day-statement">
+      From die-line to finished product photo using AI image generation. Three shapes, twelve iterations, one process documented.
+    </p>
+  </div>
+
+  <div class="day-content" style="padding:0;">
+    <div class="day-section-label" style="padding:0 6vw;">Process</div>
+
+    <div class="pl-body">
+
+      <!-- Final products -->
+      <div class="pl-trio">
+        <div class="pl-product">
+          <img src="90days/day13_productimage/joydotzpng (2).png" alt="Butterfly hydrocolloid patches" />
+          <div class="pl-product-name">Butterfly</div>
+          <div class="pl-product-desc">Clear acrylic, solid white</div>
+        </div>
+        <div class="pl-product">
+          <img src="90days/day13_productimage/joydotzpng.png" alt="Cloud hydrocolloid patches" />
+          <div class="pl-product-name">Cloud</div>
+          <div class="pl-product-desc">Holographic laser film</div>
+        </div>
+        <div class="pl-product">
+          <img src="90days/day13_productimage/joydotzpng (1).png" alt="Flower hydrocolloid patches" />
+          <div class="pl-product-name">Flower</div>
+          <div class="pl-product-desc">Matte acrylic, pink and beige</div>
+        </div>
+      </div>
+
+      <!-- Process steps -->
+      <div class="pl-process">
+
+        <div class="pl-step">
+          <div class="pl-step-num">01</div>
+          <div class="pl-step-content">
+            <div class="pl-step-label">Reference</div>
+            <div class="pl-step-title">Die-line as ground truth</div>
+            <div class="pl-step-body">Started with a technical CAD drawing: 45×45mm rounded square base, four shapes per tray, exact dimensions labeled. Paired with a finished holographic sticker photo as material reference. Without both, the model defaults to generic shapes.</div>
+          </div>
+        </div>
+
+        <div class="pl-step">
+          <div class="pl-step-num">02</div>
+          <div class="pl-step-content">
+            <div class="pl-step-label">Cloud</div>
+            <div class="pl-step-title">Texture before shape</div>
+            <div class="pl-step-body">Three rounds to get the holographic texture right. First pass was too purple-heavy. Added a real texture swatch as image reference, shifted language to "silvery white base, light blue and light pink refraction." Color correction through reference, not prompts alone.</div>
+          </div>
+        </div>
+
+        <div class="pl-step">
+          <div class="pl-step-num">03</div>
+          <div class="pl-step-content">
+            <div class="pl-step-label">Flower</div>
+            <div class="pl-step-title">Fighting the 3D badge default</div>
+            <div class="pl-step-body">Four rounds. The model kept generating raised 3D buttons instead of flat stickers. Text descriptions alone did not fix it. A real product photo as material reference finally resolved the thickness issue. Color layout also required explicit diagonal correction: "top-left and bottom-right pink, top-right and bottom-left beige-grey."</div>
+          </div>
+        </div>
+
+        <div class="pl-step">
+          <div class="pl-step-num">04</div>
+          <div class="pl-step-content">
+            <div class="pl-step-label">Butterfly</div>
+            <div class="pl-step-title">Naming the silhouette</div>
+            <div class="pl-step-body">Two rounds. The model simplified "butterfly" into a cloud on the first attempt. Fixed by describing the silhouette explicitly: "symmetrical four-wing, upper wings larger, narrowing at center." Die-line alone was not enough.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Learnings -->
+      <div class="pl-learnings">
+        <div class="pl-learnings-label">Key learnings</div>
+        <div class="pl-learning-list">
+          <div class="pl-learning">Pair every die-line with a finished product photo reference. Shape accuracy improves significantly with both.</div>
+          <div class="pl-learning">For complex silhouettes, describe the outline in words alongside the reference image. Models simplify when uncertain.</div>
+          <div class="pl-learning">Real product photos fix material issues that text prompts cannot. Especially for flat vs. raised texture.</div>
+          <div class="pl-learning">Pantone codes are ignored by image models. Describe in plain language and note the code for documentation only.</div>
+          <div class="pl-learning">Color placement errors need explicit before/after language: "currently X, should be Y."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
