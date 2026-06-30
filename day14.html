@@ -6,145 +6,130 @@
   <title>Day 14 · Selfish Booth · Jennifer Qian</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body.day-page { --pink: #ff6eb4; }
+    body.day-page { --accent: #ff6eb4; }
 
     .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
-    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pink); border:1px solid var(--pink); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
-    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
     .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
     .day-title { font-size:clamp(28px,5vw,56px); font-weight:700; letter-spacing:-0.02em; line-height:1.05; margin-bottom:20px; }
-    .day-title .green { color:var(--pink); }
+    .day-title .pink { color:var(--accent); }
     .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
-    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
     .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
-    /* ── Booth layout ── */
+    /* ── Booth ── */
     .booth-wrap {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 0 6vw 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
-      padding: 0 6vw 100px;
-      max-width: 600px;
-      margin: 0 auto;
+      gap: 20px;
     }
 
-    /* ── Frame + slots ── */
-    .booth-stage {
+    /* ── Step indicator ── */
+    .booth-steps {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .step-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .step-dot.done { background: var(--accent); }
+    .step-dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ── Cam view ── */
+    .cam-box {
       position: relative;
       width: 100%;
-      max-width: 380px;
-      border-radius: 12px;
+      max-width: 360px;
+      aspect-ratio: 3/4;
+      border-radius: 16px;
       overflow: hidden;
-      cursor: crosshair;
+      background: #0a0a14;
+      border: 2px solid var(--border);
     }
-    #frameCanvas {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
+    .cam-box.active { border-color: var(--accent); box-shadow: 0 0 24px rgba(255,110,180,0.3); }
+    .cam-box.hidden { display: none; }
 
-    /* ── Slot highlight overlay (SVG) ── */
-    #slotOverlay {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+    #camVideo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      display: block;
+    }
+    .cam-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       pointer-events: none;
     }
-    .slot-rect {
-      fill: rgba(255, 110, 180, 0.18);
-      stroke: #ff6eb4;
-      stroke-width: 2;
-      rx: 4;
-      cursor: pointer;
-      pointer-events: all;
-      transition: fill 0.2s;
+    .countdown-num {
+      font-size: 96px; font-weight: 700;
+      color: white; line-height: 1;
+      text-shadow: 0 0 40px rgba(255,110,180,0.8);
+      opacity: 0;
+      transition: opacity 0.15s;
     }
-    .slot-rect:hover { fill: rgba(255, 110, 180, 0.32); }
-    .slot-rect.active { fill: rgba(255, 110, 180, 0.08); stroke: #fff; stroke-dasharray: 6 3; }
-    .slot-rect.filled { fill: rgba(0,0,0,0); stroke: transparent; }
-
-    /* ── Controls ── */
-    .booth-controls {
-      width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .countdown-num.show { opacity: 1; }
+    .flash {
+      position: absolute; inset: 0;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.05s;
     }
+    .flash.show { opacity: 1; }
 
-    .booth-status {
+    /* ── Slot label ── */
+    .slot-label {
+      font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
       text-align: center;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      min-height: 20px;
     }
-    .booth-status.active { color: var(--pink); }
 
+    /* ── Result frame ── */
+    .result-box {
+      width: 100%;
+      max-width: 360px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: none;
+      box-shadow: 0 24px 60px rgba(255,110,180,0.25);
+    }
+    .result-box canvas {
+      width: 100%; display: block;
+    }
+
+    /* ── Buttons ── */
     .booth-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .booth-btn {
-      padding: 11px 22px;
+      padding: 13px 28px;
       background: none;
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 24px;
       color: var(--muted);
-      font-family: inherit;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-family: inherit; font-size: 12px;
+      letter-spacing: 0.12em; text-transform: uppercase;
       cursor: pointer;
       transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
-    .booth-btn:hover { border-color: var(--pink); color: var(--pink); }
-    .booth-btn.primary { border-color: var(--pink); color: var(--pink); }
-    .booth-btn.primary:hover { background: var(--pink); color: #0a0a14; }
+    .booth-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .booth-btn.primary { border-color: var(--accent); color: var(--accent); }
+    .booth-btn.primary:hover { background: var(--accent); color: #0a0a14; }
     .booth-btn:disabled { opacity: 0.3; pointer-events: none; }
 
-    /* ── Webcam modal ── */
-    #camModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10,10,20,0.92);
-      z-index: 1000;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
+    .booth-status {
+      font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      text-align: center; min-height: 18px;
     }
-    #camModal.open { display: flex; }
-
-    #camVideo {
-      width: min(380px, 90vw);
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 2px solid var(--pink);
-      transform: scaleX(-1);
-    }
-
-    .cam-countdown {
-      font-size: 72px;
-      font-weight: 700;
-      color: var(--pink);
-      line-height: 1;
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .cam-slot-label {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .cam-btn-row { display: flex; gap: 12px; }
   </style>
 </head>
 <body class="project-page day-page">
@@ -167,13 +152,13 @@
   <div class="day-hero">
     <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 14</div>
     <div class="day-num-bg">14</div>
-    <h1 class="day-title">Selfish<br><span class="green">Booth</span></h1>
+    <h1 class="day-title">Selfish<br><span class="pink">Booth</span></h1>
     <div class="day-meta">
       <span>Jun 30, 2026</span>
       <span>Photobooth · Y2K</span>
     </div>
     <p class="day-statement">
-      Take three shots. Get your Y2K photobooth strip. Keep it forever.
+      Three shots. One strip. Very Y2K.
     </p>
   </div>
 
@@ -182,87 +167,97 @@
 
     <div class="booth-wrap">
 
-      <div class="booth-stage" id="boothStage">
-        <canvas id="frameCanvas"></canvas>
-        <svg id="slotOverlay" viewBox="0 0 1080 1920" preserveAspectRatio="none">
-          <!-- Slot rects defined in JS -->
-        </svg>
+      <div class="booth-steps" id="stepsRow">
+        <div class="step-dot active" id="dot0"></div>
+        <div class="step-dot" id="dot1"></div>
+        <div class="step-dot" id="dot2"></div>
       </div>
 
-      <div class="booth-controls">
-        <div class="booth-status" id="boothStatus">Click a frame to fill it</div>
-        <div class="booth-btn-row">
-          <button class="booth-btn primary" id="camBtn" onclick="openCamera()">📸 Take Photo</button>
-          <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()">🖼 Upload Photo</button>
-          <input type="file" id="fileInput" accept="image/*" style="display:none" />
+      <div class="slot-label" id="slotLabel">Get ready to snap photo 1 of 3</div>
+
+      <!-- Live camera view -->
+      <div class="cam-box" id="camBox">
+        <video id="camVideo" autoplay playsinline muted></video>
+        <div class="cam-overlay">
+          <div class="countdown-num" id="countdownNum"></div>
         </div>
-        <div class="booth-btn-row">
-          <button class="booth-btn" id="retakeBtn" onclick="retakeSlot()" disabled>↩ Retake</button>
-          <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" disabled>↓ Save Strip</button>
-        </div>
+        <div class="flash" id="flashEl"></div>
       </div>
 
-    </div>
-  </div>
+      <!-- Final composite result -->
+      <div class="result-box" id="resultBox">
+        <canvas id="resultCanvas"></canvas>
+      </div>
 
-  <!-- Webcam modal -->
-  <div id="camModal">
-    <div class="cam-slot-label" id="camSlotLabel">Frame 1 of 3</div>
-    <video id="camVideo" autoplay playsinline muted></video>
-    <div class="cam-countdown" id="camCountdown"></div>
-    <div class="cam-btn-row">
-      <button class="booth-btn primary" id="snapBtn" onclick="startCountdown()">📸 Snap</button>
-      <button class="booth-btn" onclick="closeCamera()">Cancel</button>
+      <div class="booth-status" id="boothStatus">Allow camera access to begin</div>
+
+      <div class="booth-btn-row" id="btnRow">
+        <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
+        <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Instead</button>
+        <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap Photo 1</button>
+        <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
+        <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" style="display:none">↓ Save Strip</button>
+        <button class="booth-btn" id="restartBtn" onclick="restartBooth()" style="display:none">↺ Start Over</button>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none" />
+
     </div>
   </div>
 
   <script src="script.js" defer></script>
   <script>
   (() => {
-    /* ── Constants ── */
-    const FW = 701, FH = 1891;
-
-    // Slot positions measured from the actual white areas in day14_frame.jpg
+    /* ── Frame dimensions and slot positions (measured from day14_frame2.png 600×1550) ── */
+    const FW = 600, FH = 1550;
     const SLOTS = [
-      { x: 85,  y: 262, w: 540, h: 478, label: 'Hello Kitty' },
-      { x: 40,  y: 782, w: 655, h: 336, label: 'Angel'       },
-      { x: 140, y: 1285, w: 420, h: 244, label: 'Heart'      },
+      { x: 47,  y: 239, w: 504, h: 364, name: 'Hello Kitty' },
+      { x: 44,  y: 632, w: 555, h: 297, name: 'Angel'       },
+      { x: 123, y: 1064, w: 341, h: 219, name: 'Heart'      },
     ];
 
     /* ── State ── */
-    const canvas   = document.getElementById('frameCanvas');
-    const ctx      = canvas.getContext('2d');
-    canvas.width   = FW;
-    canvas.height  = FH;
+    let stream      = null;
+    let photos      = [null, null, null];  // captured images per slot
+    let current     = 0;  // which slot we're on
+    let counting    = false;
+    let frameImg    = null;
 
-    const frameImg  = new Image();
-    const slotImgs  = [null, null, null]; // captured photos per slot
-    let   activeSlot = 0;
-    let   stream    = null;
-    let   countdownTimer = null;
+    /* ── Elements ── */
+    const camBox      = document.getElementById('camBox');
+    const camVideo    = document.getElementById('camVideo');
+    const countdownEl = document.getElementById('countdownNum');
+    const flashEl     = document.getElementById('flashEl');
+    const resultBox   = document.getElementById('resultBox');
+    const resultCvs   = document.getElementById('resultCanvas');
+    const resultCtx   = resultCvs.getContext('2d');
 
     /* ── Load frame ── */
-    frameImg.onload = () => { redraw(); buildSlotSVG(); };
-    frameImg.src = '90days/day14_frame.jpg';
-
-    /* ── Redraw canvas ── */
-    function redraw() {
-      ctx.clearRect(0, 0, FW, FH);
-      // 1. Draw photos into slots first
-      slotImgs.forEach((img, i) => {
-        if (!img) return;
-        const s = SLOTS[i];
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(s.x, s.y, s.w, s.h);
-        ctx.clip();
-        drawCover(ctx, img, s.x, s.y, s.w, s.h);
-        ctx.restore();
-      });
-      // 2. Frame on top
-      ctx.drawImage(frameImg, 0, 0, FW, FH);
+    function loadFrame(cb) {
+      if (frameImg) { cb(); return; }
+      frameImg = new Image();
+      frameImg.onload = cb;
+      frameImg.src = '90days/day14_frame2.png';
     }
 
+    /* ── Helpers ── */
+    function setStatus(msg) { document.getElementById('boothStatus').textContent = msg; }
+    function setLabel(msg)  { document.getElementById('slotLabel').textContent = msg; }
+
+    function showBtn(...ids) {
+      ['startBtn','uploadBtn','snapBtn','retakeBtn','saveBtn','restartBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        el.style.display = ids.includes(id) ? '' : 'none';
+      });
+    }
+
+    function updateDots() {
+      for (let i = 0; i < 3; i++) {
+        const d = document.getElementById(`dot${i}`);
+        d.className = 'step-dot' + (photos[i] ? ' done' : i === current ? ' active' : '');
+      }
+    }
+
+    /* ── Draw cover (object-fit:cover equivalent) ── */
     function drawCover(ctx, img, x, y, w, h) {
       const r  = Math.max(w / img.naturalWidth, h / img.naturalHeight);
       const sw = w / r, sh = h / r;
@@ -271,106 +266,130 @@
       ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
     }
 
-    /* ── SVG slot overlays (clickable) ── */
-    const svgEl = document.getElementById('slotOverlay');
-    const svgRects = [];
-
-    function buildSlotSVG() {
+    /* ── Composite and show ── */
+    function renderComposite(target) {
+      const ctx = target.getContext('2d');
+      target.width  = FW;
+      target.height = FH;
+      ctx.clearRect(0, 0, FW, FH);
+      // 1. Draw photos into their slots first
       SLOTS.forEach((s, i) => {
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', s.x);
-        rect.setAttribute('y', s.y);
-        rect.setAttribute('width',  s.w);
-        rect.setAttribute('height', s.h);
-        rect.setAttribute('rx', 8);
-        rect.classList.add('slot-rect');
-        rect.addEventListener('click', () => selectSlot(i));
-        svgEl.appendChild(rect);
-        svgRects.push(rect);
+        if (!photos[i]) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(s.x, s.y, s.w, s.h);
+        ctx.clip();
+        drawCover(ctx, photos[i], s.x, s.y, s.w, s.h);
+        ctx.restore();
       });
-      selectSlot(0);
+      // 2. Frame PNG on top (transparent areas show photos through)
+      ctx.drawImage(frameImg, 0, 0, FW, FH);
     }
 
-    function selectSlot(i) {
-      activeSlot = i;
-      svgRects.forEach((r, idx) => {
-        r.classList.remove('active', 'filled');
-        if (slotImgs[idx]) r.classList.add('filled');
-        else if (idx === i) r.classList.add('active');
-      });
-      const s = SLOTS[i];
-      setStatus(`Frame selected: ${s.label} — take a photo or upload`);
-      document.getElementById('retakeBtn').disabled = !slotImgs[i];
+    function showPreview() {
+      renderComposite(resultCvs);
     }
 
-    /* ── Status ── */
-    function setStatus(msg, active = false) {
-      const el = document.getElementById('boothStatus');
-      el.textContent = msg;
-      el.className = 'booth-status' + (active ? ' active' : '');
-    }
-
-    /* ── Camera ── */
-    window.openCamera = async () => {
+    /* ── Start booth ── */
+    window.startBooth = async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
-        document.getElementById('camVideo').srcObject = stream;
-        document.getElementById('camSlotLabel').textContent = `Frame ${activeSlot + 1} of 3: ${SLOTS[activeSlot].label}`;
-        document.getElementById('camCountdown').textContent = '';
-        document.getElementById('camModal').classList.add('open');
+        camVideo.srcObject = stream;
+        camBox.classList.add('active');
+        showBtn('snapBtn', 'uploadBtn');
+        setStatus('');
+        setLabel(`Photo 1 of 3 — ${SLOTS[0].name}`);
+        document.getElementById('snapBtn').textContent = '📸 Snap Photo 1';
+        loadFrame(() => {});
       } catch(e) {
-        setStatus('Camera not available — use Upload instead', false);
+        setStatus('Camera blocked — use Upload Instead');
+        showBtn('uploadBtn');
       }
     };
 
-    window.closeCamera = () => {
-      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-      if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
-      document.getElementById('camModal').classList.remove('open');
-      document.getElementById('camCountdown').textContent = '';
-      document.getElementById('snapBtn').disabled = false;
-    };
-
-    window.startCountdown = () => {
-      document.getElementById('snapBtn').disabled = true;
+    /* ── Snap ── */
+    window.triggerSnap = () => {
+      if (counting) return;
+      counting = true;
+      showBtn();  // hide all during countdown
       let count = 3;
-      document.getElementById('camCountdown').textContent = count;
-      countdownTimer = setInterval(() => {
+      countdownEl.textContent = count;
+      countdownEl.classList.add('show');
+
+      const interval = setInterval(() => {
         count--;
         if (count > 0) {
-          document.getElementById('camCountdown').textContent = count;
+          countdownEl.textContent = count;
         } else {
-          clearInterval(countdownTimer);
-          countdownTimer = null;
-          captureFrame();
+          clearInterval(interval);
+          countdownEl.classList.remove('show');
+          doCapture();
         }
       }, 1000);
     };
 
-    function captureFrame() {
-      document.getElementById('camCountdown').textContent = '✨';
-      const video = document.getElementById('camVideo');
+    function doCapture() {
+      // Flash effect
+      flashEl.classList.add('show');
+      setTimeout(() => flashEl.classList.remove('show'), 120);
+
+      // Capture from video
       const tmp = document.createElement('canvas');
-      tmp.width  = video.videoWidth;
-      tmp.height = video.videoHeight;
+      tmp.width  = camVideo.videoWidth  || 640;
+      tmp.height = camVideo.videoHeight || 480;
       const tc = tmp.getContext('2d');
-      tc.translate(tmp.width, 0); tc.scale(-1, 1); // mirror
-      tc.drawImage(video, 0, 0);
+      tc.translate(tmp.width, 0);
+      tc.scale(-1, 1);
+      tc.drawImage(camVideo, 0, 0);
+
       const img = new Image();
       img.onload = () => {
-        slotImgs[activeSlot] = img;
-        redraw();
-        updateAfterFill();
-        closeCamera();
-        // Auto-advance to next empty slot
-        const next = slotImgs.findIndex(x => !x);
-        if (next !== -1) selectSlot(next);
-        else selectSlot(activeSlot);
+        photos[current] = img;
+        counting = false;
+        afterCapture();
       };
       img.src = tmp.toDataURL('image/jpeg', 0.95);
     }
 
-    /* ── Upload ── */
+    function afterCapture() {
+      loadFrame(() => {
+        showPreview();
+
+        if (current < 2) {
+          current++;
+          updateDots();
+          setLabel(`Photo ${current + 1} of 3 — ${SLOTS[current].name}`);
+          document.getElementById('snapBtn').textContent = `📸 Snap Photo ${current + 1}`;
+          showBtn('snapBtn', 'retakeBtn', 'uploadBtn');
+          setStatus('');
+        } else {
+          // All done
+          updateDots();
+          camBox.classList.add('hidden');
+          resultBox.style.display = 'block';
+          if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+          setLabel('Your strip is ready!');
+          showBtn('saveBtn', 'restartBtn');
+          setStatus('');
+        }
+      });
+    }
+
+    /* ── Retake last ── */
+    window.retake = () => {
+      if (current > 0 && photos[current - 1] && !photos[current]) {
+        current--;
+      }
+      photos[current] = null;
+      updateDots();
+      setLabel(`Retake photo ${current + 1} of 3 — ${SLOTS[current].name}`);
+      document.getElementById('snapBtn').textContent = `📸 Snap Photo ${current + 1}`;
+      showBtn('snapBtn', 'uploadBtn');
+      setStatus('');
+      showPreview();
+    };
+
+    /* ── Upload fallback ── */
     window.triggerUpload = () => {
       document.getElementById('fileInput').value = '';
       document.getElementById('fileInput').click();
@@ -382,61 +401,42 @@
       const url = URL.createObjectURL(f);
       const img = new Image();
       img.onload = () => {
-        slotImgs[activeSlot] = img;
+        photos[current] = img;
         URL.revokeObjectURL(url);
-        redraw();
-        updateAfterFill();
-        const next = slotImgs.findIndex(x => !x);
-        if (next !== -1) selectSlot(next);
-        else selectSlot(activeSlot);
+        counting = false;
+        loadFrame(afterCapture);
       };
       img.src = url;
     });
 
-    /* ── After fill ── */
-    function updateAfterFill() {
-      const filled = slotImgs.filter(Boolean).length;
-      setStatus(filled === 3 ? 'All frames filled! Save your strip.' : `${filled}/3 frames filled`, filled === 3);
-      document.getElementById('saveBtn').disabled = filled === 0;
-      document.getElementById('retakeBtn').disabled = !slotImgs[activeSlot];
-      svgRects.forEach((r, i) => {
-        r.classList.remove('active', 'filled');
-        if (slotImgs[i]) r.classList.add('filled');
-        else if (i === activeSlot) r.classList.add('active');
-      });
-    }
-
-    /* ── Retake ── */
-    window.retakeSlot = () => {
-      slotImgs[activeSlot] = null;
-      redraw();
-      selectSlot(activeSlot);
-      setStatus(`Frame cleared — retake ${SLOTS[activeSlot].label}`);
-      document.getElementById('saveBtn').disabled = slotImgs.filter(Boolean).length === 0;
-    };
-
     /* ── Save ── */
     window.saveFinal = () => {
-      // Export at full 1080x1920
       const out = document.createElement('canvas');
-      out.width = FW; out.height = FH;
-      const oc = out.getContext('2d');
-      slotImgs.forEach((img, i) => {
-        if (!img) return;
-        const s = SLOTS[i];
-        oc.save();
-        oc.beginPath();
-        oc.rect(s.x, s.y, s.w, s.h);
-        oc.clip();
-        drawCover(oc, img, s.x, s.y, s.w, s.h);
-        oc.restore();
-      });
-      oc.drawImage(frameImg, 0, 0, FW, FH);
+      renderComposite(out);
       const a = document.createElement('a');
       a.href = out.toDataURL('image/png');
       a.download = 'selfish-booth.png';
       a.click();
     };
+
+    /* ── Restart ── */
+    window.restartBooth = () => {
+      photos   = [null, null, null];
+      current  = 0;
+      camBox.classList.remove('hidden', 'active');
+      resultBox.style.display = 'none';
+      updateDots();
+      setLabel('Get ready to snap photo 1 of 3');
+      showBtn('startBtn');
+      setStatus('Allow camera access to begin');
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+    };
+
+    /* ── Also allow webcam to auto-start preview loop ── */
+    // Show preview canvas updating live during capture
+    setInterval(() => {
+      if (stream && photos.some(Boolean)) showPreview();
+    }, 500);
 
   })();
   </script>
