@@ -171,6 +171,91 @@
     }
     .result-restart-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── Frame Character Select ── */
+    .frame-select {
+      background: #0d0d1a;
+      border: 3px solid var(--accent);
+      padding: 10px 10px 12px;
+      position: relative;
+    }
+    .frame-select::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(255,110,180,0.25);
+      pointer-events: none;
+    }
+    .fs-header {
+      text-align: center;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #ffd700;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,110,180,0.2);
+    }
+    .fs-carousel {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fs-arrow {
+      background: none;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-size: 14px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-family: 'Courier New', monospace;
+      transition: background 0.1s, color 0.1s;
+      line-height: 1;
+    }
+    .fs-arrow:hover { background: var(--accent); color: #0a0a14; }
+    .fs-card {
+      flex: 1;
+      text-align: center;
+      overflow: hidden;
+    }
+    .fs-thumb {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      margin: 0 auto 6px;
+      border: 1px solid rgba(255,110,180,0.2);
+    }
+    .fs-name {
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.22em;
+      color: #ffd700;
+      text-transform: uppercase;
+    }
+    .fs-index {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      font-family: 'Courier New', monospace;
+      margin-top: 2px;
+    }
+    .fs-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .fs-dot {
+      width: 5px; height: 5px;
+      background: var(--border);
+      transition: background 0.2s;
+    }
+    .fs-dot.active { background: #ffd700; }
+
     /* floating particles container */
     #particleLayer {
       position: absolute; top: 0; left: 0;
@@ -233,11 +318,23 @@
       <!-- Right: controls -->
       <div class="booth-controls-col">
 
-        <!-- Frame selector -->
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
-          <button class="booth-btn" id="fSelfish" onclick="switchFrame('selfish')" style="font-size:10px;padding:7px 14px;">Selfish</button>
-          <button class="booth-btn" id="fShun2"   onclick="switchFrame('shun2')"   style="font-size:10px;padding:7px 14px;">Shun 2</button>
-          <button class="booth-btn" id="fShun3"   onclick="switchFrame('shun3')"   style="font-size:10px;padding:7px 14px;">Shun 3</button>
+        <!-- Frame selector: game character-select style -->
+        <div class="frame-select" id="frameSelect">
+          <div class="fs-header">▸ SELECT FRAME ◂</div>
+          <div class="fs-carousel">
+            <button class="fs-arrow" id="fsPrev">◄</button>
+            <div class="fs-card">
+              <img class="fs-thumb" id="fsThumb" src="" alt="frame preview">
+              <div class="fs-name" id="fsName">SELFISH</div>
+              <div class="fs-index" id="fsIndex">01 / 03</div>
+            </div>
+            <button class="fs-arrow" id="fsNext">►</button>
+          </div>
+          <div class="fs-dots">
+            <div class="fs-dot active" id="fsDot0"></div>
+            <div class="fs-dot" id="fsDot1"></div>
+            <div class="fs-dot" id="fsDot2"></div>
+          </div>
         </div>
 
         <!-- Shooting UI -->
@@ -607,10 +704,9 @@
       setLabel('Ready to shoot');
       showBtns('startBtn');
       setStatus('');
-      // highlight active frame button
-      ['selfish','shun2','shun3'].forEach(k => {
-        document.getElementById('f'+k[0].toUpperCase()+k.slice(1)).classList.toggle('primary', k === key);
-      });
+      // sync carousel to active frame
+      const _fi = FRAME_KEYS.indexOf(key);
+      if (_fi >= 0) { fsIdx = _fi; updateFrameCarousel(false); }
       loadFrame().then(() => { ctx.clearRect(0,0,FW,FH); ctx.drawImage(frameImg,0,0,FW,FH); });
     };
 
@@ -643,6 +739,35 @@
     loadFrame().then(() => {
       ctx.drawImage(frameImg, 0, 0, FW, FH);
     });
+
+    /* ── Frame carousel ── */
+    const FRAME_KEYS   = ['selfish', 'shun2', 'shun3'];
+    const FRAME_LABELS = { selfish: 'SELFISH', shun2: 'SHUN 2', shun3: 'SHUN 3' };
+    let fsIdx = 0;
+
+    function updateFrameCarousel(doSwitch = true) {
+      const key = FRAME_KEYS[fsIdx];
+      document.getElementById('fsThumb').src = FRAMES[key].src;
+      document.getElementById('fsName').textContent = FRAME_LABELS[key];
+      document.getElementById('fsIndex').textContent =
+        String(fsIdx + 1).padStart(2,'0') + ' / ' + String(FRAME_KEYS.length).padStart(2,'0');
+      FRAME_KEYS.forEach((_, i) => {
+        document.getElementById('fsDot'+i).classList.toggle('active', i === fsIdx);
+      });
+      if (doSwitch) switchFrame(key);
+    }
+
+    document.getElementById('fsPrev').addEventListener('click', () => {
+      fsIdx = (fsIdx - 1 + FRAME_KEYS.length) % FRAME_KEYS.length;
+      updateFrameCarousel();
+    });
+    document.getElementById('fsNext').addEventListener('click', () => {
+      fsIdx = (fsIdx + 1) % FRAME_KEYS.length;
+      updateFrameCarousel();
+    });
+
+    // init thumbnail without re-triggering switchFrame
+    document.getElementById('fsThumb').src = FRAMES[FRAME_KEYS[0]].src;
 
     /* ── Result title acid effect (same as hero) ── */
     (function initResultAcid() {
