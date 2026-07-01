@@ -52,8 +52,8 @@
       /* hide nav bar inside booth on mobile */
       body.booth-active #nav { display: none; }
 
-      /* cap canvas height so controls are reachable */
-      .countdown-wrap { max-height: 55vh; overflow: hidden; }
+      /* let frame show fully — controls are pinned, user scrolls the frame */
+      #boothCanvas { width: 88vw; height: auto; max-width: 88vw; }
 
       /* pin shoot controls to bottom so snap is always reachable */
       body.booth-active #shootPanel {
