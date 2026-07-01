@@ -138,11 +138,24 @@
       gap: 20px;
       animation: resultFadeIn 0.5s 0.4s ease both;
     }
-    .result-title {
-      font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
-      color: var(--ink); line-height: 1.2;
+    @keyframes acidHover {
+      0%   { color: #ff6eb4; text-shadow: 3px 0 #00ffee, -3px 0 #ff00cc, 0 0 20px #ff6eb4; transform: skewX(0deg); }
+      20%  { color: #00ffcc; text-shadow: -3px 0 #ff00ff, 3px 0 #ffff00, 0 0 30px #00ffcc; transform: skewX(-1.5deg); }
+      40%  { color: #ffff00; text-shadow: 3px 2px #ff0066, -3px -2px #00eeff, 0 0 24px #ffff00; transform: skewX(1deg); }
+      60%  { color: #ff00cc; text-shadow: -2px 0 #00ffee, 4px 0 #ff6600, 0 0 32px #ff00cc; transform: skewX(-0.5deg); }
+      80%  { color: #00eeff; text-shadow: 2px -2px #ff6eb4, -4px 2px #ccff00, 0 0 20px #00eeff; transform: skewX(1.5deg); }
+      100% { color: #ff6eb4; text-shadow: 3px 0 #00ffee, -3px 0 #ff00cc, 0 0 20px #ff6eb4; transform: skewX(0deg); }
     }
-    .result-title span { color: var(--accent); }
+
+    .result-title {
+      font-size: clamp(36px, 6vw, 56px); font-weight: 800; letter-spacing: -0.03em;
+      color: var(--ink); line-height: 1.05; cursor: default;
+      transition: color 0.1s;
+    }
+    .result-title:hover {
+      animation: acidHover 0.5s steps(1) infinite;
+    }
+    .result-title span { color: var(--accent); display: block; }
     .result-sub {
       font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
       color: var(--muted);
@@ -246,7 +259,7 @@
 
         <!-- Result UI (shown when all 3 done) -->
         <div id="resultPanel">
-          <div class="result-title">your strip<br><span>is ready ✦</span></div>
+          <div class="result-title">Cute stuff<br><span>produced!</span></div>
           <div class="result-sub">save it · send it · post it</div>
           <button class="result-save-btn" onclick="saveFinal()">↓ Save Strip</button>
           <button class="result-restart-btn" onclick="restartBooth()">↺ Shoot Again</button>
