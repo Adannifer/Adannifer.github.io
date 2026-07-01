@@ -186,10 +186,11 @@
   (() => {
     /* ── Frame: 600×1550, transparent slots ── */
     const FW = 600, FH = 1550;
+    // clip: full section for clipping; draw: transparent area center for crop
     const SLOTS = [
-      { x: 47,  y: 239,  w: 504, h: 364 },
-      { x: 44,  y: 632,  w: 555, h: 297 },
-      { x: 123, y: 1064, w: 341, h: 219 },
+      { x: 0, y: 80,  w: 600, h: 552, dx: 56,  dy: 234,  dw: 489, dh: 348 },
+      { x: 0, y: 582, w: 600, h: 445, dx: 72,  dy: 627,  dw: 487, dh: 307 },
+      { x: 0, y: 977, w: 600, h: 573, dx: 128, dy: 1069, dw: 331, dh: 208 },
     ];
     const NAMES = ['Hello Kitty', 'Angel', 'Heart'];
 
@@ -236,7 +237,7 @@
       }
     }
 
-    /* ── Draw video into a slot ── */
+    /* ── Draw video into a slot (same math as drawCover for consistency) ── */
     function drawVideoInSlot(s) {
       if (!camVideo.videoWidth) return;
       ctx.save();
@@ -244,13 +245,12 @@
       ctx.rect(s.x, s.y, s.w, s.h);
       ctx.clip();
       const r  = Math.max(s.w / camVideo.videoWidth, s.h / camVideo.videoHeight);
-      const vw = camVideo.videoWidth * r, vh = camVideo.videoHeight * r;
-      const vx = s.x + (s.w - vw) / 2;
-      const vy = s.y + (s.h - vh) / 2;
-      // mirror
+      const sw = s.w / r, sh = s.h / r;
+      const sx = (camVideo.videoWidth  - sw) / 2;
+      const sy = (camVideo.videoHeight - sh) / 2;
       ctx.translate(s.x + s.w, s.y);
       ctx.scale(-1, 1);
-      ctx.drawImage(camVideo, -(vx - s.x), vy - s.y, vw, vh);
+      ctx.drawImage(camVideo, sx, sy, sw, sh, 0, 0, s.w, s.h);
       ctx.restore();
     }
 
@@ -258,14 +258,14 @@
     function render() {
       ctx.clearRect(0, 0, FW, FH);
 
-      // Draw captured photos
+      // Draw captured photos (clip to full section, crop centered on transparent area)
       SLOTS.forEach((s, i) => {
         if (photos[i]) {
           ctx.save();
           ctx.beginPath();
           ctx.rect(s.x, s.y, s.w, s.h);
           ctx.clip();
-          drawCover(photos[i], s.x, s.y, s.w, s.h, false);
+          drawCover(photos[i], s.x, s.y, s.w, s.h, true);
           ctx.restore();
         }
       });
@@ -370,7 +370,7 @@
         done = true;
         cancelAnimationFrame(rafId);
         if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-        // Final render
+        // Final render — same as live loop for consistency
         ctx.clearRect(0, 0, FW, FH);
         SLOTS.forEach((s, i) => {
           if (!photos[i]) return;
@@ -378,16 +378,7 @@
           ctx.beginPath();
           ctx.rect(s.x, s.y, s.w, s.h);
           ctx.clip();
-          // mirror the captured photo back for natural selfie look
-          const r  = Math.max(s.w / photos[i].naturalWidth, s.h / photos[i].naturalHeight);
-          const sw = s.w / r, sh = s.h / r;
-          const sx = (photos[i].naturalWidth  - sw) / 2;
-          const sy = (photos[i].naturalHeight - sh) / 2;
-          ctx.save();
-          ctx.translate(s.x + s.w, s.y);
-          ctx.scale(-1, 1);
-          ctx.drawImage(photos[i], sx, sy, sw, sh, 0, 0, s.w, s.h);
-          ctx.restore();
+          drawCover(photos[i], s.x, s.y, s.w, s.h, true);
           ctx.restore();
         });
         ctx.drawImage(frameImg, 0, 0, FW, FH);
