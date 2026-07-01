@@ -494,8 +494,6 @@
             <canvas id="boothCanvas"></canvas>
             <div id="countdownOverlay"></div>
             <div id="particleLayer"></div>
-            <!-- transparent drag layer for in-frame photo adjustment -->
-            <div id="adjOverlay" style="display:none; position:absolute; inset:0; z-index:50; touch-action:none; cursor:grab;"></div>
           </div>
           <video id="camVideo" autoplay playsinline muted></video>
         </div>
@@ -638,7 +636,7 @@
     function drawCover(img, x, y, w, h, mirror, adj) {
       const baseR = Math.max(w / img.naturalWidth, h / img.naturalHeight);
       const scale = adj ? adj.scale : 1;
-      const r = baseR / scale;
+      const r = baseR * scale;   // larger scale → smaller source crop → zooms in
       const sw = w / r, sh = h / r;
       // center first, then apply user offset (converted to source px)
       const baseSx = (img.naturalWidth  - sw) / 2;
@@ -875,6 +873,8 @@
 
     /* ── In-frame photo adjust ── */
     // adjOx/adjOy are in canvas-internal pixels (0–FW / 0–FH space)
+    let adjMode = false;
+
     function showAdjustModal(img) {
       adjImg = img;
       adjSlotIdx = current;
@@ -883,13 +883,20 @@
       // pause the live render loop so it doesn't overwrite our adjust preview
       cancelAnimationFrame(rafId);
       rafId = null;
+      adjMode = true;
+      canvas.style.touchAction = 'none';
+      canvas.style.cursor = 'grab';
       // show the photo immediately in the frame
       renderAdjFrame();
       // swap panels
       document.getElementById('shootPanel').style.display = 'none';
       document.getElementById('adjustPanel').style.display = '';
-      // show drag overlay on top of canvas
-      document.getElementById('adjOverlay').style.display = '';
+    }
+
+    function exitAdjMode() {
+      adjMode = false;
+      canvas.style.touchAction = '';
+      canvas.style.cursor = '';
     }
 
     function renderAdjFrame() {
@@ -945,13 +952,13 @@
       return delta * (FW / rect.width);
     }
 
-    // Drag — mouse on overlay
-    const adjOverlay = document.getElementById('adjOverlay');
-    adjOverlay.addEventListener('mousedown', e => {
+    // Drag — mouse directly on canvas
+    canvas.addEventListener('mousedown', e => {
+      if (!adjMode) return;
       adjDragging = true;
       adjDragSX = e.clientX; adjDragSY = e.clientY;
       adjDragOx = adjOx;     adjDragOy = adjOy;
-      adjOverlay.style.cursor = 'grabbing';
+      canvas.style.cursor = 'grabbing';
       e.preventDefault();
     });
     window.addEventListener('mousemove', e => {
@@ -961,12 +968,14 @@
       renderAdjFrame();
     });
     window.addEventListener('mouseup', () => {
+      if (!adjDragging) return;
       adjDragging = false;
-      adjOverlay.style.cursor = 'grab';
+      if (adjMode) canvas.style.cursor = 'grab';
     });
 
-    // Drag — touch on overlay
-    adjOverlay.addEventListener('touchstart', e => {
+    // Drag & pinch — touch directly on canvas
+    canvas.addEventListener('touchstart', e => {
+      if (!adjMode) return;
       if (e.touches.length === 1) {
         adjDragging = true;
         adjDragSX = e.touches[0].clientX; adjDragSY = e.touches[0].clientY;
@@ -980,7 +989,8 @@
       }
       e.preventDefault();
     }, { passive: false });
-    adjOverlay.addEventListener('touchmove', e => {
+    canvas.addEventListener('touchmove', e => {
+      if (!adjMode) return;
       if (e.touches.length === 1 && adjDragging) {
         adjOx = adjDragOx + cssToCanvas(e.touches[0].clientX - adjDragSX);
         adjOy = adjDragOy + cssToCanvas(e.touches[0].clientY - adjDragSY);
@@ -995,7 +1005,7 @@
       }
       e.preventDefault();
     }, { passive: false });
-    adjOverlay.addEventListener('touchend', () => { adjDragging = false; });
+    canvas.addEventListener('touchend', () => { adjDragging = false; });
 
     // Slider
     document.getElementById('adjScale').addEventListener('input', e => {
@@ -1006,18 +1016,17 @@
     window.confirmAdjust = () => {
       photoAdj[adjSlotIdx] = { scale: adjScale, ox: adjOx, oy: adjOy };
       photos[adjSlotIdx] = adjImg;
-      photoMirror[adjSlotIdx] = false; // uploaded photo — no mirror
-      document.getElementById('adjOverlay').style.display = 'none';
+      photoMirror[adjSlotIdx] = false;
+      exitAdjMode();
       document.getElementById('adjustPanel').style.display = 'none';
       document.getElementById('shootPanel').style.display = '';
       counting = false;
       advance();
-      // restart live render loop if camera is still active and not finished
       if (!done && stream && !rafId) rafId = requestAnimationFrame(render);
     };
 
     window.cancelAdjust = () => {
-      document.getElementById('adjOverlay').style.display = 'none';
+      exitAdjMode();
       document.getElementById('adjustPanel').style.display = 'none';
       document.getElementById('shootPanel').style.display = '';
       adjImg = null;
