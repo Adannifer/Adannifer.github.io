@@ -125,6 +125,24 @@
       }
       #shootPanel .booth-btn { padding: 10px 18px; font-size: 11px; }
 
+      #adjustPanel {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(10,10,20,0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(255,110,180,0.2);
+        padding: 10px 16px env(safe-area-inset-bottom, 16px);
+        z-index: 1050;
+      }
+      #adjustPanel .slot-label { font-size: 10px; margin-bottom: 4px; }
+      #adjustPanel .booth-btn-row {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px;
+      }
+      #adjustPanel .booth-btn { padding: 10px 18px; font-size: 11px; }
+
       #resultPanel {
         position: fixed;
         bottom: 0; left: 0; right: 0;
