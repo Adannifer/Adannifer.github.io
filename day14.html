@@ -171,90 +171,117 @@
     }
     .result-restart-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ── Frame Character Select ── */
-    .frame-select {
-      background: #0d0d1a;
-      border: 3px solid var(--accent);
-      padding: 10px 10px 12px;
-      position: relative;
-    }
-    .frame-select::before {
-      content: '';
-      position: absolute;
-      inset: 3px;
-      border: 1px solid rgba(255,110,180,0.25);
-      pointer-events: none;
-    }
-    .fs-header {
+    /* ── Stage 1: Character Select Screen ── */
+    .cs-title {
       text-align: center;
-      font-size: 8px;
-      letter-spacing: 0.3em;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.45em;
       text-transform: uppercase;
       color: #ffd700;
-      font-family: 'Courier New', monospace;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255,110,180,0.2);
+      margin-bottom: 28px;
     }
-    .fs-carousel {
+    .cs-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0;
     }
-    .fs-arrow {
+    .cs-arrow {
       background: none;
       border: 2px solid var(--accent);
       color: var(--accent);
-      font-size: 14px;
-      width: 30px; height: 30px;
+      font-size: 18px;
+      width: 36px; height: 56px;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
       font-family: 'Courier New', monospace;
       transition: background 0.1s, color 0.1s;
-      line-height: 1;
     }
-    .fs-arrow:hover { background: var(--accent); color: #0a0a14; }
-    .fs-card {
+    .cs-arrow:hover { background: var(--accent); color: #0a0a14; }
+    .cs-neighbors {
       flex: 1;
-      text-align: center;
+      display: flex;
+      align-items: stretch;
       overflow: hidden;
     }
-    .fs-thumb {
+    .cs-neighbor {
+      width: 72px;
+      flex-shrink: 0;
+      opacity: 0.28;
+      overflow: hidden;
+      transition: opacity 0.3s;
+    }
+    .cs-neighbor img {
       width: 100%;
-      height: 90px;
+      height: 240px;
       object-fit: cover;
       object-position: top;
       display: block;
-      margin: 0 auto 6px;
-      border: 1px solid rgba(255,110,180,0.2);
     }
-    .fs-name {
-      font-size: 13px;
+    .cs-center-card {
+      flex: 1;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 32px rgba(255,110,180,0.35), inset 0 0 0 1px rgba(255,110,180,0.15);
+      overflow: hidden;
+      position: relative;
+    }
+    .cs-center-card img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+    .cs-label-row {
+      text-align: center;
+      margin-top: 16px;
+    }
+    .cs-frame-name {
       font-family: 'Courier New', monospace;
-      letter-spacing: 0.22em;
+      font-size: 18px;
+      letter-spacing: 0.3em;
       color: #ffd700;
       text-transform: uppercase;
+      font-weight: bold;
     }
-    .fs-index {
-      font-size: 9px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
+    .cs-frame-num {
       font-family: 'Courier New', monospace;
-      margin-top: 2px;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 4px;
     }
-    .fs-dots {
+    .cs-dots-row {
       display: flex;
       justify-content: center;
-      gap: 5px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 14px;
     }
-    .fs-dot {
-      width: 5px; height: 5px;
+    .cs-dot {
+      width: 6px; height: 6px;
       background: var(--border);
       transition: background 0.2s;
     }
-    .fs-dot.active { background: #ffd700; }
+    .cs-dot.active { background: #ffd700; }
+    .cs-enter-btn {
+      background: var(--accent);
+      border: none;
+      color: #0a0a14;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 14px 36px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 20px rgba(255,110,180,0.4);
+    }
+    .cs-enter-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 32px rgba(255,110,180,0.7);
+    }
 
     /* floating particles container */
     #particleLayer {
@@ -303,68 +330,90 @@
   <div class="day-content" style="padding:0;">
     <div class="day-section-label" style="padding:0 6vw;">Try it</div>
 
-    <div class="booth-wrap">
+    <!-- ── Stage 1: Character Select ── -->
+    <div id="selectStage" style="padding:0 6vw 100px; max-width:560px; margin:0 auto;">
+      <div class="cs-title">CHARACTER SELECT</div>
 
-      <!-- Left: frame canvas -->
-      <div class="booth-frame-col">
-        <div class="countdown-wrap" id="canvasWrap">
-          <canvas id="boothCanvas"></canvas>
-          <div id="countdownOverlay"></div>
-          <div id="particleLayer"></div>
+      <div class="cs-row">
+        <button class="cs-arrow" id="csPrev">◄</button>
+
+        <div class="cs-neighbors">
+          <div class="cs-neighbor" id="csLeft">
+            <img id="csLeftThumb" src="" alt="">
+          </div>
+          <div class="cs-center-card" id="csCenterCard">
+            <img id="csCenterThumb" src="" alt="">
+          </div>
+          <div class="cs-neighbor" id="csRight">
+            <img id="csRightThumb" src="" alt="">
+          </div>
         </div>
-        <video id="camVideo" autoplay playsinline muted></video>
+
+        <button class="cs-arrow" id="csNext">►</button>
       </div>
 
-      <!-- Right: controls -->
-      <div class="booth-controls-col">
+      <div class="cs-label-row">
+        <div class="cs-frame-name" id="csFrameName">SELFISH</div>
+        <div class="cs-frame-num" id="csFrameNum">01 / 03</div>
+      </div>
 
-        <!-- Frame selector: game character-select style -->
-        <div class="frame-select" id="frameSelect">
-          <div class="fs-header">▸ SELECT FRAME ◂</div>
-          <div class="fs-carousel">
-            <button class="fs-arrow" id="fsPrev">◄</button>
-            <div class="fs-card">
-              <img class="fs-thumb" id="fsThumb" src="" alt="frame preview">
-              <div class="fs-name" id="fsName">SELFISH</div>
-              <div class="fs-index" id="fsIndex">01 / 03</div>
+      <div class="cs-dots-row">
+        <div class="cs-dot active" id="csDot0"></div>
+        <div class="cs-dot" id="csDot1"></div>
+        <div class="cs-dot" id="csDot2"></div>
+      </div>
+
+      <div style="text-align:center; margin-top:28px;">
+        <button class="cs-enter-btn" id="csEnterBtn">▶ START SHOOTING</button>
+      </div>
+    </div>
+
+    <!-- ── Stage 2: Booth ── -->
+    <div id="boothStage" style="display:none;">
+      <div class="booth-wrap">
+
+        <!-- Left: frame canvas -->
+        <div class="booth-frame-col">
+          <div class="countdown-wrap" id="canvasWrap">
+            <canvas id="boothCanvas"></canvas>
+            <div id="countdownOverlay"></div>
+            <div id="particleLayer"></div>
+          </div>
+          <video id="camVideo" autoplay playsinline muted></video>
+        </div>
+
+        <!-- Right: controls -->
+        <div class="booth-controls-col">
+
+          <!-- Shooting UI -->
+          <div id="shootPanel">
+            <div class="booth-steps">
+              <div class="step-dot active" id="dot0"></div>
+              <div class="step-dot" id="dot1"></div>
+              <div class="step-dot" id="dot2"></div>
             </div>
-            <button class="fs-arrow" id="fsNext">►</button>
+            <div class="slot-label" id="slotLabel">Ready to shoot</div>
+            <div class="booth-status" id="boothStatus"></div>
+            <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
+              <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
+              <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
+              <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
+              <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
+            </div>
           </div>
-          <div class="fs-dots">
-            <div class="fs-dot active" id="fsDot0"></div>
-            <div class="fs-dot" id="fsDot1"></div>
-            <div class="fs-dot" id="fsDot2"></div>
+
+          <!-- Result UI (shown when all 3 done) -->
+          <div id="resultPanel">
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-sub">save it · send it · post it</div>
+            <button class="result-save-btn" onclick="saveFinal()">↓ Save Strip</button>
+            <button class="result-restart-btn" onclick="restartBooth()">↺ Shoot Again</button>
           </div>
+
+          <input type="file" id="fileInput" accept="image/*" style="display:none" />
         </div>
 
-        <!-- Shooting UI -->
-        <div id="shootPanel">
-          <div class="booth-steps">
-            <div class="step-dot active" id="dot0"></div>
-            <div class="step-dot" id="dot1"></div>
-            <div class="step-dot" id="dot2"></div>
-          </div>
-          <div class="slot-label" id="slotLabel">Ready to shoot</div>
-          <div class="booth-status" id="boothStatus"></div>
-          <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
-            <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
-            <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
-            <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
-            <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
-          </div>
-        </div>
-
-        <!-- Result UI (shown when all 3 done) -->
-        <div id="resultPanel">
-          <div class="result-title" id="resultTitle"></div>
-          <div class="result-sub">save it · send it · post it</div>
-          <button class="result-save-btn" onclick="saveFinal()">↓ Save Strip</button>
-          <button class="result-restart-btn" onclick="restartBooth()">↺ Shoot Again</button>
-        </div>
-
-        <input type="file" id="fileInput" accept="image/*" style="display:none" />
       </div>
-
     </div>
   </div>
 
@@ -704,9 +753,9 @@
       setLabel('Ready to shoot');
       showBtns('startBtn');
       setStatus('');
-      // sync carousel to active frame
+      // sync select screen index (no re-trigger)
       const _fi = FRAME_KEYS.indexOf(key);
-      if (_fi >= 0) { fsIdx = _fi; updateFrameCarousel(false); }
+      if (_fi >= 0) { csIdx = _fi; }
       loadFrame().then(() => { ctx.clearRect(0,0,FW,FH); ctx.drawImage(frameImg,0,0,FW,FH); });
     };
 
@@ -740,34 +789,43 @@
       ctx.drawImage(frameImg, 0, 0, FW, FH);
     });
 
-    /* ── Frame carousel ── */
+    /* ── Stage 1: Character Select ── */
     const FRAME_KEYS   = ['selfish', 'shun2', 'shun3'];
     const FRAME_LABELS = { selfish: 'SELFISH', shun2: 'SHUN 2', shun3: 'SHUN 3' };
-    let fsIdx = 0;
+    let csIdx = 0;
 
-    function updateFrameCarousel(doSwitch = true) {
-      const key = FRAME_KEYS[fsIdx];
-      document.getElementById('fsThumb').src = FRAMES[key].src;
-      document.getElementById('fsName').textContent = FRAME_LABELS[key];
-      document.getElementById('fsIndex').textContent =
-        String(fsIdx + 1).padStart(2,'0') + ' / ' + String(FRAME_KEYS.length).padStart(2,'0');
+    function updateSelectScreen() {
+      const n = FRAME_KEYS.length;
+      const prevKey = FRAME_KEYS[(csIdx - 1 + n) % n];
+      const currKey = FRAME_KEYS[csIdx];
+      const nextKey = FRAME_KEYS[(csIdx + 1) % n];
+      document.getElementById('csLeftThumb').src   = FRAMES[prevKey].src;
+      document.getElementById('csCenterThumb').src = FRAMES[currKey].src;
+      document.getElementById('csRightThumb').src  = FRAMES[nextKey].src;
+      document.getElementById('csFrameName').textContent = FRAME_LABELS[currKey];
+      document.getElementById('csFrameNum').textContent  =
+        String(csIdx + 1).padStart(2,'0') + ' / ' + String(n).padStart(2,'0');
       FRAME_KEYS.forEach((_, i) => {
-        document.getElementById('fsDot'+i).classList.toggle('active', i === fsIdx);
+        document.getElementById('csDot'+i).classList.toggle('active', i === csIdx);
       });
-      if (doSwitch) switchFrame(key);
     }
 
-    document.getElementById('fsPrev').addEventListener('click', () => {
-      fsIdx = (fsIdx - 1 + FRAME_KEYS.length) % FRAME_KEYS.length;
-      updateFrameCarousel();
+    document.getElementById('csPrev').addEventListener('click', () => {
+      csIdx = (csIdx - 1 + FRAME_KEYS.length) % FRAME_KEYS.length;
+      updateSelectScreen();
     });
-    document.getElementById('fsNext').addEventListener('click', () => {
-      fsIdx = (fsIdx + 1) % FRAME_KEYS.length;
-      updateFrameCarousel();
+    document.getElementById('csNext').addEventListener('click', () => {
+      csIdx = (csIdx + 1) % FRAME_KEYS.length;
+      updateSelectScreen();
     });
 
-    // init thumbnail without re-triggering switchFrame
-    document.getElementById('fsThumb').src = FRAMES[FRAME_KEYS[0]].src;
+    document.getElementById('csEnterBtn').addEventListener('click', () => {
+      document.getElementById('selectStage').style.display = 'none';
+      document.getElementById('boothStage').style.display = '';
+      switchFrame(FRAME_KEYS[csIdx]);
+    });
+
+    updateSelectScreen();
 
     /* ── Result title acid effect (same as hero) ── */
     (function initResultAcid() {
