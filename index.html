@@ -10,36 +10,44 @@
     .daily-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px 16px;
+      gap: 28px 32px;
       padding: 0 6vw;
-      max-width: 640px;
-      margin: 0 auto 20px;
+      max-width: 900px;
+      margin: 0 auto 24px;
     }
     .daily-card {
       text-decoration: none;
       color: inherit;
       text-align: center;
-      transition: opacity 0.2s;
     }
-    .daily-card:hover { opacity: 0.75; }
     .daily-circle {
       width: 100%;
       aspect-ratio: 1;
       border-radius: 50%;
       overflow: hidden;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: #1a1a2e;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.35s ease;
+    }
+    .daily-card:hover .daily-circle {
+      transform: scale(1.06);
+      box-shadow: 0 12px 40px rgba(255,110,180,0.28);
     }
     .daily-circle img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
+      transition: transform 0.4s ease;
     }
+    .daily-card:hover .daily-circle img { transform: scale(1.05); }
     .daily-name {
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 0.06em;
       color: var(--ink-dim);
       line-height: 1.35;
+      transition: color 0.2s;
     }
+    .daily-card:hover .daily-name { color: var(--accent); }
     .daily-viewall {
       display: block;
       text-align: center;
@@ -57,7 +65,7 @@
     }
     .daily-viewall:hover { color: var(--accent); }
     @media (max-width: 540px) {
-      .daily-grid { gap: 14px 10px; }
+      .daily-grid { gap: 16px 12px; padding: 0 4vw; }
       .daily-name { font-size: 10px; }
     }
   </style>
@@ -399,7 +407,7 @@
       <div id="day-full-list" style="display:none;">
       <div class="day-row">
 
-        <a class="day-item" href="day14.html">
+        <a class="day-item" href="day14.html" style="display:none">
           <div class="day-date">Jun 30, 2026</div>
           <div class="day-circle" style="background:#1a0012;">
             <span class="day-num">14</span>
@@ -409,7 +417,7 @@
           <div class="day-desc">Y2K photobooth strip with your face.</div>
         </a>
 
-        <a class="day-item" href="day13.html">
+        <a class="day-item" href="day13.html" style="display:none">
           <div class="day-date">Jun 30, 2026</div>
           <div class="day-circle" style="background:#f7f3ff;">
             <span class="day-num">13</span>
@@ -419,7 +427,7 @@
           <div class="day-desc">Die-line to product photo with AI image generation.</div>
         </a>
 
-        <a class="day-item" href="day12.html">
+        <a class="day-item" href="day12.html" style="display:none">
           <div class="day-date">Jun 29, 2026</div>
           <div class="day-circle">
             <span class="day-num">12</span>
@@ -439,7 +447,7 @@
           <div class="day-desc">Hold to form a fingerprint from your words.</div>
         </a>
 
-        <a class="day-item" href="day10.html">
+        <a class="day-item" href="day10.html" style="display:none">
           <div class="day-date">Jun 25, 2026</div>
           <div class="day-circle">
             <span class="day-num">10</span>
@@ -449,7 +457,7 @@
           <div class="day-desc">Upload photo. Pick color. Get poster.</div>
         </a>
 
-        <a class="day-item" href="day9.html">
+        <a class="day-item" href="day9.html" style="display:none">
           <div class="day-date">Jun 24, 2026</div>
           <div class="day-circle">
             <span class="day-num">09</span>
@@ -509,7 +517,7 @@
           <div class="day-desc">Pimple patch rebrand. 3 carousel directions.</div>
         </a>
 
-        <a class="day-item" href="nightfile.html">
+        <a class="day-item" href="nightfile.html" style="display:none">
           <div class="day-date">Jun 18, 2026</div>
           <div class="day-circle">
             <span class="day-num">03</span>

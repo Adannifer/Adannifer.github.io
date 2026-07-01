@@ -476,6 +476,8 @@
             <canvas id="boothCanvas"></canvas>
             <div id="countdownOverlay"></div>
             <div id="particleLayer"></div>
+            <!-- transparent drag layer for in-frame photo adjustment -->
+            <div id="adjOverlay" style="display:none; position:absolute; inset:0; z-index:50; touch-action:none; cursor:grab;"></div>
           </div>
           <video id="camVideo" autoplay playsinline muted></video>
         </div>
@@ -500,6 +502,21 @@
             </div>
           </div>
 
+          <!-- Adjust UI (shown while repositioning an uploaded photo) -->
+          <div id="adjustPanel" style="display:none;">
+            <div class="slot-label">Adjust photo</div>
+            <div style="font-size:10px; letter-spacing:0.08em; color:var(--muted); opacity:0.6; margin-bottom:14px;">drag frame · slider to zoom</div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; width:100%;">
+              <span style="font-size:14px; color:var(--muted);">−</span>
+              <input type="range" id="adjScale" min="100" max="350" value="100" step="1" style="flex:1; accent-color:var(--accent);">
+              <span style="font-size:14px; color:var(--muted);">+</span>
+            </div>
+            <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
+              <button class="booth-btn primary" onclick="confirmAdjust()">✓ Use This</button>
+              <button class="booth-btn" onclick="cancelAdjust()">↩ Re-upload</button>
+            </div>
+          </div>
+
           <!-- Result UI (shown when all 3 done) -->
           <div id="resultPanel">
             <div class="result-title" id="resultTitle"></div>
@@ -514,6 +531,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- SVG acid filter (same gooey mercury as hero) -->
   <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -573,7 +591,9 @@
     /* ── State ── */
     let stream    = null;
     let frameImg  = null;
-    let photos    = [null, null, null];
+    let photos     = [null, null, null];
+    let photoAdj   = [null, null, null]; // { scale, ox, oy } per slot
+    let photoMirror = [false, false, false]; // true = camera snap (mirrored), false = upload
     let current   = 0;
     let counting  = false;
     let rafId     = null;
@@ -596,11 +616,20 @@
     }
 
     /* ── draw cover helper ── */
-    function drawCover(img, x, y, w, h, mirror) {
-      const r  = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+    // adj: optional { scale, ox, oy } — scale >1 zooms in, ox/oy are offsets in canvas px
+    function drawCover(img, x, y, w, h, mirror, adj) {
+      const baseR = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      const scale = adj ? adj.scale : 1;
+      const r = baseR / scale;
       const sw = w / r, sh = h / r;
-      const sx = (img.naturalWidth  - sw) / 2;
-      const sy = (img.naturalHeight - sh) / 2;
+      // center first, then apply user offset (converted to source px)
+      const baseSx = (img.naturalWidth  - sw) / 2;
+      const baseSy = (img.naturalHeight - sh) / 2;
+      const ox = adj ? adj.ox / r : 0;
+      const oy = adj ? adj.oy / r : 0;
+      // clamp so image doesn't go out of slot
+      const sx = Math.max(0, Math.min(img.naturalWidth  - sw, baseSx - ox));
+      const sy = Math.max(0, Math.min(img.naturalHeight - sh, baseSy - oy));
       if (mirror) {
         ctx.save();
         ctx.translate(x + w, y);
@@ -638,7 +667,7 @@
         ctx.beginPath();
         ctx.rect(s.x, s.y, s.w, s.h);
         ctx.clip();
-        if (src) drawCover(src, s.x, s.y, s.w, s.h, true);
+        if (src) drawCover(src, s.x, s.y, s.w, s.h, photoMirror[i], photoAdj[i]);
         else drawVideoInSlot(s);
         ctx.restore();
       });
@@ -727,6 +756,7 @@
         const img = new Image();
         img.onload = () => {
           photos[current] = img;
+          photoMirror[current] = true; // camera snap — mirror to match selfie view
           counting = false;
           advance();
         };
@@ -754,7 +784,7 @@
           ctx.beginPath();
           ctx.rect(s.x, s.y, s.w, s.h);
           ctx.clip();
-          drawCover(photos[i], s.x, s.y, s.w, s.h, true);
+          drawCover(photos[i], s.x, s.y, s.w, s.h, photoMirror[i], photoAdj[i]);
           ctx.restore();
         });
         if (activeFrame.mode === 'underlay') {
@@ -804,6 +834,7 @@
     window.retake = () => {
       if (current > 0 && photos[current] === null) current--;
       photos[current] = null;
+      photoMirror[current] = false;
       done = false;
       updateDots();
       setLabel(`Photo ${current + 1} of 3 — ${NAMES[current]}`);
@@ -812,21 +843,178 @@
       if (stream && !rafId) rafId = requestAnimationFrame(render);
     };
 
-    /* ── Upload fallback ── */
+    /* ── Upload + Adjust ── */
     window.triggerUpload = () => {
       document.getElementById('fileInput').value = '';
       document.getElementById('fileInput').click();
     };
+
+    /* Adjust modal state */
+    let adjImg = null, adjSlotIdx = 0;
+    let adjScale = 1, adjOx = 0, adjOy = 0;
+    let adjDragging = false, adjDragSX = 0, adjDragSY = 0, adjDragOx = 0, adjDragOy = 0;
+    let adjPinchDist = 0, adjPinchScale = 1;
+
+    /* ── In-frame photo adjust ── */
+    // adjOx/adjOy are in canvas-internal pixels (0–FW / 0–FH space)
+    function showAdjustModal(img) {
+      adjImg = img;
+      adjSlotIdx = current;
+      adjScale = 1; adjOx = 0; adjOy = 0;
+      document.getElementById('adjScale').value = 100;
+      // pause the live render loop so it doesn't overwrite our adjust preview
+      cancelAnimationFrame(rafId);
+      rafId = null;
+      // show the photo immediately in the frame
+      renderAdjFrame();
+      // swap panels
+      document.getElementById('shootPanel').style.display = 'none';
+      document.getElementById('adjustPanel').style.display = '';
+      // show drag overlay on top of canvas
+      document.getElementById('adjOverlay').style.display = '';
+    }
+
+    function renderAdjFrame() {
+      // Draw full frame with current adj params for adjSlotIdx
+      ctx.clearRect(0, 0, FW, FH);
+      // draw confirmed photos
+      SLOTS.forEach((s, i) => {
+        if (i === adjSlotIdx) return; // skip — drawn separately
+        if (!photos[i]) return;
+        ctx.save();
+        ctx.beginPath(); ctx.rect(s.x, s.y, s.w, s.h); ctx.clip();
+        drawCover(photos[i], s.x, s.y, s.w, s.h, photoMirror[i], photoAdj[i]);
+        ctx.restore();
+      });
+      // draw the photo being adjusted
+      const s = SLOTS[adjSlotIdx];
+      ctx.save();
+      ctx.beginPath(); ctx.rect(s.x, s.y, s.w, s.h); ctx.clip();
+      drawCover(adjImg, s.x, s.y, s.w, s.h, false, { scale: adjScale, ox: adjOx, oy: adjOy });
+      ctx.restore();
+      // draw frame on top
+      if (frameImg) {
+        if (activeFrame.mode === 'underlay') {
+          // underlay: frame was behind, redraw everything correctly
+          ctx.clearRect(0, 0, FW, FH);
+          ctx.drawImage(frameImg, 0, 0, FW, FH);
+          SLOTS.forEach((s2, i) => {
+            const src = i === adjSlotIdx ? adjImg : photos[i];
+            if (!src) return;
+            ctx.save();
+            ctx.beginPath(); ctx.rect(s2.x, s2.y, s2.w, s2.h); ctx.clip();
+            const a = i === adjSlotIdx ? { scale: adjScale, ox: adjOx, oy: adjOy } : photoAdj[i];
+            const m = i === adjSlotIdx ? false : photoMirror[i];
+            drawCover(src, s2.x, s2.y, s2.w, s2.h, m, a);
+            ctx.restore();
+          });
+        } else {
+          ctx.drawImage(frameImg, 0, 0, FW, FH);
+        }
+      }
+      // highlight the active slot border
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,110,180,0.7)';
+      ctx.lineWidth = 4;
+      ctx.setLineDash([8, 5]);
+      ctx.strokeRect(s.x + 2, s.y + 2, s.w - 4, s.h - 4);
+      ctx.restore();
+    }
+
+    // Convert CSS px drag delta → canvas-internal px
+    function cssToCanvas(delta) {
+      const rect = canvas.getBoundingClientRect();
+      return delta * (FW / rect.width);
+    }
+
+    // Drag — mouse on overlay
+    const adjOverlay = document.getElementById('adjOverlay');
+    adjOverlay.addEventListener('mousedown', e => {
+      adjDragging = true;
+      adjDragSX = e.clientX; adjDragSY = e.clientY;
+      adjDragOx = adjOx;     adjDragOy = adjOy;
+      adjOverlay.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', e => {
+      if (!adjDragging) return;
+      adjOx = adjDragOx + cssToCanvas(e.clientX - adjDragSX);
+      adjOy = adjDragOy + cssToCanvas(e.clientY - adjDragSY);
+      renderAdjFrame();
+    });
+    window.addEventListener('mouseup', () => {
+      adjDragging = false;
+      adjOverlay.style.cursor = 'grab';
+    });
+
+    // Drag — touch on overlay
+    adjOverlay.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        adjDragging = true;
+        adjDragSX = e.touches[0].clientX; adjDragSY = e.touches[0].clientY;
+        adjDragOx = adjOx; adjDragOy = adjOy;
+      } else if (e.touches.length === 2) {
+        adjDragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        adjPinchDist = Math.hypot(dx, dy);
+        adjPinchScale = adjScale;
+      }
+      e.preventDefault();
+    }, { passive: false });
+    adjOverlay.addEventListener('touchmove', e => {
+      if (e.touches.length === 1 && adjDragging) {
+        adjOx = adjDragOx + cssToCanvas(e.touches[0].clientX - adjDragSX);
+        adjOy = adjDragOy + cssToCanvas(e.touches[0].clientY - adjDragSY);
+        renderAdjFrame();
+      } else if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.hypot(dx, dy);
+        adjScale = Math.max(1, Math.min(3.5, adjPinchScale * (dist / adjPinchDist)));
+        document.getElementById('adjScale').value = adjScale * 100;
+        renderAdjFrame();
+      }
+      e.preventDefault();
+    }, { passive: false });
+    adjOverlay.addEventListener('touchend', () => { adjDragging = false; });
+
+    // Slider
+    document.getElementById('adjScale').addEventListener('input', e => {
+      adjScale = parseInt(e.target.value) / 100;
+      renderAdjFrame();
+    });
+
+    window.confirmAdjust = () => {
+      photoAdj[adjSlotIdx] = { scale: adjScale, ox: adjOx, oy: adjOy };
+      photos[adjSlotIdx] = adjImg;
+      photoMirror[adjSlotIdx] = false; // uploaded photo — no mirror
+      document.getElementById('adjOverlay').style.display = 'none';
+      document.getElementById('adjustPanel').style.display = 'none';
+      document.getElementById('shootPanel').style.display = '';
+      counting = false;
+      advance();
+      // restart live render loop if camera is still active and not finished
+      if (!done && stream && !rafId) rafId = requestAnimationFrame(render);
+    };
+
+    window.cancelAdjust = () => {
+      document.getElementById('adjOverlay').style.display = 'none';
+      document.getElementById('adjustPanel').style.display = 'none';
+      document.getElementById('shootPanel').style.display = '';
+      adjImg = null;
+      if (stream && !rafId) rafId = requestAnimationFrame(render);
+      triggerUpload();
+    };
+
     document.getElementById('fileInput').addEventListener('change', e => {
       const f = e.target.files[0];
       if (!f) return;
       const url = URL.createObjectURL(f);
       const img = new Image();
       img.onload = () => {
-        photos[current] = img;
         URL.revokeObjectURL(url);
-        counting = false;
-        advance();
+        showAdjustModal(img);
       };
       img.src = url;
     });
@@ -839,6 +1027,8 @@
       NAMES = activeFrame.names;
       // reset state
       photos = [null, null, null];
+      photoAdj = [null, null, null];
+      photoMirror = [false, false, false];
       current = 0; done = false;
       if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
       cancelAnimationFrame(rafId); rafId = null;
@@ -859,15 +1049,28 @@
 
     /* ── Save ── */
     window.saveFinal = () => {
-      const a = document.createElement('a');
-      a.href = canvas.toDataURL('image/png');
-      a.download = 'selfish-booth.png';
-      a.click();
+      const dataUrl = canvas.toDataURL('image/png');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        // On mobile, open in new tab so user can long-press → Save to Photos
+        const w = window.open('', '_blank');
+        if (w) {
+          w.document.write('<html><head><meta name="viewport" content="width=device-width"><title>Selfish Booth</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;}</style></head><body><img src="' + dataUrl + '"><p style="color:#aaa;text-align:center;font-family:sans-serif;font-size:13px;padding:10px">Hold image → Save to Photos</p></body></html>');
+          w.document.close();
+        }
+      } else {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'selfish-booth.png';
+        a.click();
+      }
     };
 
     /* ── Restart ── */
     window.restartBooth = () => {
       photos = [null, null, null];
+      photoAdj = [null, null, null];
+      photoMirror = [false, false, false];
       current = 0; done = false;
       cancelAnimationFrame(rafId); rafId = null;
       updateDots();
