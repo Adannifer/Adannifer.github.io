@@ -5,6 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jennifer Qian — Experience & Brand Designer</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Daily Practice grid ── */
+    .daily-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 16px;
+      padding: 0 6vw;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .daily-card {
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .daily-card:hover { opacity: 0.75; }
+    .daily-circle {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 10px;
+      background: #1a1a2e;
+    }
+    .daily-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .daily-name {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--ink-dim);
+      line-height: 1.35;
+    }
+    .daily-viewall {
+      display: block;
+      text-align: center;
+      padding: 0 6vw 12px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      transition: color 0.2s;
+      margin: 0 auto;
+    }
+    .daily-viewall:hover { color: var(--accent); }
+    @media (max-width: 540px) {
+      .daily-grid { gap: 14px 10px; }
+      .daily-name { font-size: 10px; }
+    }
+  </style>
 
   <svg id="svg-filters" aria-hidden="true" focusable="false">
     <defs>
@@ -199,11 +255,40 @@
           </div>
         </article>
 
+        <article class="project-row" onclick="location.href='suffocatedlove.html'" role="link" tabindex="0">
+          <div class="pr-info">
+            <div class="pr-index">04</div>
+            <div class="pr-body">
+              <div class="pr-top">
+                <h2 class="pr-title">Suffocated<span class="pr-star">★</span>Love</h2>
+                <span class="pr-type">Wearable Experience · Speculative Design</span>
+              </div>
+              <p class="pr-desc">
+                Wearable experience translating intimacy, control, and emotional pressure into body-based form, photography, and audience interpretation.
+              </p>
+              <div class="pr-tags">
+                <span class="tag">Experience Design</span>
+                <span class="tag">Wearable</span>
+                <span class="tag">Speculative</span>
+                <span class="tag">Visual Storytelling</span>
+              </div>
+              <div class="pr-footer">
+                <span class="pr-role">Experience Designer · Wearable Artist · Visual Director</span>
+                <span class="pr-location">New York — 2024</span>
+              </div>
+            </div>
+          </div>
+          <div class="pr-cover">
+            <img src="Suffocated_Love/cover.jpg" alt="Suffocated Love" loading="lazy">
+            <div class="pr-cover-overlay"></div>
+          </div>
+        </article>
+
       </div>
     </section>
 
-    <!-- INTERACTION & EMERGING WORKFLOWS -->
-    <section id="work-lab">
+    <!-- INTERACTION & EMERGING WORKFLOWS (hidden — Fanscape/Squeak/SuffocatedLove moved) -->
+    <section id="work-lab" style="display:none;">
       <div class="section-header">
         <span class="section-num">Interaction &amp; Emerging Workflows</span>
         <span class="section-rule"></span>
@@ -258,16 +343,60 @@
       </div>
     </section>
 
-    <!-- 90 DAYS OF MAKING -->
+    <!-- DAILY PRACTICE -->
     <section id="making">
       <div class="section-header" style="padding:0 6vw; margin-bottom:28px;">
-        <span class="section-num">90 Days of Making with AI</span>
+        <span class="section-num">Daily Practice</span>
         <span class="section-rule"></span>
       </div>
       <p style="padding:0 6vw; margin-bottom:28px; font-size:14px; color:var(--muted); max-width:560px; line-height:1.65;">
         Every day I build something. Some of it works.
       </p>
 
+      <!-- 3×2 featured grid -->
+      <div class="daily-grid">
+        <a class="daily-card" href="day14.html">
+          <div class="daily-circle" style="background:#1a0012;">
+            <img src="90days/day14_cover.jpg" alt="Selfish Booth" loading="lazy">
+          </div>
+          <div class="daily-name">Selfish Booth</div>
+        </a>
+        <a class="daily-card" href="day13.html">
+          <div class="daily-circle" style="background:#f7f3ff;">
+            <img src="90days/day13.png" alt="Patch Lab" loading="lazy" style="object-fit:cover;object-position:center;transform:scale(2.2);transform-origin:center;">
+          </div>
+          <div class="daily-name">Patch Lab</div>
+        </a>
+        <a class="daily-card" href="day10.html">
+          <div class="daily-circle">
+            <img src="90days/day10.png" alt="Editorial Poster Generator" loading="lazy">
+          </div>
+          <div class="daily-name">Editorial Poster Generator</div>
+        </a>
+        <a class="daily-card" href="day9.html">
+          <div class="daily-circle">
+            <img src="90days/day9.png" alt="Word Grid Poster" loading="lazy">
+          </div>
+          <div class="daily-name">Word Grid Poster</div>
+        </a>
+        <a class="daily-card" href="nightfile.html">
+          <div class="daily-circle">
+            <img src="90days/sample_nighlife.png" alt="All Knight Night File" loading="lazy">
+          </div>
+          <div class="daily-name">All Knight Night File</div>
+        </a>
+        <a class="daily-card" href="day12.html">
+          <div class="daily-circle">
+            <img src="90days/day12.png" alt="Pastel Crowd" loading="lazy">
+          </div>
+          <div class="daily-name">Pastel Crowd</div>
+        </a>
+      </div>
+
+      <button class="daily-viewall" id="daily-toggle" onclick="(function(){var l=document.getElementById('day-full-list');var b=document.getElementById('daily-toggle');if(l.style.display==='none'){l.style.display='';b.textContent='Hide ↑';}else{l.style.display='none';b.textContent='View all ↓';}})()">View all ↓</button>
+
+      <!-- Full list (hidden by default) -->
+      <div id="day-full-list" style="display:none;">
       <div class="day-row">
 
         <a class="day-item" href="day14.html">
@@ -411,6 +540,7 @@
         </a>
 
       </div>
+      </div><!-- /day-full-list -->
 
     </section>
 
@@ -422,8 +552,8 @@
       </div>
       <p class="range-sub">Motion · Stop Motion · Interactive Installation · Event Design · Brand Systems · Data Visualization · App UI/UX</p>
 
-      <!-- Video editorial grid -->
-      <div class="range-video-grid">
+      <!-- Video editorial grid (hidden on index — visible on range.html) -->
+      <div class="range-video-grid" style="display:none;">
 
         <!-- Portrait: Echo Curtain (9:16) — tall left column -->
         <div class="range-vid-cell range-vid-portrait">
@@ -455,50 +585,47 @@
       <!-- Image strip -->
       <div id="dock-viewport">
         <div id="dock-inner">
-          <!-- Fashion / Coexist -->
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt=""></div>
-          <!-- Motion -->
-          <div class="dk-item" data-cat="Motion" data-name="p5.js · Note Visualization" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/thumb.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Motion" data-name="Touchable · Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_thumb.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Motion" data-name="Zhuque · p5.js" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/zhuque_thumb.jpg" alt=""></div>
-          <!-- Graphic Posters -->
-          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
-          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
-          <div class="dk-item" data-cat="Graphic Poster" data-name="DILP Poster" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt=""></div>
-          <!-- NYU BIA -->
-          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt=""></div>
-          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt=""></div>
-          <div class="dk-item" data-cat="Event Production" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt=""></div>
-          <!-- Personal Branding -->
-          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
-          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
-          <!-- School Mascot -->
-          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt=""></div>
-          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt=""></div>
-          <!-- Tribe Art Exhibition -->
-          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt=""></div>
-          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt=""></div>
+          <!-- UX Exploration — Fanscape & Squeak -->
+          <div class="dk-item" data-cat="UX Exploration · Fanscape &amp; Squeak" data-name="UX Exploration" onclick="location.href='fanscape.html'"><img src="Fanscape/new_cover.png" alt="UX Exploration"></div>
+          <div class="dk-item" data-cat="UX Exploration · Fanscape &amp; Squeak" data-name="UX Exploration" onclick="location.href='squeak.html'"><img src="Squeak/cover.png" alt="UX Exploration"></div>
+          <!-- Poster Design -->
+          <div class="dk-item" data-cat="Poster · Adobe Suite" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
+          <div class="dk-item" data-cat="Poster · Adobe Suite" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
+          <!-- Self Branding -->
+          <div class="dk-item" data-cat="Self Branding · Adobe / Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
+          <div class="dk-item" data-cat="Self Branding · Adobe / Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
+          <!-- TongTong -->
+          <div class="dk-item" data-cat="TongTong · Motion / AE" data-name="TongTong" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_thumb.jpg" alt="TongTong"></div>
+          <!-- HK Poster -->
+          <div class="dk-item" data-cat="HK Poster · Fashion" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
+          <div class="dk-item" data-cat="HK Poster · Fashion" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
+          <!-- Echo Curtain -->
+          <div class="dk-item" data-cat="Echo Curtain · Interactive Installation" data-name="Echo Curtain" onclick="location.href='range.html#echo'"><img src="https://vumbnail.com/1194880550.jpg" alt="Echo Curtain"></div>
           <!-- duplicates for seamless loop -->
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt=""></div>
-          <div class="dk-item" data-cat="Motion" data-name="p5.js · Note Visualization" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/thumb.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Motion" data-name="Touchable · Animation" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_thumb.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Motion" data-name="Zhuque · p5.js" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/zhuque_thumb.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
-          <div class="dk-item" data-cat="Graphic Poster" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
-          <div class="dk-item" data-cat="Graphic Poster" data-name="DILP Poster" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt=""></div>
-          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt=""></div>
-          <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt=""></div>
-          <div class="dk-item" data-cat="Event Production" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt=""></div>
-          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
-          <div class="dk-item" data-cat="Personal Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
-          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt=""></div>
-          <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt=""></div>
-          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt=""></div>
-          <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt=""></div>
+          <div class="dk-item" data-cat="UX Exploration · Fanscape &amp; Squeak" data-name="UX Exploration" onclick="location.href='fanscape.html'"><img src="Fanscape/new_cover.png" alt=""></div>
+          <div class="dk-item" data-cat="UX Exploration · Fanscape &amp; Squeak" data-name="UX Exploration" onclick="location.href='squeak.html'"><img src="Squeak/cover.png" alt=""></div>
+          <div class="dk-item" data-cat="Poster · Adobe Suite" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/01.png" alt=""></div>
+          <div class="dk-item" data-cat="Poster · Adobe Suite" data-name="Poster Series" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/02.png" alt=""></div>
+          <div class="dk-item" data-cat="Self Branding · Adobe / Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt=""></div>
+          <div class="dk-item" data-cat="Self Branding · Adobe / Branding" data-name="Brand System" onclick="location.href='range.html#branding'"><img src="range%20of%20practice/personal%20branding/mockup4.png" alt=""></div>
+          <div class="dk-item" data-cat="TongTong · Motion / AE" data-name="TongTong" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/Touchable_thumb.jpg" alt=""></div>
+          <div class="dk-item" data-cat="HK Poster · Fashion" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_1.jpg" alt=""></div>
+          <div class="dk-item" data-cat="HK Poster · Fashion" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/1781634315220-574b98ec-2e3b-4e78-8bd8-86ffad69f535_3.jpg" alt=""></div>
+          <div class="dk-item" data-cat="Echo Curtain · Interactive Installation" data-name="Echo Curtain" onclick="location.href='range.html#echo'"><img src="https://vumbnail.com/1194880550.jpg" alt="Echo Curtain"></div>
+          <!-- hidden originals preserved below -->
+          <div style="display:none">
+            <div class="dk-item" data-cat="Motion" data-name="p5.js · Note Visualization" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/thumb.jpg" alt=""></div>
+            <div class="dk-item" data-cat="Motion" data-name="Zhuque · p5.js" onclick="location.href='range.html#motion'"><img src="range%20of%20practice/animation_motion/zhuque_thumb.jpg" alt=""></div>
+            <div class="dk-item" data-cat="Graphic Poster" data-name="DILP Poster" onclick="location.href='range.html#posters'"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt=""></div>
+            <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome!.png" alt=""></div>
+            <div class="dk-item" data-cat="Event Design" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20(1).png" alt=""></div>
+            <div class="dk-item" data-cat="Event Production" data-name="NYU BIA Open House" onclick="location.href='range.html#nyubia'"><img src="range%20of%20practice/nyu%20bia%20open%20house/408f73bfa9ec0cf30ac82aae9aec0b1e.jpg" alt=""></div>
+            <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1077.PNG" alt=""></div>
+            <div class="dk-item" data-cat="Mascot Design" data-name="Sea Dragon System" onclick="location.href='range.html#mascot'"><img src="range%20of%20practice/school_mascot%20design/IMG_1058.JPG" alt=""></div>
+            <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1048.JPG" alt=""></div>
+            <div class="dk-item" data-cat="Art Exhibition" data-name="Tribe" onclick="location.href='range.html#tribe'"><img src="range%20of%20practice/tribe_art_exhibition/IMG_1053.JPG" alt=""></div>
+            <div class="dk-item" data-cat="Fashion · HK History" data-name="Coexist" onclick="location.href='range.html#fashion'"><img src="range%20of%20practice/fashion_coexist_HK%20History/Mural-on-Brick-Wall-Mockup.png" alt=""></div>
+          </div>
         </div>
       </div>
       <p style="padding: 12px 6vw 0; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-align:center;">Click to view ↗</p>
