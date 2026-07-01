@@ -524,7 +524,7 @@
             <div style="font-size:10px; letter-spacing:0.08em; color:var(--muted); opacity:0.6; margin-bottom:14px;">drag frame · slider to zoom</div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px; width:100%;">
               <span style="font-size:14px; color:var(--muted);">−</span>
-              <input type="range" id="adjScale" min="100" max="350" value="100" step="1" style="flex:1; accent-color:var(--accent);">
+              <input type="range" id="adjScale" min="25" max="350" value="100" step="1" style="flex:1; accent-color:var(--accent);">
               <span style="font-size:14px; color:var(--muted);">+</span>
             </div>
             <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
@@ -632,28 +632,27 @@
     }
 
     /* ── draw cover helper ── */
-    // adj: optional { scale, ox, oy } — scale >1 zooms in, ox/oy are offsets in canvas px
+    // adj: { scale, ox, oy } — scale=1 fits the slot (cover), <1 shrinks, >1 zooms in
+    // ox/oy are offsets in canvas-internal pixels
     function drawCover(img, x, y, w, h, mirror, adj) {
       const baseR = Math.max(w / img.naturalWidth, h / img.naturalHeight);
       const scale = adj ? adj.scale : 1;
-      const r = baseR * scale;   // larger scale → smaller source crop → zooms in
-      const sw = w / r, sh = h / r;
-      // center first, then apply user offset (converted to source px)
-      const baseSx = (img.naturalWidth  - sw) / 2;
-      const baseSy = (img.naturalHeight - sh) / 2;
-      const ox = adj ? adj.ox / r : 0;
-      const oy = adj ? adj.oy / r : 0;
-      // clamp so image doesn't go out of slot
-      const sx = Math.max(0, Math.min(img.naturalWidth  - sw, baseSx - ox));
-      const sy = Math.max(0, Math.min(img.naturalHeight - sh, baseSy - oy));
+      const ox    = adj ? adj.ox : 0;
+      const oy    = adj ? adj.oy : 0;
+      // display size of the full image at this scale
+      const destW = img.naturalWidth  * baseR * scale;
+      const destH = img.naturalHeight * baseR * scale;
+      // centered in slot + user pan
+      const destX = x + (w - destW) / 2 + ox;
+      const destY = y + (h - destH) / 2 + oy;
       if (mirror) {
         ctx.save();
-        ctx.translate(x + w, y);
+        ctx.translate(2 * x + w, 0);
         ctx.scale(-1, 1);
-        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        ctx.drawImage(img, destX, destY, destW, destH);
         ctx.restore();
       } else {
-        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+        ctx.drawImage(img, destX, destY, destW, destH);
       }
     }
 
@@ -999,7 +998,7 @@
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         const dist = Math.hypot(dx, dy);
-        adjScale = Math.max(1, Math.min(3.5, adjPinchScale * (dist / adjPinchDist)));
+        adjScale = Math.max(0.25, Math.min(3.5, adjPinchScale * (dist / adjPinchDist)));
         document.getElementById('adjScale').value = adjScale * 100;
         renderAdjFrame();
       }
