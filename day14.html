@@ -233,6 +233,13 @@
       <!-- Right: controls -->
       <div class="booth-controls-col">
 
+        <!-- Frame selector -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+          <button class="booth-btn" id="fSelfish" onclick="switchFrame('selfish')" style="font-size:10px;padding:7px 14px;">Selfish</button>
+          <button class="booth-btn" id="fShun2"   onclick="switchFrame('shun2')"   style="font-size:10px;padding:7px 14px;">Shun 2</button>
+          <button class="booth-btn" id="fShun3"   onclick="switchFrame('shun3')"   style="font-size:10px;padding:7px 14px;">Shun 3</button>
+        </div>
+
         <!-- Shooting UI -->
         <div id="shootPanel">
           <div class="booth-steps">
@@ -279,15 +286,45 @@
   <script src="script.js" defer></script>
   <script>
   (() => {
-    /* ── Frame: 600×1550, transparent slots ── */
     const FW = 600, FH = 1550;
-    // clip: full section for clipping; draw: transparent area center for crop
-    const SLOTS = [
-      { x: 0, y: 80,  w: 600, h: 552, dx: 56,  dy: 234,  dw: 489, dh: 348 },
-      { x: 0, y: 582, w: 600, h: 445, dx: 72,  dy: 627,  dw: 487, dh: 307 },
-      { x: 0, y: 977, w: 600, h: 573, dx: 128, dy: 1069, dw: 331, dh: 208 },
-    ];
-    const NAMES = ['Hello Kitty', 'Angel', 'Heart'];
+
+    /* ── Frame configs ── */
+    const FRAMES = {
+      selfish: {
+        src: '90days/day14_frame2.png',
+        mode: 'overlay',   // transparent slots → photos under, frame on top
+        names: ['Hello Kitty', 'Angel', 'Heart'],
+        slots: [
+          { x: 0, y: 80,  w: 600, h: 552 },
+          { x: 0, y: 582, w: 600, h: 445 },
+          { x: 0, y: 977, w: 600, h: 573 },
+        ],
+      },
+      shun2: {
+        src: '90days/shun-2.png',
+        mode: 'underlay',  // opaque white slots → frame under, photos on top
+        names: ['1', '2', '3'],
+        slots: [
+          { x: 0, y: 243, w: 600, h: 373 },
+          { x: 0, y: 616, w: 600, h: 392 },
+          { x: 0, y: 1008,w: 600, h: 542 },
+        ],
+      },
+      shun3: {
+        src: '90days/shun-3.png',
+        mode: 'underlay',
+        names: ['1', '2', '3'],
+        slots: [
+          { x: 0, y: 264, w: 600, h: 427 },
+          { x: 0, y: 691, w: 600, h: 288 },
+          { x: 0, y: 979, w: 600, h: 571 },
+        ],
+      },
+    };
+
+    let activeFrame = FRAMES.selfish;
+    let SLOTS  = activeFrame.slots;
+    let NAMES  = activeFrame.names;
 
     /* ── State ── */
     let stream    = null;
@@ -308,10 +345,9 @@
     /* ── Load frame ── */
     function loadFrame() {
       return new Promise(res => {
-        if (frameImg) { res(); return; }
         frameImg = new Image();
         frameImg.onload = res;
-        frameImg.src = '90days/day14_frame2.png';
+        frameImg.src = activeFrame.src;
       });
     }
 
@@ -349,30 +385,31 @@
       ctx.restore();
     }
 
+    /* ── Draw photos into slots ── */
+    function drawPhotos() {
+      SLOTS.forEach((s, i) => {
+        const src = (i === current && stream && !done && !photos[i]) ? null : photos[i];
+        if (!src && !(i === current && stream && !done && !photos[i])) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(s.x, s.y, s.w, s.h);
+        ctx.clip();
+        if (src) drawCover(src, s.x, s.y, s.w, s.h, true);
+        else drawVideoInSlot(s);
+        ctx.restore();
+      });
+    }
+
     /* ── Main render loop ── */
     function render() {
       ctx.clearRect(0, 0, FW, FH);
-
-      // Draw captured photos (clip to full section, crop centered on transparent area)
-      SLOTS.forEach((s, i) => {
-        if (photos[i]) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(s.x, s.y, s.w, s.h);
-          ctx.clip();
-          drawCover(photos[i], s.x, s.y, s.w, s.h, true);
-          ctx.restore();
-        }
-      });
-
-      // Draw live video in current slot if webcam active and not done
-      if (stream && !done && current < 3 && !photos[current]) {
-        drawVideoInSlot(SLOTS[current]);
+      if (activeFrame.mode === 'underlay') {
+        if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
+        drawPhotos();
+      } else {
+        drawPhotos();
+        if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
       }
-
-      // Frame overlay on top
-      if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
-
       if (!done) rafId = requestAnimationFrame(render);
     }
 
@@ -465,9 +502,9 @@
         done = true;
         cancelAnimationFrame(rafId);
         if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-        // Final render — same as live loop for consistency
+        // Final render — respects overlay/underlay mode
         ctx.clearRect(0, 0, FW, FH);
-        SLOTS.forEach((s, i) => {
+        const drawFinalPhotos = () => SLOTS.forEach((s, i) => {
           if (!photos[i]) return;
           ctx.save();
           ctx.beginPath();
@@ -476,7 +513,13 @@
           drawCover(photos[i], s.x, s.y, s.w, s.h, true);
           ctx.restore();
         });
-        ctx.drawImage(frameImg, 0, 0, FW, FH);
+        if (activeFrame.mode === 'underlay') {
+          ctx.drawImage(frameImg, 0, 0, FW, FH);
+          drawFinalPhotos();
+        } else {
+          drawFinalPhotos();
+          ctx.drawImage(frameImg, 0, 0, FW, FH);
+        }
 
         updateDots();
         showBtns();
@@ -543,6 +586,33 @@
       };
       img.src = url;
     });
+
+    /* ── Switch frame ── */
+    window.switchFrame = (key) => {
+      if (!FRAMES[key]) return;
+      activeFrame = FRAMES[key];
+      SLOTS = activeFrame.slots;
+      NAMES = activeFrame.names;
+      // reset state
+      photos = [null, null, null];
+      current = 0; done = false;
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      cancelAnimationFrame(rafId); rafId = null;
+      frameImg = null;
+      document.getElementById('resultPanel').style.display = 'none';
+      document.getElementById('shootPanel').style.display = '';
+      document.getElementById('canvasWrap').classList.remove('strip-done');
+      document.getElementById('particleLayer').innerHTML = '';
+      updateDots();
+      setLabel('Ready to shoot');
+      showBtns('startBtn');
+      setStatus('');
+      // highlight active frame button
+      ['selfish','shun2','shun3'].forEach(k => {
+        document.getElementById('f'+k[0].toUpperCase()+k.slice(1)).classList.toggle('primary', k === key);
+      });
+      loadFrame().then(() => { ctx.clearRect(0,0,FW,FH); ctx.drawImage(frameImg,0,0,FW,FH); });
+    };
 
     /* ── Save ── */
     window.saveFinal = () => {
