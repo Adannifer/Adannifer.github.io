@@ -109,6 +109,74 @@
     .booth-btn.primary { border-color: var(--accent); color: var(--accent); }
     .booth-btn.primary:hover { background: var(--accent); color: #0a0a14; }
     .booth-btn:disabled { opacity: 0.3; pointer-events: none; }
+
+    /* ── Result state animations ── */
+    @keyframes stripBounce {
+      0%   { transform: scale(0.85) translateY(20px); opacity: 0; }
+      60%  { transform: scale(1.04) translateY(-4px); opacity: 1; }
+      80%  { transform: scale(0.98) translateY(2px); }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-180px) rotate(20deg); opacity: 0; }
+    }
+    @keyframes resultFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes savePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,110,180,0.5); }
+      50%       { box-shadow: 0 0 0 10px rgba(255,110,180,0); }
+    }
+
+    .strip-done { animation: stripBounce 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+    #resultPanel {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      animation: resultFadeIn 0.5s 0.4s ease both;
+    }
+    .result-title {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+      color: var(--ink); line-height: 1.2;
+    }
+    .result-title span { color: var(--accent); }
+    .result-sub {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .result-save-btn {
+      padding: 14px 28px; border-radius: 24px;
+      background: var(--accent); border: none; color: #0a0a14;
+      font-family: inherit; font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; cursor: pointer; font-weight: 600;
+      animation: savePulse 2s 0.8s ease infinite;
+      transition: transform 0.15s;
+    }
+    .result-save-btn:hover { transform: scale(1.04); }
+    .result-restart-btn {
+      padding: 12px 24px; border-radius: 24px;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); font-family: inherit; font-size: 12px;
+      letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .result-restart-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* floating particles container */
+    #particleLayer {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; overflow: hidden;
+      border-radius: 12px;
+    }
+    .particle {
+      position: absolute; font-size: 18px;
+      animation: floatUp 1.4s ease-out forwards;
+      user-select: none;
+    }
   </style>
 </head>
 <body class="project-page day-page">
@@ -148,33 +216,42 @@
 
       <!-- Left: frame canvas -->
       <div class="booth-frame-col">
-        <div class="countdown-wrap">
+        <div class="countdown-wrap" id="canvasWrap">
           <canvas id="boothCanvas"></canvas>
           <div id="countdownOverlay"></div>
+          <div id="particleLayer"></div>
         </div>
         <video id="camVideo" autoplay playsinline muted></video>
       </div>
 
       <!-- Right: controls -->
       <div class="booth-controls-col">
-        <div class="booth-steps">
-          <div class="step-dot active" id="dot0"></div>
-          <div class="step-dot" id="dot1"></div>
-          <div class="step-dot" id="dot2"></div>
+
+        <!-- Shooting UI -->
+        <div id="shootPanel">
+          <div class="booth-steps">
+            <div class="step-dot active" id="dot0"></div>
+            <div class="step-dot" id="dot1"></div>
+            <div class="step-dot" id="dot2"></div>
+          </div>
+          <div class="slot-label" id="slotLabel">Ready to shoot</div>
+          <div class="booth-status" id="boothStatus"></div>
+          <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
+            <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
+            <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
+            <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
+            <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
+          </div>
         </div>
 
-        <div class="slot-label" id="slotLabel">Ready to shoot</div>
-
-        <div class="booth-status" id="boothStatus"></div>
-
-        <div class="booth-btn-row" style="flex-direction:column; align-items:flex-start;">
-          <button class="booth-btn primary" id="startBtn" onclick="startBooth()">📸 Start Camera</button>
-          <button class="booth-btn" id="uploadBtn" onclick="triggerUpload()" style="display:none">🖼 Upload Photo</button>
-          <button class="booth-btn primary" id="snapBtn" onclick="triggerSnap()" style="display:none">📸 Snap</button>
-          <button class="booth-btn" id="retakeBtn" onclick="retake()" style="display:none">↩ Retake</button>
-          <button class="booth-btn primary" id="saveBtn" onclick="saveFinal()" style="display:none">↓ Save Strip</button>
-          <button class="booth-btn" id="restartBtn" onclick="restartBooth()" style="display:none">↺ Start Over</button>
+        <!-- Result UI (shown when all 3 done) -->
+        <div id="resultPanel">
+          <div class="result-title">your strip<br><span>is ready ✦</span></div>
+          <div class="result-sub">save it · send it · post it</div>
+          <button class="result-save-btn" onclick="saveFinal()">↓ Save Strip</button>
+          <button class="result-restart-btn" onclick="restartBooth()">↺ Shoot Again</button>
         </div>
+
         <input type="file" id="fileInput" accept="image/*" style="display:none" />
       </div>
 
@@ -283,7 +360,7 @@
 
     /* ── UI helpers ── */
     function showBtns(...ids) {
-      ['startBtn','uploadBtn','snapBtn','retakeBtn','saveBtn','restartBtn'].forEach(id => {
+      ['startBtn','uploadBtn','snapBtn','retakeBtn'].forEach(id => {
         document.getElementById(id).style.display = ids.includes(id) ? '' : 'none';
       });
     }
@@ -384,10 +461,38 @@
         ctx.drawImage(frameImg, 0, 0, FW, FH);
 
         updateDots();
-        setLabel('Your strip is ready!');
-        showBtns('saveBtn', 'restartBtn');
-        setStatus('');
+        showBtns();
+        document.getElementById('shootPanel').style.display = 'none';
+        const rp = document.getElementById('resultPanel');
+        rp.style.display = 'flex';
+        // bounce the strip in
+        const wrap = document.getElementById('canvasWrap');
+        wrap.classList.remove('strip-done');
+        void wrap.offsetWidth;
+        wrap.classList.add('strip-done');
+        // launch particles
+        launchParticles();
       }
+    }
+
+    function launchParticles() {
+      const layer = document.getElementById('particleLayer');
+      const emojis = ['✦','♡','★','✿','♪','✧'];
+      let count = 0;
+      const iv = setInterval(() => {
+        const el = document.createElement('div');
+        el.className = 'particle';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = (10 + Math.random() * 80) + '%';
+        el.style.bottom = (Math.random() * 30) + '%';
+        el.style.color = ['#ff6eb4','#ff9de2','#fff','#ffe0f0','#ffb3d9'][Math.floor(Math.random()*5)];
+        el.style.animationDuration = (1 + Math.random() * 0.8) + 's';
+        el.style.animationDelay = (Math.random() * 0.4) + 's';
+        el.style.fontSize = (14 + Math.random() * 12) + 'px';
+        layer.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+        if (++count >= 24) clearInterval(iv);
+      }, 80);
     }
 
     /* ── Retake ── */
@@ -438,6 +543,10 @@
       setLabel('Ready to shoot');
       showBtns('startBtn');
       setStatus('');
+      document.getElementById('resultPanel').style.display = 'none';
+      document.getElementById('shootPanel').style.display = '';
+      document.getElementById('canvasWrap').classList.remove('strip-done');
+      document.getElementById('particleLayer').innerHTML = '';
       ctx.clearRect(0, 0, FW, FH);
       if (frameImg) ctx.drawImage(frameImg, 0, 0, FW, FH);
     };
