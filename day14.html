@@ -138,24 +138,17 @@
       gap: 20px;
       animation: resultFadeIn 0.5s 0.4s ease both;
     }
-    @keyframes acidHover {
-      0%   { color: #ff6eb4; text-shadow: 3px 0 #00ffee, -3px 0 #ff00cc, 0 0 20px #ff6eb4; transform: skewX(0deg); }
-      20%  { color: #00ffcc; text-shadow: -3px 0 #ff00ff, 3px 0 #ffff00, 0 0 30px #00ffcc; transform: skewX(-1.5deg); }
-      40%  { color: #ffff00; text-shadow: 3px 2px #ff0066, -3px -2px #00eeff, 0 0 24px #ffff00; transform: skewX(1deg); }
-      60%  { color: #ff00cc; text-shadow: -2px 0 #00ffee, 4px 0 #ff6600, 0 0 32px #ff00cc; transform: skewX(-0.5deg); }
-      80%  { color: #00eeff; text-shadow: 2px -2px #ff6eb4, -4px 2px #ccff00, 0 0 20px #00eeff; transform: skewX(1.5deg); }
-      100% { color: #ff6eb4; text-shadow: 3px 0 #00ffee, -3px 0 #ff00cc, 0 0 20px #ff6eb4; transform: skewX(0deg); }
-    }
-
     .result-title {
       font-size: clamp(36px, 6vw, 56px); font-weight: 800; letter-spacing: -0.03em;
       color: var(--ink); line-height: 1.05; cursor: default;
-      transition: color 0.1s;
+      filter: url(#acid-result);
     }
-    .result-title:hover {
-      animation: acidHover 0.5s steps(1) infinite;
+    .rc {
+      display: inline-block;
+      will-change: transform;
+      color: inherit;
     }
-    .result-title span { color: var(--accent); display: block; }
+    .rc.pink { color: var(--accent); }
     .result-sub {
       font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
       color: var(--muted);
@@ -259,7 +252,7 @@
 
         <!-- Result UI (shown when all 3 done) -->
         <div id="resultPanel">
-          <div class="result-title">Cute stuff<br><span>produced!</span></div>
+          <div class="result-title" id="resultTitle"></div>
           <div class="result-sub">save it · send it · post it</div>
           <button class="result-save-btn" onclick="saveFinal()">↓ Save Strip</button>
           <button class="result-restart-btn" onclick="restartBooth()">↺ Shoot Again</button>
@@ -270,6 +263,18 @@
 
     </div>
   </div>
+
+  <!-- SVG acid filter (same gooey mercury as hero) -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <filter id="acid-result" x="-10%" y="-10%" width="120%" height="120%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="result-blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
+    </defs>
+  </svg>
 
   <script src="script.js" defer></script>
   <script>
@@ -568,6 +573,55 @@
     loadFrame().then(() => {
       ctx.drawImage(frameImg, 0, 0, FW, FH);
     });
+
+    /* ── Result title acid effect (same as hero) ── */
+    (function initResultAcid() {
+      const titleEl = document.getElementById('resultTitle');
+      const blurEl  = document.getElementById('result-blur');
+      if (!titleEl || !blurEl) return;
+
+      // Build char spans — two lines, second line in pink
+      const lines = [
+        { text: 'Cute stuff', pink: false },
+        { text: 'produced!',  pink: true  },
+      ];
+      lines.forEach((line, li) => {
+        line.text.split('').forEach(ch => {
+          const s = document.createElement('span');
+          s.className = 'rc' + (line.pink ? ' pink' : '');
+          s.textContent = ch === ' ' ? ' ' : ch;
+          titleEl.appendChild(s);
+        });
+        if (li < lines.length - 1) titleEl.appendChild(document.createElement('br'));
+      });
+
+      const getChars = () => titleEl.querySelectorAll('.rc');
+
+      document.addEventListener('mousemove', e => {
+        if (document.getElementById('resultPanel').style.display === 'none') return;
+        const chars = getChars();
+        let maxForce = 0;
+        chars.forEach(c => {
+          const r  = c.getBoundingClientRect();
+          const cx = r.left + r.width  * 0.5;
+          const cy = r.top  + r.height * 0.5;
+          const d  = Math.hypot(e.clientX - cx, e.clientY - cy);
+          const rad = 160;
+          if (d < rad) {
+            const t  = 1 - d / rad;
+            const f  = t * t * 32;
+            const ax = Math.atan2(e.clientY - cy, e.clientX - cx);
+            c.style.transition = 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)';
+            c.style.transform  = `translate(${-Math.cos(ax)*f}px,${-Math.sin(ax)*f}px)`;
+            maxForce = Math.max(maxForce, t);
+          } else {
+            c.style.transition = 'transform 0.85s cubic-bezier(0.34,1.56,0.64,1)';
+            c.style.transform  = '';
+          }
+        });
+        blurEl.setAttribute('stdDeviation', maxForce * 4.5);
+      });
+    })();
 
   })();
   </script>
