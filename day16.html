@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 16 · Character Select — Jennifer Qian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #06000f;
+      --purple: #9B5FFF;
+      --pink:   #FF61D8;
+      --blue:   #4FC3F7;
+      --text:   #EDE0FF;
+      --dim:    rgba(210,180,255,0.55);
+    }
+
+    html, body {
+      width: 100%; min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    /* ── STARFIELD ── */
+    #stars-canvas {
+      position: fixed; inset: 0;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(16px,4vw,48px);
+      height: 56px;
+      background: rgba(6,0,15,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(155,95,255,0.15);
+    }
+    #nav-logo-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    #nav-logo-text .star-sep { color: var(--pink); margin: 0 4px; }
+    #nav-links { display: flex; gap: 24px; }
+    .nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; letter-spacing: 0.08em;
+      color: var(--dim); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--blue); }
+    #day-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--purple);
+      border: 1px solid rgba(155,95,255,0.4);
+      padding: 4px 10px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ══════════════════════════════════════
+       PAGE: CHARACTER SELECT
+    ══════════════════════════════════════ */
+    #page-select {
+      position: relative; z-index: 1;
+      height: 100vh;
+      padding-top: 56px;
+      display: flex; flex-direction: column; align-items: center;
+      overflow: hidden;
+    }
+
+    /* background gradient blobs */
+    #page-select::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(155,95,255,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 70%, rgba(255,97,216,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(79,195,247,0.07) 0%, transparent 70%);
+    }
+
+    .select-header {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 36px 20px 0;
+      flex-shrink: 0;
+    }
+    .select-eyebrow {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 0.9vw, 8px);
+      color: var(--blue);
+      letter-spacing: 0.25em;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .select-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(14px, 2.8vw, 28px);
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+    }
+    /* ── ANIMATED RAINBOW TITLE ── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes rainbow-shift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    @keyframes chroma-ab {
+      0%,100% { text-shadow: 3px 0 #FF003C, -3px 0 #00FFFF; }
+      25%     { text-shadow: -3px 0 #FF00FF, 3px 0 #FFFF00; }
+      50%     { text-shadow: 3px -2px #00FF80, -3px 2px #FF4000; }
+      75%     { text-shadow: -2px 3px #0080FF, 2px -3px #FF0080; }
+    }
+    .select-title {
+      background: linear-gradient(90deg,
+        #FF003C,#FF7700,#FFE600,#00FF88,#00CFFF,#8844FF,#FF003C,#FF7700,#FFE600);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow-shift 1.8s linear infinite, chroma-ab 2.2s ease-in-out infinite;
+    }
+    .select-sub {
+      font-size: clamp(8px, 1vw, 11px);
+      color: var(--dim); margin-top: 10px; letter-spacing: 0.15em;
+    }
+
+    /* ── CAROUSEL ── */
+    @keyframes scan-sweep { 0%{top:-4px} 100%{top:110%} }
+    @keyframes border-glow {
+      0%,100% { box-shadow: 0 0 0 5px #000, 0 0 30px var(--c), 0 0 70px color-mix(in srgb,var(--c) 40%,transparent); }
+      50%      { box-shadow: 0 0 0 5px #000, 0 0 55px var(--c), 0 0 110px color-mix(in srgb,var(--c) 55%,transparent); }
+    }
+    @keyframes name-flash { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+    /* the stage — takes remaining height */
+    #carousel-stage {
+      position: relative; z-index: 1;
+      flex: 1; min-height: 0; width: 100%;
+      padding-bottom: 60px;
+      overflow: hidden;
+      cursor: none; /* hide default cursor; we show arrows */
+    }
+
+    /* directional cursor hints */
+    #cursor-hint {
+      position: fixed; z-index: 999; pointer-events: none;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 20px; color: rgba(255,255,255,0.55);
+      transform: translate(-50%, -50%);
+      display: none;
+      text-shadow: 0 0 10px rgba(155,95,255,0.8);
+    }
+
+    /* each card is position:absolute, placed by JS */
+    .char-card {
+      position: absolute;
+      top: 50%;
+      width: clamp(180px, 22vw, 300px);
+      cursor: pointer;
+      border: 6px solid #111;
+      border-radius: 4px;
+      background: var(--cbg, #1a0030);
+      overflow: hidden;
+      transform-origin: center center;
+      will-change: transform, opacity;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .char-card::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 20;
+      background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.08) 3px,rgba(0,0,0,0.08) 4px);
+    }
+    .char-card.sel {
+      border-color: var(--c);
+      animation: border-glow 1.8s ease-in-out infinite;
+    }
+    .char-card.sel::before {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: repeating-conic-gradient(rgba(255,255,255,0.07) 0% 25%, transparent 0% 50%);
+      background-size: 20px 20px;
+    }
+
+    /* portrait */
+    .card-portrait-wrap {
+      width: 100%; aspect-ratio: 3/4;
+      position: relative; overflow: hidden;
+    }
+    .card-portrait {
+      position: absolute; inset: 0;
+      width: 100%; height: 90%;
+      top: auto; bottom: 0;
+      object-fit: contain; object-position: center bottom;
+      display: block;
+      image-rendering: pixelated; image-rendering: crisp-edges;
+      filter: brightness(0) contrast(1.1);
+      transition: filter 0.18s ease;
+    }
+    .char-card.sel .card-portrait { filter: brightness(1) contrast(1); }
+    .card-scan {
+      position: absolute; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
+      pointer-events: none; z-index: 15;
+      animation: scan-sweep 3.5s linear infinite;
+    }
+
+    /* label */
+    .card-info {
+      position: relative; z-index: 5;
+      padding: 10px 8px 12px; text-align: center;
+      background: rgba(0,0,0,0.6);
+    }
+    .card-player-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px; letter-spacing: 0.12em;
+      color: var(--c); display: none; margin-bottom: 4px;
+    }
+    .char-card.sel .card-player-num { display: block; }
+    .card-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 1.1vw, 12px);
+      letter-spacing: 0.06em; line-height: 1.7; color: #fff;
+    }
+    .char-card.sel .card-name {
+      color: var(--c);
+      animation: name-flash 1.2s step-end infinite;
+    }
+
+    /* footer */
+    .select-footer {
+      position: relative; z-index: 1; flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(7px, 1vw, 10px); letter-spacing: 0.18em;
+      padding: 0 0 28px;
+      animation: blink 1.4s step-end infinite;
+      background: linear-gradient(90deg,#FF61D8,#9B5FFF,#4FC3F7,#FF61D8);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ══════════════════════════════════════
+       PAGE: CHARACTER DETAIL
+    ══════════════════════════════════════ */
+    #page-detail {
+      position: fixed; inset: 0; z-index: 150;
+      display: flex; flex-direction: column;
+      background: var(--bg);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #page-detail.show {
+      opacity: 1; pointer-events: all;
+    }
+
+    /* per-character ambient glow on detail bg */
+    #detail-glow {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      transition: background 0.5s ease;
+    }
+
+    /* grid overlay */
+    #page-detail::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(155,95,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,95,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .detail-nav {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(16px,3vw,40px);
+      height: 56px;
+      border-bottom: 1px solid rgba(155,95,255,0.15);
+      background: rgba(6,0,15,0.6);
+      backdrop-filter: blur(14px);
+      flex-shrink: 0;
+    }
+    .detail-back {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; letter-spacing: 0.1em;
+      color: var(--purple);
+      background: none;
+      border: 1px solid rgba(155,95,255,0.35);
+      padding: 8px 16px; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .detail-back:hover {
+      background: rgba(155,95,255,0.15);
+      color: var(--text);
+    }
+    #detail-player-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; color: var(--dim); letter-spacing: 0.2em;
+    }
+
+    /* main detail body */
+    .detail-body {
+      position: relative; z-index: 1;
+      flex: 1; display: flex;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ── LEFT INFO PANEL ── */
+    .d-left {
+      width: clamp(260px, 38%, 420px);
+      flex-shrink: 0;
+      padding: clamp(20px,3vw,48px) clamp(16px,2.5vw,36px) 30px clamp(20px,3vw,48px);
+      overflow-y: auto; scrollbar-width: none;
+      display: flex; flex-direction: column; gap: 0;
+      border-right: 1px solid rgba(155,95,255,0.12);
+    }
+    .d-left::-webkit-scrollbar { display: none; }
+
+    .d-eyebrow {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px; letter-spacing: 0.2em;
+      color: var(--blue); opacity: 0.7;
+      margin-bottom: 12px;
+    }
+    .d-name-en {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(11px, 1.6vw, 18px);
+      color: var(--text); letter-spacing: 0.08em;
+      line-height: 1.6; margin-bottom: 6px;
+    }
+    .d-name-zh {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700; letter-spacing: 0.06em;
+      line-height: 1.1; margin-bottom: 4px;
+      /* per-character gradient applied via JS */
+    }
+    .d-nickname {
+      font-size: 12px; color: var(--dim);
+      margin-bottom: 28px; letter-spacing: 0.05em;
+    }
+
+    .d-divider {
+      width: 48px; height: 2px; margin-bottom: 24px;
+      background: linear-gradient(90deg, var(--c, #9B5FFF), transparent);
+    }
+
+    .d-fields { display: flex; flex-direction: column; gap: 16px; }
+
+    .d-field { display: flex; align-items: flex-start; gap: 16px; }
+    .d-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px; letter-spacing: 0.1em;
+      color: var(--c, #9B5FFF);
+      min-width: 52px; flex-shrink: 0;
+      padding-top: 3px; opacity: 0.85;
+    }
+    .d-value {
+      font-size: clamp(11px, 1.2vw, 13px);
+      color: var(--text); line-height: 1.7;
+    }
+
+    .d-hobbies {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .d-hobby {
+      font-size: 11px; padding: 3px 11px;
+      border: 1px solid rgba(79,195,247,0.3);
+      background: rgba(79,195,247,0.07);
+      color: var(--blue); border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .d-about {
+      margin-top: 28px;
+      padding: 16px 16px;
+      border-left: 2px solid var(--c, #9B5FFF);
+      background: rgba(155,95,255,0.06);
+      font-size: clamp(10px, 1.1vw, 12px);
+      color: var(--dim); line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* ── RIGHT CHARACTER ART ── */
+    .d-right {
+      flex: 1; position: relative;
+      overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+
+    /* radial glow behind character */
+    .d-char-glow {
+      position: absolute;
+      bottom: -10%; left: 50%; transform: translateX(-50%);
+      width: 80%; aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none; z-index: 1;
+      transition: background 0.5s;
+    }
+
+    .d-char-img {
+      position: relative; z-index: 2;
+      max-height: calc(100vh - 80px);
+      max-width: 100%;
+      object-fit: contain;
+      object-position: bottom center;
+      display: block;
+      /* grain filter */
+      filter: contrast(1.02) brightness(1.02);
+      transition: filter 0.3s;
+    }
+
+    /* grain overlay on character */
+    .d-char-grain {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      mix-blend-mode: overlay; opacity: 0.25;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+
+    /* bottom fade */
+    .d-right::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 30%;
+      background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+      z-index: 4; pointer-events: none;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .detail-body { flex-direction: column; }
+      .d-left {
+        width: 100%; max-height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid rgba(155,95,255,0.12);
+      }
+      .d-right { min-height: 45vh; }
+      .characters-row { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- ═══════════════════════════════
+     SELECTION PAGE
+═══════════════════════════════ -->
+<div id="page-select">
+  <nav id="nav">
+    <a href="index.html" style="text-decoration:none">
+      <span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span>
+    </a>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+    </div>
+    <div id="day-badge">DAY 16</div>
+  </nav>
+
+  <div class="select-header">
+    <div class="select-eyebrow">DAY 16 · 90 DAYS OF MAKING</div>
+    <div class="select-title">CHARACTER<br><span>SELECT</span><span class="cursor">_</span></div>
+    <div class="select-sub">HOVER TO SCROLL · CLICK TO SELECT</div>
+  </div>
+
+  <div id="carousel-stage"></div>
+
+  <div class="select-footer">▶ PRESS ENTER TO CONFIRM ◀</div>
+  <div id="cursor-hint"></div>
+</div>
+
+<!-- ═══════════════════════════════
+     DETAIL PAGE
+═══════════════════════════════ -->
+<div id="page-detail">
+  <div id="detail-glow"></div>
+
+  <nav class="detail-nav">
+    <button class="detail-back" id="detailBack">← BACK</button>
+    <div id="detail-player-num">PLAYER 01</div>
+    <div id="day-badge" style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--purple);border:1px solid rgba(155,95,255,0.4);padding:4px 10px;letter-spacing:0.1em;">DAY 16</div>
+  </nav>
+
+  <div class="detail-body">
+    <div class="d-left" id="dLeft">
+      <div class="d-eyebrow" id="dEyebrow">P1 · CHARACTER FILE</div>
+      <div class="d-name-en" id="dNameEn"></div>
+      <div class="d-name-zh" id="dNameZh"></div>
+      <div class="d-nickname" id="dNickname"></div>
+      <div class="d-divider" id="dDivider"></div>
+      <div class="d-fields" id="dFields"></div>
+      <div class="d-about" id="dAbout"></div>
+    </div>
+
+    <div class="d-right" id="dRight">
+      <div class="d-char-glow" id="dCharGlow"></div>
+      <img class="d-char-img" id="dCharImg" src="" alt="" />
+      <div class="d-char-grain"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ═══════════════════════════════
+     CHARACTER DATA
+  ═══════════════════════════════ */
+  const CHARS = [
+    {
+      id: '22x',
+      num: 'P1',
+      nameZh: '朱志鑫',
+      nameEn: 'Twenty-two X',
+      nickname: '小朱 · 鑫鑫儿',
+      birthday: '2005 · 11 · 19',
+      zodiac: '♏ 天蝎座 Scorpio',
+      mbti: 'INFP',
+      hobbies: ['跳舞', '说唱', '贝斯', '火锅', '篮球', '足球', '密室探险'],
+      about: '已经18岁，但可能内心依旧没有18的青少年。有一颗追求勇敢的心，也会偶尔释放出瞬间的疯狂。',
+      image: '90days/day16_character/22ximage.png',
+      color: '#FF61D8',
+      cardBg: '#C4006A',
+      glow: 'rgba(255,97,216,0.22)',
+    },
+    {
+      id: 'zack',
+      num: 'P2',
+      nameZh: '张泽禹',
+      nameEn: 'ZACK / B.A.O',
+      nickname: '小宝 · 宝老师 · 大禹',
+      birthday: '2007 · 04 · 30',
+      zodiac: '♉ 金牛座 Taurus',
+      mbti: 'ESTJ',
+      hobbies: ['唱歌', '弹电吉他', '看足球赛', '旅行打卡', '记录月亮', '收藏物品'],
+      about: '正宗东北boy，热爱自己的家乡。性格理性大于感性，有自己独特的思维模式。喜欢好玩的一切事物。',
+      image: '90days/day16_character/zackimage.png',
+      color: '#4FC3F7',
+      cardBg: '#004E8C',
+      glow: 'rgba(79,195,247,0.20)',
+    },
+    {
+      id: 'jeremy',
+      num: 'P3',
+      nameZh: '张极',
+      nameEn: 'Jeremy',
+      nickname: 'Jiber · 小极 · 豆儿',
+      birthday: '2007 · 02 · 03',
+      zodiac: '♒ 水瓶座 Aquarius',
+      mbti: 'INFP',
+      hobbies: ['唱歌', '跳舞', '合成器', '平面模特', '骑自行车', '喝茶', '旅行'],
+      about: '希望可以在一个很平和的氛围下，让自己变得没那么"急"。唱自己想唱的歌，做自己想做的事。',
+      image: '90days/day16_character/jeremyimage.png',
+      color: '#B87BFF',
+      cardBg: '#4A007A',
+      glow: 'rgba(184,123,255,0.22)',
+    },
+    {
+      id: 'left',
+      num: 'P4',
+      nameZh: '左航',
+      nameEn: 'LEFT',
+      nickname: '莱福特 · 小左 · 航酱',
+      birthday: '2006 · 05 · 22',
+      zodiac: '♊ 双子座 Gemini',
+      mbti: 'INFP',
+      hobbies: ['说唱', '跳舞', '架子鼓', '看电影写影评', '旅行', '下厨', '热血之魂'],
+      about: '情绪比较随性，生活也比较随性。想清楚和想不清楚是形影相随的事。强大也渺小，平静也疯狂。',
+      image: '90days/day16_character/leftimage.png',
+      color: '#61D8FF',
+      cardBg: '#003E6B',
+      glow: 'rgba(97,216,255,0.18)',
+    },
+    {
+      id: 'su',
+      num: 'P5',
+      nameZh: '苏新皓',
+      nameEn: 'SU',
+      nickname: '小苏 · 帅帅 · 美羊羊',
+      birthday: '2007 · 01 · 12',
+      zodiac: '♑ 摩羯座 Capricorn',
+      mbti: 'ENTJ',
+      hobbies: ['唱歌', '跳舞', '变魔术', '钢琴键盘', '拍摄vlog', '做饭', '画画'],
+      about: '还有很多东西等待着去探索，也觉得可以享受一切！绝不怕黑，还是有点怕鬼（哈哈哈）。就这么坦荡地去奔跑吧！',
+      image: '90days/day16_character/suimage.png',
+      color: '#FF9BDD',
+      cardBg: '#7A003D',
+      glow: 'rgba(255,155,221,0.20)',
+    },
+  ];
+
+  /* ═══════════════════════════════
+     STARFIELD
+  ═══════════════════════════════ */
+  (function initStars() {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [], particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function mkStar() {
+      return {
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.4 + 0.3,
+        a: Math.random(),
+        da: (Math.random() - 0.5) * 0.008,
+        color: ['#fff','#EDE0FF','#B87BFF','#4FC3F7'][Math.floor(Math.random()*4)],
+      };
+    }
+
+    function mkParticle() {
+      return {
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.25, vy: -Math.random() * 0.3 - 0.05,
+        r: Math.random() * 2.5 + 0.5,
+        a: Math.random() * 0.6 + 0.1,
+        color: ['#FF61D8','#9B5FFF','#4FC3F7','#B87BFF'][Math.floor(Math.random()*4)],
+      };
+    }
+
+    resize();
+    for (let i = 0; i < 180; i++) stars.push(mkStar());
+    for (let i = 0; i < 40; i++)  particles.push(mkParticle());
+    window.addEventListener('resize', resize);
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // stars
+      for (const s of stars) {
+        s.a = Math.max(0.1, Math.min(1, s.a + s.da));
+        if (s.a <= 0.1 || s.a >= 1) s.da *= -1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = s.a * 0.7;
+        ctx.fill();
+      }
+
+      // floating particles
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.a * 0.5;
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ═══════════════════════════════
+     CAROUSEL
+  ═══════════════════════════════ */
+  const stage    = document.getElementById('carousel-stage');
+  const hint     = document.getElementById('cursor-hint');
+  const N        = CHARS.length;
+  const cardEls  = [];
+
+  let offset     = 0;      // continuous float; integer = card index at center
+  let velocity   = 0;
+  let mouseNorm  = 0.5;    // 0=left edge, 1=right edge
+  let hovering   = false;
+  let lastTime   = performance.now();
+  let selIdx     = 0;
+
+  // Build cards
+  CHARS.forEach((ch, i) => {
+    const card = document.createElement('div');
+    card.className = 'char-card';
+    card.style.setProperty('--c', ch.color);
+    card.style.setProperty('--cbg', ch.cardBg);
+    card.innerHTML = `
+      <div class="card-portrait-wrap">
+        <div class="card-scan"></div>
+        <img class="card-portrait" src="${ch.image}" alt="${ch.nameEn}" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <div class="card-player-num">${ch.num}</div>
+        <div class="card-name">${ch.nameEn}</div>
+      </div>`;
+
+    card.addEventListener('click', () => {
+      const pos = getPos(i);
+      if (Math.abs(pos) < 0.55) {
+        openDetail(ch, i);
+      } else {
+        // snap belt so this card moves to center
+        const target = Math.round(offset) + pos;
+        snapTo(target);
+      }
+    });
+
+    cardEls.push(card);
+    stage.appendChild(card);
+  });
+
+  // Pre-select center card so initial render shows color immediately
+  cardEls[0].classList.add('sel');
+
+  // Compute card's position relative to center (-2.5 … 2.5)
+  function getPos(i) {
+    let raw = ((i - offset) % N + N) % N;
+    if (raw > N / 2) raw -= N;
+    return raw;
+  }
+
+  // Animate belt to a target offset
+  function snapTo(target) {
+    const snap = setInterval(() => {
+      offset += (target - offset) * 0.18;
+      if (Math.abs(target - offset) < 0.005) { offset = target; clearInterval(snap); }
+    }, 16);
+  }
+
+  // Resize-aware card size & spacing
+  function cardW()    { return stage.querySelector('.char-card')?.offsetWidth || 220; }
+  function spacing()  { return cardW() * 1.22; }
+  function maxScale() { return 1; }
+  function minScale() { return 0.62; }
+
+  function renderCards() {
+    let closest = { dist: Infinity, idx: -1 };
+    cardEls.forEach((el, i) => {
+      const pos    = getPos(i);
+      const apos   = Math.abs(pos);
+      const scale  = maxScale() - (maxScale() - minScale()) * Math.min(apos, 2) / 2;
+      const x      = pos * spacing();
+      const y      = apos * 18;
+      const op     = apos > 2.45 ? 0 : 1 - apos * 0.1;
+      const rot    = pos * -2.5;
+      const z      = Math.round(20 - apos * 5);
+      el.style.transform  = `translateX(calc(-50% + ${x}px)) translateY(calc(-50% + ${-y}px)) scale(${scale}) rotate(${rot}deg)`;
+      el.style.opacity    = op;
+      el.style.zIndex     = z;
+      el.style.left       = '50%';
+      if (apos < closest.dist) { closest = { dist: apos, idx: i }; }
+    });
+    // update selected
+    selIdx = closest.idx;
+    cardEls.forEach((el, i) => el.classList.toggle('sel', i === selIdx));
+  }
+
+  // Cursor hint
+  stage.addEventListener('mousemove', e => {
+    hovering = true;
+    const rect = stage.getBoundingClientRect();
+    mouseNorm  = (e.clientX - rect.left) / rect.width;
+    hint.style.display = 'block';
+    hint.style.left    = e.clientX + 'px';
+    hint.style.top     = e.clientY + 'px';
+    const dead = 0.18;
+    if (mouseNorm < 0.5 - dead)      hint.textContent = '◀';
+    else if (mouseNorm > 0.5 + dead) hint.textContent = '▶';
+    else                             hint.textContent = '';
+  });
+  stage.addEventListener('mouseleave', () => {
+    hovering = false;
+    hint.style.display = 'none';
+  });
+
+  // RAF loop
+  function tick(now) {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+
+    if (hovering) {
+      const dx   = mouseNorm - 0.5;
+      const dead = 0.18;
+      let targetVel = 0;
+      if (Math.abs(dx) > dead) {
+        targetVel = (dx - Math.sign(dx) * dead) * 5.5;
+      }
+      velocity += (targetVel - velocity) * 0.09;
+    } else {
+      velocity *= 0.88;
+    }
+    offset += velocity * dt;
+
+    renderCards();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('page-detail').classList.contains('show')) return;
+    if (e.key === 'ArrowRight') snapTo(Math.round(offset) + 1);
+    if (e.key === 'ArrowLeft')  snapTo(Math.round(offset) - 1);
+    if (e.key === 'Enter' || e.key === ' ') openDetail(CHARS[selIdx], selIdx);
+  });
+
+  /* ═══════════════════════════════
+     DETAIL VIEW
+  ═══════════════════════════════ */
+  function openDetail(ch, idx) {
+    // set CSS var
+    document.getElementById('page-detail').style.setProperty('--c', ch.color);
+
+    // background glow
+    document.getElementById('detail-glow').style.background =
+      `radial-gradient(ellipse 70% 60% at 70% 80%, ${ch.glow} 0%, transparent 70%),
+       radial-gradient(ellipse 50% 50% at 15% 20%, rgba(155,95,255,0.10) 0%, transparent 70%)`;
+
+    // nav player num
+    document.getElementById('detail-player-num').textContent = `${ch.num} · CHARACTER FILE`;
+
+    // eyebrow
+    document.getElementById('dEyebrow').textContent = `${ch.num} · CHARACTER FILE`;
+
+    // names
+    document.getElementById('dNameEn').textContent = ch.nameEn;
+    const nameZhEl = document.getElementById('dNameZh');
+    nameZhEl.textContent = ch.nameZh;
+    nameZhEl.style.background = `linear-gradient(135deg, ${ch.color}, #EDE0FF)`;
+    nameZhEl.style.webkitBackgroundClip = 'text';
+    nameZhEl.style.webkitTextFillColor = 'transparent';
+
+    document.getElementById('dNickname').textContent = `「${ch.nickname}」`;
+    document.getElementById('dDivider').style.background =
+      `linear-gradient(90deg, ${ch.color}, transparent)`;
+
+    // fields
+    const hobbiesHTML = ch.hobbies.map(h => `<span class="d-hobby">${h}</span>`).join('');
+    document.getElementById('dFields').innerHTML = `
+      <div class="d-field">
+        <div class="d-label">生日</div>
+        <div class="d-value">${ch.birthday}</div>
+      </div>
+      <div class="d-field">
+        <div class="d-label">星座</div>
+        <div class="d-value">${ch.zodiac}</div>
+      </div>
+      <div class="d-field">
+        <div class="d-label">MBTI</div>
+        <div class="d-value">${ch.mbti}</div>
+      </div>
+      <div class="d-field">
+        <div class="d-label">爱好</div>
+        <div class="d-value"><div class="d-hobbies">${hobbiesHTML}</div></div>
+      </div>
+    `;
+
+    document.getElementById('dAbout').textContent = ch.about;
+
+    // character art
+    document.getElementById('dCharImg').src = ch.image;
+    document.getElementById('dCharImg').alt = ch.nameZh;
+    document.getElementById('dCharGlow').style.background =
+      `radial-gradient(circle, ${ch.glow.replace('0.', '0.')} 0%, transparent 70%)`;
+    document.getElementById('dCharGlow').style.background = ch.color;
+    document.getElementById('dCharGlow').style.filter = 'blur(80px)';
+    document.getElementById('dCharGlow').style.opacity = '0.35';
+
+    // show
+    const detail = document.getElementById('page-detail');
+    detail.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('detailBack').addEventListener('click', () => {
+    document.getElementById('page-detail').classList.remove('show');
+    document.body.style.overflow = '';
+  });
+</script>
+</body>
+</html>
