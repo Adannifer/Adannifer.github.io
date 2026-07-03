@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JQ Starter Pack — Day 15</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    /* ── PAGE ── */
+    #day15-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 12px 48px;
+      background: radial-gradient(ellipse 100% 80% at 50% 25%, #4a0030 0%, #1a000d 65%);
+    }
+    .d15-meta {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: rgba(255,130,180,0.4);
+      letter-spacing: 0.14em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* ── MACHINE ── */
+    .machine-wrap {
+      position: relative;
+      width: min(96vw, 900px);
+      cursor: default;
+      /* pink glow matching the machine */
+      filter: drop-shadow(0 24px 70px rgba(255,100,160,0.35))
+              drop-shadow(0 4px 18px rgba(255,60,130,0.2));
+    }
+
+    /*
+      machine-frame: the PNG sits on top with z-index 2.
+      The screen hole in the PNG is transparent, so content below shows through.
+      pointer-events: none so clicks reach the screen underneath.
+    */
+    .machine-frame {
+      width: 100%;
+      display: block;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /*
+      machine-screen: absolutely positioned to align with the transparent
+      screen hole in machineimage.png.
+      Measured from pixel analysis:
+        left=328/1536=21.4%, top=250/1024=24.4%,
+        width=878/1536=57.2%, height=467/1024=45.6%
+      z-index 1 — below the machine frame, visible through the transparent hole.
+    */
+    .machine-screen {
+      position: absolute;
+      left: 21.4%;
+      top: 24.4%;
+      width: 57.2%;
+      height: 45.6%;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #12000b;
+    }
+
+    /* ── STATES ── */
+    .s-state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .s-state.off { display: none; }
+
+    /* ─────────────────────────
+       FORM STATE
+    ───────────────────────── */
+    #s-form {
+      background: linear-gradient(160deg, #220016 0%, #12000b 100%);
+      align-items: stretch;
+      justify-content: center;
+      padding: clamp(6px, 2.5%, 18px) clamp(8px, 3.5%, 22px);
+      gap: clamp(4px, 1.4%, 10px);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    #s-form::-webkit-scrollbar { display: none; }
+
+    .f-intro {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.85vw, 9px);
+      color: rgba(255,61,127,0.65);
+      letter-spacing: 0.1em;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .f-row { flex-shrink: 0; }
+    .f-label {
+      display: block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.8vw, 8px);
+      color: #FF3D7F;
+      letter-spacing: 0.12em;
+      margin-bottom: clamp(3px, 0.9%, 7px);
+    }
+    .f-input {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,61,127,0.3);
+      border-radius: 5px;
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 1.25vw, 13px);
+      padding: clamp(5px, 1.1%, 10px) clamp(8px, 1.5%, 13px);
+      letter-spacing: 0.06em;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .f-input:focus {
+      border-color: #FF3D7F;
+      box-shadow: 0 0 10px rgba(255,61,127,0.25);
+    }
+    .f-input::placeholder { color: #3a0f24; }
+
+    .upload-zone {
+      box-sizing: border-box;
+      border: 1.5px dashed rgba(255,61,127,0.35);
+      border-radius: 7px;
+      padding: clamp(6px, 1.8%, 14px) 10px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .upload-zone:hover, .upload-zone.loaded {
+      border-color: #FF3D7F;
+      background: rgba(255,61,127,0.05);
+    }
+    .upload-zone input[type=file] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+    .uz-icon { font-size: clamp(14px, 2.4vw, 24px); line-height: 1.2; }
+    .uz-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.65vw, 7px);
+      color: rgba(255,140,180,0.45);
+      letter-spacing: 0.1em;
+      margin-top: 3px;
+    }
+
+    .preview-strip {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 5px;
+      padding: clamp(4px, 0.9%, 8px) clamp(6px, 1.2%, 10px);
+      flex-shrink: 0;
+    }
+    .preview-strip.show { display: flex; }
+    .preview-strip img {
+      width: clamp(24px, 4.5%, 38px);
+      height: clamp(24px, 4.5%, 38px);
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1.5px solid #FF3D7F;
+      flex-shrink: 0;
+    }
+    .ps-ready {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.7vw, 7px);
+      color: #FF3D7F;
+      letter-spacing: 0.08em;
+    }
+    .ps-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(10px, 1.2vw, 13px);
+      color: rgba(255,200,220,0.55);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gen-btn {
+      width: 100%;
+      background: #FF3D7F;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 1.05vw, 11px);
+      padding: clamp(7px, 1.6%, 13px);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      box-shadow: 0 3px 0 #8A1035;
+      position: relative; top: 0;
+      flex-shrink: 0;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #8A1035; }
+    .gen-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #8A1035; }
+
+    /* ─────────────────────────
+       LOADING STATE
+    ───────────────────────── */
+    #s-loading {
+      background: #12000b;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.4%, 14px);
+    }
+    .load-icon {
+      font-size: clamp(26px, 4.5vw, 46px);
+      animation: lb 1s ease-in-out infinite alternate;
+    }
+    .load-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 1vw, 10px);
+      color: #FF3D7F;
+      letter-spacing: 0.12em;
+      animation: blink 1s step-end infinite;
+    }
+    .load-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(10px, 1.3vw, 14px);
+      color: rgba(255,140,180,0.5);
+      text-align: center;
+      padding: 0 8%;
+      line-height: 1.4;
+    }
+    @keyframes lb   { from{transform:translateY(0) scale(1)} to{transform:translateY(-10px) scale(1.08)} }
+    @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ─────────────────────────
+       FALLBACK STATE
+    ───────────────────────── */
+    #s-fallback {
+      background: #12000b;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(4px, 0.9%, 9px);
+      padding: 4% 6%;
+      text-align: center;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    #s-fallback::-webkit-scrollbar { display: none; }
+    .fb-icon { font-size: clamp(20px, 3.8vw, 40px); flex-shrink: 0; }
+    .fb-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 1vw, 10px);
+      color: #FF3D7F;
+      letter-spacing: 0.1em;
+      line-height: 2;
+    }
+    .fb-msg {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(11px, 1.4vw, 14px);
+      color: rgba(255,170,200,0.8);
+      line-height: 1.5;
+    }
+    .fb-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.85vw, 9px);
+      background: rgba(255,61,127,0.1);
+      border: 1.5px solid #FF3D7F;
+      border-radius: 5px;
+      color: #FF3D7F;
+      padding: clamp(6px, 1.3%, 11px) clamp(10px, 2%, 20px);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .fb-btn:hover { background: rgba(255,61,127,0.25); }
+    .fb-back {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.7vw, 7px);
+      color: rgba(255,130,170,0.4);
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+    .fb-back:hover { color: rgba(255,130,170,0.7); }
+
+    /* ─────────────────────────
+       RESULT STATE
+    ───────────────────────── */
+    #s-result { flex-direction: row; }
+
+    /* Left info panel — pale pink, dark readable text */
+    .r-left {
+      width: 42%;
+      flex-shrink: 0;
+      background: rgba(255, 232, 242, 0.97);
+      display: flex;
+      flex-direction: column;
+      padding: clamp(5px, 1.4%, 12px) clamp(6px, 1.6%, 13px);
+      gap: clamp(3px, 0.8%, 8px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+    .r-left::-webkit-scrollbar { display: none; }
+
+    .r-player-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .r-avatar {
+      width: clamp(24px, 5%, 40px);
+      height: clamp(24px, 5%, 40px);
+      border-radius: 4px;
+      border: 2px solid #FF3D7F;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .r-avatar-ph {
+      width: clamp(24px, 5%, 40px);
+      height: clamp(24px, 5%, 40px);
+      border-radius: 4px;
+      border: 2px solid #FF3D7F;
+      background: linear-gradient(135deg, #FF3D7F, #FFB8D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(10px, 1.8%, 18px);
+      flex-shrink: 0;
+    }
+    .r-meta { flex: 1; min-width: 0; }
+    .r-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.95vw, 10px);
+      color: #1a000d;
+      line-height: 1.6;
+      word-break: break-all;
+    }
+    .r-class {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(8px, 1.05vw, 11px);
+      font-weight: 800;
+      color: #FF3D7F;
+      background: rgba(255,61,127,0.1);
+      border: 1.5px solid rgba(255,61,127,0.5);
+      border-radius: 3px;
+      padding: 1px 5px;
+      display: inline-block;
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+
+    .r-div {
+      height: 1px;
+      background: rgba(255,61,127,0.18);
+      flex-shrink: 0;
+    }
+    .r-sec {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.6vw, 6px);
+      color: rgba(160,40,90,0.6);
+      letter-spacing: 0.14em;
+      flex-shrink: 0;
+    }
+
+    /* Items as glossy pills */
+    .r-items { display: flex; flex-direction: column; gap: 3px; }
+    .r-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,61,127,0.2);
+      border-radius: 20px;
+      padding: 3px 8px 3px 5px;
+    }
+    .r-item-icon {
+      font-size: clamp(10px, 1.5vw, 15px);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .r-item-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(9px, 1.05vw, 12px);
+      font-weight: 700;
+      color: #2a0014;
+      line-height: 1.2;
+    }
+    .r-item-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(8px, 0.85vw, 10px);
+      color: rgba(80,15,40,0.55);
+    }
+
+    /* Stats */
+    .r-stats { display: flex; flex-direction: column; gap: 4px; }
+    .r-stat-row { display: flex; align-items: center; gap: 5px; }
+    .r-stat-lbl {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.58vw, 6px);
+      color: #1a000d;
+      width: clamp(26px, 4.4vw, 42px);
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+    }
+    .r-stat-track {
+      flex: 1;
+      height: clamp(5px, 0.9%, 8px);
+      background: rgba(0,0,0,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .r-stat-fill { height: 100%; border-radius: 3px; }
+    .r-stat-val {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.58vw, 6px);
+      color: #1a000d;
+      width: 14px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Fortune */
+    .r-fortune {
+      background: #1a000d;
+      border-radius: 5px;
+      padding: clamp(5px, 1%, 9px) clamp(7px, 1.2%, 11px);
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+    .r-fortune-lbl {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.55vw, 5px);
+      color: rgba(255,130,170,0.6);
+      letter-spacing: 0.14em;
+      margin-bottom: 4px;
+    }
+    .r-fortune-txt {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(10px, 1.2vw, 13px);
+      color: #FFB8D4;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    /* Save + Retry buttons */
+    .r-actions {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .r-save-btn {
+      flex: 1;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.75vw, 8px);
+      background: #FF3D7F;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      padding: clamp(5px, 1%, 9px) 4px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      box-shadow: 0 3px 0 #8A1035;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .r-save-btn:hover  { transform: translateY(-1px); box-shadow: 0 4px 0 #8A1035; }
+    .r-save-btn:active { transform: translateY(2px);  box-shadow: 0 1px 0 #8A1035; }
+    .r-again-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.7vw, 7px);
+      background: rgba(255,61,127,0.08);
+      border: 1px solid rgba(255,61,127,0.35);
+      border-radius: 5px;
+      color: rgba(180,40,90,0.9);
+      padding: clamp(5px, 1%, 9px) clamp(5px, 1%, 9px);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .r-again-btn:hover { background: rgba(255,61,127,0.2); }
+
+    /* Right photo panel */
+    .r-right {
+      flex: 1;
+      background: #12000b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .r-char-wrap {
+      position: absolute; inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    /* Actions row in right panel — floats above photo */
+    .r-right .r-actions {
+      position: absolute;
+      bottom: 5px; left: 4px; right: 4px;
+      display: flex;
+      gap: 4px;
+      z-index: 10;
+    }
+    .r-right .r-save-btn {
+      flex: 1;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.75vw, 8px);
+      background: #FF3D7F;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      padding: clamp(4px, 1%, 8px) 2px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      box-shadow: 0 2px 0 #8A1035;
+    }
+    .r-right .r-again-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(5px, 0.7vw, 7px);
+      background: rgba(255,61,127,0.08);
+      border: 1px solid rgba(255,61,127,0.3);
+      border-radius: 4px;
+      color: rgba(255,100,140,0.8);
+      padding: clamp(4px, 1%, 8px) clamp(5px, 1%, 9px);
+      cursor: pointer;
+    }
+
+    /* Uploaded photo fills right panel */
+    .char-photo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    /* Grain noise overlay */
+    .char-grain {
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 2;
+      opacity: 0.55;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      mix-blend-mode: overlay;
+    }
+
+    .char-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.6vw, 6px);
+      background: rgba(255,61,127,0.13);
+      border: 1px solid rgba(255,61,127,0.28);
+      color: rgba(255,110,160,0.9);
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+    .seed-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4px, 0.55vw, 5px);
+      color: rgba(255,61,127,0.4);
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work"    class="nav-link">Work</a>
+      <a href="index.html#about"   class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div id="day15-page">
+    <div class="d15-meta">DAY 15 · 90 DAYS OF MAKING</div>
+
+    <div class="machine-wrap" id="machineWrap">
+
+      <!-- Screen content — z-index 1, shows through transparent hole in PNG -->
+      <div class="machine-screen" id="machineScreen">
+
+        <!-- ── FORM ── -->
+        <div class="s-state" id="s-form">
+          <div class="f-intro">▶ 2026 STARTER PACK</div>
+          <div class="f-row">
+            <label class="f-label" for="nameInput">TYPE YOUR NAME</label>
+            <input type="text" class="f-input" id="nameInput"
+              placeholder="PLAYER_01" maxlength="14" autocomplete="off" spellcheck="false" />
+          </div>
+
+          <div class="f-row">
+            <label class="f-label">UPLOAD YOUR LOOK</label>
+            <div class="upload-zone" id="uploadZone">
+              <div class="uz-icon" id="uzIcon">📷</div>
+              <div class="uz-text">FULL BODY PHOTO · TAP TO SELECT</div>
+              <input type="file" id="photoInput" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="preview-strip" id="previewStrip">
+            <img id="previewThumb" src="" alt="" />
+            <div>
+              <div class="ps-ready">✓ PHOTO READY</div>
+              <div class="ps-name" id="previewName">—</div>
+            </div>
+          </div>
+
+          <button class="gen-btn" id="generateBtn">▶ GENERATE PLAYER</button>
+        </div>
+
+        <!-- ── LOADING ── -->
+        <div class="s-state off" id="s-loading">
+          <div class="load-icon">✨</div>
+          <div class="load-text">GENERATING...</div>
+          <div class="load-sub">Calling the pixel sprite oracle…</div>
+        </div>
+
+        <!-- ── FALLBACK ── -->
+        <div class="s-state off" id="s-fallback">
+          <div class="fb-icon">🔌</div>
+          <div class="fb-title">API MODE<br>NOT CONNECTED</div>
+          <div class="fb-msg" id="fbMsg">OPENAI_API_KEY is not configured. Pixel character generation unavailable.</div>
+          <button class="fb-btn" id="useSeedBtn">USE SEED AVATAR MODE</button>
+          <button class="fb-back" id="fbBackBtn">← BACK</button>
+        </div>
+
+        <!-- ── RESULT ── -->
+        <div class="s-state off" id="s-result">
+          <!-- Left info panel -->
+          <div class="r-left" id="rLeft"></div>
+
+          <!-- Right character panel -->
+          <div class="r-right" id="rRight">
+            <div class="r-char-wrap" id="rCharWrap"></div>
+          </div>
+        </div>
+
+      </div><!-- .machine-screen -->
+
+      <!-- Machine frame PNG — sits on top, transparent hole reveals screen -->
+      <img class="machine-frame" src="90days/machineimage.png" alt="JQ Dare Machine" />
+
+    </div><!-- .machine-wrap -->
+  </div><!-- #day15-page -->
+
+  <script>
+  /* ═════════════════════════════════════
+     DATA
+  ═════════════════════════════════════ */
+  const ITEMS = [
+    { name:'Headphones',       label:'Sound Shield',     icon:'🎧', b:{style:6,chaos:2,stamina:4,luck:2} },
+    { name:'Boba',             label:'Soft Power',       icon:'🧋', b:{style:4,chaos:1,stamina:6,luck:3} },
+    { name:'Transit Pass',     label:'Transit Portal',   icon:'🎟', b:{style:3,chaos:5,stamina:3,luck:4} },
+    { name:'Camera',           label:'Flash Memory',     icon:'📷', b:{style:7,chaos:3,stamina:2,luck:4} },
+    { name:'Sticker Sheet',    label:'Archive Seal',     icon:'✨', b:{style:5,chaos:4,stamina:2,luck:5} },
+    { name:'Lucky Receipt',    label:'Proof of Destiny', icon:'🧾', b:{style:1,chaos:2,stamina:3,luck:10} },
+    { name:'Crystal',          label:'Luck Amplifier',   icon:'🔮', b:{style:5,chaos:3,stamina:2,luck:7} },
+    { name:'Arcade Coin',      label:'Continue Token',   icon:'🪙', b:{style:3,chaos:6,stamina:3,luck:6} },
+    { name:'Notebook',         label:'Plot Device',      icon:'📓', b:{style:4,chaos:5,stamina:4,luck:3} },
+    { name:'Lighter',          label:'Chaos Starter',    icon:'🔥', b:{style:5,chaos:8,stamina:2,luck:3} },
+    { name:'Energy Drink',     label:'Overdrive',        icon:'⚡', b:{style:1,chaos:7,stamina:8,luck:2} },
+    { name:'Bandage',          label:'Damage Control',   icon:'🩹', b:{style:4,chaos:0,stamina:5,luck:5} },
+    { name:'Backpack',         label:'Infinite Carry',   icon:'🎒', b:{style:6,chaos:4,stamina:5,luck:2} },
+    { name:'Pen',              label:'Enchanted Quill',  icon:'🖊', b:{style:7,chaos:5,stamina:1,luck:4} },
+    { name:'Matcha',           label:'Green Buff',       icon:'🍵', b:{style:3,chaos:1,stamina:7,luck:3} },
+    { name:'Sneakers',         label:'Speed Boost',      icon:'👟', b:{style:8,chaos:3,stamina:4,luck:1} },
+    { name:'Keychain',         label:'Identity Tag',     icon:'🔑', b:{style:5,chaos:3,stamina:2,luck:6} },
+    { name:'Wired Earbuds',    label:'Signal Tap',       icon:'🎵', b:{style:4,chaos:3,stamina:3,luck:4} },
+    { name:'Snack',            label:'Field Ration',     icon:'🍡', b:{style:1,chaos:4,stamina:9,luck:2} },
+    { name:'Sunglasses',       label:'Mystery Mode',     icon:'🕶', b:{style:9,chaos:2,stamina:1,luck:3} },
+    { name:'Pocket Knife',     label:'Multi-Tool',       icon:'🔧', b:{style:2,chaos:6,stamina:5,luck:4} },
+    { name:'Instant Noodles',  label:'Midnight Fuel',    icon:'🍜', b:{style:1,chaos:3,stamina:10,luck:1} },
+    { name:'Book',             label:'Lore Expansion',   icon:'📚', b:{style:4,chaos:2,stamina:3,luck:6} },
+    { name:'Tape',             label:'Patch Protocol',   icon:'📼', b:{style:3,chaos:5,stamina:4,luck:5} },
+    { name:'Coin Purse',       label:'Resource Cache',   icon:'💰', b:{style:2,chaos:1,stamina:3,luck:9} },
+  ];
+
+  const CLASSES = [
+    'Poster Witch','Booth Ghost','Patch Alchemist','Grid Runner',
+    'Sticker Knight','Archive Angel','Boba Ranger','Metro Mage',
+    'Convenience Paladin','Soft Launch Rogue','Receipt Oracle',
+    'Afterparty Cleric','Screenshot Sorcerer','Tiny Errand Hero',
+    'Chaos Merchant','Lore Keeper','Field Agent','Night Shift Rogue',
+  ];
+
+  const FORTUNES = [
+    'Equipped for one unusually specific side quest.',
+    'May cause strangers to ask where you got that.',
+    'Built for errands, drama, and one perfect photo.',
+    'Luck +12 when holding an iced drink.',
+    'Unlocks hidden confidence after 9 PM.',
+    'Best used near vending machines and plot twists.',
+    'Your side quest begins after one outfit adjustment.',
+    'Alliance with food: confirmed.',
+    'Warning: causes spontaneous aesthetic upgrades.',
+    'Final form unlocked at 2 AM.',
+    'Rare drop. Handle with chaos.',
+    'Not recommended for boring situations.',
+    'Soft power detected. Proceed with caution.',
+    'Has survived three plot twists this season.',
+    'Carries more than expected. Somehow fine.',
+    'Activates special move when slightly annoyed.',
+    'Stronger than the stats suggest. Trust the outfit.',
+  ];
+
+  const STAT_COLORS = {
+    style:   '#FF3D7F',
+    chaos:   '#AA44E0',
+    stamina: '#00C4A0',
+    luck:    '#FFB800',
+  };
+
+  /* ═════════════════════════════════════
+     RNG
+  ═════════════════════════════════════ */
+  function hashStr(s) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return h >>> 0;
+  }
+  function mkRand(seed) {
+    let s = seed;
+    return () => {
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s ^= (s >>> 16);
+      return (s >>> 0) / 0xFFFFFFFF;
+    };
+  }
+
+  /* ═════════════════════════════════════
+     PLAYER DATA
+  ═════════════════════════════════════ */
+  function generatePlayer(name) {
+    const key  = (name || 'PLAYER').toUpperCase().trim();
+    const seed = hashStr(key);
+    const rand = mkRand(seed);
+    const cls     = CLASSES [Math.floor(rand() * CLASSES.length)];
+    const fortune = FORTUNES[Math.floor(rand() * FORTUNES.length)];
+    const pool = [...ITEMS];
+    for (let i = 0; i < 4; i++) {
+      const j = i + Math.floor(rand() * (pool.length - i));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    const items = pool.slice(0, 4);
+    const stats = { style:0, chaos:0, stamina:0, luck:0 };
+    items.forEach(it => Object.keys(stats).forEach(k => { stats[k] += (it.b[k] || 0); }));
+    Object.keys(stats).forEach(k => {
+      stats[k] = Math.min(99, stats[k] + Math.floor(rand() * 38) + 15);
+    });
+    const id = '#' + String(seed % 9999).padStart(4, '0');
+    return { name: key, cls, items, stats, fortune, id };
+  }
+
+  /* ═════════════════════════════════════
+     STATE MACHINE
+  ═════════════════════════════════════ */
+  function showState(id) {
+    document.querySelectorAll('.s-state').forEach(el => el.classList.add('off'));
+    document.getElementById(id).classList.remove('off');
+  }
+
+  /* ═════════════════════════════════════
+     BUILD RESULT
+  ═════════════════════════════════════ */
+  function buildResult(player, photoDataUrl) {
+    const rLeft = document.getElementById('rLeft');
+
+    const avatarHTML = photoDataUrl
+      ? `<img class="r-avatar" src="${photoDataUrl}" alt="${player.name}" />`
+      : `<div class="r-avatar-ph">👤</div>`;
+
+    const itemsHTML = player.items.map(it => `
+      <div class="r-item">
+        <div class="r-item-icon">${it.icon}</div>
+        <div>
+          <div class="r-item-name">${it.name}</div>
+          <div class="r-item-label">${it.label}</div>
+        </div>
+      </div>`).join('');
+
+    const statsHTML = [['STYLE','style'],['CHAOS','chaos'],['STAM','stamina'],['LUCK','luck']]
+      .map(([lbl,key]) => {
+        const val = player.stats[key];
+        const pct = Math.round(val / 99 * 100);
+        return `<div class="r-stat-row">
+          <div class="r-stat-lbl">${lbl}</div>
+          <div class="r-stat-track"><div class="r-stat-fill" style="width:${pct}%;background:${STAT_COLORS[key]}"></div></div>
+          <div class="r-stat-val">${val}</div>
+        </div>`;
+      }).join('');
+
+    rLeft.innerHTML = `
+      <div class="r-player-row">
+        ${avatarHTML}
+        <div class="r-meta">
+          <div class="r-name">${player.name}</div>
+          <div class="r-class">${player.cls}</div>
+        </div>
+      </div>
+      <div class="r-div"></div>
+      <div class="r-sec">STARTER ITEMS</div>
+      <div class="r-items">${itemsHTML}</div>
+      <div class="r-div"></div>
+      <div class="r-sec">BASE STATS</div>
+      <div class="r-stats">${statsHTML}</div>
+      <div class="r-fortune">
+        <div class="r-fortune-lbl">◆ PLAYER FORTUNE</div>
+        <div class="r-fortune-txt">${player.fortune}</div>
+      </div>
+    `;
+
+    // action buttons wired after right panel injection below
+  }
+
+  function showCharacter(photoSrc) {
+    const wrap = document.getElementById('rCharWrap');
+    wrap.innerHTML = `
+      <img class="char-photo" src="${photoSrc}" alt="Your photo" />
+      <div class="char-grain"></div>
+    `;
+
+    const rRight = document.getElementById('rRight');
+    let actionsEl = rRight.querySelector('.r-actions');
+    if (!actionsEl) {
+      actionsEl = document.createElement('div');
+      actionsEl.className = 'r-actions';
+      rRight.appendChild(actionsEl);
+    }
+    actionsEl.innerHTML = `
+      <button class="r-save-btn" id="rSaveBtn">↓ SAVE</button>
+      <button class="r-again-btn" id="rAgainBtn">↺</button>
+    `;
+    document.getElementById('rSaveBtn').addEventListener('click', saveCard);
+    document.getElementById('rAgainBtn').addEventListener('click', () => showState('s-form'));
+  }
+
+  /* ═════════════════════════════════════
+     SAVE — capture first, then download
+  ═════════════════════════════════════ */
+  async function saveCard() {
+    const btn = document.getElementById('rSaveBtn');
+    if (!btn) return;
+    const origText = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
+
+    try {
+      await document.fonts.ready;
+
+      // Capture BEFORE any visual changes so overlay never appears in export
+      const canvas = await html2canvas(document.getElementById('machineWrap'), {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        logging: false,
+        imageTimeout: 10000,
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        const w = window.open('', '_blank');
+        if (w) {
+          w.document.write(`<html><head>
+            <meta name="viewport" content="width=device-width">
+            <title>JQ Starter Pack</title>
+            <style>body{margin:0;background:#1a000d;display:flex;flex-direction:column;align-items:center;padding:16px;}
+            img{max-width:100%;border-radius:8px;}
+            p{color:#FFB8D4;font-family:monospace;font-size:12px;text-align:center;padding:10px;}</style>
+            </head><body><img src="${dataUrl}">
+            <p>Hold image → Save to Photos</p>
+            </body></html>`);
+          w.document.close();
+        }
+      } else {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = `jq-starter-pack-${Date.now()}.png`;
+        a.click();
+      }
+
+      btn.textContent = '✓ SAVED';
+      setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 1800);
+    } catch (e) {
+      console.error('Save failed:', e);
+      alert('Export failed — try screenshotting instead!');
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
+  }
+
+  /* ═════════════════════════════════════
+     GENERATE FLOW
+  ═════════════════════════════════════ */
+  let uploadedFile    = null;
+  let uploadedDataUrl = null;
+
+  function runGenerate() {
+    const rawName = document.getElementById('nameInput').value.trim() || 'PLAYER';
+    const player  = generatePlayer(rawName);
+
+    if (!uploadedDataUrl) {
+      alert('Upload a photo first!');
+      return;
+    }
+
+    buildResult(player, uploadedDataUrl);
+    showCharacter(uploadedDataUrl);
+    showState('s-result');
+  }
+
+  /* ═════════════════════════════════════
+     EVENT WIRING
+  ═════════════════════════════════════ */
+  document.getElementById('photoInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    uploadedFile    = file;
+    uploadedDataUrl = URL.createObjectURL(file);
+    document.getElementById('previewThumb').src = uploadedDataUrl;
+    document.getElementById('previewStrip').classList.add('show');
+    document.getElementById('previewName').textContent = file.name;
+    document.getElementById('uploadZone').classList.add('loaded');
+    document.getElementById('uzIcon').textContent = '✅';
+  });
+
+  document.getElementById('generateBtn').addEventListener('click', runGenerate);
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') runGenerate();
+  });
+  </script>
+</body>
+</html>

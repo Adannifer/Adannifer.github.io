@@ -19,3 +19,4 @@
 # PDFs and large source files
 *.pdf
 *.PDF
+.vercel
