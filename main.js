@@ -458,6 +458,64 @@ function initScrollAnimation() {
     ease: 'power4.out',
     scrollTrigger: { trigger: '#contact', start: 'top 75%', once: true },
   });
+
+  // ── Daily Practice section ──
+  gsap.from('#making .section-header, #making > p', {
+    opacity: 0, y: 22,
+    stagger: 0.12,
+    duration: 0.75,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '#making', start: 'top 82%', once: true },
+  });
+
+  gsap.from('.daily-card', {
+    opacity: 0,
+    y: 36,
+    scale: 0.88,
+    stagger: { each: 0.09, from: 'start' },
+    duration: 0.72,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.daily-grid', start: 'top 85%', once: true },
+  });
+
+  gsap.from('.daily-viewall', {
+    opacity: 0, y: 16,
+    duration: 0.6,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.daily-viewall', start: 'top 92%', once: true },
+  });
+
+  // ── Range of Practice ──
+  gsap.from('#dock > .section-header, #dock-intro', {
+    opacity: 0, y: 22,
+    stagger: 0.12,
+    duration: 0.75,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '#dock', start: 'top 82%', once: true },
+  });
+
+  gsap.from('.range-tag', {
+    opacity: 0, x: -12,
+    stagger: 0.06,
+    duration: 0.5,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.range-tags', start: 'top 88%', once: true },
+  });
+
+  // ── Day list rows (when expanded) ──
+  const dayRowObserver = new MutationObserver(() => {
+    const list = document.getElementById('day-full-list');
+    if (!list || list.style.display === 'none') return;
+    gsap.from('.day-item', {
+      opacity: 0, y: 24,
+      stagger: 0.06,
+      duration: 0.55,
+      ease: 'power3.out',
+    });
+    dayRowObserver.disconnect();
+  });
+  const fullList = document.getElementById('day-full-list');
+  if (fullList) dayRowObserver.observe(fullList, { attributes: true, attributeFilter: ['style'] });
 }
 
 /* ════════════════════════════════════════

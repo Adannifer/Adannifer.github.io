@@ -51,19 +51,24 @@
     .daily-viewall {
       display: block;
       text-align: center;
-      padding: 0 6vw 12px;
+      padding: 13px 48px;
       font-size: 11px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--ink-dim);
       cursor: pointer;
       background: none;
-      border: none;
+      border: 1px solid rgba(247,241,234,0.22);
+      border-radius: 6px;
       font-family: inherit;
-      transition: color 0.2s;
-      margin: 0 auto;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
+      margin: 8px auto 0;
     }
-    .daily-viewall:hover { color: var(--accent); }
+    .daily-viewall:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(255,26,168,0.06);
+    }
     @media (max-width: 540px) {
       .daily-grid { gap: 16px 12px; padding: 0 4vw; }
       .daily-name { font-size: 10px; }
