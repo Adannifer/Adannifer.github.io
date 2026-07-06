@@ -4,60 +4,130 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day 17 — My Essentials Capsule · Jennifer Qian</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: #0a0a0a;
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      color: #fff;
+    :root {
+      --bg:     #06000f;
+      --purple: #9B5FFF;
+      --pink:   #FF61D8;
+      --blue:   #4FC3F7;
+      --text:   #EDE0FF;
+      --dim:    rgba(210,180,255,0.55);
     }
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    html, body {
+      width: 100%; min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    #stars-canvas {
+      position: fixed; inset: 0;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 32px; height: 56px;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 clamp(16px,4vw,48px);
+      height: 56px;
+      background: rgba(6,0,15,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(155,95,255,0.15);
     }
-    .nav-logo { font-size: 14px; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
-    .nav-logo .star { color: #FF61D8; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; letter-spacing: 0.06em; }
-    .nav-links a:hover { color: #fff; }
-    .day-badge { font-size: 10px; letter-spacing: 0.14em; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 20px; }
+    #nav-logo-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    #nav-logo-text .star-sep { color: var(--pink); margin: 0 4px; }
+    #nav-links { display: flex; gap: 24px; }
+    .nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; letter-spacing: 0.08em;
+      color: var(--dim); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--blue); }
+    #day-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--purple);
+      border: 1px solid rgba(155,95,255,0.4);
+      padding: 4px 10px;
+      letter-spacing: 0.1em;
+    }
 
-    .page { padding-top: 56px; }
+    /* ── PAGE ── */
+    .page {
+      position: relative; z-index: 1;
+      padding-top: 56px;
+    }
 
+    /* ── HERO ── */
     .hero {
-      padding: 60px 32px 40px;
       text-align: center;
+      padding: 64px 32px 40px;
     }
-    .hero-eyebrow { font-size: 11px; letter-spacing: 0.28em; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 14px; }
-    .hero-title { font-size: clamp(28px, 4vw, 48px); font-weight: 500; letter-spacing: 0.01em; }
-    .hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 2vw, 22px); color: rgba(255,255,255,0.45); margin-top: 6px; }
+    .hero-eyebrow {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(6px, 0.9vw, 8px);
+      color: var(--blue);
+      letter-spacing: 0.25em;
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(12px, 2.2vw, 22px);
+      letter-spacing: 0.1em;
+      line-height: 1.7;
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue), var(--pink));
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow-shift 3s linear infinite;
+    }
+    @keyframes rainbow-shift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    .hero-sub {
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.15em;
+      margin-top: 10px;
+    }
 
+    /* ── GALLERY ── */
     .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
-      padding: 20px 40px 80px;
+      padding: 24px 40px 80px;
     }
 
     .capsule-card {
-      width: 320px;
+      width: clamp(260px, 28vw, 340px);
       flex-shrink: 0;
     }
 
     .capsule-card img {
       width: 100%;
-      border-radius: 16px;
+      border-radius: 12px;
       display: block;
+      border: 1px solid rgba(155,95,255,0.15);
     }
 
     .capsule-labels {
@@ -68,53 +138,60 @@
     }
 
     .label-chip {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 3px 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      border: 1px solid rgba(155,95,255,0.25);
+      border-radius: 2px;
+      padding: 4px 8px;
     }
 
+    /* ── FOOTER ── */
     .site-footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(155,95,255,0.1);
       padding: 28px;
       text-align: center;
-      color: rgba(255,255,255,0.15);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--dim);
+      letter-spacing: 0.14em;
+      opacity: 0.5;
     }
 
     @media (max-width: 720px) {
-      .gallery { padding: 16px 24px 60px; gap: 32px; }
+      .gallery { padding: 16px 24px 60px; gap: 28px; }
       .capsule-card { width: 100%; max-width: 360px; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">Jennifer<span class="star">★</span>Qian</a>
-  <div class="nav-links">
-    <a href="index.html#work">Work</a>
-    <a href="index.html#about">About</a>
-  </div>
-  <div class="day-badge">DAY 17</div>
-</nav>
+<canvas id="stars-canvas"></canvas>
 
 <div class="page">
+  <nav id="nav">
+    <a href="index.html" style="text-decoration:none">
+      <span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span>
+    </a>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+    </div>
+    <div id="day-badge">DAY 17</div>
+  </nav>
+
   <section class="hero">
-    <div class="hero-eyebrow">Day 17 · 90 Days of Making</div>
-    <div class="hero-title">My Essentials Capsule</div>
-    <div class="hero-sub">Everything you need, all in one capsule</div>
+    <div class="hero-eyebrow">DAY 17 · 90 DAYS OF MAKING</div>
+    <div class="hero-title">MY ESSENTIALS<br>CAPSULE</div>
+    <div class="hero-sub">EVERYTHING YOU NEED · ALL IN ONE CAPSULE</div>
   </section>
 
   <section class="gallery">
 
     <div class="capsule-card">
-      <img src="90days/day17_1.png" alt="My Essentials — Jellycat, Americano, Glasses, Notebook" />
+      <img src="90days/day17_1.png" alt="Jellycat, Americano, Glasses, Notebook" />
       <div class="capsule-labels">
         <span class="label-chip">Jellycat</span>
         <span class="label-chip">Americano</span>
@@ -124,7 +201,7 @@
     </div>
 
     <div class="capsule-card">
-      <img src="90days/day17_2.png" alt="My Essentials — Paint, Headphones, Matcha, Ring" />
+      <img src="90days/day17_2.png" alt="Paint, Headphones, Matcha, Ring" />
       <div class="capsule-labels">
         <span class="label-chip">Paint</span>
         <span class="label-chip">Headphones</span>
@@ -134,7 +211,7 @@
     </div>
 
     <div class="capsule-card">
-      <img src="90days/day17_3.png" alt="My Essentials — Bracelet, Black Cat, Chrome Hearts, Angel Wings" />
+      <img src="90days/day17_3.png" alt="Bracelet, Black Cat, Chrome Hearts, Angel Wings" />
       <div class="capsule-labels">
         <span class="label-chip">Bracelet</span>
         <span class="label-chip">Black Cat</span>
@@ -144,7 +221,7 @@
     </div>
 
     <div class="capsule-card">
-      <img src="90days/day17_4.png" alt="My Essentials — Forget-me-not, Ragdoll, Chrome Hearts, Bunny Cap" />
+      <img src="90days/day17_4.png" alt="Forget-me-not, Ragdoll, Chrome Hearts, Bunny Cap" />
       <div class="capsule-labels">
         <span class="label-chip">Forget-me-not</span>
         <span class="label-chip">Ragdoll</span>
@@ -155,8 +232,59 @@
 
   </section>
 
-  <footer class="site-footer">Day 17 · 90 Days of Making · Jennifer Qian</footer>
+  <footer class="site-footer">DAY 17 · 90 DAYS OF MAKING · JENNIFER QIAN</footer>
 </div>
 
+<script>
+  (() => {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [], particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    function mkStar() {
+      return {
+        x: Math.random()*W, y: Math.random()*H,
+        r: Math.random()*1.4+0.3,
+        a: Math.random(), da: (Math.random()-0.5)*0.008,
+        color: ['#fff','#EDE0FF','#B87BFF','#4FC3F7'][Math.floor(Math.random()*4)],
+      };
+    }
+    function mkParticle() {
+      return {
+        x: Math.random()*W, y: Math.random()*H,
+        vx: (Math.random()-0.5)*0.25, vy: -Math.random()*0.3-0.05,
+        r: Math.random()*2.5+0.5, a: Math.random()*0.6+0.1,
+        color: ['#FF61D8','#9B5FFF','#4FC3F7','#B87BFF'][Math.floor(Math.random()*4)],
+      };
+    }
+    resize();
+    for (let i=0;i<180;i++) stars.push(mkStar());
+    for (let i=0;i<40;i++)  particles.push(mkParticle());
+    window.addEventListener('resize', resize);
+
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      for (const s of stars) {
+        s.a = Math.max(0.1, Math.min(1, s.a+s.da));
+        if (s.a<=0.1||s.a>=1) s.da*=-1;
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=s.color; ctx.globalAlpha=s.a*0.7; ctx.fill();
+      }
+      for (const p of particles) {
+        p.x+=p.vx; p.y+=p.vy;
+        if (p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.color; ctx.globalAlpha=p.a*0.5; ctx.fill();
+      }
+      ctx.globalAlpha=1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+</script>
 </body>
 </html>
