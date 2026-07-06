@@ -735,7 +735,7 @@ img { display: block; max-width: 100%; }
   gap: 0.6rem;
   width: max-content;
   animation: dock-scroll 50s linear infinite;
-  padding: 8rem 1rem 0.5rem;
+  padding: 2rem 1rem 0.5rem;
 }
 #dock-viewport:hover #dock-inner {
   animation-play-state: paused;
