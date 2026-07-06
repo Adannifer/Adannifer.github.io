@@ -22,15 +22,14 @@
     /* ── GALLERY ── */
     .capsule-gallery {
       padding: 0 6vw 100px;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 32px;
-      justify-content: flex-start;
+      max-width: 800px;
     }
 
     .capsule-card {
-      width: clamp(240px, 28vw, 320px);
-      flex-shrink: 0;
+      width: 100%;
     }
 
     .capsule-card img {
