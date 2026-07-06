@@ -2477,3 +2477,39 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
   .photo-cap-item.wide { grid-column: span 1; }
   .ops-row { grid-template-columns: 1fr; }
 }
+
+/* ── Day prev/next nav ── */
+.day-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 6vw;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+.day-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.day-nav-btn:hover { color: var(--accent); border-color: var(--accent); }
+.day-nav-btn.ghost { visibility: hidden; }
+.day-nav-center {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+.day-nav-center:hover { opacity: 1; }

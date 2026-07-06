@@ -424,6 +424,7 @@
     </div>
     <div id="nav-links">
       <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
       <a href="index.html#about" class="nav-link">About</a>
       <a href="index.html#contact" class="nav-link">Contact</a>
     </div>
@@ -1081,7 +1082,13 @@
         // On mobile, open in new tab so user can long-press → Save to Photos
         const w = window.open('', '_blank');
         if (w) {
-          w.document.write('<html><head><meta name="viewport" content="width=device-width"><title>Selfish Booth</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;}</style></head><body><img src="' + dataUrl + '"><p style="color:#aaa;text-align:center;font-family:sans-serif;font-size:13px;padding:10px">Hold image → Save to Photos</p></body></html>');
+          w.document.write('<html><head><meta name="viewport" content="width=device-width"><title>Selfish Booth</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;}</style></head><body><img src="' + dataUrl + '"><p style="color:#aaa;text-align:center;font-family:sans-serif;font-size:13px;padding:10px">Hold image → Save to Photos</p>
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day13.html">← Day 13</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <a class="day-nav-btn" href="day15.html">Day 15 →</a>
+  </div>
+</body></html>');
           w.document.close();
         }
       } else {
@@ -1218,5 +1225,11 @@
 
   })();
   </script>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day13.html">← Day 13</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <a class="day-nav-btn" href="day15.html">Day 15 →</a>
+  </div>
 </body>
 </html>
