@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 17 — My Essentials Capsule · Jennifer Qian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 56px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 14px; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
+    .nav-logo .star { color: #FF61D8; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; letter-spacing: 0.06em; }
+    .nav-links a:hover { color: #fff; }
+    .day-badge { font-size: 10px; letter-spacing: 0.14em; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 20px; }
+
+    .page { padding-top: 56px; }
+
+    .hero {
+      padding: 60px 32px 40px;
+      text-align: center;
+    }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 0.28em; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 14px; }
+    .hero-title { font-size: clamp(28px, 4vw, 48px); font-weight: 500; letter-spacing: 0.01em; }
+    .hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 2vw, 22px); color: rgba(255,255,255,0.45); margin-top: 6px; }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px 40px 80px;
+    }
+
+    .capsule-card {
+      width: 320px;
+      flex-shrink: 0;
+    }
+
+    .capsule-card img {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+    }
+
+    .capsule-labels {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .label-chip {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    .site-footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 28px;
+      text-align: center;
+      color: rgba(255,255,255,0.15);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 720px) {
+      .gallery { padding: 16px 24px 60px; gap: 32px; }
+      .capsule-card { width: 100%; max-width: 360px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Jennifer<span class="star">★</span>Qian</a>
+  <div class="nav-links">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#about">About</a>
+  </div>
+  <div class="day-badge">DAY 17</div>
+</nav>
+
+<div class="page">
+  <section class="hero">
+    <div class="hero-eyebrow">Day 17 · 90 Days of Making</div>
+    <div class="hero-title">My Essentials Capsule</div>
+    <div class="hero-sub">Everything you need, all in one capsule</div>
+  </section>
+
+  <section class="gallery">
+
+    <div class="capsule-card">
+      <img src="90days/day17_1.png" alt="My Essentials — Jellycat, Americano, Glasses, Notebook" />
+      <div class="capsule-labels">
+        <span class="label-chip">Jellycat</span>
+        <span class="label-chip">Americano</span>
+        <span class="label-chip">Glasses</span>
+        <span class="label-chip">Notebook</span>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <img src="90days/day17_2.png" alt="My Essentials — Paint, Headphones, Matcha, Ring" />
+      <div class="capsule-labels">
+        <span class="label-chip">Paint</span>
+        <span class="label-chip">Headphones</span>
+        <span class="label-chip">Matcha</span>
+        <span class="label-chip">Ring</span>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <img src="90days/day17_3.png" alt="My Essentials — Bracelet, Black Cat, Chrome Hearts, Angel Wings" />
+      <div class="capsule-labels">
+        <span class="label-chip">Bracelet</span>
+        <span class="label-chip">Black Cat</span>
+        <span class="label-chip">Chrome Hearts</span>
+        <span class="label-chip">Angel Wings</span>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="site-footer">Day 17 · 90 Days of Making · Jennifer Qian</footer>
+</div>
+
+</body>
+</html>
