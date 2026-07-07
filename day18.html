@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 18 · Landmark Patches · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --accent: #E8A0BF; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Inspiration context ── */
+    .inspo-bar {
+      padding: 0 6vw 48px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 860px;
+    }
+    .inspo-pill {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .inspo-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── Gallery ── */
+    .patch-gallery {
+      padding: 0 6vw 40px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .patch-card {
+      position: relative;
+    }
+
+    .patch-card img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .patch-label {
+      margin-top: 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .patch-subject {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .patch-type {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+
+    /* ── Brand note ── */
+    .brand-note {
+      padding: 0 6vw 100px;
+      max-width: 620px;
+      margin: 40px 0 0;
+    }
+    .brand-note p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .brand-note strong {
+      color: var(--ink-dim);
+      font-weight: 600;
+    }
+
+    @media (max-width: 700px) {
+      .patch-gallery { grid-template-columns: 1fr; gap: 28px; }
+      .inspo-bar { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body class="day-page">
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 18</div>
+    <div class="day-num-bg">18</div>
+    <h1 class="day-title">Landmark<br><span class="accent">Patches</span></h1>
+    <div class="day-meta">
+      <span>Jul 7, 2026</span>
+      <span>Brand Campaign · AI Image Generation</span>
+      <span>joydotz</span>
+    </div>
+    <p class="day-statement">
+      What if the world's most iconic faces needed a patch? Surreal campaign visuals for joydotz — where monuments go about their skincare routine.
+    </p>
+  </div>
+
+  <div class="day-content">
+
+    <div class="day-section-label" style="padding:0 6vw;">The Campaign</div>
+
+    <div class="inspo-bar">
+      <span class="inspo-pill">Inspired by</span>
+      <p class="inspo-text">Surreal product campaigns that drop oversized objects into real cityscapes — Snickers taped to a skyscraper, Rhode gloss sailing down the Thames. I flipped the logic: instead of enlarging the product, I put it <em>on</em> the landmark. The patch becomes the joke. The monument sells it.</p>
+    </div>
+
+    <div class="patch-gallery">
+
+      <div class="patch-card">
+        <img src="90days/day18_sol_butterfly.png" alt="Statue of Liberty wearing butterfly joydotz patch" />
+        <div class="patch-label">
+          <span class="patch-subject">Statue of Liberty</span>
+          <span class="patch-type">Butterfly Patch</span>
+        </div>
+      </div>
+
+      <div class="patch-card">
+        <img src="90days/day18_sol_cloud.png" alt="Statue of Liberty wearing cloud joydotz patch" />
+        <div class="patch-label">
+          <span class="patch-subject">Statue of Liberty</span>
+          <span class="patch-type">Cloud Patch</span>
+        </div>
+      </div>
+
+      <div class="patch-card">
+        <img src="90days/day18_david_cloud.png" alt="Michelangelo's David wearing cloud joydotz patch" />
+        <div class="patch-label">
+          <span class="patch-subject">Michelangelo's David</span>
+          <span class="patch-type">Cloud Patch</span>
+        </div>
+      </div>
+
+      <div class="patch-card">
+        <img src="90days/day18_david_flower.png" alt="Michelangelo's David wearing flower joydotz patch" />
+        <div class="patch-label">
+          <span class="patch-subject">Michelangelo's David</span>
+          <span class="patch-type">Flower Patch</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="brand-note">
+      <p><strong>The brief I gave myself:</strong> joydotz patches are cute, playful, and worn proudly — not hidden. So the campaign shouldn't be clinical. It should feel like the landmark is just… doing their morning routine. Completely unbothered. Completely iconic.</p>
+    </div>
+
+  </div>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day17.html">← Day 17</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script>
+(function(){
+  /* scroll reveal */
+  var els = document.querySelectorAll('.day-section-label, .inspo-bar, .patch-card, .brand-note, .day-nav-bar');
+  els.forEach(function(el){ el.classList.add('scroll-reveal'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(function(el){ io.observe(el); });
+
+  /* custom cursor */
+  var cur = document.createElement('div');
+  cur.id = 'cursor';
+  document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*0.14;cy+=(my-cy)*0.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
