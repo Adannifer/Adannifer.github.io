@@ -839,27 +839,28 @@ img { display: block; max-width: 100%; }
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  border: 1.5px solid rgba(180,255,80,0.35);
+  border: none;
   background: rgba(30,15,50,0.72);
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.35s, transform 0.45s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1));
+  transition: box-shadow 0.35s ease, transform 0.45s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1));
   flex-shrink: 0;
 }
 
 .day-item:hover .day-circle {
-  border-color: rgba(180,255,80,0.55);
+  box-shadow: 0 0 0 1.5px rgba(180,255,80,0.25), 0 0 18px rgba(180,255,80,0.18);
   transform: scale(1.06);
 }
 
 .day-num {
   font-size: 3rem;
-  font-weight: 700;
-  color: rgba(180,255,80,0.25);
-  -webkit-text-stroke: 1.5px rgba(180,255,80,0.75);
+  font-weight: 800;
+  color: rgba(180,255,80,0.9);
+  -webkit-text-stroke: 0;
+  text-shadow: 0 0 20px rgba(180,255,80,0.55), 0 0 40px rgba(180,255,80,0.25);
   letter-spacing: -0.03em;
   position: relative;
   z-index: 3;
