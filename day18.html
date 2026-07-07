@@ -46,16 +46,21 @@
     }
 
     /* ── Gallery ── */
-    .patch-gallery {
-      padding: 0 6vw 40px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 40px;
-      max-width: 1100px;
+    .patch-row {
+      padding: 0 6vw 48px;
+      display: flex;
+      gap: 32px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
+    .patch-row.david {
+      padding-top: 0;
+      max-width: 720px;
+    }
+
     .patch-card {
+      flex: 1;
       position: relative;
     }
 
@@ -63,6 +68,10 @@
       width: 100%;
       border-radius: 14px;
       display: block;
+    }
+
+    @media (max-width: 700px) {
+      .patch-row { flex-direction: column; gap: 24px; }
     }
 
     .patch-label {
@@ -104,7 +113,6 @@
     }
 
     @media (max-width: 700px) {
-      .patch-gallery { grid-template-columns: 1fr; gap: 28px; }
       .inspo-bar { flex-direction: column; gap: 10px; }
     }
   </style>
@@ -146,8 +154,8 @@
       <p class="inspo-text">Surreal product campaigns that drop oversized objects into real cityscapes — Snickers taped to a skyscraper, Rhode gloss sailing down the Thames. I flipped the logic: instead of enlarging the product, I put it <em>on</em> the landmark. The patch becomes the joke. The monument sells it.</p>
     </div>
 
-    <div class="patch-gallery">
-
+    <!-- Selfie row: Statue of Liberty -->
+    <div class="patch-row">
       <div class="patch-card">
         <img src="90days/day18_sol_butterfly.png" alt="Statue of Liberty wearing butterfly joydotz patch" />
         <div class="patch-label">
@@ -155,7 +163,6 @@
           <span class="patch-type">Butterfly Patch</span>
         </div>
       </div>
-
       <div class="patch-card">
         <img src="90days/day18_sol_cloud.png" alt="Statue of Liberty wearing cloud joydotz patch" />
         <div class="patch-label">
@@ -163,7 +170,10 @@
           <span class="patch-type">Cloud Patch</span>
         </div>
       </div>
+    </div>
 
+    <!-- David row -->
+    <div class="patch-row david">
       <div class="patch-card">
         <img src="90days/day18_david_cloud.png" alt="Michelangelo's David wearing cloud joydotz patch" />
         <div class="patch-label">
@@ -171,7 +181,6 @@
           <span class="patch-type">Cloud Patch</span>
         </div>
       </div>
-
       <div class="patch-card">
         <img src="90days/day18_david_flower.png" alt="Michelangelo's David wearing flower joydotz patch" />
         <div class="patch-label">
@@ -179,7 +188,6 @@
           <span class="patch-type">Flower Patch</span>
         </div>
       </div>
-
     </div>
 
     <div class="brand-note">
