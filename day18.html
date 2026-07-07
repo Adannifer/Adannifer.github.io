@@ -52,6 +52,7 @@
       gap: 32px;
       max-width: 1200px;
       margin: 0 auto;
+      align-items: stretch;
     }
 
     .patch-row.david {
@@ -62,9 +63,26 @@
     .patch-card {
       flex: 1;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
-    .patch-card img {
+    .patch-card .img-wrap {
+      flex: 1;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .patch-card .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 14px;
+    }
+
+    /* cards without img-wrap (row 1) */
+    .patch-card > img {
       width: 100%;
       border-radius: 14px;
       display: block;
@@ -175,14 +193,18 @@
     <!-- Row 2: Sol cloud + David cloud -->
     <div class="patch-row david">
       <div class="patch-card">
-        <img src="90days/day18_sol_cloud.png" alt="Statue of Liberty wearing cloud joydotz patch" />
+        <div class="img-wrap">
+          <img src="90days/day18_sol_cloud.png" alt="Statue of Liberty wearing cloud joydotz patch" />
+        </div>
         <div class="patch-label">
           <span class="patch-subject">Statue of Liberty</span>
           <span class="patch-type">Cloud Patch</span>
         </div>
       </div>
       <div class="patch-card">
-        <img src="90days/day18_david_cloud.png" alt="Michelangelo's David wearing cloud joydotz patch" />
+        <div class="img-wrap">
+          <img src="90days/day18_david_cloud.png" alt="Michelangelo's David wearing cloud joydotz patch" />
+        </div>
         <div class="patch-label">
           <span class="patch-subject">Michelangelo's David</span>
           <span class="patch-type">Cloud Patch</span>
