@@ -19,6 +19,16 @@
     .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
+    /* ── Card name + tags ── */
+    .capsule-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .capsule-name .at { color: var(--accent); font-weight: 400; font-size: 12px; margin-left: 4px; letter-spacing: 0.04em; }
+
     /* ── GALLERY ── */
     .capsule-gallery {
       padding: 0 6vw 100px;
@@ -71,23 +81,24 @@
   <div class="day-hero">
     <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 17</div>
     <div class="day-num-bg">17</div>
-    <h1 class="day-title">My Essentials<br><span class="accent">Capsule</span></h1>
+    <h1 class="day-title">Friend<br><span class="accent">Capsules</span></h1>
     <div class="day-meta">
       <span>Jul 6, 2026</span>
       <span>Editorial · AI Image Generation</span>
     </div>
     <p class="day-statement">
-      Pick four things. Pack them in a capsule. That's your weekend in one frame.
+      Pick four things that are unmistakably <em>them</em>. Pack it in a capsule. That's your friend in one frame.
     </p>
   </div>
 
   <div class="day-content">
-    <div class="day-section-label" style="padding:0 6vw;">The Capsules</div>
+    <div class="day-section-label" style="padding:0 6vw;">Four Friends · Four Aesthetics</div>
 
     <div class="capsule-gallery">
 
       <div class="capsule-card">
-        <img src="90days/day17_1.png" alt="Jellycat, Americano, Glasses, Notebook" />
+        <img src="90days/day17_1.png" alt="Roziii capsule" />
+        <div class="capsule-name">Roziii</div>
         <div class="capsule-labels">
           <span class="label-chip">Jellycat</span>
           <span class="label-chip">Americano</span>
@@ -97,7 +108,8 @@
       </div>
 
       <div class="capsule-card">
-        <img src="90days/day17_2.png" alt="Paint, Headphones, Matcha, Ring" />
+        <img src="90days/day17_2.png" alt="Tianai capsule" />
+        <div class="capsule-name">Tianai</div>
         <div class="capsule-labels">
           <span class="label-chip">Paint</span>
           <span class="label-chip">Headphones</span>
@@ -107,7 +119,8 @@
       </div>
 
       <div class="capsule-card">
-        <img src="90days/day17_3.png" alt="Bracelet, Black Cat, Chrome Hearts, Angel Wings" />
+        <img src="90days/day17_3.png" alt="22x capsule" />
+        <div class="capsule-name">22x</div>
         <div class="capsule-labels">
           <span class="label-chip">Bracelet</span>
           <span class="label-chip">Black Cat</span>
@@ -117,7 +130,8 @@
       </div>
 
       <div class="capsule-card">
-        <img src="90days/day17_4.png" alt="Forget-me-not, Ragdoll, Chrome Hearts, Bunny Cap" />
+        <img src="90days/day17_4.png" alt="Left capsule" />
+        <div class="capsule-name">Left</div>
         <div class="capsule-labels">
           <span class="label-chip">Forget-me-not</span>
           <span class="label-chip">Ragdoll</span>
