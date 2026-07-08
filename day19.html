@@ -29,14 +29,14 @@
 
     .kc-stage {
       position: relative;
-      width: min(700px, 90vw);
-      aspect-ratio: 700 / 620;
+      width: min(860px, 94vw);
+      aspect-ratio: 860 / 980;
     }
 
     .kc-swing {
       width: 100%;
       height: 100%;
-      transform-origin: 50% 9%;
+      transform-origin: 430px 80px;
       animation: sway 7s ease-in-out infinite;
     }
     @keyframes sway {
@@ -116,7 +116,8 @@
     <div class="keychain-wrap">
       <div class="kc-stage">
         <div class="kc-swing">
-          <svg viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
+          <!-- viewBox 860×980, larger charms, image top aligned to chain end -->
+          <svg viewBox="0 0 860 980" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="kcMetal" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0"   stop-color="#ffffff"/>
@@ -136,68 +137,70 @@
                 <stop offset=".5" stop-color="#9aa3ac"/>
                 <stop offset="1"  stop-color="#e2e6ea"/>
               </linearGradient>
-
-              <filter id="kcShadow" x="-40%" y="-40%" width="180%" height="180%">
-                <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000000" flood-opacity=".35"/>
+              <filter id="kcShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".4"/>
               </filter>
               <filter id="kcChainShadow" x="-40%" y="-40%" width="180%" height="180%">
                 <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0a1a2a" flood-opacity=".3"/>
               </filter>
             </defs>
 
-            <!-- chains -->
             <g id="kc-chains" filter="url(#kcChainShadow)"></g>
 
-            <!-- main ring -->
+            <!-- main ring — cx=430, cy=130 -->
             <g filter="url(#kcShadow)">
-              <circle cx="350" cy="105" r="60" fill="none" stroke="url(#kcRing)" stroke-width="18"/>
-              <circle cx="350" cy="105" r="60" fill="none" stroke="#6b737d" stroke-width="2" opacity=".5"/>
-              <path d="M 304 67 A 60 60 0 0 1 396 67" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".85"/>
-              <path d="M 302 143 A 60 60 0 0 0 398 143" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity=".4"/>
-              <rect x="337" y="30" width="26" height="12" rx="6" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
-              <path d="M 310 55 l 3.5 -12 l 3.5 12 l 12 3.5 l -12 3.5 l -3.5 12 l -3.5 -12 l -12 -3.5 z" fill="#ffffff" opacity=".9"/>
+              <circle cx="430" cy="130" r="72" fill="none" stroke="url(#kcRing)" stroke-width="22"/>
+              <circle cx="430" cy="130" r="72" fill="none" stroke="#6b737d" stroke-width="2.5" opacity=".5"/>
+              <path d="M 378 84 A 72 72 0 0 1 482 84" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+              <path d="M 376 176 A 72 72 0 0 0 484 176" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+              <rect x="416" y="44" width="28" height="14" rx="7" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
+              <path d="M 386 72 l 4 -14 l 4 14 l 14 4 l -14 4 l -4 14 l -4 -14 l -14 -4 z" fill="#fff" opacity=".9"/>
             </g>
 
-            <!-- ① Game (1506×1302) — left -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(170,258)">
+            <!--
+              Each charm: translate to where chain meets object.
+              Image x="-W/2" y="-topPad" so the hook drawn in the PNG
+              sits right at the chain end (y=0 of the group).
+              topPad ≈ how many px from image top to the hook in the PNG.
+              All images 280px wide; heights from natural aspect ratio.
+            -->
+
+            <!-- ① Game (1506×1302 → 280×242) — left, chain ~200px -->
+            <!-- hook is ~12% from top → 29px; start image at y=-29 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(168,370)">
               <g class="kc-charm">
-                <g transform="rotate(-18)">
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
-                  <!-- 130 wide, 130×(1302/1506)=112 tall -->
-                  <image href="90days/zack_game.png" x="-65" y="8" width="130" height="112" preserveAspectRatio="xMidYMid meet"/>
+                <g transform="rotate(-14)">
+                  <image href="90days/zack_game.png" x="-140" y="-29" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ② Nametag (1254×1254 square) — center -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(320,318)">
+            <!-- ② Nametag (1254×1254 → 280×280) — center, chain ~240px -->
+            <!-- hook is ~10% from top → 28px; start image at y=-28 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(412,390)">
               <g class="kc-charm">
-                <g transform="rotate(-5)">
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
-                  <!-- 130×130 square -->
-                  <image href="90days/zack_nametag.png" x="-65" y="8" width="130" height="130" preserveAspectRatio="xMidYMid meet"/>
+                <g transform="rotate(-4)">
+                  <image href="90days/zack_nametag.png" x="-140" y="-28" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ③ Soccer (1024×1024 square) — right -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(500,250)">
+            <!-- ③ Soccer (1024×1024 → 280×280) — right, chain ~180px -->
+            <!-- hook is ~6% from top → 17px; start image at y=-17 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(660,340)">
               <g class="kc-charm">
-                <g transform="rotate(18)">
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
-                  <!-- 130×130 square -->
-                  <image href="90days/zack_soccer.png" x="-65" y="8" width="130" height="130" preserveAspectRatio="xMidYMid meet"/>
+                <g transform="rotate(16)">
+                  <image href="90days/zack_soccer.png" x="-140" y="-17" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ④ Dog (1506×1302) — bottom center -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(380,460)">
+            <!-- ④ Dog (1506×1302 → 280×242) — bottom center, long chain -->
+            <!-- hook is ~8% from top → 19px; start image at y=-19 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,640)">
               <g class="kc-charm">
-                <g transform="rotate(7)">
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
-                  <!-- 130 wide, 112 tall -->
-                  <image href="90days/zackdog.png" x="-65" y="8" width="130" height="112" preserveAspectRatio="xMidYMid meet"/>
+                <g transform="rotate(6)">
+                  <image href="90days/zackdog.png" x="-140" y="-19" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
@@ -253,10 +256,10 @@
     }
   }
 
-  drawChain(304,148, 170,254);   // → game (left)
-  drawChain(340,164, 320,314);   // → nametag (center)
-  drawChain(396,148, 500,246);   // → soccer (right)
-  drawChain(368,164, 380,456);   // → dog (bottom)
+  drawChain(378,176, 168,370);   // → game (left)
+  drawChain(422,200, 412,390);   // → nametag (center)
+  drawChain(482,172, 660,340);   // → soccer (right)
+  drawChain(448,200, 430,640);   // → dog (bottom)
 
   /* scroll reveal — keychain is main content, always visible */
   var els = document.querySelectorAll('.day-section-label, .charm-labels, .day-nav-bar');
