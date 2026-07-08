@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 19 · Zack Keychain · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --accent: #A8D8B0; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Keychain stage ── */
+    .keychain-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 6vw 80px;
+    }
+
+    .kc-stage {
+      position: relative;
+      width: min(700px, 90vw);
+      aspect-ratio: 700 / 620;
+    }
+
+    .kc-swing {
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 9%;
+      animation: sway 7s ease-in-out infinite;
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-1.2deg); }
+      50%      { transform: rotate(1.2deg); }
+    }
+
+    .kc-stage svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .kc-charm {
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), filter .35s;
+      transform-box: fill-box;
+      transform-origin: 50% 0%;
+      cursor: default;
+    }
+    .kc-charm-group:hover .kc-charm {
+      transform: rotate(5deg) scale(1.07);
+      filter: brightness(1.1) drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    /* ── charm labels ── */
+    .charm-labels {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 28px;
+      padding: 0 6vw 60px;
+    }
+    .charm-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .charm-label span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="day-page">
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 19</div>
+    <div class="day-num-bg">19</div>
+    <h1 class="day-title">Zack<br><span class="accent">Keychain</span></h1>
+    <div class="day-meta">
+      <span>Jul 8, 2026</span>
+      <span>Character Design · AI Image Generation</span>
+      <span>Gift for Zack</span>
+    </div>
+    <p class="day-statement">
+      Four things that are unmistakably <em>him</em> — hanging off a silver ring, swaying in the breeze.
+    </p>
+  </div>
+
+  <div class="day-content">
+    <div class="day-section-label" style="padding:0 6vw;">The Charms</div>
+
+    <div class="keychain-wrap">
+      <div class="kc-stage">
+        <div class="kc-swing">
+          <svg viewBox="0 0 700 620" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="kcMetal" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0"   stop-color="#ffffff"/>
+                <stop offset=".25" stop-color="#dfe3e8"/>
+                <stop offset=".5"  stop-color="#98a1ab"/>
+                <stop offset=".72" stop-color="#c4cad1"/>
+                <stop offset="1"   stop-color="#f4f6f8"/>
+              </linearGradient>
+              <linearGradient id="kcRing" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0"   stop-color="#fbfcfd"/>
+                <stop offset=".45" stop-color="#aeb6bf"/>
+                <stop offset=".75" stop-color="#7d8690"/>
+                <stop offset="1"   stop-color="#d5dade"/>
+              </linearGradient>
+              <linearGradient id="kcChain" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0"  stop-color="#f5f7f9"/>
+                <stop offset=".5" stop-color="#9aa3ac"/>
+                <stop offset="1"  stop-color="#e2e6ea"/>
+              </linearGradient>
+
+              <!-- photo fill patterns -->
+              <pattern id="pGame" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <image href="90days/zack_game.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+              </pattern>
+              <pattern id="pNametag" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <image href="90days/zack_nametag.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+              </pattern>
+              <pattern id="pSoccer" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <image href="90days/zack_soccer.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+              </pattern>
+              <pattern id="pDog" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <image href="90days/zackdog.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+              </pattern>
+
+              <filter id="kcShadow" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0a1a2a" flood-opacity=".45"/>
+              </filter>
+              <filter id="kcChainShadow" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0a1a2a" flood-opacity=".3"/>
+              </filter>
+            </defs>
+
+            <!-- chains -->
+            <g id="kc-chains" filter="url(#kcChainShadow)"></g>
+
+            <!-- main ring -->
+            <g filter="url(#kcShadow)">
+              <circle cx="350" cy="105" r="60" fill="none" stroke="url(#kcRing)" stroke-width="18"/>
+              <circle cx="350" cy="105" r="60" fill="none" stroke="#6b737d" stroke-width="2" opacity=".5"/>
+              <path d="M 304 67 A 60 60 0 0 1 396 67" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+              <path d="M 302 143 A 60 60 0 0 0 398 143" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity=".4"/>
+              <rect x="337" y="30" width="26" height="12" rx="6" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
+              <path d="M 310 55 l 3.5 -12 l 3.5 12 l 12 3.5 l -12 3.5 l -3.5 12 l -3.5 -12 l -12 -3.5 z" fill="#ffffff" opacity=".9"/>
+            </g>
+
+            <!-- ① Game — left -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(182,255)">
+              <g class="kc-charm">
+                <g transform="rotate(-18)">
+                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
+                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pGame)"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ② Nametag — center-left -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(320,315)">
+              <g class="kc-charm">
+                <g transform="rotate(-5)">
+                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
+                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pNametag)"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ③ Soccer — right -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(498,248)">
+              <g class="kc-charm">
+                <g transform="rotate(18)">
+                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
+                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pSoccer)"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ④ Dog — bottom center -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(382,440)">
+              <g class="kc-charm">
+                <g transform="rotate(7)">
+                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
+                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pDog)"/>
+                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="charm-labels">
+      <div class="charm-label"><span>01</span> Game Boy</div>
+      <div class="charm-label"><span>02</span> Name Tag</div>
+      <div class="charm-label"><span>03</span> Soccer</div>
+      <div class="charm-label"><span>04</span> Dog</div>
+    </div>
+
+  </div>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day18.html">← Day 18</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script>
+(function(){
+  /* draw chains */
+  var NS = 'http://www.w3.org/2000/svg';
+  var layer = document.getElementById('kc-chains');
+
+  function drawChain(x1,y1,x2,y2){
+    var dx=x2-x1, dy=y2-y1;
+    var dist=Math.hypot(dx,dy);
+    var n=Math.max(3,Math.round(dist/14));
+    var angle=Math.atan2(dy,dx)*180/Math.PI;
+    for(var i=0;i<n;i++){
+      var t=(i+.5)/n;
+      var cx=x1+dx*t, cy=y1+dy*t;
+      var e=document.createElementNS(NS,'ellipse');
+      e.setAttribute('cx',cx); e.setAttribute('cy',cy);
+      if(i%2===0){
+        e.setAttribute('rx',5.5); e.setAttribute('ry',9.5);
+        e.setAttribute('fill','none');
+        e.setAttribute('stroke','url(#kcChain)');
+        e.setAttribute('stroke-width',3.8);
+      } else {
+        e.setAttribute('rx',2.2); e.setAttribute('ry',7.5);
+        e.setAttribute('fill','url(#kcChain)');
+        e.setAttribute('stroke','#78828c');
+        e.setAttribute('stroke-width',.7);
+      }
+      e.setAttribute('transform','rotate('+(angle+90)+' '+cx+' '+cy+')');
+      layer.appendChild(e);
+    }
+  }
+
+  drawChain(304,148, 182,251);   // → game (left)
+  drawChain(340,164, 320,311);   // → nametag (center)
+  drawChain(396,148, 496,244);   // → soccer (right)
+  drawChain(368,164, 382,436);   // → dog (bottom)
+
+  /* scroll reveal — keychain is main content, always visible */
+  var els = document.querySelectorAll('.day-section-label, .charm-labels, .day-nav-bar');
+  els.forEach(function(el){ el.classList.add('scroll-reveal'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  els.forEach(function(el){ io.observe(el); });
+
+  /* custom cursor */
+  var cur = document.createElement('div');
+  cur.id = 'cursor';
+  document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*0.14;cy+=(my-cy)*0.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>

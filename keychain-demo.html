@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zack Keychain</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #5b93c9 0%, #8fb9dd 55%, #c3d9ec 100%);
+    font-family: "Helvetica Neue", "PingFang SC", sans-serif;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: fixed;
+    background: rgba(255,255,255,.7);
+    border-radius: 60px;
+    filter: blur(10px);
+  }
+  .cloud1 { width: 200px; height: 50px; top: 12%; left: 6%; }
+  .cloud2 { width: 130px; height: 36px; top: 60%; right: 8%; }
+  .cloud3 { width: 100px; height: 30px; bottom: 10%; left: 15%; }
+
+  .stage {
+    position: relative;
+    width: 800px;
+    height: 700px;
+  }
+
+  .swing {
+    width: 100%;
+    height: 100%;
+    transform-origin: 400px 60px;
+    animation: sway 7s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%,100% { transform: rotate(-1.2deg); }
+    50%     { transform: rotate(1.2deg); }
+  }
+
+  svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+  .hoverable {
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1), filter .35s;
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    cursor: pointer;
+  }
+  .charm:hover .hoverable {
+    transform: rotate(4deg) scale(1.06);
+    filter: brightness(1.08);
+  }
+
+  .popup {
+    position: absolute;
+    width: 220px;
+    background: rgba(255,255,255,.97);
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: 0 16px 40px rgba(15,35,60,.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(.94);
+    transition: opacity .28s, transform .28s cubic-bezier(.34,1.56,.64,1), visibility .28s;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  .popup-img {
+    width: 100%; height: 130px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+  }
+  .popup h3 { font-size: 14px; color: #2b333d; margin: 10px 4px 4px; font-weight: 700; }
+  .popup p  { font-size: 12px; line-height: 1.55; color: #5a6472; margin: 0 4px 4px; }
+
+  .hint {
+    position: fixed;
+    bottom: 22px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,.85);
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<div class="stage">
+<div class="swing">
+<svg viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#ffffff"/>
+      <stop offset=".25" stop-color="#dfe3e8"/>
+      <stop offset=".5"  stop-color="#98a1ab"/>
+      <stop offset=".72" stop-color="#c4cad1"/>
+      <stop offset="1"   stop-color="#f4f6f8"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#fbfcfd"/>
+      <stop offset=".45" stop-color="#aeb6bf"/>
+      <stop offset=".75" stop-color="#7d8690"/>
+      <stop offset="1"   stop-color="#d5dade"/>
+    </linearGradient>
+    <linearGradient id="chainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"  stop-color="#f5f7f9"/>
+      <stop offset=".5" stop-color="#9aa3ac"/>
+      <stop offset="1"  stop-color="#e2e6ea"/>
+    </linearGradient>
+
+    <!-- Photo patterns for each charm -->
+    <pattern id="pat-game" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <image href="90days/zack_game.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <pattern id="pat-nametag" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <image href="90days/zack_nametag.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <pattern id="pat-soccer" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <image href="90days/zack_soccer.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <pattern id="pat-dog" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <image href="90days/zackdog.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+
+    <filter id="dropShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#14283f" flood-opacity=".38"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#14283f" flood-opacity=".3"/>
+    </filter>
+  </defs>
+
+  <g id="chains" filter="url(#softShadow)"></g>
+
+  <!-- Main ring -->
+  <g class="charm" id="ring" filter="url(#dropShadow)">
+    <g class="hoverable">
+      <circle cx="400" cy="125" r="68" fill="none" stroke="url(#ringGrad)" stroke-width="20"/>
+      <circle cx="400" cy="125" r="68" fill="none" stroke="#6b737d" stroke-width="2.5" opacity=".55"/>
+      <path d="M 348 82 A 68 68 0 0 1 452 82" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+      <path d="M 345 168 A 68 68 0 0 0 455 168" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+      <rect x="386" y="43" width="28" height="14" rx="7" fill="url(#metal)" stroke="#828b95" stroke-width="1.5"/>
+      <g opacity=".95">
+        <path d="M 356 66 l 4 -14 l 4 14 l 14 4 l -14 4 l -4 14 l -4 -14 l -14 -4 z" fill="#ffffff"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ① game — left, short chain -->
+  <g class="charm" id="game" filter="url(#dropShadow)" transform="translate(232,282)">
+    <g class="hoverable">
+      <g transform="rotate(-20)">
+        <circle cx="0" cy="2" r="10" fill="none" stroke="url(#chainGrad)" stroke-width="6.5"/>
+        <!-- metal frame -->
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="url(#metal)" stroke="#89929c" stroke-width="2.5"/>
+        <!-- photo -->
+        <rect x="-36" y="16" width="72" height="96" rx="10" fill="url(#pat-game)"/>
+        <!-- frame gloss highlight -->
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <ellipse cx="-12" cy="26" rx="20" ry="8" fill="rgba(255,255,255,0.25)" transform="rotate(-15 -12 26)"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ② nametag — center, medium chain -->
+  <g class="charm" id="nametag" filter="url(#dropShadow)" transform="translate(368,355)">
+    <g class="hoverable">
+      <g transform="rotate(-4)">
+        <circle cx="0" cy="2" r="10" fill="none" stroke="url(#chainGrad)" stroke-width="6.5"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="url(#metal)" stroke="#89929c" stroke-width="2.5"/>
+        <rect x="-36" y="16" width="72" height="96" rx="10" fill="url(#pat-nametag)"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <ellipse cx="-12" cy="26" rx="20" ry="8" fill="rgba(255,255,255,0.25)" transform="rotate(-15 -12 26)"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ③ soccer — right, short chain -->
+  <g class="charm" id="soccer" filter="url(#dropShadow)" transform="translate(560,258)">
+    <g class="hoverable">
+      <g transform="rotate(16)">
+        <circle cx="0" cy="2" r="10" fill="none" stroke="url(#chainGrad)" stroke-width="6.5"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="url(#metal)" stroke="#89929c" stroke-width="2.5"/>
+        <rect x="-36" y="16" width="72" height="96" rx="10" fill="url(#pat-soccer)"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <ellipse cx="-12" cy="26" rx="20" ry="8" fill="rgba(255,255,255,0.25)" transform="rotate(-15 -12 26)"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ④ dog — bottom center, long chain -->
+  <g class="charm" id="dog" filter="url(#dropShadow)" transform="translate(435,470)">
+    <g class="hoverable">
+      <g transform="rotate(6)">
+        <circle cx="0" cy="2" r="10" fill="none" stroke="url(#chainGrad)" stroke-width="6.5"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="url(#metal)" stroke="#89929c" stroke-width="2.5"/>
+        <rect x="-36" y="16" width="72" height="96" rx="10" fill="url(#pat-dog)"/>
+        <rect x="-42" y="10" width="84" height="108" rx="14" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+        <ellipse cx="-12" cy="26" rx="20" ry="8" fill="rgba(255,255,255,0.25)" transform="rotate(-15 -12 26)"/>
+      </g>
+    </g>
+  </g>
+</svg>
+</div>
+
+<!-- Hover popups -->
+<div class="popup" data-for="game">
+  <img class="popup-img" src="90days/zack_game.png" alt="Gaming"/>
+  <h3>Game Mode</h3>
+  <p>Zack in his element — controller in hand, fully locked in.</p>
+</div>
+<div class="popup" data-for="nametag">
+  <img class="popup-img" src="90days/zack_nametag.png" alt="Nametag"/>
+  <h3>Name Tag</h3>
+  <p>Hi, my name is Zack. The one and only.</p>
+</div>
+<div class="popup" data-for="soccer">
+  <img class="popup-img" src="90days/zack_soccer.png" alt="Soccer"/>
+  <h3>Soccer</h3>
+  <p>On the pitch and making moves. Classic Zack energy.</p>
+</div>
+<div class="popup" data-for="dog">
+  <img class="popup-img" src="90days/zackdog.png" alt="Dog"/>
+  <h3>Dog Days</h3>
+  <p>Best duo, no contest.</p>
+</div>
+</div>
+
+<div class="hint">HOVER THE CHARMS ✦</div>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const chainLayer = document.getElementById('chains');
+
+function drawChain(x1, y1, x2, y2) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const dist = Math.hypot(dx, dy);
+  const step = 15;
+  const n = Math.max(3, Math.round(dist / step));
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+  for (let i = 0; i < n; i++) {
+    const t = (i + .5) / n;
+    const cx = x1 + dx * t, cy = y1 + dy * t;
+    const e = document.createElementNS(NS, 'ellipse');
+    e.setAttribute('cx', cx); e.setAttribute('cy', cy);
+    if (i % 2 === 0) {
+      e.setAttribute('rx', 6); e.setAttribute('ry', 10.5);
+      e.setAttribute('fill', 'none');
+      e.setAttribute('stroke', 'url(#chainGrad)');
+      e.setAttribute('stroke-width', 4.2);
+    } else {
+      e.setAttribute('rx', 2.6); e.setAttribute('ry', 8.5);
+      e.setAttribute('fill', 'url(#chainGrad)');
+      e.setAttribute('stroke', '#78828c');
+      e.setAttribute('stroke-width', .8);
+    }
+    e.setAttribute('transform', `rotate(${angle + 90} ${cx} ${cy})`);
+    chainLayer.appendChild(e);
+  }
+}
+
+drawChain(348, 168, 232, 278);   // → game (left)
+drawChain(388, 192, 368, 351);   // → nametag (center)
+drawChain(452, 165, 558, 254);   // → soccer (right)
+drawChain(422, 190, 435, 466);   // → dog (bottom)
+
+const stage = document.querySelector('.stage');
+document.querySelectorAll('.charm').forEach(charm => {
+  const popup = document.querySelector(`.popup[data-for="${charm.id}"]`);
+  if (!popup) return;
+  charm.addEventListener('mouseenter', () => {
+    const cb = charm.getBoundingClientRect();
+    const sb = stage.getBoundingClientRect();
+    let left = cb.right - sb.left + 14;
+    if (left + 220 > sb.width) left = cb.left - sb.left - 234;
+    let top = cb.top - sb.top;
+    top = Math.max(0, Math.min(top, sb.height - 220));
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+    popup.classList.add('show');
+  });
+  charm.addEventListener('mouseleave', () => popup.classList.remove('show'));
+});
+</script>
+
+</body>
+</html>
