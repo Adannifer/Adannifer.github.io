@@ -29,14 +29,14 @@
 
     .kc-stage {
       position: relative;
-      width: min(860px, 94vw);
-      aspect-ratio: 860 / 980;
+      width: min(820px, 94vw);
+      aspect-ratio: 820 / 740;
     }
 
     .kc-swing {
       width: 100%;
       height: 100%;
-      transform-origin: 430px 80px;
+      transform-origin: 410px 63px;
       animation: sway 7s ease-in-out infinite;
     }
     @keyframes sway {
@@ -116,8 +116,7 @@
     <div class="keychain-wrap">
       <div class="kc-stage">
         <div class="kc-swing">
-          <!-- viewBox 860×980, larger charms, image top aligned to chain end -->
-          <svg viewBox="0 0 860 980" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 820 740" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="kcMetal" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0"   stop-color="#ffffff"/>
@@ -147,66 +146,62 @@
 
             <g id="kc-chains" filter="url(#kcChainShadow)"></g>
 
-            <!-- main ring — cx=430, cy=130 -->
+            <!-- main ring — cx=410, cy=135, r=72 -->
             <g filter="url(#kcShadow)">
-              <circle cx="430" cy="130" r="72" fill="none" stroke="url(#kcRing)" stroke-width="22"/>
-              <circle cx="430" cy="130" r="72" fill="none" stroke="#6b737d" stroke-width="2.5" opacity=".5"/>
-              <path d="M 378 84 A 72 72 0 0 1 482 84" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".85"/>
-              <path d="M 376 176 A 72 72 0 0 0 484 176" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
-              <rect x="416" y="44" width="28" height="14" rx="7" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
-              <path d="M 386 72 l 4 -14 l 4 14 l 14 4 l -14 4 l -4 14 l -4 -14 l -14 -4 z" fill="#fff" opacity=".9"/>
+              <circle cx="410" cy="135" r="72" fill="none" stroke="url(#kcRing)" stroke-width="22"/>
+              <circle cx="410" cy="135" r="72" fill="none" stroke="#6b737d" stroke-width="2.5" opacity=".5"/>
+              <path d="M 358 89 A 72 72 0 0 1 462 89" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+              <path d="M 356 181 A 72 72 0 0 0 464 181" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+              <rect x="396" y="50" width="28" height="14" rx="7" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
+              <path d="M 370 78 l 4 -14 l 4 14 l 14 4 l -14 4 l -4 14 l -4 -14 l -14 -4 z" fill="#fff" opacity=".9"/>
             </g>
 
             <!--
-              Each charm: translate to where chain meets object.
-              Image x="-W/2" y="-topPad" so the hook drawn in the PNG
-              sits right at the chain end (y=0 of the group).
-              topPad ≈ how many px from image top to the hook in the PNG.
-              All images 280px wide; heights from natural aspect ratio.
+              Charms grouped close to ring — short chains (120-180px).
+              Translate = SVG coords of chain end = object hook point.
+              Image offsets align visible object top to y=0 in group.
+
+              Measured at 280px display width:
+              game:    obj top = 59px → y=-59
+              nametag: obj top = 76px → y=-76 (rotated vertical, see inner transform)
+              soccer:  obj top = 42px → y=-42
+              dog:     obj top = 57px at 400px wide (40*(400/280)) → y=-57
             -->
 
-            <!--
-              y offsets measured from actual PNG bounding box at 280px display width:
-              game:    obj top at 59px  → y=-59
-              nametag: obj top at 76px  → y=-76
-              soccer:  obj top at 42px  → y=-42
-              dog:     obj top at 40px  → y=-40  (scaled up to 340px wide for visual balance)
-            -->
-
-            <!-- ① Game (280×242) — left -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(168,370)">
+            <!-- ① Game (280×242) — left, tilted left -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(230,310) rotate(-18)">
               <g class="kc-charm">
-                <g transform="rotate(-14)">
-                  <image href="90days/zack_game.png" x="-140" y="-59" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
-                </g>
+                <image href="90days/zack_game.png" x="-140" y="-59" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
               </g>
             </g>
 
-            <!-- ② Nametag (280×242) — center -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(412,390)">
+            <!-- ② Nametag (280×242) — center, rotated vertical -->
+            <!--
+              To hang the nametag vertically:
+              inner group "translate(40.5, 93) rotate(90)" maps the PNG so that:
+              - oval top-center lands at (0,0) = chain end
+              - oval hangs downward: x:-40.5→40.5, y:0→186
+            -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(375,325) rotate(-8)">
               <g class="kc-charm">
-                <g transform="rotate(-4)">
+                <g transform="translate(40.5, 93) rotate(90)">
                   <image href="90days/zack_nametag.png" x="-140" y="-76" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ③ Soccer (280×280 square) — right -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(660,340)">
+            <!-- ③ Soccer (280×280) — right, tilted right -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(570,300) rotate(18)">
               <g class="kc-charm">
-                <g transform="rotate(16)">
-                  <image href="90days/zack_soccer.png" x="-140" y="-42" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
-                </g>
+                <image href="90days/zack_soccer.png" x="-140" y="-42" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
               </g>
             </g>
 
-            <!-- ④ Dog — bottom center, scaled up to 340px wide for visual balance -->
-            <!-- obj top at 40px in 280px display → at 340px wide: 40*(340/280)=49px → y=-49 -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,620)">
+            <!-- ④ Dog (400×346) — center-bottom, big, slight tilt -->
+            <!-- at 400px wide: height=400×1302/1506=346, obj top=40×(400/280)=57 → y=-57 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,360) rotate(5)">
               <g class="kc-charm">
-                <g transform="rotate(6)">
-                  <image href="90days/zackdog.png" x="-170" y="-49" width="340" height="294" preserveAspectRatio="xMidYMid meet"/>
-                </g>
+                <image href="90days/zackdog.png" x="-200" y="-57" width="400" height="346" preserveAspectRatio="xMidYMid meet"/>
               </g>
             </g>
           </svg>
@@ -261,10 +256,12 @@
     }
   }
 
-  drawChain(378,176, 168,370);   // → game (left)
-  drawChain(422,200, 412,390);   // → nametag (center)
-  drawChain(482,172, 660,340);   // → soccer (right)
-  drawChain(448,200, 430,640);   // → dog (bottom)
+  // ring cx=410, cy=135, r=72. Chain starts from ring bottom arc.
+  // Chains ~130-180px — compact, no gravity violation.
+  drawChain(359, 186, 230, 310);  // → game (left)
+  drawChain(395, 205, 375, 325);  // → nametag (center-left)
+  drawChain(461, 186, 570, 300);  // → soccer (right)
+  drawChain(410, 207, 430, 360);  // → dog (bottom)
 
   /* scroll reveal — keychain is main content, always visible */
   var els = document.querySelectorAll('.day-section-label, .charm-labels, .day-nav-bar');
