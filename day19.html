@@ -116,7 +116,7 @@
     <div class="keychain-wrap">
       <div class="kc-stage">
         <div class="kc-swing">
-          <svg viewBox="0 0 700 620" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="kcMetal" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0"   stop-color="#ffffff"/>
@@ -137,22 +137,8 @@
                 <stop offset="1"  stop-color="#e2e6ea"/>
               </linearGradient>
 
-              <!-- photo fill patterns -->
-              <pattern id="pGame" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <image href="90days/zack_game.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
-              </pattern>
-              <pattern id="pNametag" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <image href="90days/zack_nametag.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
-              </pattern>
-              <pattern id="pSoccer" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <image href="90days/zack_soccer.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
-              </pattern>
-              <pattern id="pDog" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <image href="90days/zackdog.png" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
-              </pattern>
-
               <filter id="kcShadow" x="-40%" y="-40%" width="180%" height="180%">
-                <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0a1a2a" flood-opacity=".45"/>
+                <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000000" flood-opacity=".35"/>
               </filter>
               <filter id="kcChainShadow" x="-40%" y="-40%" width="180%" height="180%">
                 <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0a1a2a" flood-opacity=".3"/>
@@ -172,54 +158,46 @@
               <path d="M 310 55 l 3.5 -12 l 3.5 12 l 12 3.5 l -12 3.5 l -3.5 12 l -3.5 -12 l -12 -3.5 z" fill="#ffffff" opacity=".9"/>
             </g>
 
-            <!-- ① Game — left -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(182,255)">
+            <!-- ① Game (1506×1302) — left -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(170,258)">
               <g class="kc-charm">
                 <g transform="rotate(-18)">
-                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
-                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pGame)"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
-                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
+                  <!-- 130 wide, 130×(1302/1506)=112 tall -->
+                  <image href="90days/zack_game.png" x="-65" y="8" width="130" height="112" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ② Nametag — center-left -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(320,315)">
+            <!-- ② Nametag (1254×1254 square) — center -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(320,318)">
               <g class="kc-charm">
                 <g transform="rotate(-5)">
-                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
-                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pNametag)"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
-                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
+                  <!-- 130×130 square -->
+                  <image href="90days/zack_nametag.png" x="-65" y="8" width="130" height="130" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ③ Soccer — right -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(498,248)">
+            <!-- ③ Soccer (1024×1024 square) — right -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(500,250)">
               <g class="kc-charm">
                 <g transform="rotate(18)">
-                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
-                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pSoccer)"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
-                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
+                  <!-- 130×130 square -->
+                  <image href="90days/zack_soccer.png" x="-65" y="8" width="130" height="130" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ④ Dog — bottom center -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(382,440)">
+            <!-- ④ Dog (1506×1302) — bottom center -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(380,460)">
               <g class="kc-charm">
                 <g transform="rotate(7)">
-                  <circle cx="0" cy="2" r="9" fill="none" stroke="url(#kcChain)" stroke-width="6"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="url(#kcMetal)" stroke="#89929c" stroke-width="2.5"/>
-                  <rect x="-39" y="17" width="78" height="104" rx="10" fill="url(#pDog)"/>
-                  <rect x="-46" y="10" width="92" height="118" rx="15" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
-                  <ellipse cx="-14" cy="28" rx="22" ry="8" fill="rgba(255,255,255,0.22)" transform="rotate(-15 -14 28)"/>
+                  <circle cx="0" cy="0" r="8" fill="none" stroke="url(#kcChain)" stroke-width="5.5"/>
+                  <!-- 130 wide, 112 tall -->
+                  <image href="90days/zackdog.png" x="-65" y="8" width="130" height="112" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
@@ -275,10 +253,10 @@
     }
   }
 
-  drawChain(304,148, 182,251);   // → game (left)
-  drawChain(340,164, 320,311);   // → nametag (center)
-  drawChain(396,148, 496,244);   // → soccer (right)
-  drawChain(368,164, 382,436);   // → dog (bottom)
+  drawChain(304,148, 170,254);   // → game (left)
+  drawChain(340,164, 320,314);   // → nametag (center)
+  drawChain(396,148, 500,246);   // → soccer (right)
+  drawChain(368,164, 380,456);   // → dog (bottom)
 
   /* scroll reveal — keychain is main content, always visible */
   var els = document.querySelectorAll('.day-section-label, .charm-labels, .day-nav-bar');
