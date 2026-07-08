@@ -3,10 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 19 · Zack Keychain · Jennifer Qian</title>
+  <title>Day 19 · Keychain · Tell Me Who You Are · Jennifer Qian</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body.day-page { --accent: #A8D8B0; }
+    body.day-page { --accent: #B8CC60; }
+
+    /* orange-green gradient for hero accent text */
+    .accent-grad {
+      background: linear-gradient(90deg, #A8D8B0 0%, #D4C848 45%, #FFB060 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .day-badge { border-color: rgba(168,216,176,0.5); }
+    .day-badge .dot {
+      background: linear-gradient(135deg, #A8D8B0, #FFB060);
+    }
 
     .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
     .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
@@ -19,18 +31,84 @@
     .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:48px; padding-top:64px; }
     .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
+    /* ── Side-by-side display photos ── */
+    .kc-display-row {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      gap: 24px;
+      padding: 24px 4vw;
+      box-sizing: border-box;
+    }
+    .kc-display-wrap {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 32px;
+      background: #080808;
+    }
+    .kc-display-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    @media (max-width: 768px) {
+      .kc-display-row {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 10px;
+      }
+      .kc-display-wrap {
+        flex: none;
+        width: 100%;
+        height: auto;
+        border-radius: 24px;
+      }
+      .kc-display-img {
+        height: auto;
+      }
+    }
+
+    /* ── Duo charm section ── */
+    .kc-duo-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      padding: 0 0 80px;
+    }
+    .kc-person {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .kc-person-name {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .kc-person.jeremy .kc-person-name { color: #FFB060; }
+
     /* ── Keychain stage ── */
     .keychain-wrap {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 6vw 80px;
+      width: 100%;
+      padding: 0;
     }
 
     .kc-stage {
       position: relative;
-      width: min(820px, 94vw);
-      aspect-ratio: 820 / 740;
+      width: 100%;
+      aspect-ratio: 820 / 800;
     }
 
     .kc-swing {
@@ -55,12 +133,69 @@
       transition: transform .35s cubic-bezier(.34,1.56,.64,1), filter .35s;
       transform-box: fill-box;
       transform-origin: 50% 0%;
-      cursor: default;
+      cursor: pointer;
     }
     .kc-charm-group:hover .kc-charm {
-      transform: rotate(5deg) scale(1.07);
-      filter: brightness(1.1) drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+      transform: rotate(5deg) scale(1.1);
+      filter: brightness(1.15) drop-shadow(0 6px 16px rgba(0,0,0,0.4));
     }
+
+    /* ── hover popup cards — liquid glass, full photo ── */
+    .charm-popup {
+      position: absolute;
+      width: 300px;
+      background: rgba(12, 10, 22, 0.6);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(20px) scale(.85);
+      transition: opacity .3s ease, transform .45s cubic-bezier(.34,1.56,.64,1);
+      z-index: 20;
+      backdrop-filter: blur(40px) saturate(200%);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .charm-popup.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .charm-popup-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform: scale(1.06);
+      transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+    }
+    .charm-popup.visible .charm-popup-img {
+      transform: scale(1);
+    }
+    .charm-popup-info {
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .charm-popup-label {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--popup-accent, #A8D8B0);
+      margin-bottom: 5px;
+    }
+    .charm-popup-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #f7f1ea;
+      letter-spacing: -.02em;
+      margin-bottom: 5px;
+      line-height: 1.15;
+    }
+    .charm-popup-body {
+      font-size: 11.5px;
+      color: rgba(247,241,234,0.55);
+      line-height: 1.6;
+    }
+    .kc-person.jeremy .charm-popup { --popup-accent: #FFB060; }
 
     /* ── charm labels ── */
     .charm-labels {
@@ -84,6 +219,8 @@
 </head>
 <body class="day-page">
 
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <nav id="nav">
     <div id="nav-logo-slot">
       <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
@@ -99,42 +236,63 @@
   <div class="day-hero">
     <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 19</div>
     <div class="day-num-bg">19</div>
-    <h1 class="day-title">Zack<br><span class="accent">Keychain</span></h1>
+    <h1 class="day-title"><span class="accent-grad">Keychain</span><br>Tell Me Who You Are</h1>
     <div class="day-meta">
       <span>Jul 8, 2026</span>
       <span>Character Design · AI Image Generation</span>
-      <span>Gift for Zack</span>
+      <span>Gift for Zack &amp; Jeremy</span>
     </div>
     <p class="day-statement">
-      Four things that are unmistakably <em>him</em> — hanging off a silver ring, swaying in the breeze.
+      A handful of charms, two people — <em>Zack</em> and <em>Jeremy</em>, translated into metal and memory. Hover to meet them.
     </p>
   </div>
 
   <div class="day-content">
+
+    <!-- Side-by-side display photos -->
+    <div class="kc-display-row">
+      <div class="kc-display-wrap">
+        <img class="kc-display-img" src="90days/zack_black.png" alt="Zack keychain rendered" />
+      </div>
+      <div class="kc-display-wrap">
+        <img class="kc-display-img" src="90days/jer_black.png" alt="Jeremy keychain rendered" />
+      </div>
+    </div>
+
     <div class="day-section-label" style="padding:0 6vw;">The Charms</div>
 
+    <div class="kc-duo-row">
+
+    <!-- ═══ ZACK ═══ -->
+    <div class="kc-person">
+      <div class="kc-person-name">Zack · 张泽禹</div>
     <div class="keychain-wrap">
       <div class="kc-stage">
         <div class="kc-swing">
-          <svg viewBox="0 0 820 740" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 820 800" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="kcMetal" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0"   stop-color="#ffffff"/>
-                <stop offset=".25" stop-color="#dfe3e8"/>
-                <stop offset=".5"  stop-color="#98a1ab"/>
-                <stop offset=".72" stop-color="#c4cad1"/>
-                <stop offset="1"   stop-color="#f4f6f8"/>
-              </linearGradient>
-              <linearGradient id="kcRing" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0"   stop-color="#fbfcfd"/>
-                <stop offset=".45" stop-color="#aeb6bf"/>
-                <stop offset=".75" stop-color="#7d8690"/>
-                <stop offset="1"   stop-color="#d5dade"/>
-              </linearGradient>
               <linearGradient id="kcChain" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0"  stop-color="#f5f7f9"/>
                 <stop offset=".5" stop-color="#9aa3ac"/>
                 <stop offset="1"  stop-color="#e2e6ea"/>
+              </linearGradient>
+              <!-- Green anodized carabiner gradients -->
+              <linearGradient id="heartBody" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0"   stop-color="#c8ff80"/>
+                <stop offset=".2"  stop-color="#55d040"/>
+                <stop offset=".5"  stop-color="#1e8c1e"/>
+                <stop offset=".75" stop-color="#3dc83d"/>
+                <stop offset="1"   stop-color="#90ee60"/>
+              </linearGradient>
+              <linearGradient id="heartShine" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0"   stop-color="#e8ffd0" stop-opacity=".9"/>
+                <stop offset="1"   stop-color="#e8ffd0" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="gateGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"   stop-color="#d8dde3"/>
+                <stop offset=".4"  stop-color="#f4f6f8"/>
+                <stop offset=".7"  stop-color="#b0b8c2"/>
+                <stop offset="1"   stop-color="#e0e4e8"/>
               </linearGradient>
               <filter id="kcShadow" x="-50%" y="-50%" width="200%" height="200%">
                 <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".4"/>
@@ -146,14 +304,55 @@
 
             <g id="kc-chains" filter="url(#kcChainShadow)"></g>
 
-            <!-- main ring — cx=410, cy=135, r=72 -->
+            <!--
+              Green heart-shaped carabiner.
+              Heart centered ~(410, 145): lobes top ~y=72, bottom point y=238.
+              Gate gap on lower-left: from (357,186) to (360,210).
+              Chains attach to bottom inner curve of heart.
+            -->
             <g filter="url(#kcShadow)">
-              <circle cx="410" cy="135" r="72" fill="none" stroke="url(#kcRing)" stroke-width="22"/>
-              <circle cx="410" cy="135" r="72" fill="none" stroke="#6b737d" stroke-width="2.5" opacity=".5"/>
-              <path d="M 358 89 A 72 72 0 0 1 462 89" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".85"/>
-              <path d="M 356 181 A 72 72 0 0 0 464 181" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
-              <rect x="396" y="50" width="28" height="14" rx="7" fill="url(#kcMetal)" stroke="#828b95" stroke-width="1.5"/>
-              <path d="M 370 78 l 4 -14 l 4 14 l 14 4 l -14 4 l -4 14 l -4 -14 l -14 -4 z" fill="#fff" opacity=".9"/>
+              <!-- Main heart body — open at lower-left for gate -->
+              <path
+                d="M 360 208
+                   C 348 185, 348 110, 376 84
+                   C 389 73, 402 72, 410 80
+                   C 418 72, 431 73, 444 84
+                   C 472 110, 472 185, 452 210
+                   C 438 228, 410 248, 410 248
+                   C 410 248, 382 228, 368 210
+                   C 364 204, 361 197, 358 188"
+                fill="none" stroke="url(#heartBody)" stroke-width="22" stroke-linecap="round"/>
+              <!-- Inner edge highlight -->
+              <path
+                d="M 360 208
+                   C 348 185, 348 110, 376 84
+                   C 389 73, 402 72, 410 80
+                   C 418 72, 431 73, 444 84
+                   C 472 110, 472 185, 452 210
+                   C 438 228, 410 248, 410 248
+                   C 410 248, 382 228, 368 210
+                   C 364 204, 361 197, 358 188"
+                fill="none" stroke="url(#heartShine)" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+              <!-- Dark edge line for depth -->
+              <path
+                d="M 360 208
+                   C 348 185, 348 110, 376 84
+                   C 389 73, 402 72, 410 80
+                   C 418 72, 431 73, 444 84
+                   C 472 110, 472 185, 452 210
+                   C 438 228, 410 248, 410 248
+                   C 410 248, 382 228, 368 210
+                   C 364 204, 361 197, 358 188"
+                fill="none" stroke="#0d4a0d" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+              <!-- Gate bar — silver, at the lower-left gap -->
+              <rect x="344" y="182" width="30" height="32" rx="5"
+                fill="url(#gateGrad)" stroke="#8a929c" stroke-width="1.5"/>
+              <!-- Gate screw circles -->
+              <circle cx="359" cy="188" r="3.5" fill="#9aa3ac" stroke="#6a737d" stroke-width="1"/>
+              <circle cx="359" cy="204" r="3.5" fill="#9aa3ac" stroke="#6a737d" stroke-width="1"/>
+              <!-- Carabiner loop tab at top for hanging -->
+              <rect x="400" y="50" width="20" height="26" rx="10"
+                fill="url(#heartBody)" stroke="#1a6a1a" stroke-width="1.5"/>
             </g>
 
             <!--
@@ -169,37 +368,30 @@
             -->
 
             <!-- ① Game (280×242) — left, tilted left -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(230,310) rotate(-18)">
+            <g class="kc-charm-group" id="charm-game" filter="url(#kcShadow)" transform="translate(175,305) rotate(-22)">
               <g class="kc-charm">
                 <image href="90days/zack_game.png" x="-140" y="-59" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
               </g>
             </g>
 
-            <!-- ② Nametag (280×242) — center, rotated vertical -->
-            <!--
-              To hang the nametag vertically:
-              inner group "translate(40.5, 93) rotate(90)" maps the PNG so that:
-              - oval top-center lands at (0,0) = chain end
-              - oval hangs downward: x:-40.5→40.5, y:0→186
-            -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(375,325) rotate(-8)">
-              <g class="kc-charm">
-                <g transform="translate(40.5, 93) rotate(90)">
-                  <image href="90days/zack_nametag.png" x="-140" y="-76" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
-                </g>
-              </g>
-            </g>
-
-            <!-- ③ Soccer (280×280) — right, tilted right -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(570,300) rotate(18)">
+            <!-- ② Soccer — center-left, higher -->
+            <g class="kc-charm-group" id="charm-soccer" filter="url(#kcShadow)" transform="translate(358,262) rotate(-5)">
               <g class="kc-charm">
                 <image href="90days/zack_soccer.png" x="-140" y="-42" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
               </g>
             </g>
 
-            <!-- ④ Dog (400×346) — center-bottom, big, slight tilt -->
-            <!-- at 400px wide: height=400×1302/1506=346, obj top=40×(400/280)=57 → y=-57 -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,360) rotate(5)">
+            <!-- ③ Nametag — far right -->
+            <g class="kc-charm-group" id="charm-nametag" filter="url(#kcShadow)" transform="translate(598,308) rotate(16)">
+              <g class="kc-charm">
+                <g transform="translate(-40.5, 93) rotate(-90)">
+                  <image href="90days/zack_nametag.png" x="-140" y="-76" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ④ Dog — center-bottom, pushed lower -->
+            <g class="kc-charm-group" id="charm-dog" filter="url(#kcShadow)" transform="translate(415,442) rotate(4)">
               <g class="kc-charm">
                 <image href="90days/zackdog.png" x="-200" y="-57" width="400" height="346" preserveAspectRatio="xMidYMid meet"/>
               </g>
@@ -207,14 +399,156 @@
           </svg>
         </div>
       </div>
+      <!-- hover popup cards -->
+      <div class="charm-popup" id="popup-game">
+        <img class="charm-popup-img" src="90days/day19_hover_game.png" alt="Zack gaming"/>
+        <div class="charm-popup-info">
+          <div class="charm-popup-label">Charm 01 · Gaming</div>
+          <div class="charm-popup-title">Valorant Main</div>
+          <div class="charm-popup-body">His game of choice: Valorant. Fully locked in, headphones on, do not disturb.</div>
+        </div>
+      </div>
+      <div class="charm-popup" id="popup-soccer">
+        <img class="charm-popup-img" src="90days/day19_hover_soccer.png" alt="Zack soccer"/>
+        <div class="charm-popup-info">
+          <div class="charm-popup-label">Charm 02 · Soccer</div>
+          <div class="charm-popup-title">Liverpool No. 17</div>
+          <div class="charm-popup-body">Favorite sport, favorite club. The number 17 jersey is non-negotiable.</div>
+        </div>
+      </div>
+      <div class="charm-popup" id="popup-nametag">
+        <img class="charm-popup-img" src="90days/day19_hover_nametag.png" alt="Zack portrait"/>
+        <div class="charm-popup-info">
+          <div class="charm-popup-label">Charm 03 · Identity</div>
+          <div class="charm-popup-title">Zhang Zeyu · 张泽禹</div>
+          <div class="charm-popup-body">From Harbin, China. Member of TOP 登录少年. Goes by Zack.</div>
+        </div>
+      </div>
+      <div class="charm-popup" id="popup-dog">
+        <img class="charm-popup-img" src="90days/day19_hover_dog.png" alt="Friend Dog"/>
+        <div class="charm-popup-info">
+          <div class="charm-popup-label">Charm 04 · Fan Creation</div>
+          <div class="charm-popup-title">Friend Dog Family</div>
+          <div class="charm-popup-body">Fans thought he looked like an Eurasier — so they built a whole dog universe. Meet Friend Dog and the whole family.</div>
+        </div>
+      </div>
     </div>
 
-    <div class="charm-labels">
-      <div class="charm-label"><span>01</span> Game Boy</div>
-      <div class="charm-label"><span>02</span> Name Tag</div>
-      <div class="charm-label"><span>03</span> Soccer</div>
-      <div class="charm-label"><span>04</span> Dog</div>
-    </div>
+    </div> <!-- /kc-person Zack -->
+
+    <!-- ═══ JEREMY ═══ -->
+    <div class="kc-person jeremy">
+      <div class="kc-person-name">Jeremy · 张极</div>
+      <div class="keychain-wrap" id="jeremy-wrap">
+        <div class="kc-stage">
+          <div class="kc-swing">
+            <svg viewBox="0 0 820 800" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="jkcChain" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0"  stop-color="#f5f7f9"/>
+                  <stop offset=".5" stop-color="#9aa3ac"/>
+                  <stop offset="1"  stop-color="#e2e6ea"/>
+                </linearGradient>
+                <linearGradient id="jkcBody" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0"   stop-color="#ffcc70"/>
+                  <stop offset=".2"  stop-color="#ff8c30"/>
+                  <stop offset=".5"  stop-color="#c85000"/>
+                  <stop offset=".75" stop-color="#ff7020"/>
+                  <stop offset="1"   stop-color="#ffaa50"/>
+                </linearGradient>
+                <linearGradient id="jkcShine" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#fff0d0" stop-opacity=".9"/>
+                  <stop offset="1" stop-color="#fff0d0" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="jkcGate" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0"  stop-color="#d8dde3"/>
+                  <stop offset=".4" stop-color="#f4f6f8"/>
+                  <stop offset=".7" stop-color="#b0b8c2"/>
+                  <stop offset="1"  stop-color="#e0e4e8"/>
+                </linearGradient>
+                <filter id="jkcShadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".4"/>
+                </filter>
+                <filter id="jkcChainShadow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0a1a2a" flood-opacity=".3"/>
+                </filter>
+              </defs>
+
+              <g id="jkc-chains" filter="url(#jkcChainShadow)"></g>
+
+              <!-- Green heart carabiner -->
+              <g filter="url(#jkcShadow)">
+                <path d="M 360 208 C 348 185, 348 110, 376 84 C 389 73, 402 72, 410 80 C 418 72, 431 73, 444 84 C 472 110, 472 185, 452 210 C 438 228, 410 248, 410 248 C 410 248, 382 228, 368 210 C 364 204, 361 197, 358 188"
+                  fill="none" stroke="url(#jkcBody)" stroke-width="22" stroke-linecap="round"/>
+                <path d="M 360 208 C 348 185, 348 110, 376 84 C 389 73, 402 72, 410 80 C 418 72, 431 73, 444 84 C 472 110, 472 185, 452 210 C 438 228, 410 248, 410 248 C 410 248, 382 228, 368 210 C 364 204, 361 197, 358 188"
+                  fill="none" stroke="url(#jkcShine)" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+                <path d="M 360 208 C 348 185, 348 110, 376 84 C 389 73, 402 72, 410 80 C 418 72, 431 73, 444 84 C 472 110, 472 185, 452 210 C 438 228, 410 248, 410 248 C 410 248, 382 228, 368 210 C 364 204, 361 197, 358 188"
+                  fill="none" stroke="#7a2800" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+                <rect x="344" y="182" width="30" height="32" rx="5" fill="url(#jkcGate)" stroke="#8a929c" stroke-width="1.5"/>
+                <circle cx="359" cy="188" r="3.5" fill="#9aa3ac" stroke="#6a737d" stroke-width="1"/>
+                <circle cx="359" cy="204" r="3.5" fill="#9aa3ac" stroke="#6a737d" stroke-width="1"/>
+                <rect x="400" y="50" width="20" height="26" rx="10" fill="url(#jkcBody)" stroke="#8a3000" stroke-width="1.5"/>
+              </g>
+
+              <!--
+                jeremy_image.png  1536×1024 → at 300px wide: h=200, obj_top=18 → y=-18
+                jeremy_name.png   1024×1536 → at 180px wide: h=270, obj_top=49 → y=-49
+                jeremy_speaker.png 1506×1302 → at 260px wide: h=225, obj_top=30 → y=-30
+              -->
+
+              <!-- ① Image — left, landscape -->
+              <g class="kc-charm-group" id="jcharm-image" filter="url(#jkcShadow)" transform="translate(185,300) rotate(-20)">
+                <g class="kc-charm">
+                  <image href="90days/jeremy_image.png" x="-150" y="-18" width="300" height="200" preserveAspectRatio="xMidYMid meet"/>
+                </g>
+              </g>
+
+              <!-- ② Speaker — right -->
+              <g class="kc-charm-group" id="jcharm-speaker" filter="url(#jkcShadow)" transform="translate(565,290) rotate(18)">
+                <g class="kc-charm">
+                  <image href="90days/jeremy _speaker.png" x="-130" y="-30" width="260" height="225" preserveAspectRatio="xMidYMid meet"/>
+                </g>
+              </g>
+
+              <!-- ③ Name — center-bottom, portrait -->
+              <g class="kc-charm-group" id="jcharm-name" filter="url(#jkcShadow)" transform="translate(400,405) rotate(3)">
+                <g class="kc-charm">
+                  <image href="90days/jeremy_name.png" x="-90" y="-49" width="180" height="270" preserveAspectRatio="xMidYMid meet"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Jeremy hover popups -->
+        <div class="charm-popup" id="jpopup-image">
+          <img class="charm-popup-img" src="90days/day19_hover_logo_jer.png" alt="Jeremy 7Z"/>
+          <div class="charm-popup-info">
+            <div class="charm-popup-label">Charm 01 · DJ &amp; Staging</div>
+            <div class="charm-popup-title">ZJ</div>
+            <div class="charm-popup-body">His self-designed logo. Behind the synth, on the stage — ZJ is Jeremy's mark everywhere.</div>
+          </div>
+        </div>
+        <div class="charm-popup" id="jpopup-speaker">
+          <img class="charm-popup-img" src="90days/day19_hover_speaker_jer.png" alt="Jeremy vocal"/>
+          <div class="charm-popup-info">
+            <div class="charm-popup-label">Charm 02 · Music</div>
+            <div class="charm-popup-title">Vocal &amp; Synthesizer</div>
+            <div class="charm-popup-body">Main vocal of TOP 登录少年. Also plays synthesizer — equal parts voice and sound design.</div>
+          </div>
+        </div>
+        <div class="charm-popup" id="jpopup-name">
+          <img class="charm-popup-img" src="90days/day19_hover_nametag_jer.png" alt="Jeremy portrait"/>
+          <div class="charm-popup-info">
+            <div class="charm-popup-label">Charm 03 · Identity</div>
+            <div class="charm-popup-title">ZJ · 张极</div>
+            <div class="charm-popup-body">His self-designed logo — a fusion of the Chinese characters 张 and 极. Orange is his fan color.</div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /kc-person Jeremy -->
+
+    </div> <!-- /kc-duo-row -->
 
   </div>
 
@@ -224,6 +558,7 @@
     <span class="day-nav-btn ghost"> →</span>
   </div>
 
+<script src="gradient.js"></script>
 <script>
 (function(){
   /* draw chains */
@@ -256,12 +591,77 @@
     }
   }
 
-  // ring cx=410, cy=135, r=72. Chain starts from ring bottom arc.
-  // Chains ~130-180px — compact, no gravity violation.
-  drawChain(359, 186, 230, 310);  // → game (left)
-  drawChain(395, 205, 375, 325);  // → nametag (center-left)
-  drawChain(461, 186, 570, 300);  // → soccer (right)
-  drawChain(410, 207, 430, 360);  // → dog (bottom)
+  // Heart carabiner inner-bottom attachment points.
+  drawChain(358, 208, 175, 305);  // → game (far left)
+  drawChain(393, 228, 358, 262);  // → soccer (center-left, short)
+  drawChain(460, 212, 598, 308);  // → nametag (far right)
+  drawChain(410, 240, 415, 442);  // → dog (center-bottom, lower)
+
+  /* Jeremy chains */
+  var jlayer = document.getElementById('jkc-chains');
+  function drawJChain(x1,y1,x2,y2){
+    var dx=x2-x1, dy=y2-y1;
+    var dist=Math.hypot(dx,dy);
+    var n=Math.max(3,Math.round(dist/14));
+    var angle=Math.atan2(dy,dx)*180/Math.PI;
+    for(var i=0;i<n;i++){
+      var t=(i+.5)/n;
+      var cx=x1+dx*t, cy=y1+dy*t;
+      var e=document.createElementNS(NS,'ellipse');
+      e.setAttribute('cx',cx); e.setAttribute('cy',cy);
+      if(i%2===0){
+        e.setAttribute('rx',5.5); e.setAttribute('ry',9.5);
+        e.setAttribute('fill','none');
+        e.setAttribute('stroke','url(#jkcChain)');
+        e.setAttribute('stroke-width',3.8);
+      } else {
+        e.setAttribute('rx',2.2); e.setAttribute('ry',7.5);
+        e.setAttribute('fill','url(#jkcChain)');
+        e.setAttribute('stroke','#78828c');
+        e.setAttribute('stroke-width',.7);
+      }
+      e.setAttribute('transform','rotate('+(angle+90)+' '+cx+' '+cy+')');
+      jlayer.appendChild(e);
+    }
+  }
+  drawJChain(360, 207, 185, 300);  // → image (left)
+  drawJChain(455, 207, 565, 290);  // → speaker (right)
+  drawJChain(410, 242, 400, 405);  // → name (center-bottom)
+
+  /* charm hover popups — shared helper */
+  function bindPopups(wrapSel, pairs) {
+    var wrap = document.querySelector(wrapSel);
+    if (!wrap) return;
+    pairs.forEach(function(c) {
+      var el = document.getElementById(c.id);
+      var pop = document.getElementById(c.popup);
+      if (!el || !pop) return;
+      el.addEventListener('mouseenter', function() {
+        var er = el.getBoundingClientRect();
+        var wr = wrap.getBoundingClientRect();
+        var left = er.left - wr.left + er.width / 2 - 105;
+        var top  = er.top  - wr.top  - pop.offsetHeight - 12;
+        if (top < 0) top = er.bottom - wr.top + 10;
+        left = Math.max(4, Math.min(left, wr.width - 214));
+        pop.style.left = left + 'px';
+        pop.style.top  = top  + 'px';
+        pop.classList.add('visible');
+      });
+      el.addEventListener('mouseleave', function() { pop.classList.remove('visible'); });
+    });
+  }
+
+  bindPopups('.kc-person:first-of-type .keychain-wrap', [
+    { id: 'charm-game',    popup: 'popup-game'    },
+    { id: 'charm-soccer',  popup: 'popup-soccer'  },
+    { id: 'charm-nametag', popup: 'popup-nametag' },
+    { id: 'charm-dog',     popup: 'popup-dog'     }
+  ]);
+  bindPopups('#jeremy-wrap', [
+    { id: 'jcharm-image',   popup: 'jpopup-image'   },
+    { id: 'jcharm-speaker', popup: 'jpopup-speaker' },
+    { id: 'jcharm-name',    popup: 'jpopup-name'    }
+  ]);
 
   /* scroll reveal — keychain is main content, always visible */
   var els = document.querySelectorAll('.day-section-label, .charm-labels, .day-nav-bar');
