@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 20 · Way To Top · Album Cover Vote · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --accent: #FF6EB4; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid rgba(255,110,180,.4); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: dot-pulse 1.8s ease-in-out infinite; }
+    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.5);} }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(255,110,180,0.18); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+
+    /* ── ambient sparkles ── */
+    #sparkle-layer { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .sp {
+      position:absolute; opacity:0; user-select:none; pointer-events:none;
+      animation: sp-float 2.8s ease-out forwards;
+    }
+    @keyframes sp-float {
+      0%   { opacity:0; transform:translateY(0) rotate(0deg) scale(.4); }
+      15%  { opacity:1; }
+      80%  { opacity:.7; }
+      100% { opacity:0; transform:translateY(-140px) rotate(340deg) scale(1.3); }
+    }
+
+    /* ── vote section ── */
+    .vote-section { padding: 60px 4vw 80px; }
+    .vote-prompt {
+      text-align:center; font-size:13px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--accent); margin-bottom:48px; opacity:.8;
+    }
+
+    .covers-row {
+      display:flex; gap:24px; justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .cover-wrap {
+      flex:1; min-width:180px; max-width:320px;
+      display:flex; flex-direction:column; align-items:center; gap:14px;
+    }
+
+    .cover-card {
+      position:relative; cursor:pointer; width:100%;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+    .cover-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(255,110,180,.4);
+    }
+    .cover-card img { width:100%; display:block; }
+
+    /* shimmer overlay */
+    .cover-card::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(110deg, transparent 25%, rgba(255,200,230,.22) 50%, transparent 75%);
+      transform:translateX(-100%); pointer-events:none;
+    }
+    .cover-card:hover::after { animation: shimmer-sweep 1.2s ease forwards; }
+    @keyframes shimmer-sweep { to { transform:translateX(200%); } }
+
+    .cover-card.selected {
+      transform: translateY(-10px) scale(1.04);
+      box-shadow: 0 0 0 3px #FF6EB4, 0 24px 80px rgba(255,110,180,.7);
+      animation: card-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes card-pulse {
+      0%,100% { box-shadow:0 0 0 3px #FF6EB4, 0 24px 80px rgba(255,110,180,.6); }
+      50%      { box-shadow:0 0 0 6px #FFB3D9, 0 32px 100px rgba(255,110,180,.9); }
+    }
+    .cover-card.selected::after {
+      animation: shimmer-loop 3s ease-in-out infinite !important;
+    }
+    @keyframes shimmer-loop {
+      0%   { transform:translateX(-100%); opacity:0; }
+      10%  { opacity:1; } 90% { opacity:1; }
+      100% { transform:translateX(200%); opacity:0; }
+    }
+
+    /* burst sparkles */
+    .burst-sp {
+      position:absolute; pointer-events:none; user-select:none; z-index:10;
+      animation: burst-out .9s ease-out forwards;
+    }
+    @keyframes burst-out {
+      0%   { opacity:1; transform:translate(0,0) scale(1); }
+      100% { opacity:0; transform:translate(var(--tx),var(--ty)) scale(.3); }
+    }
+
+    /* label below image */
+    .cover-label {
+      text-align:center;
+      font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+      color:var(--muted); line-height:1.5;
+    }
+    .cover-label .ver-num {
+      font-size:16px; font-weight:800; color:var(--ink); display:block; margin-bottom:2px;
+    }
+    .cover-wrap:has(.selected) .cover-label,
+    .cover-label.active { color:#FFD6EA; }
+    .cover-label.active .ver-num { color:#FF6EB4; }
+
+    /* ── vote bars ── */
+    .vote-bars-wrap {
+      margin-top:52px; max-width:860px; margin-left:auto; margin-right:auto;
+      opacity:0; transform:translateY(16px);
+      transition:opacity .4s ease, transform .4s ease;
+    }
+    .vote-bars-wrap.show { opacity:1; transform:translateY(0); }
+
+    .vote-bar-row {
+      display:flex; align-items:center; gap:14px; margin-bottom:18px;
+    }
+    .bar-label {
+      font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--muted); width:64px; flex-shrink:0; text-align:right;
+    }
+    .bar-track {
+      flex:1; height:8px; background:rgba(255,110,180,.12);
+      border-radius:99px; overflow:hidden;
+    }
+    .bar-fill {
+      height:100%; border-radius:99px; width:0;
+      background:linear-gradient(90deg,#FF6EB4,#FF9FD0,#FFD6EA);
+      transition:width 1s cubic-bezier(.4,0,.2,1);
+      box-shadow:0 0 12px rgba(255,110,180,.5);
+    }
+    .bar-pct {
+      font-size:11px; font-weight:700; color:#FF6EB4; width:36px;
+    }
+
+    /* vote button */
+    .vote-btn-wrap {
+      text-align:center; margin-top:40px;
+      opacity:0; transform:translateY(12px);
+      transition:opacity .35s ease, transform .35s ease;
+      pointer-events:none;
+    }
+    .vote-btn-wrap.show { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .vote-btn {
+      display:inline-block; cursor:pointer;
+      font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+      color:#fff; background:linear-gradient(135deg,#FF6EB4,#FF9FD0);
+      border:none; border-radius:99px;
+      padding:14px 48px;
+      box-shadow:0 8px 32px rgba(255,110,180,.4);
+      transition:transform .2s, box-shadow .2s;
+    }
+    .vote-btn:hover { transform:scale(1.04); box-shadow:0 12px 48px rgba(255,110,180,.6); }
+    .vote-btn:active { transform:scale(.97); }
+
+    /* result header */
+    .result-msg {
+      text-align:center; margin-bottom:32px;
+      font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--muted);
+    }
+    .result-msg strong { color:#FF6EB4; }
+  </style>
+</head>
+<body class="day-page">
+
+  <div id="sparkle-layer" aria-hidden="true"></div>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 20</div>
+    <div class="day-num-bg">20</div>
+    <h1 class="day-title">Way To<br><span class="accent">Top</span></h1>
+    <div class="day-meta">
+      <span>Jul 9, 2026</span>
+      <span>Album Cover Design · AI Image Generation</span>
+      <span>Two Versions</span>
+    </div>
+    <p class="day-statement">
+      Two covers, one album. <em>Which one hits?</em> Click to vote.
+    </p>
+  </div>
+
+  <div class="day-content">
+    <div class="vote-section">
+      <div class="vote-prompt">Pick your favorite cover ↓</div>
+
+      <div class="covers-row" id="covers-row">
+
+        <div class="cover-wrap">
+          <div class="cover-card" id="card-0" onclick="selectCover(0)">
+            <img src="90days/day20_waytotop_album/ver1.png" alt="Version A" />
+          </div>
+          <div class="cover-label" id="label-0"><span class="ver-num">A</span></div>
+        </div>
+
+        <div class="cover-wrap">
+          <div class="cover-card" id="card-1" onclick="selectCover(1)">
+            <img src="90days/day20_waytotop_album/ver2.png" alt="Version B" />
+          </div>
+          <div class="cover-label" id="label-1"><span class="ver-num">B</span></div>
+        </div>
+
+      </div>
+
+      <div class="vote-btn-wrap" id="vote-btn-wrap">
+        <button class="vote-btn" id="vote-btn" onclick="confirmVote()">Cast My Vote ✦</button>
+      </div>
+
+      <div class="vote-bars-wrap" id="bars-wrap">
+        <div class="result-msg" id="result-msg"></div>
+        <div class="vote-bar-row">
+          <div class="bar-label">A</div>
+          <div class="bar-track"><div class="bar-fill" id="bar-0"></div></div>
+          <div class="bar-pct" id="pct-0">—</div>
+        </div>
+        <div class="vote-bar-row">
+          <div class="bar-label">B</div>
+          <div class="bar-track"><div class="bar-fill" id="bar-1"></div></div>
+          <div class="bar-pct" id="pct-1">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day19.html">← Day 19</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script src="gradient.js"></script>
+<script>
+(function(){
+
+  /* ── ambient sparkles ── */
+  var CHARS = ['✦','★','✿','♡','✨','◆','·','⋆'];
+  var layer = document.getElementById('sparkle-layer');
+  function spawnAmbient(){
+    var s = document.createElement('span');
+    s.className = 'sp';
+    s.textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
+    s.style.left   = (Math.random()*100) + 'vw';
+    s.style.top    = (60 + Math.random()*40) + 'vh';
+    s.style.fontSize = (8 + Math.random()*14) + 'px';
+    var hue = 310 + Math.random()*50;
+    s.style.color = 'hsl('+hue+',85%,'+(65+Math.random()*20)+'%)';
+    s.style.animationDuration = (2.2 + Math.random()*1.6) + 's';
+    s.style.animationDelay   = (Math.random()*0.3) + 's';
+    layer.appendChild(s);
+    setTimeout(function(){ s.parentNode && s.parentNode.removeChild(s); }, 4200);
+  }
+  setInterval(spawnAmbient, 280);
+
+  /* ── burst sparkles from card ── */
+  function burst(card, n){
+    n = n || 16;
+    for(var i=0;i<n;i++){
+      var s = document.createElement('span');
+      s.className = 'burst-sp';
+      s.textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
+      var angle = Math.random()*Math.PI*2;
+      var dist  = 60 + Math.random()*100;
+      s.style.cssText = [
+        'left:' + (30+Math.random()*40) + '%',
+        'top:'  + (20+Math.random()*60) + '%',
+        'font-size:' + (8+Math.random()*14) + 'px',
+        'color:hsl('+(310+Math.random()*50)+',90%,'+(65+Math.random()*20)+'%)',
+        'animation-duration:' + (0.6+Math.random()*0.5) + 's',
+        '--tx:' + (Math.cos(angle)*dist) + 'px',
+        '--ty:' + (Math.sin(angle)*dist) + 'px'
+      ].join(';');
+      card.appendChild(s);
+      setTimeout(function(x){ x.parentNode && x.parentNode.removeChild(x); }, 1000, s);
+    }
+  }
+
+  /* ── vote logic ── */
+  var SEED  = [47, 31];
+  var KEY_V = 'd20_votes';
+  var KEY_P = 'd20_pick';
+
+  var votes  = JSON.parse(localStorage.getItem(KEY_V)) || SEED.slice();
+  var myPick = localStorage.getItem(KEY_P); // null or '0','1'
+  var pending = null; // selected but not yet confirmed
+
+  window.selectCover = function selectCover(idx){
+    if(myPick !== null) return; // already voted, locked
+    pending = idx;
+    [0,1].forEach(function(i){
+      document.getElementById('card-'+i).classList.toggle('selected', i===idx);
+      document.getElementById('label-'+i).classList.toggle('active', i===idx);
+    });
+    document.getElementById('vote-btn-wrap').classList.add('show');
+  }
+
+  window.confirmVote = function confirmVote(){
+    if(myPick !== null || pending === null) return;
+    myPick = String(pending);
+    votes[pending]++;
+    localStorage.setItem(KEY_V, JSON.stringify(votes));
+    localStorage.setItem(KEY_P, myPick);
+    document.getElementById('vote-btn-wrap').classList.remove('show');
+    burst(document.getElementById('card-'+pending), 18);
+    var names = ['Version A','Version B'];
+    document.getElementById('result-msg').innerHTML =
+      'You picked <strong>' + names[pending] + '</strong> ✦';
+    showBars();
+  }
+
+  function applySelection(idx, doBurst){
+    [0,1].forEach(function(i){
+      document.getElementById('card-'+i).classList.toggle('selected', i===idx);
+      document.getElementById('label-'+i).classList.toggle('active', i===idx);
+    });
+    if(doBurst) burst(document.getElementById('card-'+idx), 18);
+    var names = ['Version A','Version B'];
+    document.getElementById('result-msg').innerHTML =
+      'You picked <strong>' + names[idx] + '</strong> ✦';
+  }
+
+  function showBars(){
+    var total = votes.reduce(function(a,b){return a+b;},0);
+    var wrap = document.getElementById('bars-wrap');
+    wrap.classList.add('show');
+    setTimeout(function(){
+      [0,1].forEach(function(i){
+        var pct = total ? Math.round(votes[i]/total*100) : 0;
+        document.getElementById('bar-'+i).style.width = pct + '%';
+        document.getElementById('pct-'+i).textContent  = pct + '%';
+      });
+    }, 80);
+  }
+
+  /* restore state on load */
+  if(myPick !== null){
+    var idx = parseInt(myPick,10);
+    [0,1].forEach(function(i){
+      document.getElementById('card-'+i).classList.toggle('selected', i===idx);
+      document.getElementById('label-'+i).classList.toggle('active', i===idx);
+    });
+    var names = ['Version A','Version B'];
+    document.getElementById('result-msg').innerHTML =
+      'You picked <strong>' + names[idx] + '</strong> ✦';
+    showBars();
+  }
+
+  /* custom cursor */
+  var cur=document.createElement('div');
+  cur.id='cursor'; document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button,.cover-card').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+
+})();
+</script>
+</body>
+</html>
