@@ -165,42 +165,47 @@
               All images 280px wide; heights from natural aspect ratio.
             -->
 
-            <!-- ① Game (1506×1302 → 280×242) — left, chain ~200px -->
-            <!-- hook is ~12% from top → 29px; start image at y=-29 -->
+            <!--
+              y offsets measured from actual PNG bounding box at 280px display width:
+              game:    obj top at 59px  → y=-59
+              nametag: obj top at 76px  → y=-76
+              soccer:  obj top at 42px  → y=-42
+              dog:     obj top at 40px  → y=-40  (scaled up to 340px wide for visual balance)
+            -->
+
+            <!-- ① Game (280×242) — left -->
             <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(168,370)">
               <g class="kc-charm">
                 <g transform="rotate(-14)">
-                  <image href="90days/zack_game.png" x="-140" y="-29" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
+                  <image href="90days/zack_game.png" x="-140" y="-59" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ② Nametag (1254×1254 → 280×280) — center, chain ~240px -->
-            <!-- hook is ~10% from top → 28px; start image at y=-28 -->
+            <!-- ② Nametag (280×242) — center -->
             <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(412,390)">
               <g class="kc-charm">
                 <g transform="rotate(-4)">
-                  <image href="90days/zack_nametag.png" x="-140" y="-28" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
+                  <image href="90days/zack_nametag.png" x="-140" y="-76" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ③ Soccer (1024×1024 → 280×280) — right, chain ~180px -->
-            <!-- hook is ~6% from top → 17px; start image at y=-17 -->
+            <!-- ③ Soccer (280×280 square) — right -->
             <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(660,340)">
               <g class="kc-charm">
                 <g transform="rotate(16)">
-                  <image href="90days/zack_soccer.png" x="-140" y="-17" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
+                  <image href="90days/zack_soccer.png" x="-140" y="-42" width="280" height="280" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
 
-            <!-- ④ Dog (1506×1302 → 280×242) — bottom center, long chain -->
-            <!-- hook is ~8% from top → 19px; start image at y=-19 -->
-            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,640)">
+            <!-- ④ Dog — bottom center, scaled up to 340px wide for visual balance -->
+            <!-- obj top at 40px in 280px display → at 340px wide: 40*(340/280)=49px → y=-49 -->
+            <g class="kc-charm-group" filter="url(#kcShadow)" transform="translate(430,620)">
               <g class="kc-charm">
                 <g transform="rotate(6)">
-                  <image href="90days/zackdog.png" x="-140" y="-19" width="280" height="242" preserveAspectRatio="xMidYMid meet"/>
+                  <image href="90days/zackdog.png" x="-170" y="-49" width="340" height="294" preserveAspectRatio="xMidYMid meet"/>
                 </g>
               </g>
             </g>
