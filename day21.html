@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 21 · License Plate · Jeremy · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --accent: #FF8C42; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid rgba(255,140,66,.4); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: dot-pulse 1.8s ease-in-out infinite; }
+    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.5);} }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(255,140,66,0.18); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+
+    /* ── plate display ── */
+    .plate-section {
+      padding: 60px 6vw 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .plate-img-wrap {
+      width: 100%;
+      max-width: 680px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,140,66,.15);
+    }
+    .plate-img-wrap img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── prompt block ── */
+    .prompt-block {
+      width: 100%;
+      max-width: 760px;
+    }
+    .prompt-label {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .prompt-card {
+      background: rgba(255,140,66,.06);
+      border: 1px solid rgba(255,140,66,.18);
+      border-radius: 16px;
+      padding: 28px 32px;
+      position: relative;
+    }
+    .prompt-text {
+      font-size: 13.5px; line-height: 1.85;
+      color: var(--ink-dim);
+      white-space: pre-wrap;
+      font-family: inherit;
+      margin: 0;
+    }
+    .prompt-text em {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .copy-btn {
+      position: absolute; top: 16px; right: 16px;
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(255,140,66,.35);
+      background: transparent; border-radius: 6px; padding: 5px 12px;
+      cursor: pointer; transition: background .2s, color .2s;
+    }
+    .copy-btn:hover { background: rgba(255,140,66,.15); }
+    .copy-btn.copied { color: #A8D8A8; border-color: rgba(168,216,168,.35); }
+
+    @media (max-width: 600px) {
+      .prompt-card { padding: 20px 18px; }
+      .copy-btn { position: static; margin-bottom: 12px; display: block; }
+    }
+  </style>
+</head>
+<body class="day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 21</div>
+    <div class="day-num-bg">21</div>
+    <h1 class="day-title">License<br><span class="accent">Plate</span></h1>
+    <div class="day-meta">
+      <span>Jul 10, 2026</span>
+      <span>AI Image Generation · Prompt Engineering</span>
+      <span>Gift for Jeremy</span>
+    </div>
+    <p class="day-statement">
+      A diamond-framed plate, a sunset sky. Wrote the prompt, got the sparkle.
+    </p>
+  </div>
+
+  <div class="day-content">
+    <div class="plate-section">
+
+      <div class="plate-img-wrap">
+        <img src="90days/day21_license/jeremy_plate.png" alt="Jeremy license plate album cover" />
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-label">✦ Generative Prompt</div>
+        <div class="prompt-card">
+          <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">Copy</button>
+          <pre class="prompt-text" id="prompt-text">A photorealistic album cover of a car license plate with a <em>diamond rhinestone border frame</em>, floating against a warm sunset gradient background (deep orange at bottom transitioning to pink-purple at top, with a soft central glow). The license plate reads <em>"JEREMY"</em> in large bold blue block letters, centered with generous padding. Above the letters, pink cursive handwritten text reads <em>"Transform Project"</em>. The plate has a red rhinestone bow tie decoration at the top center, a yellow "20" vehicle inspection sticker in the top right corner, and small black silhouette figures with a red heart at the bottom. Below the entire composition, a black and white <em>"PARENTAL ADVISORY EXPLICIT LYRICS"</em> label. Top left corner white bold text: <em>"STILL ALIVE"</em>. Top right corner white bold text: <em>"TEST DRIVE"</em>. Overall aesthetic: luxury, sparkly, Y2K, high-end photography, studio lighting, sharp details, magazine quality.</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day20.html">← Day 20</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script src="gradient.js"></script>
+<script>
+function copyPrompt() {
+  var text = document.getElementById('prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+var cur=document.createElement('div');
+cur.id='cursor'; document.body.appendChild(cur);
+var mx=-100,my=-100,cx=-100,cy=-100;
+window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+document.querySelectorAll('a,button').forEach(function(el){
+  el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+  el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+});
+(function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+</script>
+</body>
+</html>
