@@ -209,7 +209,7 @@
     .receipt-mood { text-align: center; font-size: 24px; margin: 5px 0; }
     .receipt-cols { display: flex; justify-content: space-between; font-size: 8px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #FF3FA4; margin-bottom: 5px; }
     .receipt-item { display: flex; justify-content: space-between; font-size: 10px; color: #1a1a1a; padding: 3px 0; line-height: 1.35; }
-    .receipt-item-name { max-width: 230px; text-transform: uppercase; letter-spacing: .04em; }
+    .receipt-item-name { max-width: 230px; letter-spacing: .02em; }
     .receipt-item-price { font-weight: 700; flex-shrink: 0; margin-left: 8px; }
     .receipt-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px; }
     .receipt-total-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; color: #111; }
@@ -324,23 +324,23 @@
               <div class="panel-section-title">Line Items</div>
               <div class="field-group">
                 <div class="line-item-row">
-                  <input class="field-input" data-item="0" data-type="name" maxlength="26" placeholder="What happened today?" value="MAIN CHARACTER ENERGY">
-                  <div class="price-auto" data-item="0" data-type="price">PRICELESS</div>
+                  <input class="field-input" data-item="0" data-type="name" maxlength="26" placeholder="What happened today?" value="main character energy">
+                  <div class="price-auto" data-item="0" data-type="price">priceless</div>
                 </div>
                 <div class="line-item-row">
-                  <input class="field-input" data-item="1" data-type="name" maxlength="26" placeholder="What happened today?" value="ICED COFFEE TAX">
+                  <input class="field-input" data-item="1" data-type="name" maxlength="26" placeholder="What happened today?" value="iced coffee tax">
                   <div class="price-auto" data-item="1" data-type="price">$7.50</div>
                 </div>
                 <div class="line-item-row">
-                  <input class="field-input" data-item="2" data-type="name" maxlength="26" placeholder="What happened today?" value="OVERTHINKING FEE">
+                  <input class="field-input" data-item="2" data-type="name" maxlength="26" placeholder="What happened today?" value="overthinking fee">
                   <div class="price-auto" data-item="2" data-type="price">∞</div>
                 </div>
                 <div class="line-item-row">
-                  <input class="field-input" data-item="3" data-type="name" maxlength="26" placeholder="What happened today?" value="ONE UNREAD MESSAGE">
-                  <div class="price-auto" data-item="3" data-type="price">PENDING</div>
+                  <input class="field-input" data-item="3" data-type="name" maxlength="26" placeholder="What happened today?" value="one unread message">
+                  <div class="price-auto" data-item="3" data-type="price">pending</div>
                 </div>
                 <div class="line-item-row">
-                  <input class="field-input" data-item="4" data-type="name" maxlength="26" placeholder="What happened today?" value="BOBA (JUSTIFIED)">
+                  <input class="field-input" data-item="4" data-type="name" maxlength="26" placeholder="What happened today?" value="boba (justified)">
                   <div class="price-auto" data-item="4" data-type="price">$6.25</div>
                 </div>
               </div>
@@ -349,12 +349,12 @@
             <div>
               <div class="panel-section-title">Total</div>
               <div class="total-phrase-btns" id="total-phrase-btns">
-                <button class="total-phrase-btn selected" data-phrase="EMOTIONALLY BANKRUPT" onclick="pickPhrase(this)">Emotionally Bankrupt</button>
-                <button class="total-phrase-btn" data-phrase="TAKE ALL OF MY MONEY" onclick="pickPhrase(this)">Take All My Money</button>
-                <button class="total-phrase-btn" data-phrase="STILL PROCESSING" onclick="pickPhrase(this)">Still Processing</button>
-                <button class="total-phrase-btn" data-phrase="READY TO LEVEL UP?" onclick="pickPhrase(this)">Ready To Level Up?</button>
-                <button class="total-phrase-btn" data-phrase="IN MY FEELINGS" onclick="pickPhrase(this)">In My Feelings</button>
-                <button class="total-phrase-btn" data-phrase="NET ZERO CHILL" onclick="pickPhrase(this)">Net Zero Chill</button>
+                <button class="total-phrase-btn selected" data-phrase="emotionally bankrupt" onclick="pickPhrase(this)">Emotionally Bankrupt</button>
+                <button class="total-phrase-btn" data-phrase="take all of my money" onclick="pickPhrase(this)">Take All My Money</button>
+                <button class="total-phrase-btn" data-phrase="still processing" onclick="pickPhrase(this)">Still Processing</button>
+                <button class="total-phrase-btn" data-phrase="ready to level up?" onclick="pickPhrase(this)">Ready To Level Up?</button>
+                <button class="total-phrase-btn" data-phrase="in my feelings" onclick="pickPhrase(this)">In My Feelings</button>
+                <button class="total-phrase-btn" data-phrase="net zero chill" onclick="pickPhrase(this)">Net Zero Chill</button>
               </div>
             </div>
           </div>
@@ -428,10 +428,10 @@
 (function(){
 
   var currentMood = '✨';
-  var currentPhrase = 'EMOTIONALLY BANKRUPT';
+  var currentPhrase = 'emotionally bankrupt';
 
   /* ── auto-price: generates a price from item name ── */
-  var funnyPrices = ['PRICELESS','∞','FREE (KINDA)','TBD','PENDING','NEGOTIABLE','TOO MUCH','$0.00','OVERDUE'];
+  var funnyPrices = ['priceless','∞','free (kinda)','tbd','pending','negotiable','too much','$0.00','overdue'];
   var pricedKeywords = {
     'coffee': 6.50, 'boba': 6.25, 'tea': 4.50, 'lunch': 14, 'dinner': 38,
     'uber': 22, 'lyft': 18, 'taxi': 25, 'rent': 1800, 'groceries': 67,
@@ -491,8 +491,8 @@
       var p = priceEls[i] ? priceEls[i].textContent.trim() : '';
       if (!n) return;
       var row = document.createElement('div'); row.className = 'receipt-item';
-      row.innerHTML = '<span class="receipt-item-name">' + n.toUpperCase() + '</span>'
-                    + '<span class="receipt-item-price">' + (p || '').toUpperCase() + '</span>';
+      row.innerHTML = '<span class="receipt-item-name">' + n + '</span>'
+                    + '<span class="receipt-item-price">' + (p || '') + '</span>';
       container.appendChild(row);
     });
 
@@ -573,14 +573,14 @@
 
   /* ── randomize ── */
   var dramaItems = [
-    ['OVERTHINKING FEE','∞'],['BOBA TAX','$6.25'],['ONE UNREAD MSG','PENDING'],
-    ['MAIN CHARACTER SURCHARGE','PRICELESS'],['SITUATIONSHIP DEPOSIT','NON-REFUNDABLE'],
-    ['SOFT LAUNCH (FAILED)','$0.00'],['CRYING IN THE SHOWER','THERAPEUTIC'],
-    ['DELULU SEASON PASS','$999'],['ROMAN EMPIRE THOUGHT','FREE'],
-    ['VILLAIN ERA TRIAL','EXPIRED'],['PARASOCIAL BOND FEE','TBD'],
-    ['SEROTONIN (OOS)','BACKORDER'],['RED FLAG DISCOUNT','-$0.00'],
-    ['LATE NIGHT SPIRAL','2AM'],['ACCOUNTABILITY WAIVER','DECLINED'],
-    ['CHAOTIC GOOD TAX','FIXED'],['NPC DAY REFUND','DENIED'],['PLOT TWIST INSURANCE','VOID'],
+    ['overthinking fee','∞'],['boba tax','$6.25'],['one unread msg','pending'],
+    ['main character surcharge','priceless'],['situationship deposit','non-refundable'],
+    ['soft launch (failed)','$0.00'],['crying in the shower','therapeutic'],
+    ['delulu season pass','$999'],['roman empire thought','free'],
+    ['villain era trial','expired'],['parasocial bond fee','tbd'],
+    ['serotonin (oos)','backorder'],['red flag discount','-$0.00'],
+    ['late night spiral','2am'],['accountability waiver','declined'],
+    ['chaotic good tax','fixed'],['npc day refund','denied'],['plot twist insurance','void'],
   ];
   var dramaHeaders = ['MAIN CHARACTER STORE','FEELINGS MART','DRAMA DEPOT','INNER WORLD CO.','CHAOS CENTRAL','TODAY ONLY'];
   var dramaMoods   = ['🫠','💅','😭','🔥','✨','🤍','⚡','🌸'];
