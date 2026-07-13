@@ -84,11 +84,19 @@
     .mood-btn { background: rgba(255,255,255,.09); border: 1.5px solid rgba(255,255,255,.18); border-radius: 10px; padding: 7px 11px; font-size: 18px; cursor: pointer; transition: background .15s, border-color .15s; line-height: 1; }
     .mood-btn.selected { background: rgba(255,63,164,.25); border-color: rgba(255,63,164,.6); }
     .mood-btn:hover { background: rgba(255,255,255,.15); }
-    .emoji-add-row { display: flex; gap: 6px; margin-top: 6px; }
-    .emoji-text-input { width: 52px; background: rgba(255,255,255,.09); border: 1.5px solid rgba(255,255,255,.18); border-radius: 10px; color: #fff; font-size: 18px; padding: 6px 8px; outline: none; text-align: center; font-family: inherit; box-sizing: border-box; }
-    .emoji-text-input:focus { border-color: rgba(255,63,164,.7); }
+    .emoji-add-row { position: relative; margin-top: 6px; }
     .btn-add-emoji { background: rgba(255,63,164,.15); border: 1.5px solid rgba(255,63,164,.35); border-radius: 10px; color: #FF3FA4; font-size: 11px; font-weight: 700; letter-spacing: .08em; padding: 7px 14px; cursor: pointer; font-family: inherit; white-space: nowrap; }
     .btn-add-emoji:hover { background: rgba(255,63,164,.28); }
+    .emoji-picker-popup {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0;
+      background: #1a1428; border: 1.5px solid rgba(255,63,164,.3);
+      border-radius: 14px; padding: 10px; z-index: 100;
+      display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .emoji-picker-popup.hidden { display: none !important; }
+    .ep-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 8px; transition: background .12s; line-height: 1; }
+    .ep-btn:hover { background: rgba(255,63,164,.2); }
 
     /* total */
     .total-phrase-btns { display: flex; flex-wrap: wrap; gap: 7px; }
@@ -307,8 +315,8 @@
                 <button class="mood-btn" data-mood="⚡" onclick="pickMood(this)">⚡</button>
               </div>
               <div class="emoji-add-row">
-                <input class="emoji-text-input" id="custom-emoji" maxlength="2" placeholder="😶">
-                <button class="btn-add-emoji" onclick="addEmoji()">+ Add Emoji</button>
+                <button class="btn-add-emoji" id="btn-add-emoji" onclick="toggleEmojiPicker(event)">+ Add Emoji</button>
+                <div class="emoji-picker-popup hidden" id="emoji-picker"></div>
               </div>
             </div>
 
@@ -550,18 +558,44 @@
     updateDisplay();
   };
 
-  /* ── custom emoji ── */
-  window.addEmoji = function() {
-    var val = document.getElementById('custom-emoji').value.trim();
-    if (!val) return;
+  /* ── emoji picker ── */
+  var pickerEmojis = [
+    '😂','🥹','😭','😅','🫠','🥲','😤','🙃','😎','🥺','😩','🤯',
+    '💀','🫶','🤍','💅','✨','🔥','⚡','🌸','🌙','🍵','🧋','🍕',
+    '🎉','🎀','🦋','🐸','🍓','🫧','💸','🪩','🛒','📱','🎵','🩷',
+  ];
+  var pickerEl = document.getElementById('emoji-picker');
+  pickerEmojis.forEach(function(em) {
+    var b = document.createElement('button');
+    b.className = 'ep-btn'; b.textContent = em;
+    b.onclick = function(e) {
+      e.stopPropagation();
+      addMoodEmoji(em);
+      pickerEl.classList.add('hidden');
+    };
+    pickerEl.appendChild(b);
+  });
+
+  function addMoodEmoji(em) {
     var moodRow = document.getElementById('mood-row');
+    /* skip if already exists */
+    var exists = false;
+    document.querySelectorAll('.mood-btn').forEach(function(b){ if(b.dataset.mood===em) exists=b; });
+    if (exists) { pickMood(exists); return; }
     var btn = document.createElement('button');
-    btn.className = 'mood-btn'; btn.dataset.mood = val; btn.textContent = val;
+    btn.className = 'mood-btn'; btn.dataset.mood = em; btn.textContent = em;
     btn.onclick = function(){ pickMood(this); };
     moodRow.appendChild(btn);
-    document.getElementById('custom-emoji').value = '';
     pickMood(btn);
+  }
+
+  window.toggleEmojiPicker = function(e) {
+    e.stopPropagation();
+    var wasHidden = pickerEl.classList.contains('hidden');
+    pickerEl.classList.add('hidden');
+    if (wasHidden) pickerEl.classList.remove('hidden');
   };
+  document.addEventListener('click', function() { pickerEl.classList.add('hidden'); });
 
   /* ── phrase picker ── */
   window.pickPhrase = function(btn) {
