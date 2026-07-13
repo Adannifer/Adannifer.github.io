@@ -77,7 +77,8 @@
     .field-input:focus { border-color: rgba(255,63,164,.7); background: rgba(255,255,255,.13); }
     .field-input::placeholder { color: rgba(255,255,255,.3); }
     .line-item-row { display: grid; grid-template-columns: 1fr 90px; gap: 8px; align-items: center; }
-    .price-auto { font-size: 13px; color: rgba(255,63,164,.85); font-weight: 700; padding: 10px 10px; text-align: right; letter-spacing: .04em; background: rgba(255,63,164,.08); border: 1.5px solid rgba(255,63,164,.2); border-radius: 10px; font-family: 'Courier New', monospace; }
+    .price-auto { font-size: 13px; color: rgba(255,63,164,.85); font-weight: 700; padding: 10px 10px; text-align: right; letter-spacing: .04em; background: rgba(255,63,164,.08); border: 1.5px solid rgba(255,63,164,.2); border-radius: 10px; font-family: 'Courier New', monospace; cursor: pointer; transition: background .15s, border-color .15s; }
+    .price-auto:hover { background: rgba(255,63,164,.18); border-color: rgba(255,63,164,.45); }
 
     /* mood */
     .mood-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -440,13 +441,13 @@
 
   /* ── auto-price: generates a price from item name ── */
   var funnyPrices = ['priceless','∞','free (kinda)','tbd','pending','negotiable','too much','$0.00','overdue'];
-  var pricedKeywords = {
+  var pricedKeywords = Object.freeze({
     'coffee': 6.50, 'boba': 6.25, 'tea': 4.50, 'lunch': 14, 'dinner': 38,
     'uber': 22, 'lyft': 18, 'taxi': 25, 'rent': 1800, 'groceries': 67,
     'therapy': 180, 'gym': 40, 'amazon': 34, 'spotify': 9.99, 'netflix': 15.99,
     'book': 18, 'wine': 24, 'beer': 8, 'sushi': 45, 'pizza': 22,
     'avocado': 3.50, 'latte': 7, 'matcha': 7.50
-  };
+  });
 
   function autoPriceForName(name) {
     if (!name.trim()) return '';
@@ -516,7 +517,46 @@
     inp.addEventListener('input', function() {
       var idx = this.dataset.item;
       var priceEl = document.querySelector('[data-type="price"][data-item="' + idx + '"]');
-      if (priceEl) priceEl.textContent = autoPriceForName(this.value);
+      if (priceEl) { priceEl.textContent = autoPriceForName(this.value); priceEl.dataset.reroll = 0; }
+      updateDisplay();
+    });
+  });
+
+  /* click price to re-roll */
+  document.querySelectorAll('[data-type="price"]').forEach(function(priceEl) {
+    priceEl.addEventListener('click', function() {
+      var idx = this.dataset.item;
+      var nameEl = document.querySelector('[data-type="name"][data-item="' + idx + '"]');
+      if (!nameEl || !nameEl.value.trim()) return;
+      var roll = parseInt(this.dataset.reroll || 0) + 1;
+      this.dataset.reroll = roll;
+      /* shift seed by roll count to get a different value */
+      var name = nameEl.value.trim();
+      var lower = name.toLowerCase();
+      var priceKeys = Object.keys(pricedKeywords);
+      var matchKey = null;
+      for (var k = 0; k < priceKeys.length; k++) {
+        if (lower.indexOf(priceKeys[k]) !== -1) { matchKey = priceKeys[k]; break; }
+      }
+      var newPrice;
+      if (matchKey && roll % 3 !== 0) {
+        /* vary the known price slightly */
+        var base = pricedKeywords[matchKey];
+        var offsets = [-1.5, -0.5, 0.5, 1.0, 1.5, 2.0];
+        newPrice = '$' + (base + offsets[roll % offsets.length]).toFixed(2);
+      } else {
+        /* rotate through funny prices and random amounts */
+        var h = 0; for (var i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) & 0xffff;
+        var shifted = (h + roll * 3733) & 0xffff;
+        if (shifted % 4 === 0) {
+          newPrice = funnyPrices[(h + roll) % funnyPrices.length];
+        } else {
+          newPrice = '$' + ((shifted % 980) / 10 + 0.5).toFixed(2);
+        }
+        /* avoid same as current */
+        if (newPrice === this.textContent) newPrice = '$' + (((shifted + 1337) % 980) / 10 + 0.5).toFixed(2);
+      }
+      this.textContent = newPrice;
       updateDisplay();
     });
   });
