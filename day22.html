@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 22 · Fake Receipt Generator · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body.day-page { --accent: #FF3FA4; }
+
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid rgba(255,63,164,.4); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: dot-pulse 1.8s ease-in-out infinite; }
+    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.5);} }
+    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(255,63,164,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+
+    /* ── studio ── */
+    .studio {
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── left panel: full width until receipt prints ── */
+    .left-panel {
+      width: 100%;
+      flex-shrink: 0;
+      border-right: 1px solid transparent;
+      padding: 48px 6vw;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      transition: width 0.55s cubic-bezier(0.4,0,0.2,1), padding 0.55s, border-color 0.3s;
+      box-sizing: border-box;
+    }
+    .studio.printed .left-panel {
+      width: 440px;
+      padding: 40px 32px;
+      border-color: var(--border);
+    }
+
+    /* form grid — 2 cols when full width */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 40px;
+    }
+    .studio.printed .form-grid {
+      grid-template-columns: 1fr;
+    }
+    .form-grid-full { grid-column: 1 / -1; }
+
+    .panel-section-title { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .field-group { display: flex; flex-direction: column; gap: 9px; }
+    .field-row { display: flex; flex-direction: column; gap: 4px; }
+    .field-label { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .field-input {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; color: var(--ink);
+      font-size: 13px; padding: 8px 12px;
+      outline: none; font-family: inherit;
+      transition: border-color .2s;
+      width: 100%; box-sizing: border-box;
+    }
+    .field-input:focus { border-color: rgba(255,63,164,.5); }
+    .field-input::placeholder { color: rgba(255,255,255,.25); }
+    .line-item-row { display: grid; grid-template-columns: 1fr 80px; gap: 8px; }
+
+    /* mood */
+    .mood-row { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    .mood-btn { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 6px 10px; font-size: 17px; cursor: pointer; transition: background .15s, border-color .15s; line-height: 1; }
+    .mood-btn.selected { background: rgba(255,63,164,.2); border-color: rgba(255,63,164,.5); }
+    .mood-btn:hover { background: rgba(255,255,255,.12); }
+    .emoji-add-row { display: flex; gap: 6px; margin-top: 6px; }
+    .emoji-text-input { width: 52px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; color: var(--ink); font-size: 18px; padding: 5px 8px; outline: none; text-align: center; font-family: inherit; box-sizing: border-box; }
+    .emoji-text-input:focus { border-color: rgba(255,63,164,.5); }
+    .btn-add-emoji { background: rgba(255,63,164,.12); border: 1px solid rgba(255,63,164,.3); border-radius: 8px; color: #FF3FA4; font-size: 11px; font-weight: 700; letter-spacing: .08em; padding: 6px 12px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .btn-add-emoji:hover { background: rgba(255,63,164,.22); }
+
+    /* total */
+    .total-phrase-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+    .total-phrase-btn { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; color: var(--muted); padding: 5px 10px; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s, color .15s; }
+    .total-phrase-btn:hover, .total-phrase-btn.selected { background: rgba(255,63,164,.15); border-color: rgba(255,63,164,.4); color: #FF3FA4; }
+
+    /* note */
+    .field-note { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; color: var(--ink); font-size: 12px; padding: 8px 12px; outline: none; font-family: inherit; resize: none; width: 100%; box-sizing: border-box; height: 52px; line-height: 1.5; }
+    .field-note:focus { border-color: rgba(255,63,164,.5); }
+    .field-note::placeholder { color: rgba(255,255,255,.25); }
+
+    /* action buttons */
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+    .btn-randomize { background: rgba(255,63,164,.1); border: 1px solid rgba(255,63,164,.3); border-radius: 10px; color: #FF3FA4; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 11px 20px; cursor: pointer; transition: background .2s; font-family: inherit; flex: 1; }
+    .btn-randomize:hover { background: rgba(255,63,164,.2); }
+    .btn-submit { background: linear-gradient(135deg,#FF3FA4,#FF80C4); border: none; border-radius: 10px; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 13px 24px; cursor: pointer; font-family: inherit; box-shadow: 0 8px 24px rgba(255,63,164,.35); flex: 1; transition: opacity .2s; }
+    .btn-submit:hover { opacity: .88; }
+    .btn-save { background: transparent; border: 1px solid rgba(255,255,255,.15); border-radius: 10px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 11px 20px; cursor: pointer; transition: border-color .2s, color .2s; font-family: inherit; }
+    .btn-save:hover { border-color: rgba(255,63,164,.4); color: #FF3FA4; }
+
+    /* ── right panel: hidden until print ── */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 40px;
+      width: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.4s;
+    }
+    .studio.printed .right-panel {
+      width: auto;
+      opacity: 1;
+    }
+
+    /* ── receipt container ── */
+    .receipt-outer { display: flex; flex-direction: column; align-items: center; }
+
+    /* printer slot */
+    .printer-slot {
+      width: 400px; height: 50px;
+      background: linear-gradient(180deg,#2e2a3a 0%,#1c1828 100%);
+      border-radius: 14px 14px 5px 5px;
+      border: 1.5px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -2px 4px rgba(0,0,0,.3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 2;
+    }
+    .printer-slot::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 5px;
+      background: rgba(0,0,0,.35);
+      border-radius: 0 0 3px 3px;
+    }
+    .printer-slot-body { display: flex; flex-direction: column; gap: 4px; align-items: center; width: 68%; }
+    .printer-slot-line { width: 100%; height: 2.5px; background: rgba(255,255,255,.07); border-radius: 2px; }
+    .printer-slot-gap { width: 100%; height: 6px; background: rgba(0,0,0,.5); border-radius: 2px; }
+
+    /* clip: hides receipt during animation */
+    .receipt-clip {
+      width: 400px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* receipt paper */
+    #receipt {
+      width: 400px;
+      background: #fff;
+      padding: 30px 30px 4px;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+      max-height: 0;
+      overflow: hidden;
+      /* paper realism */
+      box-shadow:
+        1px 1px 0 #e8e8e8,
+        2px 2px 0 #f0f0f0,
+        4px 8px 16px rgba(0,0,0,.12),
+        0 20px 40px rgba(0,0,0,.1);
+      background-image: linear-gradient(180deg,#fff 0%,#fafafa 60%,#f5f5f5 100%);
+      position: relative;
+    }
+    /* paper curl at bottom */
+    #receipt::after {
+      content: '';
+      position: absolute;
+      bottom: -10px; left: 5%; right: 5%;
+      height: 20px;
+      background: transparent;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      border-radius: 50%;
+      z-index: -1;
+    }
+    /* printing animation: max-height grows slowly */
+    #receipt.printing {
+      animation: feed-out 3.5s linear forwards;
+    }
+    #receipt.done {
+      max-height: 2000px;
+    }
+    @keyframes feed-out {
+      0%   { max-height: 0; }
+      100% { max-height: 1200px; }
+    }
+
+    /* receipt internals */
+    .receipt-logo { text-align: center; margin-bottom: 6px; }
+    .receipt-logo-name { font-family: 'Georgia', serif; font-size: 26px; font-weight: 900; color: #FF3FA4; letter-spacing: -.02em; line-height: 1; }
+    .receipt-logo-sub { font-size: 7.5px; letter-spacing: .3em; text-transform: uppercase; color: #FF3FA4; opacity: .6; }
+    .receipt-divider { border: none; border-top: 1.5px solid #FF3FA4; margin: 10px 0; opacity: .28; }
+    .receipt-divider.dashed { border-top-style: dashed; }
+    .receipt-header-info { font-size: 9px; color: #888; text-align: center; line-height: 1.7; }
+    .receipt-mood { text-align: center; font-size: 24px; margin: 5px 0; }
+    .receipt-cols { display: flex; justify-content: space-between; font-size: 8px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #FF3FA4; margin-bottom: 5px; }
+    .receipt-item { display: flex; justify-content: space-between; font-size: 10px; color: #1a1a1a; padding: 3px 0; line-height: 1.35; }
+    .receipt-item-name { max-width: 230px; text-transform: uppercase; letter-spacing: .04em; }
+    .receipt-item-price { font-weight: 700; flex-shrink: 0; margin-left: 8px; }
+    .receipt-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px; }
+    .receipt-total-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; color: #111; }
+    .receipt-total-value { font-size: 9.5px; font-style: italic; color: #FF3FA4; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; text-align: right; max-width: 190px; }
+    .receipt-note { font-size: 8.5px; color: #999; text-align: center; font-style: italic; margin-top: 8px; line-height: 1.5; border-top: 1px dashed #e0e0e0; padding-top: 8px; }
+
+    /* realistic barcode */
+    .receipt-barcode { margin: 14px auto 0; text-align: center; }
+    .barcode-wrap { display: inline-block; border: 1px solid #e8e8e8; padding: 6px 8px 4px; background: #fff; }
+    .barcode-svg { width: 220px; height: 48px; display: block; }
+    .barcode-numbers { font-size: 7px; letter-spacing: .08em; color: #555; margin-top: 3px; font-family: 'Courier New', monospace; }
+    .barcode-url { font-size: 7.5px; color: #888; text-align: center; margin-top: 5px; letter-spacing: .05em; font-family: 'Courier New', monospace; }
+
+    .receipt-footnote { font-size: 7px; color: #c0c0c0; text-align: center; margin-top: 10px; letter-spacing: .1em; font-style: italic; }
+
+    /* jagged bottom */
+    .receipt-jagged {
+      width: 400px; height: 20px;
+      background-image: radial-gradient(circle at 50% 0%, transparent 5px, #fff 5px);
+      background-size: 13px 13px;
+      background-repeat: repeat-x;
+      background-color: transparent;
+      margin-top: 0; flex-shrink: 0;
+      /* shadow continues on jagged */
+      filter: drop-shadow(0 16px 20px rgba(0,0,0,.1));
+    }
+
+    @media (max-width: 860px) {
+      .studio.printed .left-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .studio.printed { flex-direction: column; }
+      .printer-slot, .receipt-clip, #receipt, .receipt-jagged { width: 320px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <nav id="nav">
+    <div id="nav-logo-slot"><a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a></div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 22</div>
+    <div class="day-num-bg">22</div>
+    <h1 class="day-title">Fake<br><span class="accent">Receipt</span></h1>
+    <div class="day-meta">
+      <span>Jul 11, 2026</span>
+      <span>Interactive Tool · Vibe Coding</span>
+      <span>Emotionally Non-Refundable</span>
+    </div>
+    <p class="day-statement">Type your day in. Get a receipt. Save the evidence.</p>
+  </div>
+
+  <div class="day-content">
+    <div class="studio" id="studio">
+
+      <!-- LEFT: form -->
+      <div class="left-panel">
+        <div class="form-grid">
+
+          <!-- col 1 -->
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <div>
+              <div class="panel-section-title">Header</div>
+              <div class="field-group">
+                <div class="field-row">
+                  <div class="field-label">Store Name</div>
+                  <input class="field-input" id="in-store" maxlength="22" placeholder="MY LIFE STORE" value="MY LIFE STORE">
+                </div>
+                <div class="field-row">
+                  <div class="field-label">Name / City</div>
+                  <input class="field-input" id="in-name" maxlength="30" placeholder="JENNIFER · NEW YORK" value="JENNIFER · NEW YORK">
+                </div>
+                <div class="field-row">
+                  <div class="field-label">Date</div>
+                  <input class="field-input" id="in-date" maxlength="20" placeholder="JUL 11 2026" value="JUL 11 2026">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="panel-section-title">Mood</div>
+              <div class="mood-row" id="mood-row">
+                <button class="mood-btn selected" data-mood="✨" onclick="pickMood(this)">✨</button>
+                <button class="mood-btn" data-mood="🫠" onclick="pickMood(this)">🫠</button>
+                <button class="mood-btn" data-mood="💅" onclick="pickMood(this)">💅</button>
+                <button class="mood-btn" data-mood="🌸" onclick="pickMood(this)">🌸</button>
+                <button class="mood-btn" data-mood="😭" onclick="pickMood(this)">😭</button>
+                <button class="mood-btn" data-mood="🔥" onclick="pickMood(this)">🔥</button>
+                <button class="mood-btn" data-mood="🤍" onclick="pickMood(this)">🤍</button>
+                <button class="mood-btn" data-mood="⚡" onclick="pickMood(this)">⚡</button>
+              </div>
+              <div class="emoji-add-row">
+                <input class="emoji-text-input" id="custom-emoji" maxlength="2" placeholder="😶">
+                <button class="btn-add-emoji" onclick="addEmoji()">+ Add Emoji</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="panel-section-title">Note</div>
+              <textarea class="field-note" id="in-note" maxlength="80" placeholder="add a personal note..."></textarea>
+            </div>
+          </div>
+
+          <!-- col 2 -->
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <div>
+              <div class="panel-section-title">Line Items</div>
+              <div class="field-group">
+                <div class="line-item-row">
+                  <input class="field-input" data-item="0" data-type="name" maxlength="26" placeholder="ITEM NAME" value="MAIN CHARACTER ENERGY">
+                  <input class="field-input" data-item="0" data-type="price" maxlength="10" placeholder="$0.00" value="PRICELESS">
+                </div>
+                <div class="line-item-row">
+                  <input class="field-input" data-item="1" data-type="name" maxlength="26" placeholder="ITEM NAME" value="ICED COFFEE TAX">
+                  <input class="field-input" data-item="1" data-type="price" maxlength="10" placeholder="$0.00" value="$7.50">
+                </div>
+                <div class="line-item-row">
+                  <input class="field-input" data-item="2" data-type="name" maxlength="26" placeholder="ITEM NAME" value="OVERTHINKING FEE">
+                  <input class="field-input" data-item="2" data-type="price" maxlength="10" placeholder="$0.00" value="∞">
+                </div>
+                <div class="line-item-row">
+                  <input class="field-input" data-item="3" data-type="name" maxlength="26" placeholder="ITEM NAME" value="ONE UNREAD MESSAGE">
+                  <input class="field-input" data-item="3" data-type="price" maxlength="10" placeholder="$0.00" value="PENDING">
+                </div>
+                <div class="line-item-row">
+                  <input class="field-input" data-item="4" data-type="name" maxlength="26" placeholder="ITEM NAME" value="BOBA (JUSTIFIED)">
+                  <input class="field-input" data-item="4" data-type="price" maxlength="10" placeholder="$0.00" value="$6.25">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="panel-section-title">Total</div>
+              <div class="total-phrase-btns" id="total-phrase-btns">
+                <button class="total-phrase-btn selected" data-phrase="EMOTIONALLY BANKRUPT" onclick="pickPhrase(this)">Emotionally Bankrupt</button>
+                <button class="total-phrase-btn" data-phrase="TAKE ALL OF MY MONEY" onclick="pickPhrase(this)">Take All My Money</button>
+                <button class="total-phrase-btn" data-phrase="STILL PROCESSING" onclick="pickPhrase(this)">Still Processing</button>
+                <button class="total-phrase-btn" data-phrase="READY TO LEVEL UP?" onclick="pickPhrase(this)">Ready To Level Up?</button>
+                <button class="total-phrase-btn" data-phrase="IN MY FEELINGS" onclick="pickPhrase(this)">In My Feelings</button>
+                <button class="total-phrase-btn" data-phrase="NET ZERO CHILL" onclick="pickPhrase(this)">Net Zero Chill</button>
+              </div>
+              <div style="font-size:9px;color:var(--muted);letter-spacing:.1em;margin-top:6px;">prices as numbers = auto-sum</div>
+            </div>
+          </div>
+
+          <!-- full-width action row -->
+          <div class="form-grid-full">
+            <div class="action-row">
+              <button class="btn-randomize" onclick="randomize()">★ Randomize Tiny Drama</button>
+              <button class="btn-submit" onclick="printReceipt()">🖨 Print Receipt</button>
+              <button class="btn-save" onclick="saveReceipt()">↓ Save PNG</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: receipt -->
+      <div class="right-panel" id="right-panel">
+        <div class="receipt-outer">
+          <div class="printer-slot">
+            <div class="printer-slot-body">
+              <div class="printer-slot-line"></div>
+              <div class="printer-slot-gap"></div>
+              <div class="printer-slot-line"></div>
+            </div>
+          </div>
+          <div class="receipt-clip">
+            <div id="receipt">
+              <div class="receipt-logo">
+                <div class="receipt-logo-name" id="r-store">MY LIFE STORE</div>
+                <div class="receipt-logo-sub">OFFICIAL RECORD OF TODAY</div>
+              </div>
+              <hr class="receipt-divider">
+              <div class="receipt-header-info">
+                <span id="r-name">JENNIFER · NEW YORK</span><br>
+                <span id="r-date">JUL 11 2026</span>
+              </div>
+              <div class="receipt-mood" id="r-mood">✨</div>
+              <hr class="receipt-divider">
+              <div class="receipt-cols"><span>ITEM</span><span>PRICE</span></div>
+              <div id="r-items"></div>
+              <hr class="receipt-divider dashed" style="margin-top:10px;">
+              <div class="receipt-total-row">
+                <span class="receipt-total-label">TOTAL</span>
+                <span class="receipt-total-value" id="r-total">EMOTIONALLY BANKRUPT</span>
+              </div>
+              <div class="receipt-note" id="r-note" style="display:none;"></div>
+              <hr class="receipt-divider" style="margin-top:10px;">
+              <div class="receipt-barcode">
+                <div class="barcode-wrap">
+                  <svg class="barcode-svg" viewBox="0 0 220 48" xmlns="http://www.w3.org/2000/svg" id="r-barcode"></svg>
+                  <div class="barcode-numbers" id="r-barcode-num">0 12345 67890 5</div>
+                </div>
+                <div class="barcode-url">jenniferqian.art</div>
+              </div>
+              <div class="receipt-footnote">This receipt is emotionally non-refundable.</div>
+              <div style="height:22px;"></div>
+            </div>
+          </div>
+          <div class="receipt-jagged"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day21.html">← Day 21</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script src="gradient.js"></script>
+<script>
+(function(){
+
+  var currentMood = '✨';
+  var currentPhrase = 'EMOTIONALLY BANKRUPT';
+
+  /* ── realistic barcode (Code 128 style structure) ── */
+  function drawBarcode(svgEl, seed) {
+    while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+
+    /* deterministic bar pattern from seed */
+    function rng(n) {
+      var x = Math.sin(seed * 9301 + n * 49297 + 233720) * 10000;
+      return x - Math.floor(x);
+    }
+
+    /* Code 128 guard bars at start and end */
+    var QUIET = 6;
+    var x = QUIET;
+    var H = 48;
+
+    function bar(bx, bw, fill) {
+      var r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x', bx); r.setAttribute('y', 2);
+      r.setAttribute('width', bw); r.setAttribute('height', H - 10);
+      r.setAttribute('fill', fill || '#111');
+      svgEl.appendChild(r);
+    }
+
+    /* Start guard: narrow bar, narrow space, narrow bar */
+    bar(x, 2); x += 2; x += 2; bar(x, 2); x += 2; x += 2; bar(x, 3); x += 3; x += 1;
+
+    /* Data bars — alternating bar/space with 1–4 unit widths */
+    var widths = [1,1,2,1,3,1,1,2,1,2,3,1,1,1,2,1,3,2,1,1,2,2,1,1,3,1,2,1,1,2,3,1,1,1];
+    var total = 220 - QUIET * 2 - 20; /* leave room for guards */
+    var sumW = 0; for (var i=0;i<widths.length;i++) sumW += widths[i] + (i%2===0?0:0);
+
+    var toggle = false;
+    for (var i = 0; i < widths.length && x < 210; i++) {
+      var w = Math.max(1, Math.round(rng(i) * 3) + 1);
+      if (!toggle) { bar(x, w); }
+      x += w + 1;
+      toggle = !toggle;
+    }
+
+    /* Stop guard */
+    if (x < 210) { bar(x,2); x+=2; x+=2; bar(x,2); x+=2; x+=2; bar(x,3); x+=3; x+=1; bar(x,2); }
+  }
+
+  /* ── auto-sum ── */
+  function calcTotal() {
+    var priceInputs = document.querySelectorAll('[data-type="price"]');
+    var sum = 0; var allNumeric = true; var hasVal = false;
+    priceInputs.forEach(function(inp) {
+      if (!inp.value.trim()) return;
+      hasVal = true;
+      var n = parseFloat(inp.value.replace(/[$,]/g,''));
+      if (isNaN(n)) allNumeric = false; else sum += n;
+    });
+    if (allNumeric && hasVal) return '$' + sum.toFixed(2);
+    return currentPhrase;
+  }
+
+  /* ── update receipt content ── */
+  function updateDisplay() {
+    var store = document.getElementById('in-store').value || 'MY LIFE STORE';
+    var name  = document.getElementById('in-name').value  || '';
+    var date  = document.getElementById('in-date').value  || '';
+    var note  = document.getElementById('in-note').value  || '';
+
+    document.getElementById('r-store').textContent = store.toUpperCase();
+    document.getElementById('r-name').textContent  = name.toUpperCase();
+    document.getElementById('r-date').textContent  = date.toUpperCase();
+    document.getElementById('r-mood').textContent  = currentMood;
+
+    /* barcode seed from store name */
+    var bseed = 0; for (var i=0;i<store.length;i++) bseed += store.charCodeAt(i) * (i+1);
+    drawBarcode(document.getElementById('r-barcode'), bseed);
+    document.getElementById('r-barcode-num').textContent = '0 ' + bseed.toString().padStart(5,'0').slice(-5) + ' ' + Math.abs(bseed*7%99999).toString().padStart(5,'0') + ' ' + (bseed%9);
+
+    /* items */
+    var nameInputs  = document.querySelectorAll('[data-type="name"]');
+    var priceInputs = document.querySelectorAll('[data-type="price"]');
+    var container   = document.getElementById('r-items');
+    container.innerHTML = '';
+    nameInputs.forEach(function(inp, i) {
+      var n = inp.value.trim(); var p = priceInputs[i] ? priceInputs[i].value.trim() : '';
+      if (!n && !p) return;
+      var row = document.createElement('div'); row.className = 'receipt-item';
+      row.innerHTML = '<span class="receipt-item-name">' + (n||'—').toUpperCase() + '</span>'
+                    + '<span class="receipt-item-price">' + (p||'—').toUpperCase() + '</span>';
+      container.appendChild(row);
+    });
+
+    document.getElementById('r-total').textContent = calcTotal();
+
+    var noteEl = document.getElementById('r-note');
+    if (note.trim()) { noteEl.textContent = note; noteEl.style.display = 'block'; }
+    else { noteEl.style.display = 'none'; }
+  }
+
+  document.querySelectorAll('.field-input,.field-note').forEach(function(el){
+    el.addEventListener('input', updateDisplay);
+  });
+
+  /* ── print receipt ── */
+  window.printReceipt = function() {
+    updateDisplay();
+    var studio = document.getElementById('studio');
+    var receipt = document.getElementById('receipt');
+
+    /* show right panel */
+    studio.classList.add('printed');
+
+    /* reset animation */
+    receipt.classList.remove('printing','done');
+    receipt.style.maxHeight = '0';
+    void receipt.offsetWidth;
+
+    /* start slow feed animation */
+    receipt.classList.add('printing');
+
+    /* after animation, lock to done state */
+    setTimeout(function(){
+      receipt.classList.remove('printing');
+      receipt.style.maxHeight = '';
+      receipt.classList.add('done');
+    }, 3600);
+  };
+
+  /* ── mood ── */
+  window.pickMood = function(btn) {
+    document.querySelectorAll('.mood-btn').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    currentMood = btn.dataset.mood;
+    updateDisplay();
+  };
+
+  /* ── custom emoji ── */
+  window.addEmoji = function() {
+    var val = document.getElementById('custom-emoji').value.trim();
+    if (!val) return;
+    var moodRow = document.getElementById('mood-row');
+    var btn = document.createElement('button');
+    btn.className = 'mood-btn'; btn.dataset.mood = val; btn.textContent = val;
+    btn.onclick = function(){ pickMood(this); };
+    moodRow.appendChild(btn);
+    document.getElementById('custom-emoji').value = '';
+    pickMood(btn);
+  };
+
+  /* ── phrase picker ── */
+  window.pickPhrase = function(btn) {
+    document.querySelectorAll('.total-phrase-btn').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    currentPhrase = btn.dataset.phrase;
+    updateDisplay();
+  };
+
+  /* ── randomize ── */
+  var dramaItems = [
+    ['OVERTHINKING FEE','∞'],['BOBA TAX','$6.25'],['ONE UNREAD MSG','PENDING'],
+    ['MAIN CHARACTER SURCHARGE','PRICELESS'],['SITUATIONSHIP DEPOSIT','NON-REFUNDABLE'],
+    ['SOFT LAUNCH (FAILED)','$0.00'],['CRYING IN THE SHOWER','THERAPEUTIC'],
+    ['DELULU SEASON PASS','$999'],['ROMAN EMPIRE THOUGHT','FREE'],
+    ['VILLAIN ERA TRIAL','EXPIRED'],['PARASOCIAL BOND FEE','TBD'],
+    ['SEROTONIN (OOS)','BACKORDER'],['RED FLAG DISCOUNT','-$0.00'],
+    ['LATE NIGHT SPIRAL','2AM'],['ACCOUNTABILITY WAIVER','DECLINED'],
+    ['CHAOTIC GOOD TAX','FIXED'],['NPC DAY REFUND','DENIED'],['PLOT TWIST INSURANCE','VOID'],
+  ];
+  var dramaHeaders = ['MAIN CHARACTER STORE','FEELINGS MART','DRAMA DEPOT','INNER WORLD CO.','CHAOS CENTRAL','TODAY ONLY'];
+  var dramaMoods   = ['🫠','💅','😭','🔥','✨','🤍','⚡','🌸'];
+  var dramaNotes   = ['handle with care','no refunds on feelings','receipt valid forever','keep for your records','emotionally binding'];
+
+  window.randomize = function() {
+    var shuffled = dramaItems.slice().sort(function(){return Math.random()-.5;}).slice(0,5);
+    document.getElementById('in-store').value = dramaHeaders[Math.floor(Math.random()*dramaHeaders.length)];
+    document.getElementById('in-name').value  = 'YOU · RIGHT NOW';
+    document.getElementById('in-date').value  = 'JUL 11 2026';
+    document.getElementById('in-note').value  = dramaNotes[Math.floor(Math.random()*dramaNotes.length)];
+    var nameInputs  = document.querySelectorAll('[data-type="name"]');
+    var priceInputs = document.querySelectorAll('[data-type="price"]');
+    shuffled.forEach(function(item,i){
+      if(nameInputs[i]) nameInputs[i].value = item[0];
+      if(priceInputs[i]) priceInputs[i].value = item[1];
+    });
+    var mood = dramaMoods[Math.floor(Math.random()*dramaMoods.length)];
+    var moodBtns = document.querySelectorAll('.mood-btn');
+    moodBtns.forEach(function(b){ b.classList.remove('selected'); });
+    var found = null;
+    moodBtns.forEach(function(b){ if(b.dataset.mood===mood) found=b; });
+    if(found){ found.classList.add('selected'); currentMood=mood; }
+    else { moodBtns[0].classList.add('selected'); currentMood=moodBtns[0].dataset.mood; }
+    updateDisplay();
+  };
+
+  /* ── save PNG ── */
+  window.saveReceipt = function() {
+    html2canvas(document.getElementById('receipt'),{
+      backgroundColor:'#ffffff', scale:3, useCORS:true, logging:false
+    }).then(function(canvas){
+      var link = document.createElement('a');
+      link.download = 'receipt-' + Date.now() + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  };
+
+  /* init */
+  updateDisplay();
+
+  /* cursor */
+  var cur=document.createElement('div'); cur.id='cursor'; document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button,input,textarea').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
