@@ -25,14 +25,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
     }
 
     /* ── toolbar ── */
-    .toolbar { display:flex;flex-direction:column;align-items:center;gap:10px; }
+    .toolbar { display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:560px; }
 
-    .tool-row { display:flex;align-items:center;gap:8px; }
-
+    .tool-row { display:flex;align-items:center;gap:8px;width:100%; }
     .row-label {
       font-size:9px;letter-spacing:.2em;text-transform:uppercase;
       color:var(--muted);width:52px;text-align:right;flex-shrink:0;
@@ -40,13 +39,10 @@
 
     /* shape buttons */
     .shape-btn {
-      width:52px;height:52px;
-      border-radius:10px;
-      border:2px solid rgba(255,255,255,.1);
-      background:#13101a;
+      width:52px;height:52px;border-radius:10px;
+      border:2px solid rgba(255,255,255,.1);background:#13101a;
       cursor:pointer;padding:0;overflow:hidden;
-      transition:border-color .15s,transform .15s,box-shadow .15s;
-      flex-shrink:0;
+      transition:border-color .15s,transform .15s,box-shadow .15s;flex-shrink:0;
     }
     .shape-btn svg { display:block;pointer-events:none; }
     .shape-btn:hover { border-color:rgba(255,255,255,.3);transform:scale(1.06); }
@@ -55,31 +51,49 @@
       box-shadow:0 0 0 2px rgba(255,255,255,.2),0 8px 20px rgba(0,0,0,.5);
     }
 
+    /* fill tab (color / fabric) */
+    .fill-tab-row {
+      display:flex;align-items:center;gap:8px;
+    }
+    .fill-tabs {
+      display:flex;border-radius:8px;overflow:hidden;
+      border:1.5px solid rgba(255,255,255,.15);
+    }
+    .fill-tab {
+      padding:6px 14px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      cursor:pointer;border:none;background:transparent;
+      color:rgba(255,255,255,.3);font-family:inherit;transition:background .15s,color .15s;
+    }
+    .fill-tab.active { background:rgba(255,255,255,.12);color:#fff; }
+
     /* color chips */
+    .chip-wrap {
+      display:flex;flex-wrap:wrap;gap:5px;flex:1;
+    }
     .color-chip {
-      width:38px;height:38px;
-      border-radius:8px;border:2.5px solid transparent;
+      width:30px;height:30px;border-radius:7px;border:2.5px solid transparent;
       cursor:pointer;flex-shrink:0;
       transition:transform .15s,border-color .15s,box-shadow .15s;
     }
-    .color-chip:hover { transform:scale(1.12); }
+    .color-chip:hover { transform:scale(1.15); }
     .color-chip.active {
       border-color:#fff;transform:scale(1.1);
       box-shadow:0 0 0 1px rgba(255,255,255,.3);
     }
 
-    /* palette toggle A / B */
-    .palette-toggle {
-      display:flex;border-radius:8px;overflow:hidden;
-      border:1.5px solid rgba(255,255,255,.15);
-      margin-left:6px;
+    /* pattern swatches */
+    .pat-swatch {
+      width:52px;height:52px;border-radius:10px;
+      border:2px solid rgba(255,255,255,.1);
+      cursor:pointer;flex-shrink:0;overflow:hidden;
+      background-size:cover;background-position:center;
+      transition:transform .15s,border-color .15s,box-shadow .15s;
     }
-    .pal-btn {
-      padding:6px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;
-      cursor:pointer;border:none;background:transparent;
-      color:rgba(255,255,255,.35);font-family:inherit;transition:background .15s,color .15s;
+    .pat-swatch:hover { transform:scale(1.08);border-color:rgba(255,255,255,.3); }
+    .pat-swatch.active {
+      border-color:#fff;transform:scale(1.08);
+      box-shadow:0 0 0 2px rgba(255,255,255,.2),0 8px 20px rgba(0,0,0,.5);
     }
-    .pal-btn.active { background:rgba(255,255,255,.12);color:#fff; }
 
     /* ── brush indicator ── */
     .brush-bar {
@@ -88,16 +102,15 @@
       color:var(--muted);min-height:24px;
     }
     .brush-preview {
-      width:28px;height:28px;border-radius:6px;border:1.5px solid rgba(255,255,255,.18);
+      width:30px;height:30px;border-radius:6px;border:1.5px solid rgba(255,255,255,.18);
       overflow:hidden;background:#13101a;flex-shrink:0;
+      background-size:cover;background-position:center;
     }
     .brush-preview svg { display:block; }
     .brush-label { color:rgba(255,255,255,.55); }
 
-    /* ── hint ── */
-    .hint-bar {
-      font-size:10px;color:var(--muted);letter-spacing:.06em;text-align:center;line-height:1.8;
-    }
+    /* hint */
+    .hint-bar { font-size:10px;color:var(--muted);letter-spacing:.06em;text-align:center;line-height:1.8; }
     .hint-bar strong { color:rgba(255,255,255,.45); }
 
     /* ── quilt grid ── */
@@ -106,28 +119,19 @@
       grid-template-columns:repeat(3,clamp(90px,26vw,160px));
       grid-template-rows:repeat(3,clamp(90px,26vw,160px));
       border:3px solid rgba(255,255,255,.14);
-      border-radius:6px;overflow:hidden;
-      background:rgba(0,0,0,.3);
+      border-radius:6px;overflow:hidden;background:rgba(0,0,0,.3);
     }
-
     .quilt-cell {
-      position:relative;
-      border:1.5px solid rgba(255,255,255,.1);
+      position:relative;border:1.5px solid rgba(255,255,255,.1);
       box-sizing:border-box;overflow:hidden;
-      background:#2a2630; /* empty cell dark bg */
-      cursor:pointer;
+      background:#2a2630;cursor:pointer;
     }
     .quilt-cell svg { display:block;width:100%;height:100%; }
-
-    /* crosshair cursor in color mode */
     body.mode-color .quilt-cell { cursor:crosshair; }
-
-    /* hover ghost in tile mode */
+    body.mode-pattern .quilt-cell { cursor:crosshair; }
     body.mode-tile .quilt-cell:hover { outline:2px inset rgba(255,255,255,.25); }
-
-    /* piece hover (color mode) */
-    body.mode-color .quilt-cell .piece { cursor:crosshair; }
-    body.mode-color .quilt-cell .piece:hover { opacity:.8; }
+    body.mode-color .quilt-cell .piece:hover,
+    body.mode-pattern .quilt-cell .piece:hover { opacity:.82; }
 
     /* ── actions ── */
     .action-row { display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
@@ -172,23 +176,33 @@
   <div class="day-content">
     <div class="studio">
 
-      <!-- toolbar -->
       <div class="toolbar">
 
         <!-- row 1: shapes -->
         <div class="tool-row">
           <div class="row-label">pattern</div>
-          <div id="shape-row"></div>
+          <div id="shape-row" style="display:flex;gap:6px;"></div>
         </div>
 
-        <!-- row 2: colors + palette toggle -->
-        <div class="tool-row">
-          <div class="row-label">color</div>
-          <div id="color-row"></div>
-          <div class="palette-toggle">
-            <button class="pal-btn active" id="pal-a" onclick="switchPalette('A')">A</button>
-            <button class="pal-btn" id="pal-b" onclick="switchPalette('B')">B</button>
+        <!-- row 2: fill mode tabs -->
+        <div class="tool-row" style="justify-content:flex-end;gap:0;">
+          <div class="row-label" style="visibility:hidden;">_</div>
+          <div class="fill-tabs">
+            <button class="fill-tab active" id="tab-color"   onclick="switchTab('color')">color</button>
+            <button class="fill-tab"        id="tab-pattern" onclick="switchTab('pattern')">fabric</button>
           </div>
+        </div>
+
+        <!-- row 3: color chips (shown when color tab active) -->
+        <div class="tool-row" id="color-row-wrap">
+          <div class="row-label">fill</div>
+          <div class="chip-wrap" id="color-row"></div>
+        </div>
+
+        <!-- row 4: pattern swatches (shown when fabric tab active, hidden by default) -->
+        <div class="tool-row" id="pattern-row-wrap" style="display:none;">
+          <div class="row-label">fabric</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;" id="pattern-row"></div>
         </div>
 
       </div>
@@ -201,7 +215,7 @@
 
       <!-- hint -->
       <div class="hint-bar" id="hint-bar">
-        <strong>pattern mode:</strong> click a cell to place · click same pattern again to remove
+        <strong>pattern mode:</strong> click a cell to place · click same pattern to remove · click cell with different pattern to swap
       </div>
 
       <!-- 3×3 grid -->
@@ -228,184 +242,242 @@
 
   /* ── tile definitions ── */
   var TILES = [
-    { id:'tri-tl', label:'◤', name:'triangle ↖', pieces:2 },
-    { id:'tri-br', label:'◣', name:'triangle ↙', pieces:2 },
-    { id:'rect-h', label:'▬', name:'split horizontal', pieces:2 },
-    { id:'rect-v', label:'▮', name:'split vertical',   pieces:2 },
-    { id:'quad',   label:'⊞', name:'four squares',     pieces:4 }
+    { id:'tri-tl', name:'triangle ↖', pieces:2 },
+    { id:'tri-br', name:'triangle ↙', pieces:2 },
+    { id:'rect-h', name:'split horizontal', pieces:2 },
+    { id:'rect-v', name:'split vertical',   pieces:2 },
+    { id:'quad',   name:'four squares',     pieces:4 }
   ];
 
-  /* ── palettes ── */
-  var PALETTES = {
-    A: [
-      { id:'rasp',    hex:'#FF3197', name:'raspberry macaron' },
-      { id:'candy',   hex:'#FF99DF', name:'candy floss'       },
-      { id:'cream',   hex:'#FFAC8F', name:'creamsicle mousse' },
-      { id:'vanilla', hex:'#FEFDB2', name:'vanilla pudding'   },
-      { id:'hawaii',  hex:'#6CEBEF', name:'blue hawaii'       },
-      { id:'sky',     hex:'#9BB7E8', name:'sky crepe'         }
-    ],
-    B: [
-      { id:'choc',   hex:'#443025', name:'dark chocolate' },
-      { id:'aloe',   hex:'#7F5836', name:'aloewood'       },
-      { id:'milktea',hex:'#AA7F66', name:'milk tea'       },
-      { id:'sakura', hex:'#EC9C9D', name:'sakura'         },
-      { id:'misty',  hex:'#F2CFCA', name:'misty rose'     }
-    ]
-  };
+  /* ── unified color palette: candy + sakura + 4 new ── */
+  var COLORS = [
+    { id:'rasp',    hex:'#FF3197', name:'raspberry macaron' },
+    { id:'candy',   hex:'#FF99DF', name:'candy floss'       },
+    { id:'cream',   hex:'#FFAC8F', name:'creamsicle mousse' },
+    { id:'vanilla', hex:'#FEFDB2', name:'vanilla pudding'   },
+    { id:'hawaii',  hex:'#6CEBEF', name:'blue hawaii'       },
+    { id:'skycrep', hex:'#9BB7E8', name:'sky crepe'         },
+    { id:'choc',    hex:'#443025', name:'dark chocolate'    },
+    { id:'aloe',    hex:'#7F5836', name:'aloewood'          },
+    { id:'milktea', hex:'#AA7F66', name:'milk tea'          },
+    { id:'sakura',  hex:'#EC9C9D', name:'sakura'            },
+    { id:'misty',   hex:'#F2CFCA', name:'misty rose'        },
+    { id:'dnavy',   hex:'#03043D', name:'deep navy'         },
+    { id:'amber',   hex:'#FF9900', name:'amber glow'        },
+    { id:'sunbeam', hex:'#FFE604', name:'sunbeam yellow'    },
+    { id:'alice',   hex:'#E0F0FF', name:'alice blue'        }
+  ];
 
-  var NEUTRAL = '#4a4558'; /* uncolored piece: muted purple-gray */
-  var activePal = 'A';
-  var tool = null; /* {kind:'tile', tileId} or {kind:'color', hex, name} */
-  var grid = Array(9).fill(null); /* each: null | {tileId, colors:[]} */
+  /* ── pattern palette: 10 quilt images ── */
+  var BASE = '90days/day23_pattern/';
+  var PATTERNS = [
+    { id:'q1',  src: BASE+'quilt1.jpg',  name:'quilt 1'  },
+    { id:'q2',  src: BASE+'quilt2.png',  name:'quilt 2'  },
+    { id:'q3',  src: BASE+'quilt3.jpg',  name:'quilt 3'  },
+    { id:'q4',  src: BASE+'quilt4.jpg',  name:'quilt 4'  },
+    { id:'q5',  src: BASE+'quilt5.jpg',  name:'quilt 5'  },
+    { id:'q6',  src: BASE+'quilt6.jpg',  name:'quilt 6'  },
+    { id:'q7',  src: BASE+'quilt7.jpg',  name:'quilt 7'  },
+    { id:'q8',  src: BASE+'quilt8.jpg',  name:'quilt 8'  },
+    { id:'q9',  src: BASE+'quilt9.png',  name:'quilt 9'  },
+    { id:'q10', src: BASE+'quilt10.jpg', name:'quilt 10' }
+  ];
 
-  /* ── SVG helpers ── */
+  var NEUTRAL    = '#4a4558';
+  var activeTab  = 'color';   /* 'color' | 'pattern' */
+  var tool       = null;      /* {kind:'tile'|'color'|'pattern', ...} */
+  var grid       = Array(9).fill(null);
+  /* grid[ci]: null | { tileId, fills: [{kind:'neutral'|'color'|'pattern', value/src}] } */
+
+  /* ── SVG piece builders ── */
   function poly(pts, fill, pi) {
     return '<polygon class="piece" data-pi="' + pi + '" points="' + pts + '" fill="' + fill + '"/>';
   }
-  function rect(x, y, w, h, fill, pi) {
+  function rct(x, y, w, h, fill, pi) {
     return '<rect class="piece" data-pi="' + pi + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + fill + '"/>';
   }
   function seam(x1, y1, x2, y2) {
-    return '<line class="seam" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="rgba(0,0,0,.2)" stroke-width="2" pointer-events="none"/>';
+    return '<line class="seam" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="rgba(0,0,0,.22)" stroke-width="2" pointer-events="none"/>';
   }
 
-  function tileSVG(tileId, colors, size) {
-    var s = size; var h = s / 2;
-    var inner = '';
+  /* Build SVG for a cell — handles both color and pattern fills */
+  function tileSVG(ci, tileId, fills, size) {
+    var s = size, h = s / 2;
 
+    /* pattern defs — one per piece that uses a pattern fill */
+    var defs = '<defs>';
+    fills.forEach(function(fill, pi) {
+      if (fill && fill.kind === 'pattern') {
+        var pid = 'cq' + ci + 'p' + pi;
+        defs += '<pattern id="' + pid + '" patternUnits="userSpaceOnUse" width="' + s + '" height="' + s + '">';
+        /* image covers full cell area; each piece sees its natural slice */
+        defs += '<image href="' + fill.src + '" x="0" y="0" width="' + s + '" height="' + s + '" preserveAspectRatio="xMidYMid slice"/>';
+        defs += '</pattern>';
+      }
+    });
+    defs += '</defs>';
+
+    function f(pi) {
+      var fill = fills[pi];
+      if (!fill || fill.kind === 'neutral') return NEUTRAL;
+      if (fill.kind === 'color')   return fill.value;
+      return 'url(#cq' + ci + 'p' + pi + ')';
+    }
+
+    var inner = defs;
     if (tileId === 'tri-tl') {
-      inner += poly('0,0 ' + s + ',0 0,' + s, colors[0], 0);
-      inner += poly(s + ',0 ' + s + ',' + s + ' 0,' + s, colors[1], 1);
-      inner += seam(s, 0, 0, s);
+      inner += poly('0,0 '+s+',0 0,'+s,         f(0), 0);
+      inner += poly(s+',0 '+s+','+s+' 0,'+s,    f(1), 1);
+      inner += seam(s,0,0,s);
     } else if (tileId === 'tri-br') {
-      inner += poly('0,0 ' + s + ',0 ' + s + ',' + s, colors[0], 0);
-      inner += poly('0,0 0,' + s + ' ' + s + ',' + s, colors[1], 1);
-      inner += seam(0, 0, s, s);
+      inner += poly('0,0 '+s+',0 '+s+','+s,     f(0), 0);
+      inner += poly('0,0 0,'+s+' '+s+','+s,     f(1), 1);
+      inner += seam(0,0,s,s);
     } else if (tileId === 'rect-h') {
-      inner += rect(0, 0, s, h, colors[0], 0);
-      inner += rect(0, h, s, h, colors[1], 1);
-      inner += seam(0, h, s, h);
+      inner += rct(0, 0, s, h, f(0), 0);
+      inner += rct(0, h, s, h, f(1), 1);
+      inner += seam(0,h,s,h);
     } else if (tileId === 'rect-v') {
-      inner += rect(0, 0, h, s, colors[0], 0);
-      inner += rect(h, 0, h, s, colors[1], 1);
-      inner += seam(h, 0, h, s);
+      inner += rct(0, 0, h, s, f(0), 0);
+      inner += rct(h, 0, h, s, f(1), 1);
+      inner += seam(h,0,h,s);
     } else if (tileId === 'quad') {
-      inner += rect(0, 0, h, h, colors[0], 0);
-      inner += rect(h, 0, h, h, colors[1], 1);
-      inner += rect(0, h, h, h, colors[2], 2);
-      inner += rect(h, h, h, h, colors[3], 3);
-      inner += seam(h, 0, h, s);
-      inner += seam(0, h, s, h);
+      inner += rct(0, 0, h, h, f(0), 0);
+      inner += rct(h, 0, h, h, f(1), 1);
+      inner += rct(0, h, h, h, f(2), 2);
+      inner += rct(h, h, h, h, f(3), 3);
+      inner += seam(h,0,h,s); inner += seam(0,h,s,h);
     }
 
-    return '<svg viewBox="0 0 ' + s + ' ' + s + '" xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' + inner + '</svg>';
+    return '<svg viewBox="0 0 '+s+' '+s+'" xmlns="http://www.w3.org/2000/svg" width="'+s+'" height="'+s+'">'+inner+'</svg>';
   }
 
-  /* mini preview for shape buttons: two-tone neutral */
+  /* Shape preview for toolbar buttons */
   function shapePreviewSVG(tileId, size) {
-    var light = 'rgba(255,255,255,.7)';
-    var dark  = 'rgba(255,255,255,.2)';
-    var s = size; var h = s / 2;
-    var inner = '';
-
-    if (tileId === 'tri-tl') {
-      inner += '<polygon points="0,0 ' + s + ',0 0,' + s + '" fill="' + light + '"/>';
-      inner += '<polygon points="' + s + ',0 ' + s + ',' + s + ' 0,' + s + '" fill="' + dark + '"/>';
-      inner += '<line x1="' + s + '" y1="0" x2="0" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
-    } else if (tileId === 'tri-br') {
-      inner += '<polygon points="0,0 ' + s + ',0 ' + s + ',' + s + '" fill="' + light + '"/>';
-      inner += '<polygon points="0,0 0,' + s + ' ' + s + ',' + s + '" fill="' + dark + '"/>';
-      inner += '<line x1="0" y1="0" x2="' + s + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
-    } else if (tileId === 'rect-h') {
-      inner += '<rect x="0" y="0" width="' + s + '" height="' + h + '" fill="' + light + '"/>';
-      inner += '<rect x="0" y="' + h + '" width="' + s + '" height="' + h + '" fill="' + dark + '"/>';
-      inner += '<line x1="0" y1="' + h + '" x2="' + s + '" y2="' + h + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
-    } else if (tileId === 'rect-v') {
-      inner += '<rect x="0" y="0" width="' + h + '" height="' + s + '" fill="' + light + '"/>';
-      inner += '<rect x="' + h + '" y="0" width="' + h + '" height="' + s + '" fill="' + dark + '"/>';
-      inner += '<line x1="' + h + '" y1="0" x2="' + h + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+    var s = size, h = s/2;
+    var lt = 'rgba(255,255,255,.75)', dk = 'rgba(255,255,255,.2)', ln = 'rgba(0,0,0,.3)';
+    var i = '';
+    if (tileId==='tri-tl') {
+      i='<polygon points="0,0 '+s+',0 0,'+s+'" fill="'+lt+'"/><polygon points="'+s+',0 '+s+','+s+' 0,'+s+'" fill="'+dk+'"/><line x1="'+s+'" y1="0" x2="0" y2="'+s+'" stroke="'+ln+'" stroke-width="1.5"/>';
+    } else if (tileId==='tri-br') {
+      i='<polygon points="0,0 '+s+',0 '+s+','+s+'" fill="'+lt+'"/><polygon points="0,0 0,'+s+' '+s+','+s+'" fill="'+dk+'"/><line x1="0" y1="0" x2="'+s+'" y2="'+s+'" stroke="'+ln+'" stroke-width="1.5"/>';
+    } else if (tileId==='rect-h') {
+      i='<rect x="0" y="0" width="'+s+'" height="'+h+'" fill="'+lt+'"/><rect x="0" y="'+h+'" width="'+s+'" height="'+h+'" fill="'+dk+'"/><line x1="0" y1="'+h+'" x2="'+s+'" y2="'+h+'" stroke="'+ln+'" stroke-width="1.5"/>';
+    } else if (tileId==='rect-v') {
+      i='<rect x="0" y="0" width="'+h+'" height="'+s+'" fill="'+lt+'"/><rect x="'+h+'" y="0" width="'+h+'" height="'+s+'" fill="'+dk+'"/><line x1="'+h+'" y1="0" x2="'+h+'" y2="'+s+'" stroke="'+ln+'" stroke-width="1.5"/>';
     } else {
-      inner += '<rect x="0" y="0" width="' + h + '" height="' + h + '" fill="' + light + '"/>';
-      inner += '<rect x="' + h + '" y="0" width="' + h + '" height="' + h + '" fill="' + dark + '"/>';
-      inner += '<rect x="0" y="' + h + '" width="' + h + '" height="' + h + '" fill="' + dark + '"/>';
-      inner += '<rect x="' + h + '" y="' + h + '" width="' + h + '" height="' + h + '" fill="' + light + '"/>';
-      inner += '<line x1="' + h + '" y1="0" x2="' + h + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
-      inner += '<line x1="0" y1="' + h + '" x2="' + s + '" y2="' + h + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+      i='<rect x="0" y="0" width="'+h+'" height="'+h+'" fill="'+lt+'"/><rect x="'+h+'" y="0" width="'+h+'" height="'+h+'" fill="'+dk+'"/><rect x="0" y="'+h+'" width="'+h+'" height="'+h+'" fill="'+dk+'"/><rect x="'+h+'" y="'+h+'" width="'+h+'" height="'+h+'" fill="'+lt+'"/><line x1="'+h+'" y1="0" x2="'+h+'" y2="'+s+'" stroke="'+ln+'" stroke-width="1.5"/><line x1="0" y1="'+h+'" x2="'+s+'" y2="'+h+'" stroke="'+ln+'" stroke-width="1.5"/>';
     }
-
-    return '<svg viewBox="0 0 ' + s + ' ' + s + '" xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' + inner + '</svg>';
+    return '<svg viewBox="0 0 '+s+' '+s+'" xmlns="http://www.w3.org/2000/svg" width="'+s+'" height="'+s+'">'+i+'</svg>';
   }
 
   /* ── build shape row ── */
   function buildShapeRow() {
     var row = document.getElementById('shape-row');
-    row.style.cssText = 'display:flex;gap:6px;';
     row.innerHTML = '';
     TILES.forEach(function(tile) {
       var btn = document.createElement('button');
-      btn.className = 'shape-btn' + (tool && tool.kind === 'tile' && tool.tileId === tile.id ? ' active' : '');
-      btn.id = 'shapebtn-' + tile.id;
+      btn.className = 'shape-btn' + (tool && tool.kind==='tile' && tool.tileId===tile.id ? ' active' : '');
+      btn.id = 'sb-' + tile.id;
       btn.title = tile.name;
       btn.innerHTML = shapePreviewSVG(tile.id, 52);
-      btn.addEventListener('click', function() { selectTileTool(tile); });
+      btn.addEventListener('click', function(){ selectTileTool(tile); });
       row.appendChild(btn);
     });
   }
 
-  /* ── build color row ── */
+  /* ── build color chips ── */
   function buildColorRow() {
     var row = document.getElementById('color-row');
-    row.style.cssText = 'display:flex;gap:6px;';
     row.innerHTML = '';
-    var pal = PALETTES[activePal];
-    pal.forEach(function(color) {
+    COLORS.forEach(function(c) {
       var chip = document.createElement('div');
-      chip.className = 'color-chip' + (tool && tool.kind === 'color' && tool.hex === color.hex ? ' active' : '');
-      chip.id = 'colorbtn-' + color.id;
-      chip.style.background = color.hex;
-      if (color.hex === '#FFFFE0' || color.hex === '#F2E9A0' || color.hex === '#87FFCF') {
-        chip.style.border = '2.5px solid rgba(255,255,255,.35)';
-      }
-      chip.title = color.name;
-      chip.addEventListener('click', function() { selectColorTool(color); });
+      chip.className = 'color-chip' + (tool && tool.kind==='color' && tool.value===c.hex ? ' active' : '');
+      chip.id = 'cc-' + c.id;
+      chip.style.background = c.hex;
+      /* light color chips get a subtle border so they're visible on dark bg */
+      var lum = parseInt(c.hex.slice(1,3),16)*0.299 + parseInt(c.hex.slice(3,5),16)*0.587 + parseInt(c.hex.slice(5,7),16)*0.114;
+      if (lum > 180) chip.style.boxShadow = 'inset 0 0 0 1px rgba(0,0,0,.18)';
+      chip.title = c.name;
+      chip.addEventListener('click', function(){ selectColorTool(c); });
       row.appendChild(chip);
     });
   }
+
+  /* ── build pattern swatches ── */
+  function buildPatternRow() {
+    var row = document.getElementById('pattern-row');
+    row.innerHTML = '';
+    PATTERNS.forEach(function(p) {
+      var sw = document.createElement('div');
+      sw.className = 'pat-swatch' + (tool && tool.kind==='pattern' && tool.src===p.src ? ' active' : '');
+      sw.id = 'ps-' + p.id;
+      sw.style.backgroundImage = 'url("' + p.src + '")';
+      sw.title = p.name;
+      sw.addEventListener('click', function(){ selectPatternTool(p); });
+      row.appendChild(sw);
+    });
+  }
+
+  /* ── switch fill tab ── */
+  window.switchTab = function(tab) {
+    activeTab = tab;
+    document.getElementById('tab-color').classList.toggle('active',   tab==='color');
+    document.getElementById('tab-pattern').classList.toggle('active', tab==='pattern');
+    document.getElementById('color-row-wrap').style.display   = (tab==='color')   ? '' : 'none';
+    document.getElementById('pattern-row-wrap').style.display = (tab==='pattern') ? '' : 'none';
+    /* deselect fill tool when switching tabs */
+    if (tool && (tool.kind==='color' || tool.kind==='pattern')) {
+      tool = null;
+      document.body.className = 'day-page mode-tile';
+      updateBrushBar();
+      updateHint();
+    }
+  };
 
   /* ── select tile tool ── */
   function selectTileTool(tile) {
     tool = { kind:'tile', tileId:tile.id, tileName:tile.name };
     document.body.className = 'day-page mode-tile';
-    updateToolHighlights();
+    updateHighlights();
     updateBrushBar();
     updateHint();
   }
 
   /* ── select color tool ── */
-  function selectColorTool(color) {
-    tool = { kind:'color', hex:color.hex, name:color.name };
+  function selectColorTool(c) {
+    tool = { kind:'color', value:c.hex, name:c.name };
     document.body.className = 'day-page mode-color';
-    updateToolHighlights();
+    updateHighlights();
     updateBrushBar();
     updateHint();
   }
 
-  function updateToolHighlights() {
+  /* ── select pattern tool ── */
+  function selectPatternTool(p) {
+    tool = { kind:'pattern', src:p.src, name:p.name };
+    document.body.className = 'day-page mode-pattern';
+    updateHighlights();
+    updateBrushBar();
+    updateHint();
+  }
+
+  function updateHighlights() {
     document.querySelectorAll('.shape-btn').forEach(function(b){ b.classList.remove('active'); });
     document.querySelectorAll('.color-chip').forEach(function(c){ c.classList.remove('active'); });
+    document.querySelectorAll('.pat-swatch').forEach(function(s){ s.classList.remove('active'); });
     if (!tool) return;
     if (tool.kind === 'tile') {
-      var b = document.getElementById('shapebtn-' + tool.tileId);
+      var b = document.getElementById('sb-' + tool.tileId);
       if (b) b.classList.add('active');
-    } else {
-      var pal = PALETTES[activePal];
-      pal.forEach(function(color){
-        if (color.hex === tool.hex) {
-          var c = document.getElementById('colorbtn-' + color.id);
-          if (c) c.classList.add('active');
-        }
-      });
+    } else if (tool.kind === 'color') {
+      var matching = null;
+      COLORS.forEach(function(c){ if (c.hex === tool.value) matching = c.id; });
+      if (matching) { var el = document.getElementById('cc-' + matching); if (el) el.classList.add('active'); }
+    } else if (tool.kind === 'pattern') {
+      var matching = null;
+      PATTERNS.forEach(function(p){ if (p.src === tool.src) matching = p.id; });
+      if (matching) { var el = document.getElementById('ps-' + matching); if (el) el.classList.add('active'); }
     }
   }
 
@@ -414,45 +486,37 @@
     var label   = document.getElementById('brush-label');
     if (!tool) {
       preview.innerHTML = '';
+      preview.style.backgroundImage = '';
       label.textContent = '← pick a pattern to start';
       return;
     }
     if (tool.kind === 'tile') {
-      preview.innerHTML = shapePreviewSVG(tool.tileId, 28);
+      preview.innerHTML = shapePreviewSVG(tool.tileId, 30);
+      preview.style.backgroundImage = '';
       label.textContent = tool.tileName;
+    } else if (tool.kind === 'color') {
+      preview.innerHTML = '';
+      preview.style.backgroundImage = '';
+      preview.style.background = tool.value;
+      label.textContent = tool.name;
     } else {
-      preview.innerHTML = '<div style="width:28px;height:28px;background:' + tool.hex + ';"></div>';
+      preview.innerHTML = '';
+      preview.style.background = '#13101a';
+      preview.style.backgroundImage = 'url("' + tool.src + '")';
+      preview.style.backgroundSize = 'cover';
+      preview.style.backgroundPosition = 'center';
       label.textContent = tool.name;
     }
   }
 
   function updateHint() {
     var bar = document.getElementById('hint-bar');
-    if (!tool) {
-      bar.innerHTML = '← pick a pattern to start';
-      return;
-    }
-    if (tool.kind === 'tile') {
-      bar.innerHTML = '<strong>pattern mode:</strong> click empty cell to place · click same pattern to remove · click cell with different pattern to swap';
+    if (!tool || tool.kind==='tile') {
+      bar.innerHTML = '<strong>pattern mode:</strong> click a cell to place · click same pattern to remove · click cell with different pattern to swap';
     } else {
-      bar.innerHTML = '<strong>color mode:</strong> click any piece inside a cell to paint it · click a pattern to switch back';
+      bar.innerHTML = '<strong>fill mode:</strong> click any piece inside a cell to fill it · click a pattern button to switch back';
     }
   }
-
-  /* ── switch palette ── */
-  window.switchPalette = function(id) {
-    activePal = id;
-    document.getElementById('pal-a').classList.toggle('active', id === 'A');
-    document.getElementById('pal-b').classList.toggle('active', id === 'B');
-    /* if current tool is a color, reset it (color from old palette) */
-    if (tool && tool.kind === 'color') {
-      tool = null;
-      document.body.className = 'day-page mode-tile';
-      updateBrushBar();
-      updateHint();
-    }
-    buildColorRow();
-  };
 
   /* ── build grid ── */
   function buildGrid() {
@@ -465,7 +529,6 @@
       cell.dataset.ci = i;
       gridEl.appendChild(cell);
     }
-
     gridEl.addEventListener('click', function(e) {
       var cellEl = e.target.closest('.quilt-cell');
       if (!cellEl || !tool) return;
@@ -474,47 +537,43 @@
       if (tool.kind === 'tile') {
         var cur = grid[ci];
         if (!cur) {
-          /* place new tile, all pieces neutral */
           var t = getTileDef(tool.tileId);
-          grid[ci] = { tileId: tool.tileId, colors: Array(t.pieces).fill(NEUTRAL) };
+          grid[ci] = { tileId: tool.tileId, fills: Array(t.pieces).fill(null).map(function(){ return {kind:'neutral'}; }) };
         } else if (cur.tileId === tool.tileId) {
-          /* same pattern → remove */
-          grid[ci] = null;
+          grid[ci] = null; /* same → remove */
         } else {
-          /* different pattern → swap, reset colors */
           var t = getTileDef(tool.tileId);
-          grid[ci] = { tileId: tool.tileId, colors: Array(t.pieces).fill(NEUTRAL) };
+          grid[ci] = { tileId: tool.tileId, fills: Array(t.pieces).fill(null).map(function(){ return {kind:'neutral'}; }) };
         }
         renderCell(ci);
-
-      } else if (tool.kind === 'color') {
-        var pieceEl = e.target.closest('.piece');
-        if (!pieceEl || !grid[ci]) return;
-        var pi = parseInt(pieceEl.dataset.pi);
-        grid[ci].colors[pi] = tool.hex;
-        renderCell(ci);
+        return;
       }
+
+      /* color or pattern: paint the clicked piece */
+      var pieceEl = e.target.closest('.piece');
+      if (!pieceEl || !grid[ci]) return;
+      var pi = parseInt(pieceEl.dataset.pi);
+      if (tool.kind === 'color') {
+        grid[ci].fills[pi] = { kind:'color', value:tool.value };
+      } else {
+        grid[ci].fills[pi] = { kind:'pattern', src:tool.src };
+      }
+      renderCell(ci);
     });
   }
 
   function getTileDef(id) {
-    for (var i = 0; i < TILES.length; i++) {
-      if (TILES[i].id === id) return TILES[i];
-    }
+    for (var i = 0; i < TILES.length; i++) if (TILES[i].id === id) return TILES[i];
     return null;
   }
 
   function renderCell(ci) {
-    var cellEl = document.getElementById('cell-' + ci);
-    if (!cellEl) return;
+    var el = document.getElementById('cell-' + ci);
+    if (!el) return;
     var state = grid[ci];
-    if (!state) {
-      cellEl.innerHTML = '';
-      return;
-    }
-    /* get real size from rendered element */
-    var size = cellEl.offsetWidth || 160;
-    cellEl.innerHTML = tileSVG(state.tileId, state.colors, size);
+    if (!state) { el.innerHTML = ''; return; }
+    var size = el.offsetWidth || 160;
+    el.innerHTML = tileSVG(ci, state.tileId, state.fills, size);
   }
 
   /* ── actions ── */
@@ -528,6 +587,7 @@
       backgroundColor: '#1a1620',
       scale: 4,
       useCORS: true,
+      allowTaint: true,
       logging: false
     }).then(function(canvas) {
       var a = document.createElement('a');
@@ -540,23 +600,22 @@
   /* ── init ── */
   buildShapeRow();
   buildColorRow();
+  buildPatternRow();
   buildGrid();
   updateHint();
 
-  /* re-render on resize (cell size may change) */
-  var resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      for (var i = 0; i < 9; i++) renderCell(i);
-    }, 150);
+  /* re-render on resize */
+  var rsz;
+  window.addEventListener('resize', function(){
+    clearTimeout(rsz);
+    rsz = setTimeout(function(){ for(var i=0;i<9;i++) renderCell(i); }, 150);
   });
 
   /* custom cursor */
   var cur = document.createElement('div'); cur.id = 'cursor'; document.body.appendChild(cur);
   var mx=-100,my=-100,cx=-100,cy=-100;
   window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
-  document.querySelectorAll('a,button,.color-chip,.shape-btn').forEach(function(el){
+  document.querySelectorAll('a,button,.color-chip,.shape-btn,.pat-swatch').forEach(function(el){
     el.addEventListener('mouseenter', function(){ cur.classList.add('hovered'); });
     el.addEventListener('mouseleave', function(){ cur.classList.remove('hovered'); });
   });
