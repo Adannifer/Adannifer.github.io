@@ -10,172 +10,141 @@
     body.day-page { --accent: #E8385B; }
 
     .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
-    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); border:1px solid rgba(232,56,91,.4); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
-    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:dot-pulse 1.8s ease-in-out infinite; }
-    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.5);} }
-    .day-num-bg { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(232,56,91,0.15); letter-spacing:-0.03em; margin-bottom:-20px; }
-    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-0.045em; line-height:0.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-badge { display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(232,56,91,.4);padding:5px 12px;border-radius:6px;margin-bottom:24px; }
+    .day-badge .dot { width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dot-pulse 1.8s ease-in-out infinite; }
+    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.5);} }
+    .day-num-bg { font-size:clamp(72px,14vw,160px);font-weight:700;line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(232,56,91,.15);letter-spacing:-.03em;margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:900;letter-spacing:-.045em;line-height:.88;text-transform:uppercase;margin-bottom:2rem; }
     .day-title .accent { color:var(--accent); }
-    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
-    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+    .day-meta { display:flex;flex-wrap:wrap;gap:24px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:32px; }
+    .day-statement { max-width:760px;font-size:clamp(15px,2vw,18px);line-height:1.65;color:var(--ink-dim);border-left:2px solid var(--accent);padding-left:20px;font-style:italic; }
 
     /* ── studio ── */
     .studio {
-      padding: 60px 6vw 80px;
+      padding: 56px 6vw 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 40px;
+      gap: 28px;
     }
 
-    /* ── palette ── */
-    .palette-hint {
-      font-size: 11px;
-      letter-spacing: .08em;
-      color: var(--muted);
-      text-align: center;
+    /* ── toolbar ── */
+    .toolbar { display:flex;flex-direction:column;align-items:center;gap:10px; }
+
+    .tool-row { display:flex;align-items:center;gap:8px; }
+
+    .row-label {
+      font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--muted);width:52px;text-align:right;flex-shrink:0;
     }
 
-    .palette-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    /* shape buttons */
+    .shape-btn {
+      width:52px;height:52px;
+      border-radius:10px;
+      border:2px solid rgba(255,255,255,.1);
+      background:#13101a;
+      cursor:pointer;padding:0;overflow:hidden;
+      transition:border-color .15s,transform .15s,box-shadow .15s;
+      flex-shrink:0;
+    }
+    .shape-btn svg { display:block;pointer-events:none; }
+    .shape-btn:hover { border-color:rgba(255,255,255,.3);transform:scale(1.06); }
+    .shape-btn.active {
+      border-color:#fff;transform:scale(1.06);
+      box-shadow:0 0 0 2px rgba(255,255,255,.2),0 8px 20px rgba(0,0,0,.5);
     }
 
-    .palette-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* color chips */
+    .color-chip {
+      width:38px;height:38px;
+      border-radius:8px;border:2.5px solid transparent;
+      cursor:pointer;flex-shrink:0;
+      transition:transform .15s,border-color .15s,box-shadow .15s;
+    }
+    .color-chip:hover { transform:scale(1.12); }
+    .color-chip.active {
+      border-color:#fff;transform:scale(1.1);
+      box-shadow:0 0 0 1px rgba(255,255,255,.3);
     }
 
-    .shape-label {
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      width: 68px;
-      text-align: right;
-      flex-shrink: 0;
+    /* palette toggle A / B */
+    .palette-toggle {
+      display:flex;border-radius:8px;overflow:hidden;
+      border:1.5px solid rgba(255,255,255,.15);
+      margin-left:6px;
     }
+    .pal-btn {
+      padding:6px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;
+      cursor:pointer;border:none;background:transparent;
+      color:rgba(255,255,255,.35);font-family:inherit;transition:background .15s,color .15s;
+    }
+    .pal-btn.active { background:rgba(255,255,255,.12);color:#fff; }
 
-    .swatches {
-      display: flex;
-      gap: 6px;
-    }
-
-    .swatch {
-      width: 54px; height: 54px;
-      border-radius: 10px;
-      border: 2px solid rgba(255,255,255,.1);
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform .15s, border-color .15s, box-shadow .15s;
-      background: #13101a;
-    }
-    .swatch:hover { transform: scale(1.1); border-color: rgba(255,255,255,.3); }
-    .swatch.active {
-      border-color: #fff;
-      transform: scale(1.08);
-      box-shadow: 0 0 0 2px rgba(255,255,255,.2), 0 8px 24px rgba(0,0,0,.5);
-    }
-    .swatch svg { display: block; }
-
-    .swatch-erase {
-      width: 54px; height: 54px;
-      border-radius: 10px;
-      border: 2px dashed rgba(255,255,255,.15);
-      cursor: pointer;
-      background: transparent;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; color: rgba(255,255,255,.3);
-      transition: border-color .15s, color .15s, transform .15s;
-      flex-shrink: 0;
-    }
-    .swatch-erase:hover { border-color: rgba(255,255,255,.45); color: rgba(255,255,255,.65); transform: scale(1.08); }
-    .swatch-erase.active { border-color: #fff; color: #fff; }
-
-    /* brush indicator */
+    /* ── brush indicator ── */
     .brush-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
+      display:flex;align-items:center;gap:10px;
+      font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--muted);min-height:24px;
     }
-    .brush-thumb {
-      width: 30px; height: 30px;
-      border-radius: 6px;
-      border: 1.5px solid rgba(255,255,255,.18);
-      overflow: hidden;
-      background: #13101a;
-      flex-shrink: 0;
+    .brush-preview {
+      width:28px;height:28px;border-radius:6px;border:1.5px solid rgba(255,255,255,.18);
+      overflow:hidden;background:#13101a;flex-shrink:0;
     }
-    .brush-thumb svg { display: block; }
-    .brush-text { color: rgba(255,255,255,.6); }
+    .brush-preview svg { display:block; }
+    .brush-label { color:rgba(255,255,255,.55); }
+
+    /* ── hint ── */
+    .hint-bar {
+      font-size:10px;color:var(--muted);letter-spacing:.06em;text-align:center;line-height:1.8;
+    }
+    .hint-bar strong { color:rgba(255,255,255,.45); }
 
     /* ── quilt grid ── */
     .quilt-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 160px);
-      grid-template-rows: repeat(3, 160px);
-      border: 3px solid rgba(255,255,255,.14);
-      border-radius: 6px;
-      overflow: hidden;
-      background: rgba(255,255,255,.05);
+      display:grid;
+      grid-template-columns:repeat(3,clamp(90px,26vw,160px));
+      grid-template-rows:repeat(3,clamp(90px,26vw,160px));
+      border:3px solid rgba(255,255,255,.14);
+      border-radius:6px;overflow:hidden;
+      background:rgba(0,0,0,.3);
     }
 
     .quilt-cell {
-      width: 160px; height: 160px;
-      position: relative;
-      border: 1.5px solid rgba(255,255,255,.1);
-      box-sizing: border-box;
-      overflow: hidden;
-      cursor: crosshair;
-      background: #f8f4ef;
+      position:relative;
+      border:1.5px solid rgba(255,255,255,.1);
+      box-sizing:border-box;overflow:hidden;
+      background:#2a2630; /* empty cell dark bg */
+      cursor:pointer;
     }
-    .quilt-cell.has-brush:hover::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(255,255,255,.1);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .quilt-cell svg { display: block; width: 160px; height: 160px; }
+    .quilt-cell svg { display:block;width:100%;height:100%; }
+
+    /* crosshair cursor in color mode */
+    body.mode-color .quilt-cell { cursor:crosshair; }
+
+    /* hover ghost in tile mode */
+    body.mode-tile .quilt-cell:hover { outline:2px inset rgba(255,255,255,.25); }
+
+    /* piece hover (color mode) */
+    body.mode-color .quilt-cell .piece { cursor:crosshair; }
+    body.mode-color .quilt-cell .piece:hover { opacity:.8; }
 
     /* ── actions ── */
-    .action-row {
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-    }
+    .action-row { display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
     .btn-q {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,.18);
-      border-radius: 10px;
-      color: var(--muted);
-      font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      padding: 11px 22px;
-      cursor: pointer; font-family: inherit;
-      transition: border-color .2s, color .2s;
+      background:transparent;border:1.5px solid rgba(255,255,255,.18);border-radius:10px;
+      color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:11px 22px;cursor:pointer;font-family:inherit;transition:border-color .2s,color .2s;
     }
-    .btn-q:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-q:hover { border-color:var(--accent);color:var(--accent); }
     .btn-q.primary {
-      background: linear-gradient(135deg,#E8385B,#ff7090);
-      border-color: transparent; color: #fff;
-      box-shadow: 0 6px 20px rgba(232,56,91,.35);
+      background:linear-gradient(135deg,#E8385B,#ff7090);
+      border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(232,56,91,.35);
     }
-    .btn-q.primary:hover { opacity: .88; }
-
-    @media (max-width: 560px) {
-      .quilt-grid { grid-template-columns: repeat(3,104px); grid-template-rows: repeat(3,104px); }
-      .quilt-cell { width:104px; height:104px; }
-      .quilt-cell svg { width:104px; height:104px; }
-      .shape-label { width: 44px; font-size: 8px; }
-      .swatch { width: 46px; height: 46px; }
-    }
+    .btn-q.primary:hover { opacity:.88; }
   </style>
 </head>
-<body class="day-page">
+<body class="day-page mode-tile">
 
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <nav id="nav">
@@ -203,15 +172,36 @@
   <div class="day-content">
     <div class="studio">
 
-      <p class="palette-hint">pick a shape + color · click cells to fill · click again to change</p>
+      <!-- toolbar -->
+      <div class="toolbar">
 
-      <!-- palette: 3 shape rows × 5 colors -->
-      <div class="palette-wrap" id="palette-wrap"></div>
+        <!-- row 1: shapes -->
+        <div class="tool-row">
+          <div class="row-label">pattern</div>
+          <div id="shape-row"></div>
+        </div>
 
-      <!-- selected brush -->
+        <!-- row 2: colors + palette toggle -->
+        <div class="tool-row">
+          <div class="row-label">color</div>
+          <div id="color-row"></div>
+          <div class="palette-toggle">
+            <button class="pal-btn active" id="pal-a" onclick="switchPalette('A')">A</button>
+            <button class="pal-btn" id="pal-b" onclick="switchPalette('B')">B</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- brush indicator -->
       <div class="brush-bar">
-        <div class="brush-thumb" id="brush-thumb"></div>
-        <span class="brush-text" id="brush-text">— select a piece above —</span>
+        <div class="brush-preview" id="brush-preview"></div>
+        <span class="brush-label" id="brush-label">← pick a pattern to start</span>
+      </div>
+
+      <!-- hint -->
+      <div class="hint-bar" id="hint-bar">
+        <strong>pattern mode:</strong> click a cell to place · click same pattern again to remove
       </div>
 
       <!-- 3×3 grid -->
@@ -219,8 +209,8 @@
 
       <!-- actions -->
       <div class="action-row">
-        <button class="btn-q" onclick="clearGrid()">Clear all</button>
-        <button class="btn-q primary" onclick="saveGrid()">↓ Save PNG</button>
+        <button class="btn-q" onclick="clearAll()">Clear all</button>
+        <button class="btn-q primary" onclick="saveQuilt()">↓ Save PNG</button>
       </div>
 
     </div>
@@ -236,126 +226,232 @@
 <script>
 (function(){
 
-  var COLORS = [
-    { id:'rose',  hex:'#E8385B', name:'rose'  },
-    { id:'gold',  hex:'#FFB703', name:'gold'  },
-    { id:'sage',  hex:'#6BAF6E', name:'sage'  },
-    { id:'sky',   hex:'#4AB8D8', name:'sky'   },
-    { id:'lilac', hex:'#B57BDF', name:'lilac' }
+  /* ── tile definitions ── */
+  var TILES = [
+    { id:'tri-tl', label:'◤', name:'triangle ↖', pieces:2 },
+    { id:'tri-br', label:'◣', name:'triangle ↙', pieces:2 },
+    { id:'rect-h', label:'▬', name:'split horizontal', pieces:2 },
+    { id:'rect-v', label:'▮', name:'split vertical',   pieces:2 },
+    { id:'quad',   label:'⊞', name:'four squares',     pieces:4 }
   ];
 
-  var SHAPES = [
-    { id:'triangle',  name:'triangle'  },
-    { id:'rectangle', name:'rectangle' },
-    { id:'square',    name:'square'    }
-  ];
+  /* ── palettes ── */
+  var PALETTES = {
+    A: [
+      { id:'navy',   hex:'#1B3A6B', name:'navy'   },
+      { id:'yellow', hex:'#F2E9A0', name:'yellow' },
+      { id:'red',    hex:'#C94F3A', name:'red'    },
+      { id:'sage',   hex:'#6BA37A', name:'sage'   },
+      { id:'purple', hex:'#9B7DB8', name:'purple' }
+    ],
+    B: [
+      { id:'twilight',  hex:'#03045E', name:'twilight'    },
+      { id:'amber',     hex:'#FF9900', name:'amber'       },
+      { id:'sky',       hex:'#00B5D9', name:'sky surge'   },
+      { id:'aqua',      hex:'#87FFCF', name:'aquamarine'  },
+      { id:'lightyel',  hex:'#FFFFE0', name:'light yellow'}
+    ]
+  };
 
-  var BG = '#f8f4ef'; /* cream — the fabric backing color */
-  var brush = null;   /* {shape, color} or null */
-  var grid  = Array(9).fill(null);
+  var NEUTRAL = '#4a4558'; /* uncolored piece: muted purple-gray */
+  var activePal = 'A';
+  var tool = null; /* {kind:'tile', tileId} or {kind:'color', hex, name} */
+  var grid = Array(9).fill(null); /* each: null | {tileId, colors:[]} */
 
-  /* ── render a shape into SVG markup ── */
-  function makeSVG(shapeId, colorHex, size) {
-    var s = size;
+  /* ── SVG helpers ── */
+  function poly(pts, fill, pi) {
+    return '<polygon class="piece" data-pi="' + pi + '" points="' + pts + '" fill="' + fill + '"/>';
+  }
+  function rect(x, y, w, h, fill, pi) {
+    return '<rect class="piece" data-pi="' + pi + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + fill + '"/>';
+  }
+  function seam(x1, y1, x2, y2) {
+    return '<line class="seam" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="rgba(0,0,0,.2)" stroke-width="2" pointer-events="none"/>';
+  }
+
+  function tileSVG(tileId, colors, size) {
+    var s = size; var h = s / 2;
     var inner = '';
-    inner += '<rect width="' + s + '" height="' + s + '" fill="' + BG + '"/>';
 
-    if (shapeId === 'triangle') {
-      inner += '<polygon points="0,0 ' + s + ',0 0,' + s + '" fill="' + colorHex + '"/>';
-    } else if (shapeId === 'rectangle') {
-      var pad = Math.round(s * 0.28);
-      var h   = Math.round(s * 0.44);
-      inner += '<rect x="0" y="' + pad + '" width="' + s + '" height="' + h + '" fill="' + colorHex + '"/>';
-    } else {
-      inner += '<rect width="' + s + '" height="' + s + '" fill="' + colorHex + '"/>';
+    if (tileId === 'tri-tl') {
+      inner += poly('0,0 ' + s + ',0 0,' + s, colors[0], 0);
+      inner += poly(s + ',0 ' + s + ',' + s + ' 0,' + s, colors[1], 1);
+      inner += seam(s, 0, 0, s);
+    } else if (tileId === 'tri-br') {
+      inner += poly('0,0 ' + s + ',0 ' + s + ',' + s, colors[0], 0);
+      inner += poly('0,0 0,' + s + ' ' + s + ',' + s, colors[1], 1);
+      inner += seam(0, 0, s, s);
+    } else if (tileId === 'rect-h') {
+      inner += rect(0, 0, s, h, colors[0], 0);
+      inner += rect(0, h, s, h, colors[1], 1);
+      inner += seam(0, h, s, h);
+    } else if (tileId === 'rect-v') {
+      inner += rect(0, 0, h, s, colors[0], 0);
+      inner += rect(h, 0, h, s, colors[1], 1);
+      inner += seam(h, 0, h, s);
+    } else if (tileId === 'quad') {
+      inner += rect(0, 0, h, h, colors[0], 0);
+      inner += rect(h, 0, h, h, colors[1], 1);
+      inner += rect(0, h, h, h, colors[2], 2);
+      inner += rect(h, h, h, h, colors[3], 3);
+      inner += seam(h, 0, h, s);
+      inner += seam(0, h, s, h);
     }
-
-    /* seam line — thin inner border */
-    var sw = Math.max(1, Math.round(s * 0.03));
-    inner += '<rect width="' + s + '" height="' + s + '" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="' + sw + '"/>';
 
     return '<svg viewBox="0 0 ' + s + ' ' + s + '" xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' + inner + '</svg>';
   }
 
-  /* ── build palette ── */
-  function buildPalette() {
-    var wrap = document.getElementById('palette-wrap');
-    wrap.innerHTML = '';
+  /* mini preview for shape buttons: two-tone neutral */
+  function shapePreviewSVG(tileId, size) {
+    var light = 'rgba(255,255,255,.7)';
+    var dark  = 'rgba(255,255,255,.2)';
+    var s = size; var h = s / 2;
+    var inner = '';
 
-    SHAPES.forEach(function(shape, si) {
-      var row = document.createElement('div');
-      row.className = 'palette-row';
-
-      var lbl = document.createElement('div');
-      lbl.className = 'shape-label';
-      lbl.textContent = shape.name;
-      row.appendChild(lbl);
-
-      var sw = document.createElement('div');
-      sw.className = 'swatches';
-
-      COLORS.forEach(function(color) {
-        var el = document.createElement('div');
-        el.className = 'swatch';
-        el.setAttribute('data-shape', shape.id);
-        el.setAttribute('data-color', color.id);
-        el.title = shape.name + ' · ' + color.name;
-        el.innerHTML = makeSVG(shape.id, color.hex, 54);
-        el.addEventListener('click', function(){ selectBrush(shape, color); });
-        sw.appendChild(el);
-      });
-
-      /* eraser on last row */
-      if (si === SHAPES.length - 1) {
-        var er = document.createElement('div');
-        er.className = 'swatch-erase';
-        er.id = 'erase-btn';
-        er.title = 'Erase';
-        er.textContent = '✕';
-        er.addEventListener('click', function(){ selectBrush(null, null); });
-        sw.appendChild(er);
-      }
-
-      row.appendChild(sw);
-      wrap.appendChild(row);
-    });
-  }
-
-  /* ── select brush ── */
-  function selectBrush(shape, color) {
-    brush = (shape && color) ? { shape: shape, color: color } : null;
-
-    /* highlight active swatch */
-    document.querySelectorAll('.swatch').forEach(function(el){ el.classList.remove('active'); });
-    var er = document.getElementById('erase-btn');
-    if (er) er.classList.remove('active');
-
-    if (brush) {
-      var sel = document.querySelector('.swatch[data-shape="' + shape.id + '"][data-color="' + color.id + '"]');
-      if (sel) sel.classList.add('active');
-    } else if (shape === null) {
-      if (er) er.classList.add('active');
-    }
-
-    /* update brush bar */
-    var thumb = document.getElementById('brush-thumb');
-    var text  = document.getElementById('brush-text');
-    if (brush) {
-      thumb.innerHTML = makeSVG(brush.shape.id, brush.color.hex, 30);
-      text.textContent = brush.shape.name + ' · ' + brush.color.name;
-    } else if (shape === null) {
-      thumb.innerHTML = '';
-      text.textContent = 'eraser';
+    if (tileId === 'tri-tl') {
+      inner += '<polygon points="0,0 ' + s + ',0 0,' + s + '" fill="' + light + '"/>';
+      inner += '<polygon points="' + s + ',0 ' + s + ',' + s + ' 0,' + s + '" fill="' + dark + '"/>';
+      inner += '<line x1="' + s + '" y1="0" x2="0" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+    } else if (tileId === 'tri-br') {
+      inner += '<polygon points="0,0 ' + s + ',0 ' + s + ',' + s + '" fill="' + light + '"/>';
+      inner += '<polygon points="0,0 0,' + s + ' ' + s + ',' + s + '" fill="' + dark + '"/>';
+      inner += '<line x1="0" y1="0" x2="' + s + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+    } else if (tileId === 'rect-h') {
+      inner += '<rect x="0" y="0" width="' + s + '" height="' + h + '" fill="' + light + '"/>';
+      inner += '<rect x="0" y="' + h + '" width="' + s + '" height="' + h + '" fill="' + dark + '"/>';
+      inner += '<line x1="0" y1="' + h + '" x2="' + s + '" y2="' + h + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+    } else if (tileId === 'rect-v') {
+      inner += '<rect x="0" y="0" width="' + h + '" height="' + s + '" fill="' + light + '"/>';
+      inner += '<rect x="' + h + '" y="0" width="' + h + '" height="' + s + '" fill="' + dark + '"/>';
+      inner += '<line x1="' + h + '" y1="0" x2="' + h + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
     } else {
-      thumb.innerHTML = '';
-      text.textContent = '— select a piece above —';
+      inner += '<rect x="0" y="0" width="' + h + '" height="' + h + '" fill="' + light + '"/>';
+      inner += '<rect x="' + h + '" y="0" width="' + h + '" height="' + h + '" fill="' + dark + '"/>';
+      inner += '<rect x="0" y="' + h + '" width="' + h + '" height="' + h + '" fill="' + dark + '"/>';
+      inner += '<rect x="' + h + '" y="' + h + '" width="' + h + '" height="' + h + '" fill="' + light + '"/>';
+      inner += '<line x1="' + h + '" y1="0" x2="' + h + '" y2="' + s + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
+      inner += '<line x1="0" y1="' + h + '" x2="' + s + '" y2="' + h + '" stroke="rgba(0,0,0,.3)" stroke-width="1.5"/>';
     }
 
-    /* update grid cell hover class */
-    document.querySelectorAll('.quilt-cell').forEach(function(c){
-      c.classList.toggle('has-brush', !!brush);
+    return '<svg viewBox="0 0 ' + s + ' ' + s + '" xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' + inner + '</svg>';
+  }
+
+  /* ── build shape row ── */
+  function buildShapeRow() {
+    var row = document.getElementById('shape-row');
+    row.style.cssText = 'display:flex;gap:6px;';
+    row.innerHTML = '';
+    TILES.forEach(function(tile) {
+      var btn = document.createElement('button');
+      btn.className = 'shape-btn' + (tool && tool.kind === 'tile' && tool.tileId === tile.id ? ' active' : '');
+      btn.id = 'shapebtn-' + tile.id;
+      btn.title = tile.name;
+      btn.innerHTML = shapePreviewSVG(tile.id, 52);
+      btn.addEventListener('click', function() { selectTileTool(tile); });
+      row.appendChild(btn);
     });
   }
+
+  /* ── build color row ── */
+  function buildColorRow() {
+    var row = document.getElementById('color-row');
+    row.style.cssText = 'display:flex;gap:6px;';
+    row.innerHTML = '';
+    var pal = PALETTES[activePal];
+    pal.forEach(function(color) {
+      var chip = document.createElement('div');
+      chip.className = 'color-chip' + (tool && tool.kind === 'color' && tool.hex === color.hex ? ' active' : '');
+      chip.id = 'colorbtn-' + color.id;
+      chip.style.background = color.hex;
+      if (color.hex === '#FFFFE0' || color.hex === '#F2E9A0' || color.hex === '#87FFCF') {
+        chip.style.border = '2.5px solid rgba(255,255,255,.35)';
+      }
+      chip.title = color.name;
+      chip.addEventListener('click', function() { selectColorTool(color); });
+      row.appendChild(chip);
+    });
+  }
+
+  /* ── select tile tool ── */
+  function selectTileTool(tile) {
+    tool = { kind:'tile', tileId:tile.id, tileName:tile.name };
+    document.body.className = 'day-page mode-tile';
+    updateToolHighlights();
+    updateBrushBar();
+    updateHint();
+  }
+
+  /* ── select color tool ── */
+  function selectColorTool(color) {
+    tool = { kind:'color', hex:color.hex, name:color.name };
+    document.body.className = 'day-page mode-color';
+    updateToolHighlights();
+    updateBrushBar();
+    updateHint();
+  }
+
+  function updateToolHighlights() {
+    document.querySelectorAll('.shape-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.color-chip').forEach(function(c){ c.classList.remove('active'); });
+    if (!tool) return;
+    if (tool.kind === 'tile') {
+      var b = document.getElementById('shapebtn-' + tool.tileId);
+      if (b) b.classList.add('active');
+    } else {
+      var pal = PALETTES[activePal];
+      pal.forEach(function(color){
+        if (color.hex === tool.hex) {
+          var c = document.getElementById('colorbtn-' + color.id);
+          if (c) c.classList.add('active');
+        }
+      });
+    }
+  }
+
+  function updateBrushBar() {
+    var preview = document.getElementById('brush-preview');
+    var label   = document.getElementById('brush-label');
+    if (!tool) {
+      preview.innerHTML = '';
+      label.textContent = '← pick a pattern to start';
+      return;
+    }
+    if (tool.kind === 'tile') {
+      preview.innerHTML = shapePreviewSVG(tool.tileId, 28);
+      label.textContent = tool.tileName;
+    } else {
+      preview.innerHTML = '<div style="width:28px;height:28px;background:' + tool.hex + ';"></div>';
+      label.textContent = tool.name;
+    }
+  }
+
+  function updateHint() {
+    var bar = document.getElementById('hint-bar');
+    if (!tool) {
+      bar.innerHTML = '← pick a pattern to start';
+      return;
+    }
+    if (tool.kind === 'tile') {
+      bar.innerHTML = '<strong>pattern mode:</strong> click empty cell to place · click same pattern to remove · click cell with different pattern to swap';
+    } else {
+      bar.innerHTML = '<strong>color mode:</strong> click any piece inside a cell to paint it · click a pattern to switch back';
+    }
+  }
+
+  /* ── switch palette ── */
+  window.switchPalette = function(id) {
+    activePal = id;
+    document.getElementById('pal-a').classList.toggle('active', id === 'A');
+    document.getElementById('pal-b').classList.toggle('active', id === 'B');
+    /* if current tool is a color, reset it (color from old palette) */
+    if (tool && tool.kind === 'color') {
+      tool = null;
+      document.body.className = 'day-page mode-tile';
+      updateBrushBar();
+      updateHint();
+    }
+    buildColorRow();
+  };
 
   /* ── build grid ── */
   function buildGrid() {
@@ -365,38 +461,70 @@
       var cell = document.createElement('div');
       cell.className = 'quilt-cell';
       cell.id = 'cell-' + i;
-      cell.setAttribute('data-idx', i);
+      cell.dataset.ci = i;
       gridEl.appendChild(cell);
     }
+
     gridEl.addEventListener('click', function(e) {
-      var cell = e.target.closest('.quilt-cell');
-      if (!cell) return;
-      var idx = parseInt(cell.getAttribute('data-idx'));
-      if (brush) {
-        grid[idx] = { shape: brush.shape, color: brush.color };
-      } else {
-        grid[idx] = null; /* erase or no brush = clear cell */
+      var cellEl = e.target.closest('.quilt-cell');
+      if (!cellEl || !tool) return;
+      var ci = parseInt(cellEl.dataset.ci);
+
+      if (tool.kind === 'tile') {
+        var cur = grid[ci];
+        if (!cur) {
+          /* place new tile, all pieces neutral */
+          var t = getTileDef(tool.tileId);
+          grid[ci] = { tileId: tool.tileId, colors: Array(t.pieces).fill(NEUTRAL) };
+        } else if (cur.tileId === tool.tileId) {
+          /* same pattern → remove */
+          grid[ci] = null;
+        } else {
+          /* different pattern → swap, reset colors */
+          var t = getTileDef(tool.tileId);
+          grid[ci] = { tileId: tool.tileId, colors: Array(t.pieces).fill(NEUTRAL) };
+        }
+        renderCell(ci);
+
+      } else if (tool.kind === 'color') {
+        var pieceEl = e.target.closest('.piece');
+        if (!pieceEl || !grid[ci]) return;
+        var pi = parseInt(pieceEl.dataset.pi);
+        grid[ci].colors[pi] = tool.hex;
+        renderCell(ci);
       }
-      renderCell(idx);
     });
   }
 
-  function renderCell(idx) {
-    var el = document.getElementById('cell-' + idx);
-    if (!el) return;
-    var s = grid[idx];
-    el.innerHTML = s ? makeSVG(s.shape.id, s.color.hex, 160) : '';
+  function getTileDef(id) {
+    for (var i = 0; i < TILES.length; i++) {
+      if (TILES[i].id === id) return TILES[i];
+    }
+    return null;
+  }
+
+  function renderCell(ci) {
+    var cellEl = document.getElementById('cell-' + ci);
+    if (!cellEl) return;
+    var state = grid[ci];
+    if (!state) {
+      cellEl.innerHTML = '';
+      return;
+    }
+    /* get real size from rendered element */
+    var size = cellEl.offsetWidth || 160;
+    cellEl.innerHTML = tileSVG(state.tileId, state.colors, size);
   }
 
   /* ── actions ── */
-  window.clearGrid = function() {
+  window.clearAll = function() {
     grid = Array(9).fill(null);
     for (var i = 0; i < 9; i++) renderCell(i);
   };
 
-  window.saveGrid = function() {
+  window.saveQuilt = function() {
     html2canvas(document.getElementById('quilt-grid'), {
-      backgroundColor: BG,
+      backgroundColor: '#1a1620',
       scale: 4,
       useCORS: true,
       logging: false
@@ -409,14 +537,25 @@
   };
 
   /* ── init ── */
-  buildPalette();
+  buildShapeRow();
+  buildColorRow();
   buildGrid();
+  updateHint();
+
+  /* re-render on resize (cell size may change) */
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      for (var i = 0; i < 9; i++) renderCell(i);
+    }, 150);
+  });
 
   /* custom cursor */
   var cur = document.createElement('div'); cur.id = 'cursor'; document.body.appendChild(cur);
   var mx=-100,my=-100,cx=-100,cy=-100;
   window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
-  document.querySelectorAll('a,button').forEach(function(el){
+  document.querySelectorAll('a,button,.color-chip,.shape-btn').forEach(function(el){
     el.addEventListener('mouseenter', function(){ cur.classList.add('hovered'); });
     el.addEventListener('mouseleave', function(){ cur.classList.remove('hovered'); });
   });
