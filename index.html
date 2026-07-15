@@ -823,8 +823,20 @@
         const dist = Math.abs(mouseX - cx);
         // quadratic falloff: drops to 25% at half-range, 0 at full-range
         const t = dist < RANGE ? Math.pow(1 - dist / RANGE, 2) : 0;
-        item.style.width  = (BASE_W + (MAX_W - BASE_W) * t) + 'px';
-        item.style.height = (BASE_H + (MAX_H - BASE_H) * t) + 'px';
+        const img = item.querySelector('img');
+        if (t > 0.05 && img && img.naturalWidth > 0) {
+          // expand to image's natural aspect ratio at MAX_W
+          const naturalH = MAX_W * img.naturalHeight / img.naturalWidth;
+          const targetW = BASE_W + (MAX_W - BASE_W) * t;
+          const targetH = BASE_H + (naturalH - BASE_H) * t;
+          item.style.width  = targetW + 'px';
+          item.style.height = Math.max(targetH, BASE_H) + 'px';
+          img.style.objectFit = 'contain';
+        } else {
+          item.style.width  = (BASE_W + (MAX_W - BASE_W) * t) + 'px';
+          item.style.height = (BASE_H + (MAX_H - BASE_H) * t) + 'px';
+          if (img) img.style.objectFit = 'cover';
+        }
         item.style.transform = '';
       });
     }
@@ -833,6 +845,8 @@
       inner.querySelectorAll('.dk-item').forEach(item => {
         item.style.width  = '';
         item.style.height = '';
+        const img = item.querySelector('img');
+        if (img) img.style.objectFit = '';
       });
     }
 
