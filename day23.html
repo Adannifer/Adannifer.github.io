@@ -20,115 +20,131 @@
     .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
 
     /* ── studio ── */
-    .quilt-studio {
+    .studio {
       padding: 60px 6vw 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      gap: 40px;
     }
 
-    /* ── toolbar ── */
-    .toolbar {
+    /* ── palette ── */
+    .palette-hint {
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .palette-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .palette-row {
       display: flex;
       align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
+      gap: 8px;
     }
-    .toolbar-group { display: flex; align-items: center; gap: 8px; }
-    .toolbar-label { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-right: 2px; }
 
-    .tile-type-btn {
-      width: 46px; height: 46px;
-      border: 2px solid rgba(255,255,255,.15);
-      border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color .15s, background .15s;
-      padding: 0;
-    }
-    .tile-type-btn:hover { background: rgba(255,255,255,.12); }
-    .tile-type-btn.active { border-color: var(--accent); background: rgba(232,56,91,.18); }
-
-    .toolbar-sep { width: 1px; height: 40px; background: rgba(255,255,255,.1); }
-
-    .color-chip {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      border: 2.5px solid transparent;
-      cursor: pointer;
+    .shape-label {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      width: 68px;
+      text-align: right;
       flex-shrink: 0;
-      transition: transform .15s, border-color .15s;
     }
-    .color-chip:hover { transform: scale(1.15); }
-    .color-chip.active { border-color: #fff; transform: scale(1.1); box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
 
-    input.color-pick {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      border: 2.5px solid rgba(255,255,255,.2);
-      cursor: pointer; padding: 2px;
-      background: none; overflow: hidden;
+    .swatches {
+      display: flex;
+      gap: 6px;
     }
-    input.color-pick::-webkit-color-swatch-wrapper { padding: 0; }
-    input.color-pick::-webkit-color-swatch { border: none; border-radius: 5px; }
+
+    .swatch {
+      width: 54px; height: 54px;
+      border-radius: 10px;
+      border: 2px solid rgba(255,255,255,.1);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform .15s, border-color .15s, box-shadow .15s;
+      background: #13101a;
+    }
+    .swatch:hover { transform: scale(1.1); border-color: rgba(255,255,255,.3); }
+    .swatch.active {
+      border-color: #fff;
+      transform: scale(1.08);
+      box-shadow: 0 0 0 2px rgba(255,255,255,.2), 0 8px 24px rgba(0,0,0,.5);
+    }
+    .swatch svg { display: block; }
+
+    .swatch-erase {
+      width: 54px; height: 54px;
+      border-radius: 10px;
+      border: 2px dashed rgba(255,255,255,.15);
+      cursor: pointer;
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: rgba(255,255,255,.3);
+      transition: border-color .15s, color .15s, transform .15s;
+      flex-shrink: 0;
+    }
+    .swatch-erase:hover { border-color: rgba(255,255,255,.45); color: rgba(255,255,255,.65); transform: scale(1.08); }
+    .swatch-erase.active { border-color: #fff; color: #fff; }
+
+    /* brush indicator */
+    .brush-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .brush-thumb {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255,255,255,.18);
+      overflow: hidden;
+      background: #13101a;
+      flex-shrink: 0;
+    }
+    .brush-thumb svg { display: block; }
+    .brush-text { color: rgba(255,255,255,.6); }
 
     /* ── quilt grid ── */
     .quilt-grid {
       display: grid;
       grid-template-columns: repeat(3, 160px);
       grid-template-rows: repeat(3, 160px);
-      border: 3px solid rgba(255,255,255,.18);
+      border: 3px solid rgba(255,255,255,.14);
       border-radius: 6px;
       overflow: hidden;
-      background: #111;
+      background: rgba(255,255,255,.05);
     }
 
     .quilt-cell {
       width: 160px; height: 160px;
       position: relative;
-      border: 1.5px solid rgba(255,255,255,.15);
+      border: 1.5px solid rgba(255,255,255,.1);
       box-sizing: border-box;
       overflow: hidden;
-    }
-
-    .quilt-cell svg {
-      display: block;
-      width: 160px; height: 160px;
-    }
-
-    .quilt-cell svg .piece {
       cursor: crosshair;
-      transition: filter .1s;
+      background: #f8f4ef;
     }
-    .quilt-cell svg .piece:hover { filter: brightness(1.12); }
-
-    /* seam lines */
-    .quilt-cell svg .seam {
+    .quilt-cell.has-brush:hover::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,.1);
       pointer-events: none;
+      z-index: 2;
     }
+    .quilt-cell svg { display: block; width: 160px; height: 160px; }
 
-    /* type indicator badge */
-    .type-badge {
-      position: absolute;
-      bottom: 5px; right: 5px;
-      width: 20px; height: 20px;
-      background: rgba(0,0,0,.6);
-      border-radius: 5px;
-      font-size: 9px; font-weight: 800;
-      color: rgba(255,255,255,.75);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity .15s;
-      z-index: 5;
-      user-select: none;
-    }
-    .quilt-cell:hover .type-badge { opacity: 1; }
-
-    /* ── action row ── */
+    /* ── actions ── */
     .action-row {
       display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
     }
@@ -150,16 +166,12 @@
     }
     .btn-q.primary:hover { opacity: .88; }
 
-    /* hint text */
-    .hint {
-      font-size: 11px; color: var(--muted); letter-spacing: .06em;
-      text-align: center; line-height: 1.7;
-    }
-
-    @media (max-width: 540px) {
-      .quilt-grid { grid-template-columns: repeat(3,100px); grid-template-rows: repeat(3,100px); }
-      .quilt-cell { width:100px; height:100px; }
-      .quilt-cell svg { width:100px; height:100px; }
+    @media (max-width: 560px) {
+      .quilt-grid { grid-template-columns: repeat(3,104px); grid-template-rows: repeat(3,104px); }
+      .quilt-cell { width:104px; height:104px; }
+      .quilt-cell svg { width:104px; height:104px; }
+      .shape-label { width: 44px; font-size: 8px; }
+      .swatch { width: 46px; height: 46px; }
     }
   </style>
 </head>
@@ -189,59 +201,26 @@
   </div>
 
   <div class="day-content">
-    <div class="quilt-studio">
+    <div class="studio">
 
-      <!-- toolbar -->
-      <div class="toolbar">
-        <div class="toolbar-group">
-          <span class="toolbar-label">pattern</span>
-          <!-- type 1: half-square triangle -->
-          <button class="tile-type-btn active" id="typebtn-1" onclick="selectTool('type',1)" title="Half-square triangle">
-            <svg width="28" height="28" viewBox="0 0 28 28">
-              <polygon points="0,0 28,0 0,28" fill="rgba(255,255,255,.8)"/>
-              <polygon points="28,0 28,28 0,28" fill="rgba(255,255,255,.35)"/>
-              <line x1="0" y1="0" x2="28" y2="28" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
-            </svg>
-          </button>
-          <!-- type 2: two-patch -->
-          <button class="tile-type-btn" id="typebtn-2" onclick="selectTool('type',2)" title="Two-patch">
-            <svg width="28" height="28" viewBox="0 0 28 28">
-              <rect x="0" y="0" width="13" height="28" fill="rgba(255,255,255,.8)"/>
-              <rect x="15" y="0" width="13" height="28" fill="rgba(255,255,255,.35)"/>
-              <line x1="14" y1="0" x2="14" y2="28" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
-            </svg>
-          </button>
-          <!-- type 3: four-patch -->
-          <button class="tile-type-btn" id="typebtn-3" onclick="selectTool('type',3)" title="Four-patch">
-            <svg width="28" height="28" viewBox="0 0 28 28">
-              <rect x="0" y="0" width="13" height="13" fill="rgba(255,255,255,.8)"/>
-              <rect x="15" y="0" width="13" height="13" fill="rgba(255,255,255,.55)"/>
-              <rect x="0" y="15" width="13" height="13" fill="rgba(255,255,255,.55)"/>
-              <rect x="15" y="15" width="13" height="13" fill="rgba(255,255,255,.3)"/>
-              <line x1="14" y1="0" x2="14" y2="28" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
-              <line x1="0" y1="14" x2="28" y2="14" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
-            </svg>
-          </button>
-        </div>
+      <p class="palette-hint">pick a shape + color · click cells to fill · click again to change</p>
 
-        <div class="toolbar-sep"></div>
+      <!-- palette: 3 shape rows × 5 colors -->
+      <div class="palette-wrap" id="palette-wrap"></div>
 
-        <div class="toolbar-group" id="palette-group">
-          <span class="toolbar-label">color</span>
-          <!-- chips injected by JS -->
-        </div>
+      <!-- selected brush -->
+      <div class="brush-bar">
+        <div class="brush-thumb" id="brush-thumb"></div>
+        <span class="brush-text" id="brush-text">— select a piece above —</span>
       </div>
 
-      <!-- grid -->
+      <!-- 3×3 grid -->
       <div class="quilt-grid" id="quilt-grid"></div>
-
-      <p class="hint">Select a pattern or color above. Click any piece to apply.<br>Hover a cell and tap the badge to cycle its pattern type.</p>
 
       <!-- actions -->
       <div class="action-row">
-        <button class="btn-q" onclick="randomizeQuilt()">★ Randomize</button>
-        <button class="btn-q" onclick="clearQuilt()">Clear</button>
-        <button class="btn-q primary" onclick="saveQuilt()">↓ Save PNG</button>
+        <button class="btn-q" onclick="clearGrid()">Clear all</button>
+        <button class="btn-q primary" onclick="saveGrid()">↓ Save PNG</button>
       </div>
 
     </div>
@@ -257,162 +236,167 @@
 <script>
 (function(){
 
-  var PALETTE = [
-    '#F72585','#E63946','#FF6B35','#FFB703','#90BE6D',
-    '#43AA8B','#0077B6','#4CC9F0','#7B2FBE','#C77DFF',
-    '#FF9EBB','#ffffff','#d0d0d0','#555555','#111111'
+  var COLORS = [
+    { id:'rose',  hex:'#E8385B', name:'rose'  },
+    { id:'gold',  hex:'#FFB703', name:'gold'  },
+    { id:'sage',  hex:'#6BAF6E', name:'sage'  },
+    { id:'sky',   hex:'#4AB8D8', name:'sky'   },
+    { id:'lilac', hex:'#B57BDF', name:'lilac' }
   ];
 
-  var S = 160; // cell size
-  var GAP = 2; // seam line half-width
+  var SHAPES = [
+    { id:'triangle',  name:'triangle'  },
+    { id:'rectangle', name:'rectangle' },
+    { id:'square',    name:'square'    }
+  ];
 
-  var cells = [];
-  var tool = { kind: 'color', value: '#F72585' };
+  var BG = '#f8f4ef'; /* cream — the fabric backing color */
+  var brush = null;   /* {shape, color} or null */
+  var grid  = Array(9).fill(null);
 
-  /* ── init cells ── */
-  function initCells(random) {
-    cells = [];
-    for (var i = 0; i < 9; i++) {
-      cells.push({
-        type: random ? (Math.floor(Math.random() * 3) + 1) : 1,
-        colors: random
-          ? [rndColor(), rndColor(), rndColor(), rndColor()]
-          : ['#f8f4f0', '#ede8e3', '#f4f0eb', '#ece7e1']
-      });
-    }
-  }
+  /* ── render a shape into SVG markup ── */
+  function makeSVG(shapeId, colorHex, size) {
+    var s = size;
+    var inner = '';
+    inner += '<rect width="' + s + '" height="' + s + '" fill="' + BG + '"/>';
 
-  function rndColor() {
-    return PALETTE[Math.floor(Math.random() * 11)]; // only vibrant colors
-  }
-
-  /* ── palette ── */
-  function renderPalette() {
-    var group = document.getElementById('palette-group');
-    Array.from(group.querySelectorAll('.color-chip, .custom-wrap')).forEach(function(el){ el.remove(); });
-
-    PALETTE.forEach(function(c) {
-      var chip = document.createElement('div');
-      chip.className = 'color-chip' + (tool.kind === 'color' && tool.value === c ? ' active' : '');
-      chip.style.background = c;
-      if (c === '#ffffff') chip.style.border = '2.5px solid rgba(255,255,255,.35)';
-      chip.title = c;
-      chip.onclick = (function(col){ return function(){ selectTool('color', col); }; })(c);
-      group.appendChild(chip);
-    });
-
-    // custom color
-    var wrap = document.createElement('div'); wrap.className = 'custom-wrap';
-    var inp = document.createElement('input');
-    inp.type = 'color'; inp.className = 'color-pick'; inp.value = '#ffaabb'; inp.title = 'Custom';
-    inp.oninput = function(){ selectTool('color', this.value); };
-    wrap.appendChild(inp);
-    group.appendChild(wrap);
-  }
-
-  /* ── select tool ── */
-  window.selectTool = function(kind, value) {
-    tool = { kind: kind, value: value };
-    document.querySelectorAll('.tile-type-btn').forEach(function(b){ b.classList.remove('active'); });
-    if (kind === 'type') document.getElementById('typebtn-' + value).classList.add('active');
-    renderPalette();
-  };
-
-  /* ── render one cell ── */
-  function renderCell(idx) {
-    var cell = cells[idx];
-    var el = document.getElementById('cell-' + idx);
-    if (!el) return;
-
-    var svg = el.querySelector('svg');
-    var pieces = '';
-
-    if (cell.type === 1) {
-      // half-square triangle: top-left + bottom-right
-      pieces += mkPoly('0,0 ' + S + ',0 0,' + S, cell.colors[0], idx, 0);
-      pieces += mkPoly(S + ',0 ' + S + ',' + S + ' 0,' + S, cell.colors[1], idx, 1);
-      pieces += '<line class="seam" x1="' + S + '" y1="0" x2="0" y2="' + S + '" stroke="rgba(0,0,0,.18)" stroke-width="2"/>';
-    } else if (cell.type === 2) {
-      // two-patch vertical
-      pieces += mkRect(0, 0, S/2, S, cell.colors[0], idx, 0);
-      pieces += mkRect(S/2, 0, S/2, S, cell.colors[1], idx, 1);
-      pieces += '<line class="seam" x1="' + (S/2) + '" y1="0" x2="' + (S/2) + '" y2="' + S + '" stroke="rgba(0,0,0,.18)" stroke-width="2"/>';
+    if (shapeId === 'triangle') {
+      inner += '<polygon points="0,0 ' + s + ',0 0,' + s + '" fill="' + colorHex + '"/>';
+    } else if (shapeId === 'rectangle') {
+      var pad = Math.round(s * 0.28);
+      var h   = Math.round(s * 0.44);
+      inner += '<rect x="0" y="' + pad + '" width="' + s + '" height="' + h + '" fill="' + colorHex + '"/>';
     } else {
-      // four-patch
-      pieces += mkRect(0, 0, S/2, S/2, cell.colors[0], idx, 0);
-      pieces += mkRect(S/2, 0, S/2, S/2, cell.colors[1], idx, 1);
-      pieces += mkRect(0, S/2, S/2, S/2, cell.colors[2], idx, 2);
-      pieces += mkRect(S/2, S/2, S/2, S/2, cell.colors[3], idx, 3);
-      pieces += '<line class="seam" x1="' + (S/2) + '" y1="0" x2="' + (S/2) + '" y2="' + S + '" stroke="rgba(0,0,0,.18)" stroke-width="2"/>';
-      pieces += '<line class="seam" x1="0" y1="' + (S/2) + '" x2="' + S + '" y2="' + (S/2) + '" stroke="rgba(0,0,0,.18)" stroke-width="2"/>';
+      inner += '<rect width="' + s + '" height="' + s + '" fill="' + colorHex + '"/>';
     }
 
-    svg.innerHTML = pieces;
-    el.querySelector('.type-badge').textContent = cell.type;
+    /* seam line — thin inner border */
+    var sw = Math.max(1, Math.round(s * 0.03));
+    inner += '<rect width="' + s + '" height="' + s + '" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="' + sw + '"/>';
+
+    return '<svg viewBox="0 0 ' + s + ' ' + s + '" xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' + inner + '</svg>';
   }
 
-  function mkPoly(pts, fill, ci, pi) {
-    return '<polygon class="piece" points="' + pts + '" fill="' + fill + '" data-ci="' + ci + '" data-pi="' + pi + '"/>';
+  /* ── build palette ── */
+  function buildPalette() {
+    var wrap = document.getElementById('palette-wrap');
+    wrap.innerHTML = '';
+
+    SHAPES.forEach(function(shape, si) {
+      var row = document.createElement('div');
+      row.className = 'palette-row';
+
+      var lbl = document.createElement('div');
+      lbl.className = 'shape-label';
+      lbl.textContent = shape.name;
+      row.appendChild(lbl);
+
+      var sw = document.createElement('div');
+      sw.className = 'swatches';
+
+      COLORS.forEach(function(color) {
+        var el = document.createElement('div');
+        el.className = 'swatch';
+        el.setAttribute('data-shape', shape.id);
+        el.setAttribute('data-color', color.id);
+        el.title = shape.name + ' · ' + color.name;
+        el.innerHTML = makeSVG(shape.id, color.hex, 54);
+        el.addEventListener('click', function(){ selectBrush(shape, color); });
+        sw.appendChild(el);
+      });
+
+      /* eraser on last row */
+      if (si === SHAPES.length - 1) {
+        var er = document.createElement('div');
+        er.className = 'swatch-erase';
+        er.id = 'erase-btn';
+        er.title = 'Erase';
+        er.textContent = '✕';
+        er.addEventListener('click', function(){ selectBrush(null, null); });
+        sw.appendChild(er);
+      }
+
+      row.appendChild(sw);
+      wrap.appendChild(row);
+    });
   }
-  function mkRect(x, y, w, h, fill, ci, pi) {
-    return '<rect class="piece" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + fill + '" data-ci="' + ci + '" data-pi="' + pi + '"/>';
+
+  /* ── select brush ── */
+  function selectBrush(shape, color) {
+    brush = (shape && color) ? { shape: shape, color: color } : null;
+
+    /* highlight active swatch */
+    document.querySelectorAll('.swatch').forEach(function(el){ el.classList.remove('active'); });
+    var er = document.getElementById('erase-btn');
+    if (er) er.classList.remove('active');
+
+    if (brush) {
+      var sel = document.querySelector('.swatch[data-shape="' + shape.id + '"][data-color="' + color.id + '"]');
+      if (sel) sel.classList.add('active');
+    } else if (shape === null) {
+      if (er) er.classList.add('active');
+    }
+
+    /* update brush bar */
+    var thumb = document.getElementById('brush-thumb');
+    var text  = document.getElementById('brush-text');
+    if (brush) {
+      thumb.innerHTML = makeSVG(brush.shape.id, brush.color.hex, 30);
+      text.textContent = brush.shape.name + ' · ' + brush.color.name;
+    } else if (shape === null) {
+      thumb.innerHTML = '';
+      text.textContent = 'eraser';
+    } else {
+      thumb.innerHTML = '';
+      text.textContent = '— select a piece above —';
+    }
+
+    /* update grid cell hover class */
+    document.querySelectorAll('.quilt-cell').forEach(function(c){
+      c.classList.toggle('has-brush', !!brush);
+    });
   }
 
   /* ── build grid ── */
   function buildGrid() {
-    var grid = document.getElementById('quilt-grid');
-    grid.innerHTML = '';
-
+    var gridEl = document.getElementById('quilt-grid');
+    gridEl.innerHTML = '';
     for (var i = 0; i < 9; i++) {
       var cell = document.createElement('div');
       cell.className = 'quilt-cell';
       cell.id = 'cell-' + i;
-      cell.innerHTML = '<svg viewBox="0 0 ' + S + ' ' + S + '" xmlns="http://www.w3.org/2000/svg"></svg>'
-                     + '<div class="type-badge" data-ci="' + i + '"></div>';
-      grid.appendChild(cell);
-      renderCell(i);
+      cell.setAttribute('data-idx', i);
+      gridEl.appendChild(cell);
     }
-
-    // click delegation
-    grid.addEventListener('click', function(e) {
-      var badge = e.target.closest('.type-badge');
-      var piece = e.target.closest('.piece');
-
-      if (badge) {
-        var ci = parseInt(badge.dataset.ci);
-        cells[ci].type = (cells[ci].type % 3) + 1;
-        renderCell(ci);
-        return;
+    gridEl.addEventListener('click', function(e) {
+      var cell = e.target.closest('.quilt-cell');
+      if (!cell) return;
+      var idx = parseInt(cell.getAttribute('data-idx'));
+      if (brush) {
+        grid[idx] = { shape: brush.shape, color: brush.color };
+      } else {
+        grid[idx] = null; /* erase or no brush = clear cell */
       }
-
-      if (piece) {
-        var ci = parseInt(piece.dataset.ci);
-        var pi = parseInt(piece.dataset.pi);
-        if (tool.kind === 'color') {
-          cells[ci].colors[pi] = tool.value;
-          renderCell(ci);
-        } else if (tool.kind === 'type') {
-          cells[ci].type = tool.value;
-          renderCell(ci);
-        }
-      }
+      renderCell(idx);
     });
   }
 
+  function renderCell(idx) {
+    var el = document.getElementById('cell-' + idx);
+    if (!el) return;
+    var s = grid[idx];
+    el.innerHTML = s ? makeSVG(s.shape.id, s.color.hex, 160) : '';
+  }
+
   /* ── actions ── */
-  window.randomizeQuilt = function() {
-    initCells(true);
+  window.clearGrid = function() {
+    grid = Array(9).fill(null);
     for (var i = 0; i < 9; i++) renderCell(i);
   };
 
-  window.clearQuilt = function() {
-    initCells(false);
-    for (var i = 0; i < 9; i++) renderCell(i);
-  };
-
-  window.saveQuilt = function() {
+  window.saveGrid = function() {
     html2canvas(document.getElementById('quilt-grid'), {
-      backgroundColor: '#111111',
+      backgroundColor: BG,
       scale: 4,
       useCORS: true,
       logging: false
@@ -425,11 +409,10 @@
   };
 
   /* ── init ── */
-  initCells(false);
-  renderPalette();
+  buildPalette();
   buildGrid();
 
-  /* cursor */
+  /* custom cursor */
   var cur = document.createElement('div'); cur.id = 'cursor'; document.body.appendChild(cur);
   var mx=-100,my=-100,cx=-100,cy=-100;
   window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
