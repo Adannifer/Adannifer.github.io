@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 25 · Joydotz 35% Off Popup · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 5px 12px; border-radius: 2px; margin-bottom: 24px;
+    }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--pink); }
+    .day-num {
+      font-size: clamp(72px,14vw,160px); font-weight:700; line-height:0.85;
+      color:transparent; -webkit-text-stroke:1px rgba(247,241,234,0.15);
+      letter-spacing:-0.03em; margin-bottom:-20px;
+    }
+    .day-title {
+      font-size: clamp(2.2rem,5.5vw,4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.88;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .day-title .pink { color: var(--pink); }
+    .day-meta {
+      display:flex; flex-wrap:wrap; gap:24px; font-size:12px;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px;
+    }
+    .day-statement {
+      max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65;
+      color:var(--ink-dim); border-left:2px solid var(--pink); padding-left:20px; font-style:italic;
+    }
+    .day-content { padding: 0 6vw 100px; }
+    .day-section-label {
+      display:flex; align-items:center; gap:16px; font-size:10px;
+      letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);
+      margin-bottom:32px; padding-top:64px;
+    }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    .brief-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 64px;
+    }
+    @media (max-width: 700px) { .brief-block { grid-template-columns: 1fr; } }
+    .brief-cell {
+      background: rgba(26,16,40,0.52);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px;
+    }
+    .bc-label {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .bc-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.7; }
+    .bc-text strong { color: var(--pink); }
+
+    .popup-showcase {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 64px;
+    }
+    @media (max-width: 900px) { .popup-showcase { grid-template-columns: 1fr; } }
+    .popup-frame {
+      background: rgba(18,9,30,0.46);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .popup-frame img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .popup-notes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .note-card {
+      background: rgba(26,16,40,0.52);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 20px;
+    }
+    .note-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 10px;
+    }
+    .note-text { font-size: 13.5px; line-height: 1.65; color: var(--ink-dim); }
+
+    .decision-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 64px; }
+    .decision-row {
+      background: rgba(18,9,30,0.48);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 22px 24px; display: grid; grid-template-columns: 180px 1fr; gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .decision-row { grid-template-columns: 1fr; } }
+    .dr-label {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--pink); padding-top: 2px;
+    }
+    .dr-text { font-size: 13.5px; color: var(--ink-dim); line-height: 1.65; }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 25</div>
+    <div class="day-num">25</div>
+    <h1 class="day-title">Joydotz<br><span class="pink">35% Off Popup</span></h1>
+    <div class="day-meta">
+      <span>Jul 18, 2026</span>
+      <span>E-commerce · Conversion Design</span>
+      <span>Joydotz</span>
+    </div>
+    <p class="day-statement">
+      A soft, polished email signup popup for Joydotz that turns a discount moment into a branded first impression.
+    </p>
+    <div class="day-info-table">
+      <div class="dit-row"><span class="dit-label">What</span><span class="dit-val">Desktop email capture popup promoting 35% off for new subscribers.</span></div>
+      <div class="dit-row"><span class="dit-label">For</span><span class="dit-val">Joydotz, a cute hydrocolloid spot patch brand with playful packaging.</span></div>
+      <div class="dit-row"><span class="dit-label">Use</span><span class="dit-val">Website entry popup for email collection, launch traffic, and first-time conversion.</span></div>
+    </div>
+  </div>
+
+  <div class="day-content">
+
+    <div class="day-section-label">The Brief</div>
+    <div class="brief-block">
+      <div class="brief-cell">
+        <div class="bc-label">Brand Moment</div>
+        <div class="bc-text"><strong>Joydotz</strong> needs website visuals that feel soft, cute, clean, and trustworthy. The popup should match the product world rather than feel like a generic discount interruption.</div>
+      </div>
+      <div class="brief-cell">
+        <div class="bc-label">Conversion Goal</div>
+        <div class="bc-text"><strong>35% off</strong> is the main hook, but the visual has to make the offer feel like a reward. The layout should make signing up feel immediate without looking aggressive.</div>
+      </div>
+      <div class="brief-cell">
+        <div class="bc-label">Visual System</div>
+        <div class="bc-text">The design uses a product still-life on the left and a clear signup action on the right, keeping product recognition and functional conversion equally visible.</div>
+      </div>
+      <div class="brief-cell">
+        <div class="bc-label">AI Workflow</div>
+        <div class="bc-text">AI helped shape the campaign direction and presentation logic, while the final design decisions focused on hierarchy, brand consistency, and ecommerce usability.</div>
+      </div>
+    </div>
+
+    <div class="day-section-label">Final Popup</div>
+    <div class="popup-showcase">
+      <div class="popup-frame">
+        <img src="90days/day25/joydotz-35-off-popup.png" alt="Joydotz 35% off email signup popup" />
+      </div>
+      <div class="popup-notes">
+        <div class="note-card">
+          <div class="note-label">Left Panel</div>
+          <div class="note-text">Product packaging sits on pink satin to build a beauty-brand mood before the user reads the offer.</div>
+        </div>
+        <div class="note-card">
+          <div class="note-label">Right Panel</div>
+          <div class="note-text">Large numeric typography makes the discount instantly scannable, while the empty field and black CTA create a clear action path.</div>
+        </div>
+        <div class="note-card">
+          <div class="note-label">Tone</div>
+          <div class="note-text">The layout keeps Joydotz playful without becoming messy: soft image, sharp type, rounded input, and one high-contrast button.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-section-label">Design Decisions</div>
+    <div class="decision-list">
+      <div class="decision-row">
+        <div class="dr-label">Split image and action</div>
+        <div class="dr-text">The popup separates desire from action. The left side creates product trust and softness; the right side handles the conversion task. This keeps the UI calm even though the offer is bold.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Oversized discount type</div>
+        <div class="dr-text">The 35% off message is intentionally the largest element. Users often decide whether to close a popup in under a second, so the value proposition has to be understood before the rest of the copy.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Beauty texture, not stock texture</div>
+        <div class="dr-text">Pink satin gives the product a soft cosmetic atmosphere and echoes the packaging palette. It feels more brand-specific than a plain ecommerce background.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Black CTA for clarity</div>
+        <div class="dr-text">The brand can be cute, but the conversion button should not disappear into the pink. The black pill button creates a strong anchor and makes the next step obvious.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Low-friction exit</div>
+        <div class="dr-text">The small "no, thanks" line keeps the popup from feeling trapped. A softer brand needs a softer refusal path too.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border);">
+      <a href="day24.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 24</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+    </div>
+
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day24.html">← Day 24</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.day-section-label, .brief-cell, .note-card, .popup-frame, .decision-row, .day-nav-bar, .day-content > *');
+  els.forEach(function(el){ el.classList.add('scroll-reveal'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(function(el){ io.observe(el); });
+
+  var cur = document.createElement('div');
+  cur.id = 'cursor';
+  document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*0.14;cy+=(my-cy)*0.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
