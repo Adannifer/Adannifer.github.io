@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 27 · Pimple Patch Model Set · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.day-page { --accent: #D9A7FF; --accent-line: rgba(217,167,255,0.42); }
+    .day-hero { padding: 140px 6vw 60px; border-bottom: 1px solid var(--border); }
+    .day-badge { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent-line); padding:5px 12px; border-radius:6px; margin-bottom:24px; }
+    .day-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+    .day-num { font-size:clamp(72px,14vw,160px); font-weight:700; line-height:.85; color:transparent; -webkit-text-stroke:1px rgba(217,167,255,.18); letter-spacing:-.03em; margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem); font-weight:900; letter-spacing:-.045em; line-height:.88; text-transform:uppercase; margin-bottom:2rem; }
+    .day-title .accent { color:var(--accent); text-shadow:0 0 18px rgba(217,167,255,.22); }
+    .day-meta { display:flex; flex-wrap:wrap; gap:24px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; }
+    .day-statement { max-width:760px; font-size:clamp(15px,2vw,18px); line-height:1.65; color:var(--ink-dim); border-left:2px solid var(--accent); padding-left:20px; font-style:italic; }
+    .day-content { padding:0 6vw 100px; }
+    .day-section-label { display:flex; align-items:center; gap:16px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:32px; padding-top:64px; }
+    .day-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+    .brief-block { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:48px; }
+    @media (max-width:700px) { .brief-block { grid-template-columns:1fr; } }
+    .brief-cell { background:rgba(26,16,40,.52); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border:1px solid var(--border); border-radius:16px; padding:24px 22px; }
+    .bc-label { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .bc-text { font-size:13.5px; color:var(--ink-dim); line-height:1.65; }
+    .bc-text strong { color:var(--accent); }
+    .model-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-bottom:64px; }
+    @media (max-width:900px) { .model-grid { grid-template-columns:1fr; } }
+    .model-card { background:rgba(18,9,30,.5); border:1px solid var(--border); border-radius:18px; padding:12px; }
+    .model-card img { width:100%; aspect-ratio:1.18 / 1; object-fit:cover; border-radius:12px; border:1px solid var(--border); display:block; }
+    .model-label { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin:14px 4px 4px; }
+    .decision-list { display:flex; flex-direction:column; gap:10px; max-width:760px; margin:0 auto 64px; }
+    .decision-row { background:rgba(18,9,30,.48); border:1px solid var(--border); border-radius:16px; padding:18px 20px; display:grid; grid-template-columns:150px 1fr; gap:20px; align-items:start; }
+    @media (max-width:700px) { .decision-row { grid-template-columns:1fr; } }
+    .dr-label { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); padding-top:2px; }
+    .dr-text { font-size:13.5px; color:var(--ink-dim); line-height:1.6; }
+  </style>
+</head>
+<body class="project-page day-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#making" class="nav-link">Making</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 27</div>
+    <div class="day-num">27</div>
+    <h1 class="day-title">Pimple Patch<br><span class="accent">Model Set</span></h1>
+    <div class="day-meta">
+      <span>Jul 18, 2026</span>
+      <span>AI Image · Beauty Campaign</span>
+      <span>Patch Model Study</span>
+    </div>
+    <p class="day-statement">AI-generated model imagery for cute pimple patches, balancing skincare realism with playful product fantasy.</p>
+    <div class="day-info-table">
+      <div class="dit-row"><span class="dit-label">What</span><span class="dit-val">Three model images with shaped patches.</span></div>
+      <div class="dit-row"><span class="dit-label">Mood</span><span class="dit-val">Clean skin, soft light, cute details.</span></div>
+      <div class="dit-row"><span class="dit-label">Use</span><span class="dit-val">Website hover images, campaign visuals, social posts.</span></div>
+    </div>
+  </div>
+
+  <div class="day-content">
+    <div class="day-section-label">Direction</div>
+    <div class="brief-block">
+      <div class="brief-cell">
+        <div class="bc-label">Visual Goal</div>
+        <div class="bc-text"><strong>Make acne care feel wearable.</strong> The patches read as beauty accessories instead of problem-covering stickers.</div>
+      </div>
+      <div class="brief-cell">
+        <div class="bc-label">Set Logic</div>
+        <div class="bc-text">Butterfly, flower, and cloud each get a different face, crop, and skin tone while staying in one soft campaign world.</div>
+      </div>
+    </div>
+
+    <div class="day-section-label">Model Images</div>
+    <div class="model-grid">
+      <div class="model-card">
+        <img src="90days/butterfly_hover.png" alt="AI-generated model wearing butterfly pimple patches" />
+        <div class="model-label">Butterfly</div>
+      </div>
+      <div class="model-card">
+        <img src="90days/Flower_hover.png" alt="AI-generated model wearing flower pimple patches" />
+        <div class="model-label">Flower</div>
+      </div>
+      <div class="model-card">
+        <img src="90days/Cloud_hover.png" alt="AI-generated model wearing cloud pimple patches" />
+        <div class="model-label">Cloud</div>
+      </div>
+    </div>
+
+    <div class="day-section-label">Design Notes</div>
+    <div class="decision-list">
+      <div class="decision-row">
+        <div class="dr-label">Close Crop</div>
+        <div class="dr-text">Keeps the patch shape and skin texture visible.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Soft Gloss</div>
+        <div class="dr-text">Makes the images feel skincare-forward, not medical.</div>
+      </div>
+      <div class="decision-row">
+        <div class="dr-label">Shape System</div>
+        <div class="dr-text">Each patch shape becomes a tiny character moment.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:64px; border-top:1px solid var(--border);">
+      <a href="day26.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">← Day 26</a>
+      <a href="index.html#making" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">90 Days Index</a>
+      <a href="day28.html" style="font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">Day 28 →</a>
+    </div>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day26.html">← Day 26</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <a class="day-nav-btn" href="day28.html">Day 28 →</a>
+  </div>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.day-section-label, .brief-cell, .model-card, .decision-row, .day-nav-bar, .day-content > *');
+  els.forEach(function(el){ el.classList.add('scroll-reveal'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(function(el){ io.observe(el); });
+
+  var cur = document.createElement('div');
+  cur.id = 'cursor';
+  document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button').forEach(function(el){
+    el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});
+    el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');});
+  });
+  (function loop(){cx+=(mx-cx)*0.14;cy+=(my-cy)*0.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
