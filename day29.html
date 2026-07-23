@@ -111,6 +111,28 @@
     .bg-swatch[data-bg="sunset"] { background: linear-gradient(135deg,#ff6b35 0%,#f7c59f 35%,#e8435a 65%,#3d0c5a 100%); }
     .bg-swatch[data-bg="studio"] { background: #080510; border: 2px solid rgba(255,255,255,.15); }
     .bg-swatch[data-bg="halftone"] { background: #ff2d78; }
+    .bg-swatch-photo {
+      background: rgba(255,255,255,.07);
+      border: 1.5px dashed rgba(255,255,255,.25) !important;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .btn-upload {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.8);
+    }
+    .btn-upload:hover { background: rgba(255,255,255,.12); color: #fff; }
+    #grillz-cover.bg-photo { background: #111; }
+    #grillz-cover.bg-photo .cover-wordmark,
+    #grillz-cover.bg-photo .cover-subtitle,
+    #grillz-cover.bg-photo .cover-top-label,
+    #grillz-cover.bg-photo .cover-advisory,
+    #grillz-cover.bg-photo .cover-artist,
+    #grillz-cover.bg-photo .cover-sticker { color: #fff; border-color: rgba(255,255,255,.6); }
+    /* cover is draggable when photo bg active */
+    #grillz-cover.draggable-photo { cursor: grab; }
+    #grillz-cover.draggable-photo:active { cursor: grabbing; }
 
     /* action buttons */
     .action-btn {
@@ -443,6 +465,19 @@
             <div class="bg-swatch active" data-bg="sunset" title="Sunset Album"></div>
             <div class="bg-swatch" data-bg="studio" title="Black Studio"></div>
             <div class="bg-swatch" data-bg="halftone" title="Hot Pink Halftone"></div>
+            <div class="bg-swatch bg-swatch-photo" data-bg="photo" title="Your Photo" id="photo-swatch">📷</div>
+          </div>
+          <!-- photo upload + crop controls, hidden until photo bg selected -->
+          <div id="photo-controls" style="display:none; margin-top:12px; display:none;">
+            <input type="file" id="photo-file" accept="image/*" style="display:none">
+            <button class="action-btn btn-upload" id="btn-upload-photo" onclick="document.getElementById('photo-file').click()">Upload Photo</button>
+            <div id="photo-crop-ui" style="display:none; margin-top:10px;">
+              <div class="ctrl-label" style="margin-bottom:6px;">Drag cover to reposition · scroll to zoom</div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);">Zoom</span>
+                <input type="range" id="photo-zoom" min="50" max="300" value="100" style="flex:1;accent-color:var(--pink);">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -455,6 +490,12 @@
       <div class="cover-outer">
         <div id="cover-canvas-wrap">
           <div id="grillz-cover" class="bg-sunset style-diamond">
+
+            <!-- user photo background layer -->
+            <div id="photo-bg-layer" style="position:absolute;inset:0;overflow:hidden;z-index:0;display:none;">
+              <img id="photo-bg-img" style="position:absolute;transform-origin:center center;pointer-events:none;user-select:none;" draggable="false" />
+              <div style="position:absolute;inset:0;background:rgba(0,0,0,0.28);pointer-events:none;"></div>
+            </div>
 
             <div class="cover-sparkles" id="sparkle-layer"></div>
 
@@ -636,6 +677,134 @@
     document.querySelector('.bg-swatch[data-bg="' + newBg + '"]').classList.add('active');
 
     buildSparkles();
+  });
+
+  /* ══════════════════════════
+     PHOTO BACKGROUND UPLOAD + DRAG CROP
+  ══════════════════════════ */
+  var photoBgLayer = document.getElementById('photo-bg-layer');
+  var photoBgImg   = document.getElementById('photo-bg-img');
+  var photoFile    = document.getElementById('photo-file');
+  var photoControls = document.getElementById('photo-controls');
+  var photoCropUI  = document.getElementById('photo-crop-ui');
+  var photoZoom    = document.getElementById('photo-zoom');
+
+  var photoLoaded = false;
+  var photoScale = 1;   // current zoom multiplier
+  var photoOx = 0;      // offset from center in px (cover-space)
+  var photoOy = 0;
+
+  function applyPhotoTransform() {
+    photoBgImg.style.transform = 'translate(-50%,-50%) translate(' + photoOx + 'px,' + photoOy + 'px) scale(' + photoScale + ')';
+  }
+
+  function fitPhotoTocover(img) {
+    var cover = document.getElementById('grillz-cover');
+    var cw = cover.offsetWidth;
+    var ch = cover.offsetHeight;
+    var iw = img.naturalWidth;
+    var ih = img.naturalHeight;
+    var baseScale = Math.max(cw / iw, ch / ih);
+    photoScale = baseScale;
+    photoOx = 0; photoOy = 0;
+    photoBgImg.style.width  = iw + 'px';
+    photoBgImg.style.height = ih + 'px';
+    photoBgImg.style.left   = '50%';
+    photoBgImg.style.top    = '50%';
+    photoZoom.value = Math.round(baseScale * 100);
+    applyPhotoTransform();
+  }
+
+  photoFile.addEventListener('change', function(){
+    var file = photoFile.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      photoBgImg.onload = function(){
+        fitPhotoTocover(photoBgImg);
+        photoBgLayer.style.display = '';
+        photoCropUI.style.display = '';
+        photoLoaded = true;
+      };
+      photoBgImg.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* zoom slider */
+  photoZoom.addEventListener('input', function(){
+    photoScale = parseFloat(photoZoom.value) / 100;
+    applyPhotoTransform();
+  });
+
+  /* drag to reposition */
+  var photoDragging = false;
+  var photoDragSX = 0, photoDragSY = 0, photoDragOx = 0, photoDragOy = 0;
+
+  var coverEl = document.getElementById('grillz-cover');
+
+  coverEl.addEventListener('mousedown', function(e){
+    if (currentBg !== 'photo' || !photoLoaded) return;
+    photoDragging = true;
+    photoDragSX = e.clientX; photoDragSY = e.clientY;
+    photoDragOx = photoOx;   photoDragOy = photoOy;
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', function(e){
+    if (!photoDragging) return;
+    photoOx = photoDragOx + (e.clientX - photoDragSX);
+    photoOy = photoDragOy + (e.clientY - photoDragSY);
+    applyPhotoTransform();
+  });
+  window.addEventListener('mouseup', function(){ photoDragging = false; });
+
+  /* touch drag */
+  coverEl.addEventListener('touchstart', function(e){
+    if (currentBg !== 'photo' || !photoLoaded) return;
+    var t = e.touches[0];
+    photoDragging = true;
+    photoDragSX = t.clientX; photoDragSY = t.clientY;
+    photoDragOx = photoOx;   photoDragOy = photoOy;
+    e.preventDefault();
+  }, { passive: false });
+  coverEl.addEventListener('touchmove', function(e){
+    if (!photoDragging) return;
+    var t = e.touches[0];
+    photoOx = photoDragOx + (t.clientX - photoDragSX);
+    photoOy = photoDragOy + (t.clientY - photoDragSY);
+    applyPhotoTransform();
+    e.preventDefault();
+  }, { passive: false });
+  coverEl.addEventListener('touchend', function(){ photoDragging = false; });
+
+  /* scroll to zoom on cover */
+  coverEl.addEventListener('wheel', function(e){
+    if (currentBg !== 'photo' || !photoLoaded) return;
+    e.preventDefault();
+    photoScale = Math.max(0.3, Math.min(5, photoScale - e.deltaY * 0.001));
+    photoZoom.value = Math.round(photoScale * 100);
+    applyPhotoTransform();
+  }, { passive: false });
+
+  /* wire up photo bg swatch */
+  document.getElementById('photo-swatch').addEventListener('click', function(){
+    document.querySelectorAll('.bg-swatch').forEach(function(s){ s.classList.remove('active'); });
+    this.classList.add('active');
+    cover.classList.remove('bg-sunset','bg-studio','bg-halftone','bg-photo');
+    cover.classList.add('bg-photo');
+    coverEl.classList.add('draggable-photo');
+    currentBg = 'photo';
+    photoControls.style.display = '';
+    if (photoLoaded) photoBgLayer.style.display = '';
+  });
+
+  /* hide photo layer when other bg selected */
+  document.querySelectorAll('.bg-swatch:not(#photo-swatch)').forEach(function(sw){
+    sw.addEventListener('click', function(){
+      photoBgLayer.style.display = 'none';
+      coverEl.classList.remove('draggable-photo');
+      photoControls.style.display = 'none';
+    });
   });
 
   /* ── save cover ── */
