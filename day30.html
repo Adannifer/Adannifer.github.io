@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 30 · Sticker Drop Machine · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    .day-hero { padding:140px 6vw 60px; border-bottom:1px solid var(--border); }
+    .day-badge { display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--pink);border:1px solid var(--pink);padding:5px 12px;border-radius:2px;margin-bottom:24px; }
+    .day-badge .dot { width:6px;height:6px;border-radius:50%;background:var(--pink); }
+    .day-num { font-size:clamp(72px,14vw,160px);font-weight:700;line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(247,241,234,.15);letter-spacing:-.03em;margin-bottom:-20px; }
+    .day-title { font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:900;letter-spacing:-.04em;line-height:.9;text-transform:uppercase;margin-bottom:2rem;text-wrap:balance; }
+    .day-title .pink { color:var(--pink); }
+    .day-meta { display:flex;flex-wrap:wrap;gap:24px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:32px; }
+    .day-statement { max-width:760px;font-size:clamp(15px,2vw,18px);line-height:1.65;color:var(--ink-dim);border-left:2px solid var(--pink);padding-left:20px;font-style:italic; }
+    .day-content { padding:0 6vw 100px; }
+    .day-section-label { display:flex;align-items:center;gap:16px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;padding-top:64px; }
+    .day-section-label::after { content:'';flex:1;height:1px;background:var(--border); }
+
+    .drop-machine { --machine-bg:#ffacd9;--machine-ink:#321124;--machine-accent:#ff168d;--surface:#ffd9ed;--surface-detail:#fe86c7;max-width:1180px;margin:0 auto 72px;background:#111018;border:2px solid #34313e;border-radius:14px;box-shadow:0 8px 0 #050507;overflow:hidden;color:#fff; }
+    .drop-machine[data-preset="chrome"] { --machine-bg:#17171c;--machine-ink:#f5f2ec;--machine-accent:#aeb4c1;--surface:#282930;--surface-detail:#d7d8de; }
+    .drop-machine[data-preset="neon"] { --machine-bg:#b8ff37;--machine-ink:#102000;--machine-accent:#203900;--surface:#d5ff82;--surface-detail:#1f3900; }
+    .machine-marquee { position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px;background:var(--machine-bg);color:var(--machine-ink);border-bottom:2px solid #09090c;overflow:hidden; }
+    .machine-marquee::after { content:'★  DROP  ★  DROP  ★  DROP  ★';position:absolute;right:-8px;bottom:-12px;font-size:42px;font-weight:900;letter-spacing:-.03em;opacity:.11;white-space:nowrap;pointer-events:none; }
+    .marquee-title { position:relative;z-index:1;font-size:clamp(26px,4vw,54px);line-height:.85;font-weight:900;letter-spacing:-.04em;text-transform:uppercase; }
+    .marquee-status { position:relative;z-index:1;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap; }
+    .status-light { width:9px;height:9px;border-radius:50%;background:var(--machine-accent);box-shadow:0 0 12px var(--machine-accent); }
+
+    .machine-workspace { display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:650px; }
+    .stage { position:relative;display:flex;align-items:center;justify-content:center;min-height:650px;padding:46px;background:radial-gradient(circle at 50% 42%,#34313e 0,#191820 54%,#0c0b10 100%);overflow:hidden; }
+    .stage::before { content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:24px 24px;pointer-events:none; }
+    .stage-label { position:absolute;top:18px;left:20px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#a9a5b0; }
+    .surface-wrap { position:relative;display:flex;align-items:center;justify-content:center;width:min(100%,470px);height:550px; }
+    #design-surface { position:relative;width:258px;height:550px;background:var(--surface);border:3px solid rgba(255,255,255,.7);border-radius:43px;box-shadow:0 7px 0 rgba(0,0,0,.34),inset 0 0 0 5px rgba(255,255,255,.14);overflow:hidden;touch-action:none;transition:width .25s var(--ease-out-expo),height .25s var(--ease-out-expo),border-radius .25s var(--ease-out-expo),background .2s; }
+    #design-surface.phone-15 { width:258px;height:550px;border-radius:43px; }
+    #design-surface.phone-18 { width:286px;height:560px;border-radius:34px; }
+    #design-surface.laptop { width:470px;height:340px;border-radius:18px; }
+    #design-surface::after { content:'JQ / DROP 30';position:absolute;right:15px;bottom:12px;font-size:7px;font-weight:800;letter-spacing:.14em;color:var(--surface-detail);opacity:.7;pointer-events:none;z-index:1; }
+    .camera-cutout { position:absolute;top:15px;left:15px;width:98px;height:98px;border-radius:25px;background:color-mix(in srgb,var(--surface) 76%,#fff);border:1px solid color-mix(in srgb,var(--surface-detail) 30%,rgba(255,255,255,.72));box-shadow:0 2px 5px rgba(0,0,0,.13),inset 0 1px 1px rgba(255,255,255,.45);z-index:20;pointer-events:none;transition:width .25s var(--ease-out-expo),height .25s var(--ease-out-expo),border-radius .25s var(--ease-out-expo); }
+    .camera-lens { position:absolute;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 36% 30%,rgba(150,190,225,.8) 0 4%,#344354 8%,#111821 23%,#030507 58%,#171b21 72%,#030405 100%);border:2px solid color-mix(in srgb,var(--surface-detail) 32%,#8b8790);box-shadow:0 0 0 2px rgba(255,255,255,.34),0 2px 3px rgba(0,0,0,.34),inset 0 0 0 2px #090a0d; }
+    .camera-lens::before { content:'';position:absolute;inset:5px;border-radius:50%;border:1px solid rgba(117,148,181,.2);box-shadow:inset 2px 2px 4px rgba(90,130,175,.12); }
+    .camera-lens::after { content:'';position:absolute;left:7px;top:6px;width:7px;height:4px;border-radius:50%;background:rgba(255,255,255,.32);transform:rotate(-28deg);filter:blur(.35px); }
+    .camera-lens.one { left:8px;top:8px; }
+    .camera-lens.two { right:8px;top:29px; }
+    .camera-lens.three { left:8px;bottom:8px; }
+    .camera-flash { position:absolute;right:13px;top:8px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fff 0 20%,#f2f0d4 42%,#b8c0b9 72%,#8e9692 100%);border:1px solid rgba(68,64,62,.24);box-shadow:inset 0 0 0 2px rgba(255,255,255,.3); }
+    .camera-sensor { position:absolute;right:13px;bottom:9px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3f4650 0 8%,#17191e 32%,#06070a 72%);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35); }
+    .phone-18-panel { display:none;position:absolute;left:12px;right:12px;top:145px;bottom:12px;border-radius:28px;background:color-mix(in srgb,var(--surface) 92%,#000);border:1px solid color-mix(in srgb,var(--surface-detail) 40%,transparent);box-shadow:inset 0 1px 2px rgba(255,255,255,.2);z-index:0;pointer-events:none; }
+    #design-surface.phone-18 .camera-cutout { top:9px;left:9px;width:calc(100% - 18px);height:128px;border-radius:27px 27px 20px 20px;background:color-mix(in srgb,var(--surface) 70%,var(--surface-detail));border-color:color-mix(in srgb,var(--surface-detail) 50%,rgba(255,255,255,.45));box-shadow:0 2px 4px rgba(0,0,0,.16),inset 0 1px 1px rgba(255,255,255,.28); }
+    #design-surface.phone-18 .camera-lens { border-color:color-mix(in srgb,var(--surface-detail) 58%,#6f6870);box-shadow:0 0 0 1px rgba(255,255,255,.28),0 2px 3px rgba(0,0,0,.38),inset 0 0 0 2px #090a0d; }
+    #design-surface.phone-18 .camera-lens.one { left:12px;top:10px; }
+    #design-surface.phone-18 .camera-lens.two { left:57px;right:auto;top:34px; }
+    #design-surface.phone-18 .camera-lens.three { left:12px;top:73px;bottom:auto; }
+    #design-surface.phone-18 .camera-flash { right:29px;top:15px; }
+    #design-surface.phone-18 .camera-sensor { right:27px;bottom:19px; }
+    #design-surface.phone-18 .phone-18-panel { display:block; }
+    #design-surface.laptop .camera-cutout { display:none; }
+    #design-surface.laptop .phone-18-panel { display:none; }
+
+    .sticker-piece { position:absolute;left:0;top:0;z-index:5;cursor:grab;user-select:none;touch-action:none;transform-origin:center;will-change:transform; }
+    .sticker-piece:active { cursor:grabbing; }
+    .sticker-piece.selected::after { content:'';position:absolute;inset:-8px;border:1px dashed var(--machine-ink);border-radius:8px;pointer-events:none; }
+    .sticker-art { position:relative;display:flex;align-items:center;justify-content:center;min-width:52px;min-height:52px;font-size:54px;line-height:1;filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 5px 4px rgba(0,0,0,.24)); }
+    .sticker-art img { display:block;max-width:110px;max-height:110px;object-fit:contain;pointer-events:none; }
+    .sticker-art.uploaded-art { width:78px;height:78px;min-width:0;min-height:0;filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 5px 4px rgba(0,0,0,.24)); }
+    .sticker-art.uploaded-art img { width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;border:3px solid #fff;border-radius:5px;box-shadow:none; }
+    .sticker-art.uploaded-art[data-crop="rectangle"] { width:102px;height:64px; }
+    .sticker-art.uploaded-art[data-crop="circle"] { width:78px;height:78px;border-radius:50%; }
+    .sticker-art.uploaded-art[data-crop="circle"] img { border-radius:50%; }
+    .sticker-art.uploaded-art[data-crop="heart"] { width:88px;height:80px;clip-path:polygon(50% 97%,8% 57%,2% 34%,7% 16%,20% 5%,36% 5%,50% 18%,64% 5%,80% 5%,93% 16%,98% 34%,92% 57%);background:#fff;padding:3px; }
+    .sticker-art.uploaded-art[data-crop="heart"] img { border:0;border-radius:0;clip-path:inherit; }
+    .paper-sticker { min-width:70px;padding:8px 7px;background:#fff;color:#151515;border:2px solid #171717;font-family:monospace;font-size:8px;line-height:1.3;text-align:left;box-shadow:inset 0 -4px 0 #ececec; }
+    .paper-sticker strong { display:block;font-size:12px;letter-spacing:-.06em;border-bottom:1px dashed #555;margin-bottom:3px; }
+    .metro-sticker { width:76px;height:46px;background:#fee512;color:#0c3c93;border:4px solid #fff;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:-.03em;box-shadow:inset 0 -9px 0 #f37fc6; }
+    .keychain-sticker { width:62px;height:78px;position:relative; }
+    .keychain-sticker::before { content:'';position:absolute;left:20px;top:0;width:22px;height:22px;border:5px solid #c7cbd2;border-radius:50%;box-shadow:inset 2px 1px 0 #fff; }
+    .keychain-sticker::after { content:'JQ';position:absolute;left:8px;bottom:0;width:48px;height:48px;border-radius:9px;background:#ff2b9f;color:#fff;display:grid;place-items:center;font-size:14px;font-weight:900;border:3px solid #fff;box-shadow:0 3px 0 rgba(0,0,0,.25); }
+    .tiny-star { font-size:64px;color:#ff1aa8;-webkit-text-stroke:3px #fff;paint-order:stroke fill; }
+    .chrome-tooth { filter:grayscale(1) contrast(1.3) drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 5px 4px rgba(0,0,0,.24)); }
+
+    .control-panel { display:flex;flex-direction:column;background:#121117;border-left:2px solid #050507;min-width:0; }
+    .control-block { padding:18px;border-bottom:1px solid #2b2931; }
+    .control-heading { display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#aaa6b2; }
+    .control-heading span:last-child { color:#6f6b77;letter-spacing:0;text-transform:none; }
+    .segmented { display:flex;gap:4px;background:#09090c;padding:4px;border-radius:8px; }
+    button,.upload-button { font:inherit; }
+    .segment,.preset-btn,.tool-btn,.small-btn { border:0;color:#aaa6b2;background:transparent;cursor:pointer;transition:background .18s,color .18s,transform .18s; }
+    .segment { flex:1;padding:9px 6px;border-radius:5px;font-size:10px;font-weight:750;letter-spacing:.05em;text-transform:uppercase; }
+    .segment.active { background:#f3efe8;color:#111018; }
+    .phone-size-control { margin-top:10px; }
+    .phone-size-control[hidden] { display:none; }
+    .phone-size-label { margin-bottom:6px;color:#77727f;font-size:8px;letter-spacing:.12em;text-transform:uppercase; }
+    .phone-size-control .segment { font-size:9px;text-transform:none; }
+    .preset-row { display:grid;grid-template-columns:repeat(3,1fr);gap:6px; }
+    .preset-btn { min-height:55px;padding:7px 4px;border:1px solid #34313d;border-radius:7px;font-size:8px;line-height:1.25;text-transform:uppercase; }
+    .preset-btn::before { content:'';display:block;width:18px;height:18px;margin:0 auto 5px;border-radius:50%;background:var(--swatch); }
+    .preset-btn.active { color:#fff;border-color:#fff; }
+    .tool-row { display:grid;grid-template-columns:repeat(4,1fr);gap:6px; }
+    .tool-btn { min-height:38px;border:1px solid #34313d;border-radius:6px;font-size:15px; }
+    .tool-btn:hover,.tool-btn:focus-visible,.small-btn:hover,.small-btn:focus-visible { color:#fff;background:#282631; }
+    .tool-btn:disabled { opacity:.28;cursor:not-allowed; }
+    .crop-row { display:grid;grid-template-columns:repeat(4,1fr);gap:6px; }
+    .crop-btn { min-height:42px;padding:5px 2px;border:1px solid #34313d;border-radius:6px;background:transparent;color:#aaa6b2;cursor:pointer;font-size:8px;line-height:1.2; }
+    .crop-btn::before { content:'';display:block;width:15px;height:15px;margin:0 auto 4px;border:1px solid currentColor; }
+    .crop-btn[data-crop="rectangle"]::before { width:21px;height:12px;margin-top:2px;margin-bottom:5px; }
+    .crop-btn[data-crop="circle"]::before { border-radius:50%; }
+    .crop-btn[data-crop="heart"]::before { border:0;background:currentColor;clip-path:polygon(50% 96%,8% 55%,3% 31%,13% 9%,34% 3%,50% 19%,66% 3%,87% 9%,97% 31%,92% 55%); }
+    .crop-btn.active { color:#fff;border-color:#fff;background:#282631; }
+    .crop-btn:disabled { opacity:.26;cursor:not-allowed; }
+    .machine-actions { margin-top:auto;padding:18px;display:grid;gap:8px; }
+    .primary-action,.secondary-action,.upload-button { width:100%;border:0;border-radius:7px;cursor:pointer;text-align:center;font-size:10px;font-weight:850;letter-spacing:.11em;text-transform:uppercase;transition:transform .18s var(--ease-out-expo),filter .18s; }
+    .primary-action { padding:15px;background:var(--machine-bg);color:var(--machine-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--machine-ink) 45%,transparent); }
+    .primary-action:active { transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--machine-ink) 45%,transparent); }
+    .secondary-action,.upload-button { padding:11px;background:#282631;color:#f5f2f7;border:1px solid #3b3844; }
+    .secondary-action:hover,.upload-button:hover { filter:brightness(1.17); }
+    .action-pair { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+    #upload-input { position:absolute;width:1px;height:1px;opacity:0;pointer-events:none; }
+
+    .tray { background:#09090d;border-top:2px solid #050507;padding:18px 20px 22px; }
+    .tray-top { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px; }
+    .tray-title { font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#aaa6b2; }
+    .small-btn { padding:6px 8px;border:1px solid #34313d;border-radius:5px;font-size:8px;letter-spacing:.08em;text-transform:uppercase; }
+    #sticker-tray { display:flex;gap:9px;overflow-x:auto;padding:2px 2px 9px;scrollbar-color:#44414b transparent; }
+    .tray-item { flex:0 0 76px;height:76px;display:grid;place-items:center;background:#1a1820;border:1px solid #34313d;border-radius:8px;color:#fff;cursor:pointer;position:relative;overflow:hidden; }
+    .tray-item .tray-art { transform:scale(.7);pointer-events:none; }
+    .tray-item::after { content:'off';position:absolute;right:4px;bottom:3px;padding:2px 3px;background:#09090d;color:#77727e;font-size:6px;text-transform:uppercase;letter-spacing:.08em;border-radius:2px; }
+    .tray-item.active { border-color:var(--machine-bg);background:#24212c; }
+    .tray-item.active::after { content:'ready';color:var(--machine-bg); }
+    .tray-item:focus-visible,.preset-btn:focus-visible,.segment:focus-visible,.primary-action:focus-visible,.secondary-action:focus-visible,.upload-button:focus-visible { outline:2px solid #fff;outline-offset:2px; }
+    .machine-toast { min-height:16px;text-align:center;color:#aaa6b2;font-size:9px;letter-spacing:.06em; }
+
+    .brief-block { display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--border);margin-bottom:12px; }
+    .brief-cell { padding:28px;border-right:1px solid var(--border);border-bottom:1px solid var(--border); }
+    .brief-cell:nth-child(2n) { border-right:0; }
+    .brief-cell:nth-last-child(-n+2) { border-bottom:0; }
+    .bc-label { font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:10px; }
+    .bc-text { color:var(--ink-dim);font-size:14px;line-height:1.65; }
+    .bc-text strong { color:var(--ink);font-weight:700; }
+    .decision-list { border-top:1px solid var(--border); }
+    .decision-row { display:grid;grid-template-columns:220px 1fr;gap:28px;padding:22px 0;border-bottom:1px solid var(--border); }
+    .dr-label { font-size:12px;font-weight:700;color:var(--ink); }
+    .dr-text { max-width:70ch;font-size:14px;line-height:1.65;color:var(--ink-dim); }
+
+    @media (max-width:900px) {
+      .machine-workspace { grid-template-columns:1fr; }
+      .control-panel { border-left:0;border-top:2px solid #050507; }
+      .stage { min-height:600px; }
+      .machine-actions { margin-top:0; }
+    }
+    @media (max-width:620px) {
+      .day-content { padding-left:16px;padding-right:16px; }
+      #nav { width:calc(100vw - 24px);min-width:0;padding:0 10px;gap:10px; }
+      #nav-logo-text { font-size:.78rem; }
+      #nav-links { gap:.7rem; }
+      .nav-link { font-size:.58rem;letter-spacing:.07em; }
+      .drop-machine { border-radius:8px; }
+      .machine-marquee { align-items:flex-start;flex-direction:column; }
+      .stage { min-height:520px;padding:44px 10px 26px; }
+      .surface-wrap { height:450px; }
+      #design-surface,#design-surface.phone-15 { width:207px;height:440px;border-radius:34px; }
+      #design-surface.phone-18 { width:229px;height:448px;border-radius:28px; }
+      #design-surface.laptop { width:min(94vw,380px);height:275px; }
+      .camera-cutout { transform:scale(.82);transform-origin:top left; }
+      #design-surface.phone-18 .camera-cutout { transform:none;height:105px; }
+      #design-surface.phone-18 .camera-lens { width:29px;height:29px; }
+      #design-surface.phone-18 .camera-lens.two { left:50px;top:29px; }
+      #design-surface.phone-18 .camera-lens.three { top:61px; }
+      #design-surface.phone-18 .phone-18-panel { top:118px; }
+      .brief-block { grid-template-columns:1fr; }
+      .brief-cell,.brief-cell:nth-child(2n) { border-right:0;border-bottom:1px solid var(--border); }
+      .brief-cell:last-child { border-bottom:0; }
+      .decision-row { grid-template-columns:1fr;gap:8px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      #design-surface,.segment,.preset-btn,.tool-btn,.small-btn,.primary-action,.secondary-action,.upload-button { transition:none!important; }
+    }
+  </style>
+</head>
+<body class="project-page day-page">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot"><a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a></div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a><a href="index.html#making" class="nav-link">Making</a><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 30</div>
+    <div class="day-num">30</div>
+    <h1 class="day-title">Sticker Drop<br><span class="pink">Machine</span></h1>
+    <div class="day-meta"><span>Jul 22, 2026</span><span>Interactive Toy · Product Customization</span><span>jenniferqian.art</span></div>
+    <p class="day-statement">A tiny arcade booth that turns loose stickers into a draggable, remixable, downloadable object.</p>
+    <div class="day-info-table">
+      <div class="dit-row"><span class="dit-label">What</span><span class="dit-val">Interactive sticker composition machine</span></div>
+      <div class="dit-row"><span class="dit-label">For</span><span class="dit-val">Collectors, collage makers, and merch dreamers</span></div>
+      <div class="dit-row"><span class="dit-label">Use</span><span class="dit-val">Drop, arrange, customize, and export a cover</span></div>
+    </div>
+  </div>
+
+  <main class="day-content">
+    <div class="day-section-label">Play the Machine</div>
+
+    <section class="drop-machine" id="drop-machine" data-preset="pink" aria-label="Sticker Drop Machine">
+      <header class="machine-marquee">
+        <div class="marquee-title">Sticker Drop</div>
+        <div class="marquee-status"><span class="status-light"></span><span>Machine 030 · Ready</span></div>
+      </header>
+
+      <div class="machine-workspace">
+        <div class="stage">
+          <div class="stage-label">Drag to move · tap a sticker to edit</div>
+          <div class="surface-wrap">
+            <div id="design-surface" class="phone-15" role="application" aria-label="iPhone 15 case sticker canvas">
+              <div class="phone-18-panel" aria-hidden="true"></div>
+              <div class="camera-cutout" aria-hidden="true">
+                <span class="camera-lens one"></span><span class="camera-lens two"></span><span class="camera-lens three"></span>
+                <span class="camera-flash"></span><span class="camera-sensor"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="control-panel" aria-label="Sticker controls">
+          <div class="control-block">
+            <div class="control-heading"><span>Object</span><span>Choose a canvas</span></div>
+            <div class="segmented" role="group" aria-label="Canvas shape">
+              <button class="segment active" type="button" data-shape="phone">Phone</button>
+              <button class="segment" type="button" data-shape="laptop">Laptop</button>
+            </div>
+            <div class="phone-size-control" id="phone-size-control">
+              <div class="phone-size-label">Phone size</div>
+              <div class="segmented" role="group" aria-label="iPhone size">
+                <button class="segment phone-model active" type="button" data-model="phone-15">iPhone 15</button>
+                <button class="segment phone-model" type="button" data-model="phone-18">iPhone 18</button>
+              </div>
+            </div>
+          </div>
+          <div class="control-block">
+            <div class="control-heading"><span>Booth preset</span><span>3 looks</span></div>
+            <div class="preset-row">
+              <button class="preset-btn active" type="button" data-preset="pink" style="--swatch:#ffacd9">Baby pink</button>
+              <button class="preset-btn" type="button" data-preset="chrome" style="--swatch:#9da2ac">Chrome black</button>
+              <button class="preset-btn" type="button" data-preset="neon" style="--swatch:#b8ff37">Neon green</button>
+            </div>
+          </div>
+          <div class="control-block">
+            <div class="control-heading"><span>Edit selected</span><span id="selection-status">None selected</span></div>
+            <div class="tool-row">
+              <button class="tool-btn edit-tool" type="button" data-action="rotate-left" aria-label="Rotate left" disabled>↶</button>
+              <button class="tool-btn edit-tool" type="button" data-action="rotate-right" aria-label="Rotate right" disabled>↷</button>
+              <button class="tool-btn edit-tool" type="button" data-action="smaller" aria-label="Make smaller" disabled>−</button>
+              <button class="tool-btn edit-tool" type="button" data-action="larger" aria-label="Make larger" disabled>＋</button>
+            </div>
+            <button class="secondary-action edit-tool" type="button" data-action="delete" disabled style="margin-top:7px">Delete selected</button>
+          </div>
+          <div class="control-block">
+            <div class="control-heading"><span>Photo crop</span><span id="crop-status">Select a photo</span></div>
+            <div class="crop-row" role="group" aria-label="Uploaded photo crop shape">
+              <button class="crop-btn" type="button" data-crop="square" disabled>Square</button>
+              <button class="crop-btn" type="button" data-crop="rectangle" disabled>Rectangle</button>
+              <button class="crop-btn" type="button" data-crop="circle" disabled>Circle</button>
+              <button class="crop-btn" type="button" data-crop="heart" disabled>Heart</button>
+            </div>
+          </div>
+          <div class="machine-actions">
+            <label class="upload-button" for="upload-input">＋ Add My Picture</label>
+            <input id="upload-input" type="file" accept="image/png,image/jpeg,image/webp" multiple />
+            <button class="primary-action" id="drop-button" type="button">Drop Stickers</button>
+            <div class="action-pair">
+              <button class="secondary-action" id="clear-button" type="button">Clear</button>
+              <button class="secondary-action" id="save-button" type="button">Save PNG</button>
+            </div>
+            <div class="machine-toast" id="machine-toast" aria-live="polite">Pick from the tray, then press drop.</div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="tray">
+        <div class="tray-top"><div class="tray-title">Sticker tray · click to include / exclude</div><button class="small-btn" id="toggle-all" type="button">Deselect all</button></div>
+        <div id="sticker-tray" aria-label="Available stickers"></div>
+      </div>
+    </section>
+
+    <div class="day-section-label">The Brief</div>
+    <div class="brief-block">
+      <div class="brief-cell"><div class="bc-label">Signal</div><div class="bc-text"><strong>Sticker booths and fake merch</strong> turn identity into a composition game instead of a finished graphic.</div></div>
+      <div class="brief-cell"><div class="bc-label">Archive Link</div><div class="bc-text">The toy continues the collectible language of <strong>Joydotz, Wish Quilt, keychains, patches, and grillz</strong> through interaction.</div></div>
+      <div class="brief-cell"><div class="bc-label">Interaction</div><div class="bc-text">A single drop creates momentum; dragging, rotating, scaling, and deleting let the user recover authorship.</div></div>
+      <div class="brief-cell"><div class="bc-label">Output</div><div class="bc-text">The end state is not just a webpage. It is a <strong>saved PNG artifact</strong> ready to keep, post, or remix.</div></div>
+    </div>
+
+    <div class="day-section-label">Design Decisions</div>
+    <div class="decision-list">
+      <div class="decision-row"><div class="dr-label">Arcade cabinet, not editor chrome</div><div class="dr-text">The bold marquee and physical button hierarchy make the tool feel like a booth you discover, while familiar controls keep the composition workflow immediately understandable.</div></div>
+      <div class="decision-row"><div class="dr-label">Random first, manual second</div><div class="dr-text">The drop creates a useful surprise with varied position, rotation, scale, and stacking. Direct manipulation follows so the output feels authored rather than generated and abandoned.</div></div>
+      <div class="decision-row"><div class="dr-label">One palette, three moods</div><div class="dr-text">Baby pink, chrome black, and neon green change the booth and product surface together. The presets are distinct enough to shift the object without creating a dense styling panel.</div></div>
+      <div class="decision-row"><div class="dr-label">Transparent defaults</div><div class="dr-text">The supplied visual references are flattened JPGs with baked-in white backgrounds, so the default set uses CSS and text-based objects that keep clean sticker edges. User-uploaded PNG, JPG, and WebP files remain supported.</div></div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:64px;margin-top:64px;border-top:1px solid var(--border);">
+      <a href="day29.html" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">← Day 29</a>
+      <a href="index.html#making" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">90 Days Index</a>
+    </div>
+  </main>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day29.html">← Day 29</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+<script>
+(function(){
+  var surface = document.getElementById('design-surface');
+  var machine = document.getElementById('drop-machine');
+  var tray = document.getElementById('sticker-tray');
+  var toast = document.getElementById('machine-toast');
+  var selectedPiece = null;
+  var pieceCount = 0;
+  var catalog = [
+    { id:'bow', name:'Bow', html:'<div class="sticker-art">🎀</div>' },
+    { id:'tooth', name:'Chrome tooth', html:'<div class="sticker-art chrome-tooth">🦷</div>' },
+    { id:'receipt', name:'Receipt', html:'<div class="sticker-art"><div class="paper-sticker"><strong>DROP 030</strong>STICKER x 01<br>TOTAL: CUTE</div></div>' },
+    { id:'boba', name:'Boba', html:'<div class="sticker-art">🧋</div>' },
+    { id:'metro', name:'Metro card', html:'<div class="sticker-art"><div class="metro-sticker">METRO<br>CARD</div></div>' },
+    { id:'heart', name:'Heart', html:'<div class="sticker-art">💗</div>' },
+    { id:'sparkle', name:'Sparkle', html:'<div class="sticker-art">✨</div>' },
+    { id:'keychain', name:'Keychain', html:'<div class="sticker-art"><div class="keychain-sticker"></div></div>' },
+    { id:'star', name:'Tiny star', html:'<div class="sticker-art tiny-star">★</div>' }
+  ];
+  var activeIds = new Set(catalog.map(function(item){ return item.id; }));
+
+  function renderTrayItem(item, imageSrc) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tray-item active';
+    btn.dataset.id = item.id;
+    btn.setAttribute('aria-label', item.name + ', included');
+    btn.setAttribute('aria-pressed', 'true');
+    btn.innerHTML = '<div class="tray-art">' + (imageSrc ? '<div class="sticker-art uploaded-art" data-crop="square"><img src="' + imageSrc + '" alt=""></div>' : item.html) + '</div>';
+    btn.addEventListener('click', function(){
+      if (activeIds.has(item.id)) activeIds.delete(item.id); else activeIds.add(item.id);
+      var isActive = activeIds.has(item.id);
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
+      btn.setAttribute('aria-label', item.name + (isActive ? ', included' : ', excluded'));
+      updateToggleLabel();
+    });
+    tray.appendChild(btn);
+  }
+  catalog.forEach(function(item){ renderTrayItem(item); });
+
+  function updateToggleLabel(){
+    document.getElementById('toggle-all').textContent = activeIds.size ? 'Deselect all' : 'Select all';
+  }
+
+  document.getElementById('toggle-all').addEventListener('click', function(){
+    var shouldSelect = activeIds.size === 0;
+    activeIds.clear();
+    if (shouldSelect) catalog.forEach(function(item){ activeIds.add(item.id); });
+    tray.querySelectorAll('.tray-item').forEach(function(btn){
+      var on = activeIds.has(btn.dataset.id);
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-pressed', String(on));
+    });
+    updateToggleLabel();
+  });
+
+  document.getElementById('upload-input').addEventListener('change', function(event){
+    Array.from(event.target.files).slice(0,12).forEach(function(file){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        var id = 'upload-' + Date.now() + '-' + Math.random().toString(36).slice(2,6);
+        var item = { id:id, name:file.name, isUpload:true, html:'<div class="sticker-art uploaded-art" data-crop="square"><img src="' + e.target.result + '" alt="Uploaded sticker"></div>' };
+        catalog.push(item);
+        activeIds.add(id);
+        renderTrayItem(item, e.target.result);
+        addPiece(item,surface.querySelectorAll('.sticker-piece').length,1);
+        toast.textContent = file.name + ' added as a small picture sticker.';
+      };
+      reader.readAsDataURL(file);
+    });
+    event.target.value = '';
+  });
+
+  function setPieceTransform(piece){
+    piece.style.transform = 'translate(-50%,-50%) rotate(' + piece.dataset.rotation + 'deg) scale(' + piece.dataset.scale + ')';
+  }
+
+  function selectPiece(piece){
+    if (selectedPiece) selectedPiece.classList.remove('selected');
+    selectedPiece = piece || null;
+    if (selectedPiece) selectedPiece.classList.add('selected');
+    document.querySelectorAll('.edit-tool').forEach(function(btn){ btn.disabled = !selectedPiece; });
+    document.getElementById('selection-status').textContent = selectedPiece ? 'Sticker selected' : 'None selected';
+    var photoArt = selectedPiece ? selectedPiece.querySelector('.uploaded-art') : null;
+    document.querySelectorAll('.crop-btn').forEach(function(btn){
+      btn.disabled = !photoArt;
+      btn.classList.toggle('active',!!photoArt && btn.dataset.crop === photoArt.dataset.crop);
+    });
+    document.getElementById('crop-status').textContent = photoArt ? 'Choose a shape' : 'Select a photo';
+  }
+
+  function addPiece(item, index, total){
+    var rect = surface.getBoundingClientRect();
+    var safetyTop = surface.classList.contains('laptop') ? 45 : 120;
+    var piece = document.createElement('div');
+    piece.className = 'sticker-piece';
+    piece.dataset.rotation = String(Math.round(Math.random()*34-17));
+    piece.dataset.scale = item.isUpload ? (0.58 + Math.random()*.16).toFixed(2) : (0.68 + Math.random()*.38).toFixed(2);
+    piece.dataset.piece = String(++pieceCount);
+    piece.innerHTML = item.html;
+    var x = 48 + Math.random() * Math.max(40,rect.width-96);
+    var minY = Math.min(safetyTop,rect.height*.28);
+    var y = minY + Math.random() * Math.max(40,rect.height-minY-45);
+    piece.style.left = x + 'px';
+    piece.style.top = y + 'px';
+    piece.style.zIndex = 5 + index;
+    setPieceTransform(piece);
+    bindDrag(piece);
+    surface.appendChild(piece);
+    if (item.isUpload || index === total-1) selectPiece(piece);
+  }
+
+  function bindDrag(piece){
+    piece.addEventListener('pointerdown', function(event){
+      event.preventDefault();
+      selectPiece(piece);
+      piece.setPointerCapture(event.pointerId);
+      var rect = surface.getBoundingClientRect();
+      var startX = event.clientX;
+      var startY = event.clientY;
+      var originX = parseFloat(piece.style.left);
+      var originY = parseFloat(piece.style.top);
+      function move(e){
+        var x = Math.max(18,Math.min(rect.width-18,originX + e.clientX-startX));
+        var y = Math.max(18,Math.min(rect.height-18,originY + e.clientY-startY));
+        piece.style.left = x + 'px';piece.style.top = y + 'px';
+      }
+      function end(e){
+        piece.removeEventListener('pointermove',move);
+        piece.removeEventListener('pointerup',end);
+        piece.removeEventListener('pointercancel',end);
+        try { piece.releasePointerCapture(e.pointerId); } catch(err) {}
+      }
+      piece.addEventListener('pointermove',move);
+      piece.addEventListener('pointerup',end);
+      piece.addEventListener('pointercancel',end);
+    });
+  }
+
+  document.getElementById('drop-button').addEventListener('click', function(){
+    var chosen = catalog.filter(function(item){ return activeIds.has(item.id); });
+    if (!chosen.length) { toast.textContent = 'Select at least one sticker in the tray.';return; }
+    var existing = surface.querySelectorAll('.sticker-piece');
+    existing.forEach(function(piece){ piece.remove(); });
+    selectPiece(null);
+    chosen.forEach(function(item,index){
+      window.setTimeout(function(){ addPiece(item,index,chosen.length); }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : index*55);
+    });
+    toast.textContent = chosen.length + ' stickers dropped. Drag one to tune it.';
+  });
+
+  surface.addEventListener('pointerdown', function(event){ if (event.target === surface) selectPiece(null); });
+
+  document.querySelectorAll('.edit-tool').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (!selectedPiece) return;
+      var action = btn.dataset.action;
+      var rotation = parseFloat(selectedPiece.dataset.rotation);
+      var scale = parseFloat(selectedPiece.dataset.scale);
+      if (action === 'rotate-left') rotation -= 15;
+      if (action === 'rotate-right') rotation += 15;
+      if (action === 'smaller') scale = Math.max(.35,scale-.1);
+      if (action === 'larger') scale = Math.min(2,scale+.1);
+      if (action === 'delete') { var doomed = selectedPiece;selectPiece(null);doomed.remove();return; }
+      selectedPiece.dataset.rotation = String(rotation);
+      selectedPiece.dataset.scale = scale.toFixed(2);
+      setPieceTransform(selectedPiece);
+    });
+  });
+
+  document.querySelectorAll('.crop-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if (!selectedPiece) return;
+      var photoArt = selectedPiece.querySelector('.uploaded-art');
+      if (!photoArt) return;
+      photoArt.dataset.crop = btn.dataset.crop;
+      document.querySelectorAll('.crop-btn').forEach(function(item){ item.classList.toggle('active',item === btn); });
+      document.getElementById('crop-status').textContent = btn.textContent.trim() + ' crop';
+      toast.textContent = 'Photo cropped to ' + btn.textContent.trim().toLowerCase() + '.';
+    });
+  });
+
+  document.querySelectorAll('.segment').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.segment').forEach(function(item){ item.classList.remove('active'); });
+      btn.classList.add('active');
+      var laptop = btn.dataset.shape === 'laptop';
+      surface.classList.toggle('laptop',laptop);
+      document.getElementById('phone-size-control').hidden = laptop;
+      var currentModel = document.querySelector('.phone-model.active').dataset.model;
+      surface.setAttribute('aria-label',laptop ? 'Laptop cover sticker canvas' : currentModel.replace('phone-','iPhone ') + ' case sticker canvas');
+      surface.querySelectorAll('.sticker-piece').forEach(function(piece){ piece.remove(); });
+      selectPiece(null);
+      toast.textContent = 'Canvas changed. Press drop for a fresh layout.';
+    });
+  });
+
+  document.querySelectorAll('.phone-model').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.phone-model').forEach(function(item){ item.classList.remove('active'); });
+      btn.classList.add('active');
+      surface.classList.remove('phone-15','phone-18');
+      surface.classList.add(btn.dataset.model);
+      surface.setAttribute('aria-label',btn.textContent.trim() + ' case sticker canvas');
+      surface.querySelectorAll('.sticker-piece').forEach(function(piece){ piece.remove(); });
+      selectPiece(null);
+      toast.textContent = btn.textContent.trim() + ' size selected. Press drop for a fresh layout.';
+    });
+  });
+
+  document.querySelectorAll('.preset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-btn').forEach(function(item){ item.classList.remove('active'); });
+      btn.classList.add('active');
+      machine.dataset.preset = btn.dataset.preset;
+      toast.textContent = btn.textContent.trim() + ' booth loaded.';
+    });
+  });
+
+  document.getElementById('clear-button').addEventListener('click', function(){
+    surface.querySelectorAll('.sticker-piece').forEach(function(piece){ piece.remove(); });
+    selectPiece(null);toast.textContent = 'Canvas cleared. Ready for another drop.';
+  });
+
+  document.getElementById('save-button').addEventListener('click', function(){
+    var btn = this;
+    if (!surface.querySelector('.sticker-piece')) { toast.textContent = 'Drop some stickers before saving.';return; }
+    selectPiece(null);btn.disabled = true;btn.textContent = 'Rendering…';toast.textContent = 'Building your PNG…';
+    html2canvas(surface,{backgroundColor:null,scale:3,useCORS:true,allowTaint:true,logging:false}).then(function(canvas){
+      var link = document.createElement('a');
+      link.download = 'sticker-drop-' + (surface.classList.contains('laptop') ? 'laptop' : 'phone') + '.png';
+      link.href = canvas.toDataURL('image/png');link.click();
+      toast.textContent = 'Saved. Your cover is ready.';
+    }).catch(function(){ toast.textContent = 'Could not save this cover. Try removing a large upload.'; }).finally(function(){ btn.disabled=false;btn.textContent='Save PNG'; });
+  });
+
+  document.addEventListener('keydown',function(event){
+    if (!selectedPiece) return;
+    if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault();var doomed=selectedPiece;selectPiece(null);doomed.remove(); }
+  });
+
+  document.getElementById('drop-button').click();
+
+  var els = document.querySelectorAll('.day-section-label,.brief-cell,.decision-row,.day-nav-bar,.day-content > *');
+  els.forEach(function(el){ el.classList.add('scroll-reveal'); });
+  var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible');io.unobserve(e.target); } }); },{threshold:.08});
+  els.forEach(function(el){ io.observe(el); });
+
+  var cur = document.createElement('div');cur.id='cursor';document.body.appendChild(cur);
+  var mx=-100,my=-100,cx=-100,cy=-100;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button,label,.sticker-piece').forEach(function(el){ el.addEventListener('mouseenter',function(){cur.classList.add('hovered');});el.addEventListener('mouseleave',function(){cur.classList.remove('hovered');}); });
+  (function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
