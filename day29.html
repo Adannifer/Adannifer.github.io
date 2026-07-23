@@ -475,7 +475,7 @@
               <div class="ctrl-label" style="margin-bottom:6px;">Drag cover to reposition · scroll to zoom</div>
               <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);">Zoom</span>
-                <input type="range" id="photo-zoom" min="50" max="300" value="100" style="flex:1;accent-color:var(--pink);">
+                <input type="range" id="photo-zoom" min="10" max="500" value="100" style="flex:1;accent-color:var(--pink);">
               </div>
             </div>
           </div>
@@ -542,7 +542,7 @@
   <div class="day-nav-bar">
     <a class="day-nav-btn" href="day28.html">← Day 28</a>
     <a class="day-nav-center" href="index.html#making">↑ All Days</a>
-    <span class="day-nav-btn ghost"> →</span>
+    <a class="day-nav-btn" href="day30.html">Day 30 →</a>
   </div>
 
 <script>
@@ -704,14 +704,20 @@
     var ch = cover.offsetHeight;
     var iw = img.naturalWidth;
     var ih = img.naturalHeight;
-    var baseScale = Math.max(cw / iw, ch / ih);
-    photoScale = baseScale;
+    /* contain: show full photo first, user zooms in to crop */
+    var containScale = Math.min(cw / iw, ch / ih);
+    var coverScale   = Math.max(cw / iw, ch / ih);
+    photoScale = containScale;
     photoOx = 0; photoOy = 0;
     photoBgImg.style.width  = iw + 'px';
     photoBgImg.style.height = ih + 'px';
     photoBgImg.style.left   = '50%';
     photoBgImg.style.top    = '50%';
-    photoZoom.value = Math.round(baseScale * 100);
+    var minVal = Math.max(5, Math.round(containScale * 100));
+    var maxVal = Math.max(500, Math.round(coverScale * 300));
+    photoZoom.min   = minVal;
+    photoZoom.max   = maxVal;
+    photoZoom.value = minVal;
     applyPhotoTransform();
   }
 
