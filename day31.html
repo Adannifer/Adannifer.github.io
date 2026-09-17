@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cover Crush is a webcam-controlled K-pop discovery booth. Move an album toward Keep or Skip and hold to choose." />
+  <title>Day 31 · Cover Crush · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .day-hero{padding:140px 6vw 60px;border-bottom:1px solid var(--border)}
+    .day-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;padding:5px 12px;border:1px solid var(--pink);border-radius:2px;color:var(--pink);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+    .day-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--pink)}
+    .day-num{margin-bottom:-20px;color:transparent;font-size:clamp(72px,14vw,160px);font-weight:700;letter-spacing:-.03em;line-height:.85;-webkit-text-stroke:1px rgba(247,241,234,.15)}
+    .day-title{margin-bottom:2rem;font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:900;letter-spacing:-.04em;line-height:.9;text-transform:uppercase;text-wrap:balance}
+    .day-title .pink{color:var(--pink)}
+    .day-meta{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:32px;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+    .day-statement{max-width:760px;padding-left:20px;border-left:2px solid var(--pink);color:var(--ink-dim);font-size:clamp(15px,2vw,18px);font-style:italic;line-height:1.65}
+    .day-content{padding:0 6vw 100px}
+    .day-section-label{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-top:64px;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+    .day-section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+
+    .cover-booth{--booth-pink:#ff4da8;--booth-green:#c8ff47;--booth-paper:#f5f1e9;max-width:1180px;margin:0 auto 72px;border:1px solid #494650;border-radius:18px;background:#0c0b0f;color:#f7f2ec;box-shadow:0 10px 0 #050507;overflow:hidden}
+    .booth-marquee{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px;padding:18px 22px;border-bottom:1px solid #3e3b45;background:var(--booth-paper);color:#111014}
+    .booth-kicker{margin-bottom:5px;font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+    .booth-title{font-size:clamp(30px,5vw,64px);font-weight:950;letter-spacing:-.055em;line-height:.82;text-transform:uppercase}
+    .booth-title span{color:var(--booth-pink)}
+    .booth-live{display:flex;align-items:center;gap:8px;padding-bottom:2px;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .live-dot{width:9px;height:9px;border-radius:50%;background:#777;box-shadow:0 0 0 4px rgba(0,0,0,.08)}
+    .cover-booth.is-live .live-dot{background:var(--booth-green);box-shadow:0 0 12px var(--booth-green)}
+
+    .booth-body{display:grid;grid-template-columns:minmax(0,1fr) 286px;min-height:690px}
+    .camera-stage{position:relative;min-width:0;min-height:690px;background:#15131a;overflow:hidden;isolation:isolate}
+    .camera-stage::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .camera-feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);filter:grayscale(.45) contrast(1.08) brightness(.5);opacity:.75}
+    .camera-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(circle at 50% 40%,transparent 0 25%,rgba(6,5,8,.34) 72%),linear-gradient(180deg,rgba(12,11,15,.2),rgba(12,11,15,.58))}
+    #hand-canvas{position:absolute;inset:0;z-index:7;width:100%;height:100%;pointer-events:none}
+    .stage-topline{position:absolute;top:15px;left:16px;right:16px;z-index:9;display:flex;justify-content:space-between;gap:16px;color:#d8d2dc;font-size:8px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;pointer-events:none}
+    .tracking-state{display:inline-flex;align-items:center;gap:7px}
+    .tracking-state::before{content:"";width:6px;height:6px;border-radius:50%;background:#777}
+    .tracking-state.found::before{background:var(--booth-green);box-shadow:0 0 8px var(--booth-green)}
+
+    .choice-zone{position:absolute;bottom:18px;z-index:6;width:31%;height:36%;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;border:1px solid rgba(255,255,255,.24);border-radius:16px;background:rgba(8,7,10,.64);backdrop-filter:blur(8px);transition:border-color .16s,background .16s,transform .16s}
+    .choice-zone.skip{left:18px}
+    .choice-zone.keep{right:18px}
+    .choice-zone.active{transform:translateY(-4px)}
+    .choice-zone.skip.active{border-color:var(--booth-pink);background:rgba(255,77,168,.19)}
+    .choice-zone.keep.active{border-color:var(--booth-green);background:rgba(200,255,71,.16)}
+    .zone-mark{font-size:clamp(30px,5vw,64px);font-weight:950;letter-spacing:-.07em;line-height:.75;text-transform:uppercase}
+    .skip .zone-mark{color:var(--booth-pink)}
+    .keep .zone-mark{color:var(--booth-green)}
+    .zone-hint{margin-top:10px;color:#b6b0bb;font-size:8px;letter-spacing:.12em;text-transform:uppercase}
+    .zone-progress{height:4px;margin-top:12px;background:rgba(255,255,255,.16);overflow:hidden}
+    .zone-progress span{display:block;width:0;height:100%;background:currentColor;transition:width .05s linear}
+    .skip .zone-progress{color:var(--booth-pink)}
+    .keep .zone-progress{color:var(--booth-green)}
+
+    .album-card{--card-x:50%;--card-y:43%;position:absolute;left:var(--card-x);top:var(--card-y);z-index:8;width:clamp(176px,27vw,250px);padding:9px 9px 13px;border:1px solid rgba(255,255,255,.64);border-radius:9px;background:#f7f2ec;color:#111014;box-shadow:0 16px 45px rgba(0,0,0,.45);transform:translate(-50%,-50%) rotate(-1.5deg);transition:opacity .18s,filter .18s;will-change:left,top}
+    .album-card.is-changing{opacity:0;filter:blur(8px)}
+    .album-art-wrap{position:relative;aspect-ratio:1;background:#242129;overflow:hidden}
+    .album-art{display:block;width:100%;height:100%;object-fit:cover}
+    .album-art-fallback{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(135deg,#ff4da8,#651cff 54%,#c8ff47);font-size:44px;font-weight:950;letter-spacing:-.08em}
+    .album-art[hidden],.album-art-fallback[hidden]{display:none!important}
+    .album-stamp{position:absolute;top:8px;right:8px;padding:5px 7px;border:1px solid rgba(255,255,255,.55);background:rgba(10,9,12,.74);color:#fff;font-size:7px;letter-spacing:.14em;text-transform:uppercase}
+    .track-name{margin-top:11px;font-size:clamp(16px,2.4vw,24px);font-weight:900;letter-spacing:-.045em;line-height:.96;text-wrap:balance}
+    .artist-name{margin-top:5px;color:#6b6670;font-size:9px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
+    .preview-line{display:flex;align-items:center;gap:8px;margin-top:10px;color:#6b6670;font-size:7px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+    .preview-meter{flex:1;height:3px;background:#d5d0c9;overflow:hidden}
+    .preview-meter span{display:block;width:0;height:100%;background:#111014}
+
+    .finger-dot{position:absolute;left:50%;top:50%;z-index:11;width:26px;height:26px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 5px rgba(255,255,255,.14);transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+    .finger-dot.visible{opacity:1}
+    .finger-dot::after{content:"INDEX";position:absolute;left:32px;top:7px;color:#fff;font-size:7px;font-weight:850;letter-spacing:.13em}
+
+    .start-screen,.results-screen{position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:30px;background:rgba(9,8,11,.86);backdrop-filter:blur(10px)}
+    .start-panel,.results-panel{width:min(100%,470px);padding:28px;border:1px solid #5a5662;border-radius:14px;background:#111016;box-shadow:0 20px 60px rgba(0,0,0,.46)}
+    .start-index{color:var(--booth-pink);font-size:9px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+    .start-panel h3,.results-panel h3{margin:10px 0 12px;font-size:clamp(28px,5vw,52px);font-weight:950;letter-spacing:-.055em;line-height:.9;text-transform:uppercase}
+    .start-panel p,.results-panel p{color:#b9b3bf;font-size:12px;line-height:1.65}
+    .instruction-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0}
+    .instruction{padding:11px 9px;border:1px solid #34313c;border-radius:7px;color:#ddd7e0;font-size:8px;line-height:1.45}
+    .instruction b{display:block;margin-bottom:3px;color:#fff;font-size:14px}
+    .start-btn,.panel-btn{width:100%;padding:14px;border:0;border-radius:7px;background:var(--booth-green);color:#10120b;font:inherit;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;cursor:pointer}
+    .start-btn:disabled{opacity:.45;cursor:wait}
+    .privacy-note{margin-top:10px!important;color:#77717e!important;font-size:8px!important;letter-spacing:.06em}
+    .results-screen[hidden],.start-screen[hidden]{display:none}
+    .liked-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0;max-height:200px;overflow:auto}
+    .liked-item{color:#fff;text-decoration:none}
+    .liked-item img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#28252d}
+    .liked-item span{display:block;margin-top:5px;font-size:7px;line-height:1.25}
+
+    .control-rail{display:flex;flex-direction:column;min-width:0;border-left:1px solid #34313c;background:#111016}
+    .rail-block{padding:18px;border-bottom:1px solid #302d36}
+    .rail-label{margin-bottom:10px;color:#88828e;font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .rail-progress{display:flex;justify-content:space-between;align-items:baseline}
+    .progress-count{font-size:34px;font-weight:950;letter-spacing:-.06em}
+    .progress-count small{color:#77717e;font-size:12px;font-weight:700}
+    .kept-count{color:var(--booth-green);font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .now-title{font-size:17px;font-weight:850;letter-spacing:-.035em;line-height:1.05}
+    .now-artist{margin-top:6px;color:#9e98a5;font-size:9px;letter-spacing:.09em;text-transform:uppercase}
+    .source-link{display:inline-block;margin-top:11px;color:#d9d3dd;font-size:8px;letter-spacing:.08em;text-decoration:underline;text-underline-offset:3px}
+    .source-link[hidden]{display:none}
+    .rail-status{color:#bbb5c0;font-size:10px;line-height:1.55}
+    .rail-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .rail-btn{min-height:42px;padding:9px;border:1px solid #3a3741;border-radius:6px;background:#1a181f;color:#eee8f1;font:inherit;font-size:8px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .rail-btn:hover,.rail-btn:focus-visible{border-color:#f7f2ec;background:#25222b}
+    .rail-btn.skip-btn{color:var(--booth-pink)}
+    .rail-btn.keep-btn{color:var(--booth-green)}
+    .rail-btn.wide{grid-column:1/-1}
+    .rail-spacer{flex:1}
+    .api-note{padding:18px;color:#6f6975;font-size:7px;line-height:1.55}
+    .api-note a{color:#9c96a2;text-decoration:underline}
+
+    .brief-block{display:grid;grid-template-columns:repeat(2,1fr);margin-bottom:12px;border:1px solid var(--border)}
+    .brief-cell{padding:28px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .brief-cell:nth-child(2n){border-right:0}
+    .brief-cell:nth-last-child(-n+2){border-bottom:0}
+    .bc-label{margin-bottom:10px;color:var(--pink);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+    .bc-text{color:var(--ink-dim);font-size:14px;line-height:1.65}
+    .bc-text strong{color:var(--ink);font-weight:700}
+    .decision-list{border-top:1px solid var(--border)}
+    .decision-row{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:22px 0;border-bottom:1px solid var(--border)}
+    .dr-label{color:var(--ink);font-size:12px;font-weight:700}
+    .dr-text{max-width:70ch;color:var(--ink-dim);font-size:14px;line-height:1.65}
+
+    @media (max-width:900px){
+      .booth-body{grid-template-columns:1fr}
+      .control-rail{border-top:1px solid #34313c;border-left:0}
+      .camera-stage{min-height:680px}
+      .rail-spacer{display:none}
+    }
+    @media (max-width:620px){
+      .day-content{padding-right:16px;padding-left:16px}
+      #nav{width:calc(100vw - 24px);min-width:0;padding:0 10px;gap:10px}
+      #nav-logo-text{font-size:.78rem}
+      #nav-links{gap:.7rem}
+      .nav-link{font-size:.58rem;letter-spacing:.07em}
+      .cover-booth{border-radius:9px}
+      .booth-marquee{grid-template-columns:1fr}
+      .booth-live{display:none}
+      .camera-stage{min-height:610px}
+      .choice-zone{bottom:12px;width:35%;height:29%;padding:12px}
+      .choice-zone.skip{left:12px}
+      .choice-zone.keep{right:12px}
+      .album-card{top:40%;width:178px}
+      .instruction-row{grid-template-columns:1fr}
+      .start-panel{padding:22px}
+      .brief-block{grid-template-columns:1fr}
+      .brief-cell,.brief-cell:nth-child(2n){border-right:0;border-bottom:1px solid var(--border)}
+      .brief-cell:last-child{border-bottom:0}
+      .decision-row{grid-template-columns:1fr;gap:8px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .album-card,.choice-zone{transition:none}
+    }
+  </style>
+</head>
+<body class="project-page day-page">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot"><a href="index.html"><span id="nav-logo-text">Jennifer<span class="logo-pink">Qian</span></span></a></div>
+    <div id="nav-links"><a href="index.html#work" class="nav-link">Work</a><a href="index.html#making" class="nav-link">Making</a><a href="about.html" class="nav-link">About</a></div>
+  </nav>
+
+  <header class="day-hero">
+    <div class="day-badge"><span class="dot"></span>90 Days of Building with AI</div>
+    <div class="day-num">31</div>
+    <h1 class="day-title">Cover <span class="pink">Crush</span></h1>
+    <div class="day-meta"><span>Day 31 / 90</span><span>Webcam Interaction</span><span>Music Discovery</span><span>July 30, 2026</span></div>
+    <p class="day-statement">A hands-free listening booth where your index finger becomes the cursor: move a live album cover toward Keep or Skip, hold for one second, and build a tiny playlist by instinct.</p>
+  </header>
+
+  <main class="day-content">
+    <div class="day-section-label">Try the Booth</div>
+
+    <section class="cover-booth" id="cover-booth" aria-label="Cover Crush gesture-controlled music booth">
+      <div class="booth-marquee">
+        <div><div class="booth-kicker">Gesture listening booth · Session 031</div><div class="booth-title">Cover <span>Crush</span></div></div>
+        <div class="booth-live"><span class="live-dot"></span><span id="booth-live-copy">Standby</span></div>
+      </div>
+
+      <div class="booth-body">
+        <div class="camera-stage" id="camera-stage">
+          <video class="camera-feed" id="camera-feed" playsinline muted aria-label="Mirrored webcam feed"></video>
+          <div class="camera-scrim"></div>
+          <canvas id="hand-canvas" aria-hidden="true"></canvas>
+
+          <div class="stage-topline">
+            <span class="tracking-state" id="tracking-state">Camera off</span>
+            <span id="stage-help">Point with one hand</span>
+          </div>
+
+          <div class="choice-zone skip" id="skip-zone" aria-hidden="true">
+            <div class="zone-mark">Skip</div>
+            <div class="zone-hint">Hold here for 1 second</div>
+            <div class="zone-progress"><span id="skip-progress"></span></div>
+          </div>
+          <div class="choice-zone keep" id="keep-zone" aria-hidden="true">
+            <div class="zone-mark">Keep</div>
+            <div class="zone-hint">Hold here for 1 second</div>
+            <div class="zone-progress"><span id="keep-progress"></span></div>
+          </div>
+
+          <article class="album-card" id="album-card" aria-live="polite">
+            <div class="album-art-wrap">
+              <div class="album-art-fallback" id="album-fallback">31</div>
+              <img class="album-art" id="album-art" alt="" hidden />
+              <div class="album-stamp">15 sec preview</div>
+            </div>
+            <div class="track-name" id="card-track">Loading the live catalogue…</div>
+            <div class="artist-name" id="card-artist">Please wait</div>
+            <div class="preview-line"><span id="preview-copy">Preview ready</span><div class="preview-meter"><span id="preview-meter-fill"></span></div></div>
+          </article>
+
+          <div class="finger-dot" id="finger-dot" aria-hidden="true"></div>
+
+          <div class="start-screen" id="start-screen">
+            <div class="start-panel">
+              <div class="start-index">Day 31 · Browser experiment</div>
+              <h3>Pick with your hand.</h3>
+              <p>Cover Crush uses your webcam to track only your index fingertip. Nothing is recorded or uploaded.</p>
+              <div class="instruction-row">
+                <div class="instruction"><b>01</b>Allow camera access.</div>
+                <div class="instruction"><b>02</b>Point at the album cover.</div>
+                <div class="instruction"><b>03</b>Hold over Keep or Skip.</div>
+              </div>
+              <button class="start-btn" id="start-btn" type="button" disabled>Loading catalogue…</button>
+              <p class="privacy-note" id="start-note">Keyboard fallback: ← Skip · → Keep · Space Preview</p>
+            </div>
+          </div>
+
+          <div class="results-screen" id="results-screen" hidden>
+            <div class="results-panel">
+              <div class="start-index">Session complete</div>
+              <h3 id="result-title">Your cover crushes.</h3>
+              <p id="result-copy">A tiny playlist chosen by your index finger.</p>
+              <div class="liked-grid" id="liked-grid"></div>
+              <button class="panel-btn" id="restart-btn" type="button">Run another session</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="control-rail">
+          <div class="rail-block">
+            <div class="rail-label">Session progress</div>
+            <div class="rail-progress"><div class="progress-count"><span id="current-count">01</span> <small>/ <span id="total-count">08</span></small></div><div class="kept-count"><span id="kept-count">0</span> kept</div></div>
+          </div>
+          <div class="rail-block">
+            <div class="rail-label">Now auditioning</div>
+            <div class="now-title" id="rail-track">Loading…</div>
+            <div class="now-artist" id="rail-artist">Live music catalogue</div>
+            <a class="source-link" id="source-link" href="#" target="_blank" rel="noopener" hidden>View in Apple Music ↗</a>
+          </div>
+          <div class="rail-block">
+            <div class="rail-label">System status</div>
+            <div class="rail-status" id="system-status">Fetching album covers and preview audio…</div>
+          </div>
+          <div class="rail-block">
+            <div class="rail-label">Manual controls</div>
+            <div class="rail-actions">
+              <button class="rail-btn skip-btn" id="manual-skip" type="button" disabled>← Skip</button>
+              <button class="rail-btn keep-btn" id="manual-keep" type="button" disabled>Keep →</button>
+              <button class="rail-btn wide" id="audio-toggle" type="button" disabled>Preview: On</button>
+            </div>
+          </div>
+          <div class="rail-spacer"></div>
+          <div class="api-note">Album artwork, metadata, and preview audio are loaded from the <a href="https://performance-partners.apple.com/search-api" target="_blank" rel="noopener">iTunes Search API</a>. Preview audio is streamed and stops after 15 seconds. Media courtesy of iTunes.</div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="day-section-label">The Brief</div>
+    <div class="brief-block">
+      <div class="brief-cell"><div class="bc-label">Input</div><div class="bc-text">A live webcam feed and one tracked fingertip replace the mouse as the primary control.</div></div>
+      <div class="brief-cell"><div class="bc-label">Catalogue</div><div class="bc-text"><strong>Real album artwork, track metadata, and streamable previews</strong> arrive from a public music search API rather than a hardcoded sketch.</div></div>
+      <div class="brief-cell"><div class="bc-label">Interaction</div><div class="bc-text">Move the cover into <strong>Keep or Skip</strong> and hold for one second. Keyboard and button controls remain available as a fallback.</div></div>
+      <div class="brief-cell"><div class="bc-label">Output</div><div class="bc-text">Eight quick decisions resolve into a small linked playlist of the tracks you kept.</div></div>
+    </div>
+
+    <div class="day-section-label">Design Decisions</div>
+    <div class="decision-list">
+      <div class="decision-row"><div class="dr-label">A listening booth, not a tech demo</div><div class="dr-text">Camera vision sits behind a physical record-sorter interface. The hand model is present but secondary; the music decision stays visually dominant.</div></div>
+      <div class="decision-row"><div class="dr-label">Dwell instead of pinch</div><div class="dr-text">A one-second hold is more legible and less error-prone than requiring a specific hand gesture. Progress bars make the selection threshold visible.</div></div>
+      <div class="decision-row"><div class="dr-label">Mirror once, map once</div><div class="dr-text">The camera is mirrored for natural movement and the landmark coordinates are corrected to match, avoiding the swapped Like / Dislike behavior in the original prototype.</div></div>
+      <div class="decision-row"><div class="dr-label">Live content with an honest fallback</div><div class="dr-text">The booth requests only tracks with preview audio. If camera tracking is unavailable, the same session still works with arrows or on-screen buttons.</div></div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:64px;margin-top:64px;border-top:1px solid var(--border);">
+      <a href="day30.html" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">← Day 30</a>
+      <a href="index.html#making" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">90 Days Index</a>
+    </div>
+  </main>
+
+  <script src="gradient.js"></script>
+
+  <div class="day-nav-bar">
+    <a class="day-nav-btn" href="day30.html">← Day 30</a>
+    <a class="day-nav-center" href="index.html#making">↑ All Days</a>
+    <span class="day-nav-btn ghost"> →</span>
+  </div>
+
+  <audio id="preview-audio" preload="none"></audio>
+
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+    const booth = $("cover-booth");
+    const stage = $("camera-stage");
+    const video = $("camera-feed");
+    const overlay = $("hand-canvas");
+    const ctx = overlay.getContext("2d");
+    const card = $("album-card");
+    const audio = $("preview-audio");
+    const startBtn = $("start-btn");
+    const sessionSize = 8;
+    const artistQueries = ["NewJeans", "aespa", "LE SSERAFIM", "IVE", "Stray Kids", "KISS OF LIFE"];
+    const handConnections = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+
+    let catalogue = [];
+    let queue = [];
+    let kept = [];
+    let currentIndex = 0;
+    let handLandmarker = null;
+    let modelPromise = null;
+    let experienceStarted = false;
+    let decisionLocked = false;
+    let previewEnabled = true;
+    let previewTimer = 0;
+    let activeZone = null;
+    let zoneEnteredAt = 0;
+    let lastVideoTime = -1;
+    let smoothX = .5;
+    let smoothY = .43;
+    let hasCamera = false;
+
+    function jsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callback = "__coverCrush" + Math.random().toString(36).slice(2);
+        const script = document.createElement("script");
+        const timer = window.setTimeout(() => {
+          delete window[callback];
+          script.remove();
+          reject(new Error("Catalogue request timed out"));
+        }, 9000);
+        window[callback] = (data) => {
+          window.clearTimeout(timer);
+          delete window[callback];
+          script.remove();
+          resolve(data);
+        };
+        script.onerror = () => {
+          window.clearTimeout(timer);
+          delete window[callback];
+          script.remove();
+          reject(new Error("Catalogue request failed"));
+        };
+        script.src = url + "&callback=" + callback;
+        document.head.appendChild(script);
+      });
+    }
+
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    async function loadCatalogue() {
+      const requests = artistQueries.map((term) => jsonp(
+        "https://itunes.apple.com/search?media=music&entity=song&country=US&limit=6&term=" + encodeURIComponent(term)
+      ).catch(() => ({ results: [] })));
+      const responses = await Promise.all(requests);
+      const unique = new Map();
+      responses.flatMap((response) => response.results || []).forEach((track) => {
+        if (!track.previewUrl || !track.artworkUrl100 || !track.trackId) return;
+        unique.set(track.trackId, {
+          id: track.trackId,
+          track: track.trackName,
+          artist: track.artistName,
+          album: track.collectionName,
+          artwork: track.artworkUrl100.replace("100x100bb", "600x600bb"),
+          preview: track.previewUrl,
+          link: track.trackViewUrl || track.collectionViewUrl || ""
+        });
+      });
+      catalogue = Array.from(unique.values());
+      if (catalogue.length < sessionSize) throw new Error("Not enough preview tracks returned");
+      queue = shuffle(catalogue).slice(0, sessionSize);
+      $("total-count").textContent = String(sessionSize).padStart(2, "0");
+      renderTrack(false);
+      startBtn.disabled = false;
+      startBtn.textContent = "Start camera + sound";
+      $("system-status").textContent = catalogue.length + " live tracks ready. Camera model is loading in the background.";
+    }
+
+    async function initModel() {
+      const providers = [
+        {
+          module: "https://unpkg.com/@mediapipe/tasks-vision@0.10.35/vision_bundle.mjs?module",
+          wasm: "https://unpkg.com/@mediapipe/tasks-vision@0.10.35/wasm"
+        },
+        {
+          module: "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/vision_bundle.mjs",
+          wasm: "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm"
+        }
+      ];
+      let lastError;
+      for (const provider of providers) {
+        try {
+          const { FilesetResolver, HandLandmarker } = await import(provider.module);
+          const vision = await FilesetResolver.forVisionTasks(provider.wasm);
+          const options = {
+            baseOptions: {
+              modelAssetPath: "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
+            },
+            runningMode: "VIDEO",
+            numHands: 1,
+            minHandDetectionConfidence: .5,
+            minHandPresenceConfidence: .45,
+            minTrackingConfidence: .45
+          };
+          try {
+            handLandmarker = await HandLandmarker.createFromOptions(vision, {
+              ...options,
+              baseOptions: { ...options.baseOptions, delegate: "GPU" }
+            });
+          } catch (gpuError) {
+            handLandmarker = await HandLandmarker.createFromOptions(vision, options);
+          }
+          return handLandmarker;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error("Hand tracking could not load");
+    }
+
+    function currentTrack() {
+      return queue[currentIndex];
+    }
+
+    function renderTrack(play = true) {
+      const track = currentTrack();
+      if (!track) return;
+      card.classList.add("is-changing");
+      window.setTimeout(() => {
+        $("album-art").hidden = false;
+        $("album-art").src = track.artwork;
+        $("album-art").alt = track.album + " cover";
+        $("album-fallback").hidden = true;
+        $("card-track").textContent = track.track;
+        $("card-artist").textContent = track.artist + " · " + track.album;
+        $("rail-track").textContent = track.track;
+        $("rail-artist").textContent = track.artist;
+        $("current-count").textContent = String(currentIndex + 1).padStart(2, "0");
+        $("kept-count").textContent = kept.length;
+        const sourceLink = $("source-link");
+        sourceLink.hidden = !track.link;
+        sourceLink.href = track.link || "#";
+        resetZones();
+        card.classList.remove("is-changing");
+        if (play && experienceStarted) startPreview();
+      }, 170);
+    }
+
+    function startPreview() {
+      window.clearTimeout(previewTimer);
+      audio.pause();
+      audio.currentTime = 0;
+      $("preview-meter-fill").style.width = "0%";
+      if (!previewEnabled || !currentTrack()?.preview) {
+        $("preview-copy").textContent = previewEnabled ? "Preview unavailable" : "Preview off";
+        return;
+      }
+      audio.src = currentTrack().preview;
+      audio.play().then(() => {
+        $("preview-copy").textContent = "Playing 15 seconds";
+        previewTimer = window.setTimeout(stopPreview, 15000);
+      }).catch(() => {
+        $("preview-copy").textContent = "Tap Preview to listen";
+        $("system-status").textContent = "Camera is active. Tap Preview if your browser blocked autoplay.";
+      });
+    }
+
+    function stopPreview() {
+      window.clearTimeout(previewTimer);
+      audio.pause();
+      if (audio.currentTime >= 14.8) $("preview-copy").textContent = "Preview complete";
+    }
+
+    audio.addEventListener("timeupdate", () => {
+      const elapsed = Math.min(audio.currentTime, 15);
+      $("preview-meter-fill").style.width = (elapsed / 15 * 100) + "%";
+      if (audio.currentTime >= 15) stopPreview();
+    });
+
+    async function startExperience() {
+      if (experienceStarted || !queue.length) return;
+      experienceStarted = true;
+      startBtn.disabled = true;
+      startBtn.textContent = "Starting camera…";
+      startPreview();
+      $("system-status").textContent = "Requesting camera access. Your video stays on this device.";
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+        video.srcObject = stream;
+        await video.play();
+        hasCamera = true;
+        $("tracking-state").textContent = "Finding hand";
+        $("booth-live-copy").textContent = "Camera live";
+        booth.classList.add("is-live");
+        $("start-screen").hidden = true;
+        $("system-status").textContent = "Camera live. Show one hand and move your index finger.";
+        setManualControls(true);
+        await modelPromise;
+        if (handLandmarker) {
+          detectFrame();
+        } else {
+          $("tracking-state").textContent = "Manual mode";
+          $("system-status").textContent = "Camera is visible, but hand tracking could not load. Use the buttons or arrow keys.";
+        }
+      } catch (error) {
+        hasCamera = false;
+        $("start-screen").hidden = true;
+        $("tracking-state").textContent = "Manual mode";
+        $("booth-live-copy").textContent = "Manual mode";
+        $("system-status").textContent = "Camera tracking is unavailable. Use the buttons or arrow keys to keep playing.";
+        setManualControls(true);
+      }
+    }
+
+    function resizeOverlay() {
+      const rect = stage.getBoundingClientRect();
+      const scale = window.devicePixelRatio || 1;
+      overlay.width = Math.round(rect.width * scale);
+      overlay.height = Math.round(rect.height * scale);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      return rect;
+    }
+
+    function drawHand(landmarks, rect) {
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.lineWidth = 1.25;
+      ctx.strokeStyle = "rgba(200,255,71,.72)";
+      handConnections.forEach(([a, b]) => {
+        ctx.beginPath();
+        ctx.moveTo((1 - landmarks[a].x) * rect.width, landmarks[a].y * rect.height);
+        ctx.lineTo((1 - landmarks[b].x) * rect.width, landmarks[b].y * rect.height);
+        ctx.stroke();
+      });
+      ctx.fillStyle = "#f7f2ec";
+      landmarks.forEach((point, index) => {
+        ctx.beginPath();
+        ctx.arc((1 - point.x) * rect.width, point.y * rect.height, index === 8 ? 4 : 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function detectFrame() {
+      if (!experienceStarted || !hasCamera || !handLandmarker) return;
+      const rect = resizeOverlay();
+      if (video.readyState >= 2 && video.currentTime !== lastVideoTime) {
+        lastVideoTime = video.currentTime;
+        const result = handLandmarker.detectForVideo(video, performance.now());
+        if (result.landmarks?.length) {
+          const landmarks = result.landmarks[0];
+          const tip = landmarks[8];
+          const targetX = 1 - tip.x;
+          const targetY = tip.y;
+          smoothX += (targetX - smoothX) * .34;
+          smoothY += (targetY - smoothY) * .34;
+          drawHand(landmarks, rect);
+          updatePointer(smoothX, smoothY, rect);
+          $("tracking-state").classList.add("found");
+          $("tracking-state").textContent = "Hand found";
+        } else {
+          ctx.clearRect(0, 0, rect.width, rect.height);
+          $("finger-dot").classList.remove("visible");
+          $("tracking-state").classList.remove("found");
+          $("tracking-state").textContent = "Finding hand";
+          resetZones();
+        }
+      }
+      window.requestAnimationFrame(detectFrame);
+    }
+
+    function updatePointer(x, y, rect) {
+      const dot = $("finger-dot");
+      const px = x * rect.width;
+      const py = y * rect.height;
+      dot.style.left = px + "px";
+      dot.style.top = py + "px";
+      dot.classList.add("visible");
+      if (!decisionLocked) {
+        const cardX = Math.max(.18, Math.min(.82, x));
+        const cardY = Math.max(.24, Math.min(.58, y - .08));
+        card.style.setProperty("--card-x", (cardX * 100) + "%");
+        card.style.setProperty("--card-y", (cardY * 100) + "%");
+      }
+      const zone = y > .63 && x < .37 ? "skip" : y > .63 && x > .63 ? "keep" : null;
+      updateZone(zone);
+    }
+
+    function updateZone(zone) {
+      if (!zone || decisionLocked) {
+        resetZones();
+        return;
+      }
+      if (activeZone !== zone) {
+        resetZones();
+        activeZone = zone;
+        zoneEnteredAt = performance.now();
+      }
+      const progress = Math.min(1, (performance.now() - zoneEnteredAt) / 950);
+      $(zone + "-zone").classList.add("active");
+      $(zone + "-progress").style.width = (progress * 100) + "%";
+      $("stage-help").textContent = "Hold " + Math.ceil((1 - progress) * 10) / 10 + " sec";
+      if (progress >= 1) choose(zone);
+    }
+
+    function resetZones() {
+      activeZone = null;
+      zoneEnteredAt = 0;
+      ["skip", "keep"].forEach((zone) => {
+        $(zone + "-zone").classList.remove("active");
+        $(zone + "-progress").style.width = "0%";
+      });
+      $("stage-help").textContent = "Point with one hand";
+    }
+
+    function choose(choice) {
+      if (decisionLocked || !experienceStarted || !currentTrack()) return;
+      decisionLocked = true;
+      resetZones();
+      stopPreview();
+      if (choice === "keep") kept.push(currentTrack());
+      $("kept-count").textContent = kept.length;
+      card.style.setProperty("--card-x", choice === "keep" ? "112%" : "-12%");
+      card.style.setProperty("--card-y", "75%");
+      window.setTimeout(() => {
+        currentIndex += 1;
+        if (currentIndex >= queue.length) {
+          showResults();
+          return;
+        }
+        card.style.setProperty("--card-x", "50%");
+        card.style.setProperty("--card-y", "43%");
+        decisionLocked = false;
+        renderTrack(true);
+      }, 360);
+    }
+
+    function showResults() {
+      decisionLocked = true;
+      stopPreview();
+      const grid = $("liked-grid");
+      grid.innerHTML = "";
+      if (!kept.length) {
+        $("result-title").textContent = "Hard to impress.";
+        $("result-copy").textContent = "You skipped every track. Run it again for a new stack.";
+      } else {
+        $("result-title").textContent = kept.length + (kept.length === 1 ? " cover crush." : " cover crushes.");
+        $("result-copy").textContent = "Open any cover to hear the full track in Apple Music.";
+        kept.forEach((track) => {
+          const item = document.createElement(track.link ? "a" : "div");
+          item.className = "liked-item";
+          if (track.link) {
+            item.href = track.link;
+            item.target = "_blank";
+            item.rel = "noopener";
+          }
+          item.innerHTML = '<img src="' + track.artwork + '" alt=""><span>' + escapeHTML(track.track) + '<br>' + escapeHTML(track.artist) + '</span>';
+          grid.appendChild(item);
+        });
+      }
+      $("results-screen").hidden = false;
+      setManualControls(false);
+    }
+
+    function escapeHTML(value) {
+      const node = document.createElement("span");
+      node.textContent = value;
+      return node.innerHTML;
+    }
+
+    function restart() {
+      queue = shuffle(catalogue).slice(0, sessionSize);
+      kept = [];
+      currentIndex = 0;
+      decisionLocked = false;
+      $("results-screen").hidden = true;
+      $("kept-count").textContent = "0";
+      card.style.setProperty("--card-x", "50%");
+      card.style.setProperty("--card-y", "43%");
+      setManualControls(true);
+      renderTrack(true);
+    }
+
+    function setManualControls(enabled) {
+      $("manual-skip").disabled = !enabled;
+      $("manual-keep").disabled = !enabled;
+      $("audio-toggle").disabled = !enabled;
+    }
+
+    startBtn.addEventListener("click", startExperience);
+    $("manual-skip").addEventListener("click", () => choose("skip"));
+    $("manual-keep").addEventListener("click", () => choose("keep"));
+    $("restart-btn").addEventListener("click", restart);
+    $("audio-toggle").addEventListener("click", () => {
+      previewEnabled = !previewEnabled;
+      $("audio-toggle").textContent = "Preview: " + (previewEnabled ? "On" : "Off");
+      if (previewEnabled) startPreview();
+      else stopPreview();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (!experienceStarted || $("results-screen").hidden === false) return;
+      if (event.key === "ArrowLeft") choose("skip");
+      if (event.key === "ArrowRight") choose("keep");
+      if (event.code === "Space") {
+        event.preventDefault();
+        previewEnabled = true;
+        $("audio-toggle").textContent = "Preview: On";
+        startPreview();
+      }
+    });
+    window.addEventListener("resize", resizeOverlay);
+    $("album-art").addEventListener("error", () => {
+      $("album-art").hidden = true;
+      $("album-fallback").hidden = false;
+    });
+
+    modelPromise = initModel().catch((error) => {
+      console.warn("Hand model unavailable", error);
+      return null;
+    });
+    loadCatalogue().catch((error) => {
+      console.warn(error);
+      startBtn.disabled = true;
+      startBtn.textContent = "Catalogue unavailable";
+      $("card-track").textContent = "Could not reach the music catalogue";
+      $("card-artist").textContent = "Check your connection and reload";
+      $("rail-track").textContent = "Catalogue offline";
+      $("system-status").textContent = "The live catalogue did not return enough preview tracks. Reload to try again.";
+    });
+
+    const revealEls = document.querySelectorAll(".day-section-label,.brief-cell,.decision-row,.day-nav-bar,.day-content > *");
+    revealEls.forEach((el) => el.classList.add("scroll-reveal"));
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    }), { threshold: .08 });
+    revealEls.forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
