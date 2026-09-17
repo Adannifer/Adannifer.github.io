@@ -332,6 +332,45 @@ initBubbleAcid();
    PHASE B — SCROLL STICKY SHRINK
    The floating logo bridges hero → nav
    ════════════════════════════════════════ */
+function initNarrativeBubbles() {
+  const stage = $('#narrative-stage');
+  const section = $('#narrative');
+  if (!stage || !section) return;
+
+  const texts = $$('.nb-text');
+  const dots  = $$('.nb-dot');
+  const bgs   = $$('.nb-bg-img');
+  const N = texts.length;
+
+  // which background image shows on which beat index (others = plain dark panel)
+  const bgForIndex = { 2: 'cp', 4: 'ak' };
+
+  let activeIdx = -1;
+  const setIdx = (idx) => {
+    if (idx === activeIdx) return;
+    activeIdx = idx;
+    texts.forEach((t, i) => t.classList.toggle('is-visible', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    bgs.forEach(b => b.classList.toggle('is-active', b.dataset.bg === bgForIndex[idx]));
+  };
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 20%',
+    end: '+=300%',
+    pin: stage,
+    scrub: 0.4,
+    onUpdate: self => {
+      let idx = Math.floor(self.progress * N);
+      if (idx >= N) idx = N - 1;
+      if (idx < 0) idx = 0;
+      setIdx(idx);
+    },
+  });
+
+  setIdx(0);
+}
+
 function initScrollAnimation() {
   // Show nav
   navEl.classList.add('visible');
@@ -794,6 +833,7 @@ async function init() {
 
   // Phase B + C
   initScrollAnimation();
+  initNarrativeBubbles();
   initCursorBlobs();
   initNavLinks();
   initHeroAcid();

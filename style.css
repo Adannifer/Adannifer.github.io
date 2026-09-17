@@ -473,6 +473,95 @@ img { display: block; max-width: 100%; }
 }
 
 /* ════════════════════════════════════════
+   NARRATIVE — pinned bubble sequence
+   ════════════════════════════════════════ */
+#narrative {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 6vw 3rem;
+}
+
+#narrative-stage {
+  position: relative;
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  height: 58vh;
+  max-height: 440px;
+  min-height: 300px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.nb-bg-layer {
+  position: absolute;
+  inset: 0;
+  background: var(--panel);
+}
+
+.nb-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  filter: blur(1px) brightness(0.38) saturate(1.05);
+  transition: opacity 1s var(--ease-out-expo);
+}
+.nb-bg-img.is-active { opacity: 1; }
+
+#narrative-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(10,6,19,0.1) 0%, rgba(10,6,19,0.82) 78%);
+  pointer-events: none;
+}
+
+.nb-text {
+  position: absolute;
+  max-width: 640px;
+  padding: 0 2rem;
+  font-size: clamp(1.3rem, 3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+  z-index: 2;
+}
+.nb-text.is-visible { opacity: 1; transform: translateY(0); }
+.nb-accent { color: var(--pink); }
+
+.nb-progress {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  z-index: 5;
+}
+.nb-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-muted);
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+.nb-dot.is-active {
+  background: var(--pink);
+  transform: scale(1.6);
+}
+
+/* ════════════════════════════════════════
    WORK
    ════════════════════════════════════════ */
 #work {
