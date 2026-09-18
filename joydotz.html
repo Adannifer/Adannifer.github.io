@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Joydotz — Jennifer Qian</title>
-  <link rel="stylesheet" href="style.css?v=19" />
+  <link rel="stylesheet" href="style.css?v=20" />
   <svg id="svg-filters" aria-hidden="true" focusable="false">
     <defs>
       <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
@@ -35,8 +35,11 @@
 
   <!-- Hero -->
   <section class="proj-hero">
-    <img class="proj-hero-img" src="joydotz_branding/web/jd-hero-after.jpg"
-         alt="Joydotz — hero rebrand" style="object-position: center 30%;">
+    <video class="proj-hero-img" autoplay muted loop playsinline
+           poster="joydotz_branding/web/jd-hero-after.jpg"
+           style="object-position: center 30%;">
+      <source src="joydotz_branding/web/jd-showcase.mp4" type="video/mp4">
+    </video>
     <div class="proj-hero-overlay"></div>
     <div class="proj-hero-text">
       <span class="proj-num">05 — Joydotz</span>
@@ -177,7 +180,9 @@
           A gradient planet rises from the bottom with sparkle eyes that track the cursor and blink.
         </p>
         <div class="compare-stack">
-          <img class="cs-after" src="joydotz_branding/web/jd-bottom-after.jpg" alt="Footer after — glowing gradient planet with sparkle eyes" loading="lazy">
+          <video class="cs-after" autoplay muted loop playsinline poster="joydotz_branding/web/jd-bottom-after.jpg">
+            <source src="joydotz_branding/web/jd-footer-interaction.mp4" type="video/mp4">
+          </video>
           <img class="cs-before" src="joydotz_branding/web/jd-bottom-before.jpg" alt="Footer before — plain grey sitemap footer" loading="lazy">
           <span class="compare-tag is-after">After</span>
           <span class="compare-tag is-before">Before</span>
@@ -208,11 +213,37 @@
         <p style="font-size:0.84rem; color:var(--ink-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
           Patching famous statues around the world with Joydotz shapes, just for fun.
         </p>
-        <div class="statue-grid">
-          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-david-flower.jpg" alt="Michelangelo's David wearing Blush Flower patches" loading="lazy"></div>
-          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-david-cloud.jpg" alt="Michelangelo's David wearing Daydream Cloud patches" loading="lazy"></div>
-          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-liberty-butterfly.jpg" alt="Statue of Liberty wearing Softwing Butterfly patches" loading="lazy"></div>
-          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-liberty-cloud.jpg" alt="Statue of Liberty wearing Daydream Cloud patches" loading="lazy"></div>
+        <div class="jd-patch-row">
+          <div class="jd-patch-card">
+            <img src="90days/day18_david_flower.png" alt="Michelangelo's David wearing Joydotz flower patch" loading="lazy">
+            <div class="jd-patch-label">
+              <span class="jd-patch-subject">Michelangelo's David</span>
+              <span class="jd-patch-type">Flower Patch</span>
+            </div>
+          </div>
+          <div class="jd-patch-card">
+            <img src="90days/day18_sol_butterfly.png" alt="Statue of Liberty wearing Joydotz butterfly patch" loading="lazy">
+            <div class="jd-patch-label">
+              <span class="jd-patch-subject">Statue of Liberty</span>
+              <span class="jd-patch-type">Butterfly Patch</span>
+            </div>
+          </div>
+        </div>
+        <div class="jd-patch-row">
+          <div class="jd-patch-card">
+            <div class="jd-img-wrap"><img src="90days/day18_sol_cloud.png" alt="Statue of Liberty wearing Joydotz cloud patch" loading="lazy"></div>
+            <div class="jd-patch-label">
+              <span class="jd-patch-subject">Statue of Liberty</span>
+              <span class="jd-patch-type">Cloud Patch</span>
+            </div>
+          </div>
+          <div class="jd-patch-card">
+            <div class="jd-img-wrap"><img src="90days/day18_david_cloud.png" alt="Michelangelo's David wearing Joydotz cloud patch" loading="lazy"></div>
+            <div class="jd-patch-label">
+              <span class="jd-patch-subject">Michelangelo's David</span>
+              <span class="jd-patch-type">Cloud Patch</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -253,6 +284,6 @@
   <script src="gradient.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="page.js?v=19"></script>
+  <script src="page.js?v=20"></script>
 </body>
 </html>

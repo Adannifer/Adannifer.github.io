@@ -1609,7 +1609,9 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
   width: 100%; height: 100%;
   overflow: hidden;
 }
-.proj-hero-img img {
+.proj-hero-img img,
+.proj-hero-img video,
+video.proj-hero-img {
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center 30%;
@@ -2767,14 +2769,14 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
 .compare-stack {
   position: relative;
   aspect-ratio: 16 / 9;
-  max-width: 720px;
   border-radius: 16px;
   overflow: hidden;
   background: var(--panel);
   margin-bottom: 0.7rem;
   cursor: pointer;
 }
-.compare-stack img {
+.compare-stack img,
+.compare-stack video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -2834,7 +2836,6 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
   font-size: 0.76rem;
   color: var(--ink-dim);
   margin-bottom: 0.3rem;
-  max-width: 720px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2843,6 +2844,62 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
 /* Tighter section rhythm + clear divider, scoped to this page only */
 .joydotz-compact .proj-section { padding: 2.6rem 0; }
 .joydotz-compact .proj-section-body { gap: 0.6rem; }
+
+/* Landmark Patches — statue campaign, referencing Day 18 layout */
+.jd-patch-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+.jd-patch-row:last-child { margin-bottom: 0; }
+.jd-patch-card {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.jd-patch-card .jd-img-wrap {
+  flex: 1;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.jd-patch-card .jd-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+}
+.jd-patch-card > img {
+  width: 100%;
+  border-radius: 14px;
+  display: block;
+}
+.jd-patch-label {
+  margin-top: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.jd-patch-subject {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.jd-patch-type {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+@media (max-width: 700px) {
+  .jd-patch-row { flex-direction: column; gap: 16px; }
+}
 .side-project-banner {
   display: flex;
   align-items: center;
