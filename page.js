@@ -212,6 +212,18 @@ function initSectionReveals() {
 function initReels() {
   const btns = $$('.reel-sound-btn');
   if (!btns.length) return;
+  const ICON_MUTED = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor" stroke="none"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>';
+  const ICON_ON = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor" stroke="none"/><path d="M16 8.5a4.5 4.5 0 0 1 0 7"/><path d="M18.5 6a8 8 0 0 1 0 12"/></svg>';
+  const resetAll = () => {
+    $$('.reel-video').forEach(v => { v.muted = true; });
+    $$('.reel-sound-btn').forEach(b => {
+      b.setAttribute('aria-pressed', 'false');
+      const icon = b.querySelector('.reel-sound-icon');
+      const label = b.querySelector('.reel-sound-label');
+      if (icon) icon.innerHTML = ICON_MUTED;
+      if (label) label.textContent = 'Sound off';
+    });
+  };
   btns.forEach(btn => {
     const card = btn.closest('.reel-card');
     const video = card ? card.querySelector('.reel-video') : null;
@@ -219,21 +231,14 @@ function initReels() {
     btn.addEventListener('click', () => {
       const turningOn = video.muted;
       // mute every other reel first, so only one plays with sound at a time
-      $$('.reel-video').forEach(v => { v.muted = true; });
-      $$('.reel-sound-btn').forEach(b => {
-        b.setAttribute('aria-pressed', 'false');
-        const icon = b.querySelector('.reel-sound-icon');
-        const label = b.querySelector('.reel-sound-label');
-        if (icon) icon.textContent = '\u{1F507}';
-        if (label) label.textContent = 'Sound off';
-      });
+      resetAll();
       if (turningOn) {
         video.muted = false;
         video.play().catch(() => {});
         btn.setAttribute('aria-pressed', 'true');
         const icon = btn.querySelector('.reel-sound-icon');
         const label = btn.querySelector('.reel-sound-label');
-        if (icon) icon.textContent = '\u{1F50A}';
+        if (icon) icon.innerHTML = ICON_ON;
         if (label) label.textContent = 'Sound on';
       }
     });
