@@ -1922,6 +1922,50 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
   max-width: 640px;
 }
 
+/* Stacked, centered documentation layout (fit-width, no masonry scatter) */
+.gallery-grid-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.gallery-grid-stack .gallery-item {
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 0;
+}
+.gallery-grid-stack .gallery-item img,
+.gallery-grid-stack .gallery-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Game Night documentation: two landscape photos on top, four poster portraits below */
+.gn-doc-photos {
+  display: flex;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto 14px;
+}
+.gn-doc-photos .gallery-item { flex: 1; margin-bottom: 0; }
+.gn-doc-photos .gallery-item img { width: 100%; height: auto; display: block; }
+
+.gn-doc-posters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.gn-doc-posters .gallery-item { margin-bottom: 0; }
+.gn-doc-posters .gallery-item img { width: 100%; height: auto; display: block; }
+
+@media (max-width: 760px) {
+  .gn-doc-photos { flex-direction: column; }
+  .gn-doc-posters { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* Project bottom nav */
 .proj-bottom {
   display: flex;

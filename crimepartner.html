@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CrimePartner — Jennifer Qian</title>
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <svg id="svg-filters" aria-hidden="true" focusable="false">
     <defs>
       <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
@@ -220,16 +220,24 @@
     <!-- Gallery -->
     <div class="gallery-section">
       <div class="gallery-label">Documentation &mdash; 1.0</div>
-      <div class="gallery-grid gallery-grid-single">
+      <div class="gallery-grid gallery-grid-stack">
         <div class="gallery-item">
-          <img src="crimepartner_pic%20copy/web/1.0/ed1-cover.jpg" alt="CrimePartner 1.0 trailer still" loading="lazy">
+          <video controls preload="metadata" poster="crimepartner_pic%20copy/web/1.0/ed1-cover.jpg">
+            <source src="crimepartner_pic%20copy/web/1.0/ed1-cover-video.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/web/1.0/ed1-group.jpg" alt="CrimePartner 1.0 group photo" loading="lazy">
         </div>
       </div>
 
       <div class="gallery-label">Documentation &mdash; 2.0</div>
-      <div class="gallery-grid">
+      <div class="gallery-grid gallery-grid-stack">
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/2.0/ed2-cover.jpg" alt="CrimePartner 2.0 recap still" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="crimepartner_pic%20copy/web/2.0/ed2-group.jpg" alt="CrimePartner 2.0 group photo" loading="lazy">
         </div>
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/2.0/ed2-03.jpg" alt="CrimePartner 2.0 — dance floor and stage screen" loading="lazy">
@@ -241,21 +249,20 @@
           <img src="crimepartner_pic%20copy/web/2.0/ed2-06.jpg" alt="CrimePartner 2.0 — disco ball ceiling" loading="lazy">
         </div>
         <div class="gallery-item">
-          <img src="crimepartner_pic%20copy/web/2.0/ed2-08.jpg" alt="CrimePartner 2.0 — guests seated" loading="lazy">
-        </div>
-        <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/2.0/ed2-05.jpg" alt="CrimePartner 2.0 — crowd" loading="lazy">
         </div>
       </div>
 
       <div class="gallery-label">Documentation &mdash; Game Night</div>
-      <div class="gallery-grid">
+      <div class="gn-doc-photos">
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/3.0/ed3-stage.jpg" alt="Game Night — special stage performance" loading="lazy">
         </div>
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/3.0/ed3-group.jpg" alt="Game Night — group photo" loading="lazy">
         </div>
+      </div>
+      <div class="gn-doc-posters">
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/gamenight/gn-poster.jpg" alt="Game Night — event poster" loading="lazy">
         </div>
@@ -271,7 +278,7 @@
       </div>
 
       <div class="gallery-label">Campaign Preview &mdash; 3.0 &middot; Sept 26 (Upcoming)</div>
-      <div class="gallery-grid">
+      <div class="gallery-grid gallery-grid-stack">
         <div class="gallery-item">
           <img src="crimepartner_pic%20copy/web/3.0campaign/c3-timeline.jpg" alt="CrimePartner 3.0 — event timeline" loading="lazy">
         </div>
@@ -287,7 +294,7 @@
       </div>
     </div>
 
-    </main>
+        </main>
 
   <div class="proj-bottom">
     <a href="allknight.html" class="proj-back-link">← AllKnight NYC</a>
@@ -300,6 +307,6 @@
   <script src="gradient.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="page.js?v=7"></script>
+  <script src="page.js?v=8"></script>
 </body>
 </html>
