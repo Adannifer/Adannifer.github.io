@@ -1714,7 +1714,7 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
 }
 
 .proj-keyword-combo {
-  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
