@@ -209,6 +209,37 @@ function initSectionReveals() {
   });
 }
 
+function initReels() {
+  const btns = $$('.reel-sound-btn');
+  if (!btns.length) return;
+  btns.forEach(btn => {
+    const card = btn.closest('.reel-card');
+    const video = card ? card.querySelector('.reel-video') : null;
+    if (!video) return;
+    btn.addEventListener('click', () => {
+      const turningOn = video.muted;
+      // mute every other reel first, so only one plays with sound at a time
+      $$('.reel-video').forEach(v => { v.muted = true; });
+      $$('.reel-sound-btn').forEach(b => {
+        b.setAttribute('aria-pressed', 'false');
+        const icon = b.querySelector('.reel-sound-icon');
+        const label = b.querySelector('.reel-sound-label');
+        if (icon) icon.textContent = '\u{1F507}';
+        if (label) label.textContent = 'Sound off';
+      });
+      if (turningOn) {
+        video.muted = false;
+        video.play().catch(() => {});
+        btn.setAttribute('aria-pressed', 'true');
+        const icon = btn.querySelector('.reel-sound-icon');
+        const label = btn.querySelector('.reel-sound-label');
+        if (icon) icon.textContent = '\u{1F50A}';
+        if (label) label.textContent = 'Sound on';
+      }
+    });
+  });
+}
+
 function init() {
   initCursor();
   initStarCanvas();
@@ -219,6 +250,7 @@ function init() {
   initScrollReveals();
   initCardTilt();
   initSectionReveals();
+  initReels();
 }
 
 if (document.readyState === 'loading') {
