@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joydotz — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=17" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
+              color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links">
+      <a href="index.html#work" class="nav-link">Work</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="proj-hero">
+    <img class="proj-hero-img" src="joydotz_branding/web/jd-hero-after.jpg"
+         alt="Joydotz — hero rebrand" style="object-position: center 30%;">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">05 — Joydotz</span>
+      <h1 class="proj-title">JOY<span class="pr-star">★</span>DOTZ</h1>
+      <div class="proj-meta-row">
+        <span>Brand Rebuild &middot; Shopify Site &middot; Visual System</span>
+        <span>Remote — 2025&ndash;2026</span>
+        <span>Visual Designer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">
+          Freelance visual designer for Joydotz, a Gen-Z hydrocolloid skincare brand, through Swedish Falls LLC. Took the brand from a bare-bones Shopify default into a soft, interactive "小清新" (soft & fresh) identity, rebuilding the color system, the site's interaction design, and product visuals.
+        </p>
+        <p class="proj-keyword-combo"><span class="kw-a">Brand System</span><span class="kw-plus">+</span><span class="kw-b">Site Rebuild</span></p>
+        <div class="pr-tags">
+          <span class="tag">Visual Identity</span>
+          <span class="tag">Color System</span>
+          <span class="tag">Shopify / Web</span>
+          <span class="tag">Interaction Design</span>
+          <span class="tag">Product Visuals</span>
+        </div>
+        <a class="proj-cta-link" href="https://joydotz.us/" target="_blank" rel="noopener">Visit joydotz.us ↗</a>
+      </div>
+
+      <div class="proj-stats-grid">
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">3</span>
+          <span class="proj-stat-l">Product Shapes</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">1</span>
+          <span class="proj-stat-l">Full Site Rebuild</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">8</span>
+          <span class="proj-stat-l">Touchpoints Redesigned</span>
+        </div>
+        <div class="proj-stat-item">
+          <span class="proj-stat-n">100%</span>
+          <span class="proj-stat-l">Custom Interaction</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color System -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Color System</h2>
+      <div class="proj-section-body">
+        <p style="font-size:0.84rem; line-height:1.8; color:var(--ink-dim); max-width:70ch; margin-bottom:1.4rem;">
+          The old site leaned on a default clinical, acne-treatment red. Instead of designing around that association, I extracted a softer, more girlish palette directly from the product packaging itself: a pale pink-to-blue gradient, warm cream, and one saturated hot-pink accent for calls to action.
+        </p>
+        <div class="color-swatch-strip">
+          <div class="color-swatch" data-hex="#F5F2F2" style="background:#F5F2F2;"></div>
+          <div class="color-swatch" data-hex="#B3C8FC" style="background:#B3C8FC;"></div>
+          <div class="color-swatch" data-hex="#D8AE93" style="background:#D8AE93;"></div>
+          <div class="color-swatch" data-hex="#FAD5ED" style="background:#FAD5ED;"></div>
+          <div class="color-swatch" data-hex="#FF79C4" style="background:#FF79C4;"></div>
+          <div class="color-swatch" data-hex="#ADA6D0" style="background:#ADA6D0;"></div>
+          <div class="color-swatch" data-hex="#8B7C99" style="background:#8B7C99;"></div>
+          <div class="color-swatch" data-hex="#6B3F5C" style="background:#6B3F5C;"></div>
+        </div>
+        <p class="compare-caption" style="margin-bottom:0;">Palette pulled from the Daydream Cloud, Blush Flower, and Softwing Butterfly packaging — the same pink-to-blue gradient now drives the nav bar, buttons, and hover glows sitewide.</p>
+      </div>
+    </div>
+
+    <!-- Homepage -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Homepage</h2>
+      <div class="proj-section-body">
+        <div class="compare-pair">
+          <div class="compare-col">
+            <span class="compare-tag is-before">Before</span>
+            <img src="joydotz_branding/web/jd-hero-before.jpg" alt="Joydotz homepage before — default Shopify theme, salmon background" loading="lazy">
+          </div>
+          <div class="compare-col">
+            <span class="compare-tag is-after">After</span>
+            <img src="joydotz_branding/web/jd-home-after.jpg" alt="Joydotz homepage after — gradient nav, video hero, sparkle logo" loading="lazy">
+          </div>
+        </div>
+        <p class="compare-caption">Replaced the flat salmon banner and static logo with a full-bleed video hero, a pink-to-blue gradient nav bar, and sparkle "eyes" set into the logo's two O's — the first hint of the interactive planet character carried through the rest of the site.</p>
+      </div>
+    </div>
+
+    <!-- Product Listing -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Product Listing &mdash; Shape Filter</h2>
+      <div class="proj-section-body">
+        <div class="compare-pair">
+          <div class="compare-col">
+            <span class="compare-tag is-before">Before</span>
+            <img src="joydotz_branding/web/jd-listing-before.jpg" alt="Product listing before — plain grey placeholder cards" loading="lazy">
+          </div>
+          <div class="compare-col">
+            <span class="compare-tag is-after">After</span>
+            <img src="joydotz_branding/web/jd-listing-after.jpg" alt="Product listing after — flower, cloud, butterfly shape filter with glow hover" loading="lazy">
+          </div>
+        </div>
+        <p class="compare-caption">Built a shape-based filter bar (flower / cloud / butterfly) that mirrors the brand's three patch collections, with a soft glow that blooms on hover — turning empty placeholder cards into a system that teaches the product line at a glance.</p>
+      </div>
+    </div>
+
+    <!-- Product Page -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Product Page</h2>
+      <div class="proj-section-body">
+        <div class="compare-pair">
+          <div class="compare-col">
+            <span class="compare-tag is-before">Before</span>
+            <img src="joydotz_branding/web/jd-product-before.jpg" alt="Product page before — empty placeholder blocks" loading="lazy">
+          </div>
+          <div class="compare-col">
+            <span class="compare-tag is-after">After</span>
+            <img src="joydotz_branding/web/jd-product-after.jpg" alt="Product page after — full packaging photography, subscription option, PayPal" loading="lazy">
+          </div>
+        </div>
+        <p class="compare-caption">Swapped placeholder blocks for real packaging photography, added a subscribe-and-save option, and matched the checkout buttons to the new palette.</p>
+      </div>
+    </div>
+
+    <!-- Add to Cart / Cross-sell -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Cross-Sell &amp; Add to Cart</h2>
+      <div class="proj-section-body">
+        <div class="compare-pair">
+          <div class="compare-col">
+            <span class="compare-tag is-before">Before</span>
+            <img src="joydotz_branding/web/jd-cart-before.jpg" alt="Cross-sell before — plain grey recommended product cards" loading="lazy">
+          </div>
+          <div class="compare-col">
+            <span class="compare-tag is-after">After</span>
+            <img src="joydotz_branding/web/jd-cart-after.jpg" alt="Cross-sell after — full product photography with sticky add-to-cart bar" loading="lazy">
+          </div>
+        </div>
+        <p class="compare-caption">Added a sticky add-to-cart bar that follows the shopper with the product thumbnail, name, and price, and gave the "goes well with" cards the same shape icons and hover glow used on the listing page.</p>
+      </div>
+    </div>
+
+    <!-- Interactive footer -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Interactive Footer &mdash; O_planet</h2>
+      <div class="proj-section-body">
+        <p style="font-size:0.84rem; line-height:1.8; color:var(--ink-dim); max-width:70ch; margin-bottom:1.4rem;">
+          The old footer was a static, generic block. I designed a giant gradient "planet" that rises from the bottom of the page with two sparkle eyes that track the cursor and blink — a small mascot moment that rewards scrolling all the way down instead of ending the site on a plain sitemap.
+        </p>
+        <div class="compare-pair">
+          <div class="compare-col">
+            <span class="compare-tag is-before">Before</span>
+            <img src="joydotz_branding/web/jd-bottom-before.jpg" alt="Footer before — plain grey sitemap footer" loading="lazy">
+          </div>
+          <div class="compare-col">
+            <span class="compare-tag is-after">After</span>
+            <img src="joydotz_branding/web/jd-bottom-after.jpg" alt="Footer after — glowing gradient planet with sparkle eyes" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- You + Joydotz -->
+    <div class="gallery-section">
+      <div class="gallery-label">You + Joydotz</div>
+      <div class="gallery-grid-stack">
+        <div class="gallery-item">
+          <img src="joydotz_branding/web/jd-ugc.jpg" alt="You + Joydotz — customer selfies wearing the patches" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Statue series -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Personal Series &mdash; What If Statues Have Pimples</h2>
+      <div class="proj-section-body">
+        <p style="font-size:0.84rem; line-height:1.8; color:var(--ink-dim); max-width:70ch; margin-bottom:1.4rem;">
+          A personal offshoot from the brand work: patching famous statues around the world with Joydotz shapes, treating the product itself as a playful, shareable content format rather than a straight product shot.
+        </p>
+        <div class="statue-grid">
+          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-david-flower.jpg" alt="Michelangelo's David wearing Blush Flower patches" loading="lazy"></div>
+          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-david-cloud.jpg" alt="Michelangelo's David wearing Daydream Cloud patches" loading="lazy"></div>
+          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-liberty-butterfly.jpg" alt="Statue of Liberty wearing Softwing Butterfly patches" loading="lazy"></div>
+          <div class="gallery-item"><img src="joydotz_branding/web/jd-statue-liberty-cloud.jpg" alt="Statue of Liberty wearing Daydream Cloud patches" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blind box concept -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Concept &mdash; Blind Box Characters</h2>
+      <div class="proj-section-body">
+        <div class="concept-card">
+          <b>Unbuilt Concept</b>
+          <p>Developed with the Joydotz team: sell the patches as blind boxes, giving each of the three patch shapes (flower, cloud, butterfly) an original character in the style of Sailor Moon or My Little Pony.</p>
+          <p>Future product drops would become "skins" of those three starter characters rather than entirely new SKUs — modeled on Pop Mart's approach to deepen brand storytelling for a Gen Z, young-girl skincare audience beyond "just a daily patch."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Reflection</h2>
+      <div class="proj-section-body">
+        <div class="closing-pair">
+          <div class="closing-card"><b>Impact</b><p>Took Joydotz from a default Shopify skin into a cohesive, interactive brand system: a packaging-derived color palette, a shape-based product language, and a mascot moment that carries the identity all the way to the footer.</p></div>
+          <div class="closing-card"><b>Reflection</b><p>Working from an established brand rather than a blank page pushed a different skill: finding the fresh angle already hiding in the packaging (the color gradient, the shape language) instead of inventing one from scratch, then carrying it consistently across every touchpoint.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="index.html#work" class="proj-back-link">← All Work</a>
+    <a href="index.html#work" class="proj-next-link">
+      <span class="proj-next-label">Back to</span>
+      <span class="proj-next-title">All Work →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js?v=17"></script>
+</body>
+</html>

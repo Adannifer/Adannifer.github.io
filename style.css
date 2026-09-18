@@ -2760,3 +2760,135 @@ body.project-page #nav a { color: inherit; text-decoration: none; }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ════════════════════════════════════════
+   Joydotz — before/after compare, color swatches, statues
+   ════════════════════════════════════════ */
+.compare-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.compare-col {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--panel);
+}
+.compare-col img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.compare-tag {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 2;
+  backdrop-filter: blur(6px);
+}
+.compare-tag.is-before {
+  background: rgba(10,6,19,0.6);
+  color: var(--ink-muted);
+  border: 1px solid var(--border);
+}
+.compare-tag.is-after {
+  background: var(--pink);
+  color: var(--black);
+}
+.compare-caption {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--ink-dim);
+  margin-bottom: 3rem;
+  max-width: 70ch;
+}
+@media (max-width: 760px) {
+  .compare-pair { grid-template-columns: 1fr; }
+}
+
+/* Color swatch strip */
+.color-swatch-strip {
+  display: flex;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+  height: 90px;
+}
+.color-swatch {
+  flex: 1;
+  position: relative;
+}
+.color-swatch::after {
+  content: attr(data-hex);
+  position: absolute;
+  left: 0; right: 0; bottom: 0.5rem;
+  text-align: center;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(0,0,0,0.55);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.color-swatch:hover::after { opacity: 1; }
+
+/* Statue gallery — playful personal series */
+.statue-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.statue-grid .gallery-item img { width: 100%; height: auto; display: block; }
+@media (max-width: 760px) {
+  .statue-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* External CTA link (e.g. visit live site) */
+.proj-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.proj-cta-link:hover { background: var(--pink); color: var(--black); }
+
+/* Concept card (no imagery — text-only future concept) */
+.concept-card {
+  padding: 28px;
+  background: rgba(25,25,28,0.96);
+  border-radius: 20px;
+  border: 1px dashed var(--border);
+}
+.concept-card b {
+  display: block;
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 14px;
+}
+.concept-card p {
+  font-size: 0.84rem;
+  line-height: 1.8;
+  color: var(--ink-dim);
+  margin: 0 0 0.9rem;
+}
+.concept-card p:last-child { margin-bottom: 0; }
