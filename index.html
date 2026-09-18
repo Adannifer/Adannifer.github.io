@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jennifer Qian — Experience & Brand Designer</title>
-  <link rel="stylesheet" href="style.css?v=20" />
+  <link rel="stylesheet" href="style.css?v=21" />
   <style>
-    /* ── Daily Practice grid ── */
+    /* ── Branding & Web Interactivity grid ── */
     .daily-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px 32px;
+      gap: 44px 48px;
       padding: 0 6vw;
-      max-width: 900px;
-      margin: 0 auto 24px;
+      max-width: 1280px;
+      margin: 0 auto 32px;
     }
     .daily-card {
       text-decoration: none;
@@ -41,11 +41,12 @@
     }
     .daily-card:hover .daily-circle img { transform: scale(1.05); }
     .daily-name {
-      font-size: 12px;
-      letter-spacing: 0.06em;
+      font-size: 15px;
+      letter-spacing: 0.02em;
       color: var(--ink-dim);
       line-height: 1.35;
       transition: color 0.2s;
+      margin-top: 4px;
     }
     .daily-card:hover .daily-name { color: var(--accent); }
     .daily-viewall {
@@ -70,8 +71,8 @@
       background: rgba(255,26,168,0.06);
     }
     @media (max-width: 540px) {
-      .daily-grid { gap: 16px 12px; padding: 0 4vw; }
-      .daily-name { font-size: 10px; }
+      .daily-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; padding: 0 4vw; }
+      .daily-name { font-size: 12px; }
     }
   </style>
 
@@ -147,7 +148,7 @@
     </div>
     <div id="nav-links">
       <a href="#work" class="nav-link">Work</a>
-      <a href="#making" class="nav-link">Daily Practice</a>
+      <a href="#making" class="nav-link">Branding &amp; Web Interactivity</a>
       <a href="#about" class="nav-link">About</a>
       <a href="#contact" class="nav-link">Contact</a>
     </div>
@@ -354,14 +355,14 @@
     </section>
 
 
-    <!-- DAILY PRACTICE -->
+    <!-- BRANDING & WEB INTERACTIVITY -->
     <section id="making">
       <div class="section-header" style="padding:0 6vw; margin-bottom:28px;">
-        <span class="section-num">Daily Practice</span>
+        <span class="section-num">Branding &amp; Web Interactivity</span>
         <span class="section-rule"></span>
       </div>
       <p style="padding:0 6vw; margin-bottom:28px; font-size:14px; color:var(--muted); max-width:560px; line-height:1.65;">
-        Every day I build something. Some of it works.
+        Selected branding concepts and interactive web experiments.
       </p>
 
       <!-- 3×2 featured grid -->
@@ -404,320 +405,6 @@
         </a>
       </div>
 
-      <button class="daily-viewall" id="daily-toggle" onclick="(function(){var l=document.getElementById('day-full-list');var b=document.getElementById('daily-toggle');if(l.style.display==='none'){l.style.display='';b.textContent='Hide ↑';}else{l.style.display='none';b.textContent='View all ↓';}})()">View all ↓</button>
-
-      <!-- Full list (hidden by default) -->
-      <div id="day-full-list" style="display:none;">
-      <div class="day-row">
-
-        <a class="day-item" href="day31.html">
-          <div class="day-date">Jul 30, 2026</div>
-          <div class="day-circle" style="background:#111016;">
-            <span class="day-num">31</span>
-          </div>
-          <div class="day-title">Cover Crush</div>
-          <div class="day-desc">Use your webcam and index finger to sort live album covers into Keep or Skip while 15-second song previews play.</div>
-        </a>
-
-        <a class="day-item" href="day30.html">
-          <div class="day-date">Jul 22, 2026</div>
-          <div class="day-circle" style="background:#001a13;">
-            <span class="day-num">30</span>
-          </div>
-          <div class="day-title">Sticker Drop Machine</div>
-          <div class="day-desc">Drop, drag, remix, and save a custom phone case or laptop cover from a tray of collectible stickers.</div>
-        </a>
-
-        <a class="day-item" href="day29.html">
-          <div class="day-date">Jul 22, 2026</div>
-          <div class="day-circle" style="background:#1a0020;">
-            <span class="day-num">29</span>
-            <img class="day-img" src="90days/day29_cover.png" alt="Grillz Type Booth" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Grillz Type Booth</div>
-          <div class="day-desc">Type any word, pick a metal, get a downloadable Y2K album cover — chrome, diamond, pink gem, or neon gold.</div>
-        </a>
-
-        <a class="day-item" href="day28.html">
-          <div class="day-date">Jul 20, 2026</div>
-          <div class="day-circle" style="background:#07162a;">
-            <span class="day-num">28</span>
-            <img class="day-img" src="90days/day28_guest1.png" alt="Guest Couple Reveal" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Guest Couple Reveal</div>
-          <div class="day-desc">Two official guest-couple coser reveal posters for CrimePartner 3.0.</div>
-        </a>
-
-        <a class="day-item" href="day27.html">
-          <div class="day-date">Jul 18, 2026</div>
-          <div class="day-circle" style="background:#16091d;">
-            <span class="day-num">27</span>
-            <img class="day-img" src="90days/Flower_hover.png" alt="Pimple Patch Model Set" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Pimple Patch Model Set</div>
-          <div class="day-desc">AI-generated beauty model images for butterfly, flower, and cloud acne patches.</div>
-        </a>
-
-        <a class="day-item" href="day26.html">
-          <div class="day-date">Jul 18, 2026</div>
-          <div class="day-circle" style="background:#140806;">
-            <span class="day-num">26</span>
-            <img class="day-img" src="90days/day26.png" alt="WAY TO TOP Grillz Cover" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">WAY TO TOP · Grillz Cover</div>
-          <div class="day-desc">An AI-generated glowing grillz cover inspired by streetwear and album art.</div>
-        </a>
-
-        <a class="day-item" href="day25.html" style="display:none;">
-          <div class="day-date">Jul 18, 2026</div>
-          <div class="day-circle" style="background:#1a0014;">
-            <span class="day-num">25</span>
-          </div>
-          <div class="day-title">35% Off Popup</div>
-          <div class="day-desc">A soft ecommerce email signup popup designed as a branded first impression.</div>
-        </a>
-
-        <a class="day-item" href="day24.html">
-          <div class="day-date">Jul 13, 2026</div>
-          <div class="day-circle" style="background:#1a0010;">
-            <span class="day-num">24</span>
-            <img class="day-img" src="90days/day24InsC.png" alt="Linjer Mother's Day Ad" loading="lazy" style="object-fit:cover;object-position:center top;">
-          </div>
-          <div class="day-title">Mother's Day Story Ads</div>
-          <div class="day-desc">3 Instagram story ads for Linjer's Mother's Day sale — editorial, countdown, and nostalgic narrative.</div>
-        </a>
-
-        <a class="day-item" href="day23.html">
-          <div class="day-date">Jul 12, 2026</div>
-          <div class="day-circle" style="background:#1a0008;">
-            <span class="day-num">23</span>
-            <img class="day-img" src="90days/day23_cover.png" alt="Wish Quilt" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Wish Quilt</div>
-          <div class="day-desc">Build a quilt pattern online, inspired by MoMA's US 250 workshop.</div>
-        </a>
-
-        <a class="day-item" href="day22.html">
-          <div class="day-date">Jul 11, 2026</div>
-          <div class="day-circle" style="background:#1a0010;">
-            <span class="day-num">22</span>
-            <img class="day-img" src="90days/day22_cover.png" alt="Fake Receipt" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Fake Receipt</div>
-          <div class="day-desc">Generate a receipt for your feelings.</div>
-        </a>
-
-        <a class="day-item" href="day21.html">
-          <div class="day-date">Jul 10, 2026</div>
-          <div class="day-circle" style="background:#1a0a05;">
-            <span class="day-num">21</span>
-            <img class="day-img" src="90days/day21_license/jeremy_plate.png" alt="License Plate" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">License Plate</div>
-          <div class="day-desc">A diamond-framed plate for Jeremy.</div>
-        </a>
-
-        <a class="day-item" href="day20.html">
-          <div class="day-date">Jul 9, 2026</div>
-          <div class="day-circle" style="background:#1a0012;">
-            <span class="day-num">20</span>
-            <img class="day-img" src="90days/day20_waytotop_album/ver1.png" alt="Way To Top" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Way To Top</div>
-          <div class="day-desc">Two covers. You pick.</div>
-        </a>
-
-        <a class="day-item" href="day19.html">
-          <div class="day-date">Jul 8, 2026</div>
-          <div class="day-circle" style="background:#0a1a12;">
-            <span class="day-num">19</span>
-            <img class="day-img" src="90days/day19_keychain/zack_black.png" alt="Keychain" loading="lazy" style="object-fit:cover;object-position:center;">
-          </div>
-          <div class="day-title">Keychain</div>
-          <div class="day-desc">Two people, one chain.</div>
-        </a>
-
-        <a class="day-item" href="day18.html">
-          <div class="day-date">Jul 7, 2026</div>
-          <div class="day-circle" style="background:#1a0a14;">
-            <span class="day-num">18</span>
-            <img class="day-img" src="90days/day18_sol_butterfly.png" alt="Landmark Patches" loading="lazy" style="object-fit:cover;object-position:center top;">
-          </div>
-          <div class="day-title">Landmark Patches</div>
-          <div class="day-desc">World monuments in their skincare era.</div>
-        </a>
-
-        <a class="day-item" href="day17.html">
-          <div class="day-date">Jul 6, 2026</div>
-          <div class="day-circle" style="background:#1a0010;">
-            <span class="day-num">17</span>
-            <img class="day-img" src="90days/day17_1.png" alt="My Essentials Capsule" loading="lazy" style="object-fit:cover;object-position:center top;">
-          </div>
-          <div class="day-title">My Essentials Capsule</div>
-          <div class="day-desc">Pick four things. Pack them in a capsule.</div>
-        </a>
-
-        <a class="day-item" href="day16.html">
-          <div class="day-date">Jul 2, 2026</div>
-          <div class="day-circle" style="background:#06000f;">
-            <span class="day-num">16</span>
-            <img class="day-img" src="90days/day16_character/22ximage.png" alt="Character Select" loading="lazy" style="object-fit:contain;object-position:center 15%;">
-          </div>
-          <div class="day-title">Character Select</div>
-        </a>
-
-        <a class="day-item" href="day15.html">
-          <div class="day-date">Jul 2, 2026</div>
-          <div class="day-circle" style="background:#0D0020;">
-            <span class="day-num">15</span>
-            <img class="day-img" src="90days/day15.png" alt="JQ Starter Pack" loading="lazy" style="object-fit:cover; object-position:center;">
-          </div>
-          <div class="day-title">JQ Starter Pack</div>
-          <div class="day-desc">Type your name, upload a photo → get your 2026 player card.</div>
-        </a>
-
-        <a class="day-item" href="day14.html" style="display:none">
-          <div class="day-date">Jun 30, 2026</div>
-          <div class="day-circle" style="background:#1a0012;">
-            <span class="day-num">14</span>
-            <img class="day-img" src="90days/day14_cover.jpg" alt="Selfish Booth" loading="lazy" style="object-fit:cover; object-position:center;">
-          </div>
-          <div class="day-title">Selfish Booth</div>
-          <div class="day-desc">Y2K photobooth strip with your face.</div>
-        </a>
-
-        <a class="day-item" href="day13.html" style="display:none">
-          <div class="day-date">Jun 30, 2026</div>
-          <div class="day-circle" style="background:#f7f3ff;">
-            <span class="day-num">13</span>
-            <img class="day-img" src="90days/day13.png" alt="Patch Lab" loading="lazy" style="object-fit:cover; object-position:center center; transform:scale(2.2); transform-origin:center center;">
-          </div>
-          <div class="day-title">Patch Lab</div>
-          <div class="day-desc">Die-line to product photo with AI image generation.</div>
-        </a>
-
-        <a class="day-item" href="day12.html">
-          <div class="day-date">Jun 29, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">12</span>
-            <img class="day-img" src="90days/day12.png" alt="Pastel Crowd" loading="lazy">
-          </div>
-          <div class="day-title">Pastel Crowd</div>
-          <div class="day-desc">Click strangers to fill them with macaron colors.</div>
-        </a>
-
-        <a class="day-item" href="day11.html">
-          <div class="day-date">Jun 26, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">11</span>
-            <img class="day-img" src="90days/day11.png" alt="Fingerprint" loading="lazy">
-          </div>
-          <div class="day-title">Your Fingerprint</div>
-          <div class="day-desc">Hold to form a fingerprint from your words.</div>
-        </a>
-
-        <a class="day-item" href="day10.html" style="display:none">
-          <div class="day-date">Jun 25, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">10</span>
-            <img class="day-img" src="90days/day10.png" alt="Editorial Poster Generator" loading="lazy">
-          </div>
-          <div class="day-title">Editorial Poster Generator</div>
-          <div class="day-desc">Upload photo. Pick color. Get poster.</div>
-        </a>
-
-        <a class="day-item" href="day9.html" style="display:none">
-          <div class="day-date">Jun 24, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">09</span>
-            <img class="day-img" src="90days/day9.png" alt="Word Grid Poster" loading="lazy">
-          </div>
-          <div class="day-title">Word Grid Poster</div>
-          <div class="day-desc">Type words. Upload photo. Download poster.</div>
-        </a>
-
-        <a class="day-item" href="day8.html">
-          <div class="day-date">Jun 23, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">08</span>
-            <img class="day-img" src="90days/day8.png" alt="Word Search Generator" loading="lazy">
-          </div>
-          <div class="day-title">Word Search Generator</div>
-          <div class="day-desc">4 themes. Interactive game.</div>
-        </a>
-
-        <a class="day-item" href="day7.html">
-          <div class="day-date">Jun 22, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">07</span>
-            <img class="day-img" src="90days/day7_dreamcore_bg/prompt4.png" alt="Dreamcore Background Generation" loading="lazy">
-          </div>
-          <div class="day-title">Dreamcore Background</div>
-          <div class="day-desc">5 prompts. Skincare Ideation Reels.</div>
-        </a>
-
-        <a class="day-item" href="day6.html">
-          <div class="day-date">Jun 21, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">06</span>
-            <img class="day-img" src="90days/day6 afterhour.png" alt="Summer Fandom Mixer Copy Kit" loading="lazy">
-          </div>
-          <div class="day-title">Fandom Mixer Copy Kit</div>
-          <div class="day-desc">Event copy. Ready to paste.</div>
-        </a>
-
-        <a class="day-item" href="day5.html">
-          <div class="day-date">Jun 20, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">05</span>
-            <img class="day-img" src="90days/day5_final.png" alt="CrimePartner 3.0" loading="lazy">
-          </div>
-          <div class="day-title">CrimePartner 3.0 Reveal</div>
-          <div class="day-desc">Event poster for the game night reboot.</div>
-        </a>
-
-        <a class="day-item" href="day4.html" style="display:none">
-          <div class="day-date">Jun 19, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">04</span>
-            <img class="day-img" src="90days/day3_JoydotzReels/6 copy.png" alt="Skincare Ideation" loading="lazy">
-          </div>
-          <div class="day-title">Skincare Ideation Instagram Launch</div>
-          <div class="day-desc">Pimple patch rebrand. 3 carousel directions.</div>
-        </a>
-
-        <a class="day-item" href="nightfile.html" style="display:none">
-          <div class="day-date">Jun 18, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">03</span>
-            <img class="day-img" src="90days/sample_nighlife.png" alt="All Knight Night File" loading="lazy">
-          </div>
-          <div class="day-title">All Knight Night File</div>
-          <div class="day-desc">Generate a dossier of your NYC night.</div>
-        </a>
-
-        <a class="day-item" href="day2.html">
-          <div class="day-date">Jun 17, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">02</span>
-            <img class="day-img" src="90days/day2.png" alt="Which Bar Person Are You?" loading="lazy">
-          </div>
-          <div class="day-title">Which Bar Person Are You?</div>
-          <div class="day-desc">10 questions. 5 nightlife archetypes.</div>
-        </a>
-
-        <a class="day-item" href="day1.html">
-          <div class="day-date">Jun 17, 2026</div>
-          <div class="day-circle">
-            <span class="day-num">01</span>
-            <img class="day-img" src="90days/day1.png" alt="Name in Style" loading="lazy">
-          </div>
-          <div class="day-title">Name in Style</div>
-          <div class="day-desc">AI image generation. Type as material.</div>
-        </a>
-
-      </div>
-      </div><!-- /day-full-list -->
 
     </section>
 
@@ -933,6 +620,6 @@
   <script src="gradient.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="main.js?v=20"></script>
+  <script src="main.js?v=21"></script>
 </body>
 </html>
