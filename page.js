@@ -2,6 +2,11 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Landing directly on a project page counts as having "seen" the homepage
+// intro — this stops the coin-toss animation from replaying (and blocking
+// clicks for several seconds) when a nav link sends the visitor back to index.html.
+try { sessionStorage.setItem('introPlayed', '1'); } catch (e) {}
+
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 
