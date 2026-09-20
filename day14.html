@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 14 · Selfish Booth · Jennifer Qian</title>
-  <link rel="stylesheet" href="style.css?v=22" />
+  <title>Day 14 · Custom Online Photo Booth · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=23" />
   <style>
     body.day-page { --accent: #ff6eb4; }
 
@@ -428,7 +428,7 @@
   <div class="day-hero">
     <div class="day-badge"><span class="dot"></span>90 Days of Making with AI · Day 14</div>
     <div class="day-num-bg">14</div>
-    <h1 class="day-title">Selfish<br><span class="pink">Booth</span></h1>
+    <h1 class="day-title">Custom Online<br><span class="pink">Photo Booth</span></h1>
     <div class="day-meta">
       <span>Jun 30, 2026</span>
       <span>Photobooth · Y2K</span>
@@ -436,6 +436,13 @@
     <p class="day-statement">
       Three shots. One strip. Very Y2K.
     </p>
+  </div>
+
+  <div class="day-section-label" style="padding:0 6vw;">Result</div>
+  <div class="result-grid">
+    <div class="result-item" data-label="Sample 1"><img src="90days/day14_result1.jpg" alt="Custom Online Photo Booth sample strip 1" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    <div class="result-item" data-label="Sample 2"><img src="90days/day14_result2.jpg" alt="Custom Online Photo Booth sample strip 2" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    <div class="result-item" data-label="Sample 3"><img src="90days/day14_result3.jpg" alt="Custom Online Photo Booth sample strip 3" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
   </div>
 
   <div class="day-content" style="padding:0;">
@@ -1077,7 +1084,7 @@
         // On mobile, open in new tab so user can long-press → Save to Photos
         const w = window.open('', '_blank');
         if (w) {
-          w.document.write('<html><head><meta name="viewport" content="width=device-width"><title>Selfish Booth</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;}</style></head><body><img src="' + dataUrl + '"><p style="color:#aaa;text-align:center;font-family:sans-serif;font-size:13px;padding:10px">Hold image → Save to Photos</p></body></html>');
+          w.document.write('<html><head><meta name="viewport" content="width=device-width"><title>Custom Online Photo Booth</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;}</style></head><body><img src="' + dataUrl + '"><p style="color:#aaa;text-align:center;font-family:sans-serif;font-size:13px;padding:10px">Hold image → Save to Photos</p></body></html>');
           w.document.close();
         }
       } else {

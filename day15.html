@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JQ Starter Pack — Day 15</title>
-  <link rel="stylesheet" href="style.css?v=22" />
+  <title>Day 15 · AI Avatar Card Generator · Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=23" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -27,6 +27,16 @@
       margin-bottom: 20px;
       text-align: center;
     }
+    .day-section-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,130,180,0.55);
+    }
+    .day-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,130,180,0.18); }
 
     /* ── MACHINE ── */
     .machine-wrap {
@@ -591,6 +601,17 @@
   <div id="day15-page">
     <div class="d15-meta">DAY 15 · 90 DAYS OF MAKING</div>
 
+    <p style="max-width:min(96vw,560px); text-align:center; font-size:13px; line-height:1.6; color:rgba(247,241,234,0.72); margin:0 0 28px; font-style:italic;">
+      Upload a photo. Get a pixel-art starter-pack card built around you.
+    </p>
+
+    <div class="day-section-label" style="padding:0; max-width:min(96vw,900px); width:100%; margin:0 auto 20px;">Result</div>
+    <div class="result-grid" style="padding:0; max-width:min(96vw,900px); width:100%; margin:0 auto 32px;">
+      <div class="result-item" data-label="Sample 1"><img src="90days/day15_result1.jpg" alt="AI Avatar Card Generator sample 1" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+      <div class="result-item" data-label="Sample 2"><img src="90days/day15_result2.jpg" alt="AI Avatar Card Generator sample 2" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+      <div class="result-item" data-label="Sample 3"><img src="90days/day15_result3.jpg" alt="AI Avatar Card Generator sample 3" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    </div>
+
     <div class="machine-wrap" id="machineWrap">
 
       <!-- Screen content — z-index 1, shows through transparent hole in PNG -->
@@ -886,7 +907,7 @@
         if (w) {
           w.document.write(`<html><head>
             <meta name="viewport" content="width=device-width">
-            <title>JQ Starter Pack</title>
+            <title>AI Avatar Card Generator</title>
             <style>body{margin:0;background:#1a000d;display:flex;flex-direction:column;align-items:center;padding:16px;}
             img{max-width:100%;border-radius:8px;}
             p{color:#FFB8D4;font-family:monospace;font-size:12px;text-align:center;padding:10px;}</style>
