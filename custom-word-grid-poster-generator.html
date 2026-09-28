@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day 9 · Custom Word Grid Poster Generator · Jennifer Qian</title>
-  <link rel="stylesheet" href="style.css?v=27" />
+  <link rel="stylesheet" href="style.css?v=28" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -80,7 +80,7 @@
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
     }
-    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--pink); background: rgba(180,255,80,0.04); }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--pink); background: rgba(255,26,168,0.04); }
     .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
     .upload-zone-icon { font-size: 24px; margin-bottom: 6px; }
     .upload-zone-label { font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
@@ -127,7 +127,9 @@
       border-radius: 20px; background: none; color: var(--pink);
       cursor: pointer; font-family: inherit; transition: all 0.2s;
     }
-    .download-btn:hover { background: rgba(180,255,80,0.1); }
+    body.day-page { --pink: #ff1aa8; }
+    .download-btn:hover { background: rgba(255,26,168,0.1); }
+    .result-grid .result-item { aspect-ratio: 1 / 1; }
   </style>
 </head>
 <body class="project-page day-page">
