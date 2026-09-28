@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day 14 · Custom Online Photo Booth · Jennifer Qian</title>
-  <link rel="stylesheet" href="style.css?v=28" />
+  <link rel="stylesheet" href="style.css?v=29" />
   <style>
     body.day-page { --accent: #ff6eb4; }
 
@@ -410,6 +410,7 @@
       animation: floatUp 1.4s ease-out forwards;
       user-select: none;
     }
+    .result-grid .result-item { aspect-ratio: 600 / 1550; }
   </style>
 </head>
 <body class="project-page day-page">
@@ -440,7 +441,9 @@
 
   <div class="day-section-label" style="padding:0 6vw;">Result</div>
   <div class="result-grid">
-    <div class="result-item" data-label="Cover Photo"><img src="90days/day14_cover.jpg" alt="Custom Online Photo Booth cover photo" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    <div class="result-item" data-label="Sample 1"><img src="90days/day14_cover.jpg" alt="Custom Online Photo Booth sample 1" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    <div class="result-item" data-label="Sample 2"><img src="90days/day14_result2.png" alt="Custom Online Photo Booth sample 2" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
+    <div class="result-item" data-label="Sample 3"><img src="90days/day14_result3.png" alt="Custom Online Photo Booth sample 3" loading="lazy" onerror="this.closest('.result-item').classList.add('result-missing')"></div>
   </div>
 
   <div class="day-content" style="padding:0;">
