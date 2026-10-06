@@ -38,7 +38,7 @@ function initCursor() {
   let mx = -100, my = -100, cx = -100, cy = -100;
   window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-  const clickables = 'a, button, .project-row, .cap-item, .nav-link';
+  const clickables = 'a, button, .project-row, .vcard, .cap-item, .nav-link';
   $$(clickables).forEach(el => {
     el.addEventListener('mouseenter', () => cur.classList.add('hovered'));
     el.addEventListener('mouseleave', () => cur.classList.remove('hovered'));
@@ -457,13 +457,13 @@ function initScrollAnimation() {
   }, { threshold: 0.08 });
   reveals.forEach(el => observer.observe(el));
 
-  // Project rows stagger in
-  $$('.project-row').forEach((row, i) => {
+  // Visual cards stagger in
+  $$('.vcard').forEach((row, i) => {
     gsap.from(row, {
       opacity: 0,
       y: 40,
       duration: 0.9,
-      delay: i * 0.12,
+      delay: (i % 3) * 0.1,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: row,
@@ -499,12 +499,12 @@ function initScrollAnimation() {
   });
 
   // ── Daily Practice section ──
-  gsap.from('#making .section-header, #making > p', {
+  gsap.from('#experiment .section-header, #experiment .sub-head', {
     opacity: 0, y: 22,
     stagger: 0.12,
     duration: 0.75,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '#making', start: 'top 82%', once: true },
+    scrollTrigger: { trigger: '#experiment', start: 'top 82%', once: true },
   });
 
   gsap.from('.daily-card', {
@@ -614,7 +614,7 @@ function initCursorBlobs() {
 
   // Magnetic hover: cursor ring snaps to center of hovered elements
   const cur = $('#cursor');
-  $$('.project-row, .pr-title, h2.proj-title, #contact-cta').forEach(el => {
+  $$('.project-row, .vcard, .pr-title, h2.proj-title, #contact-cta').forEach(el => {
     el.addEventListener('mouseenter', () => cur.classList.add('hovered'));
     el.addEventListener('mouseleave', () => cur.classList.remove('hovered'));
   });
