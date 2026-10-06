@@ -3183,13 +3183,25 @@ video.proj-hero-img {
   .sub-head { flex-direction: column; gap: 6px; }
 }
 
-/* Experiments: show every cover at its original ratio (no cropping),
-   centered inside a uniform frame so the grid stays aligned */
+/* Experiments: masonry — every cover at its natural ratio, no frames, no letterboxing */
+#experiment .vgrid--3 {
+  display: block;
+  column-count: 3;
+  column-gap: 12px;
+}
+#experiment .vcard {
+  break-inside: avoid;
+  margin-bottom: 32px;
+}
 #experiment .vcard-media {
-  background: rgba(255,255,255,0.04);
+  aspect-ratio: auto;
+  background: none;
 }
 #experiment .vcard-media img {
-  object-fit: contain;
-  padding: 14px;
-  box-sizing: border-box;
+  height: auto;
+  max-height: 46vw;          /* only trims extreme tall strips */
+  object-fit: cover;
+  object-position: center top;
 }
+@media (max-width: 900px) { #experiment .vgrid--3 { column-count: 2; } #experiment .vcard-media img { max-height: 70vw; } }
+@media (max-width: 600px) { #experiment .vgrid--3 { column-count: 1; } #experiment .vcard-media img { max-height: 130vw; } }
