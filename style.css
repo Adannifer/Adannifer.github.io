@@ -3182,3 +3182,14 @@ video.proj-hero-img {
   .vcard-meta { flex-direction: column; gap: 4px; }
   .sub-head { flex-direction: column; gap: 6px; }
 }
+
+/* Experiments: show every cover at its original ratio (no cropping),
+   centered inside a uniform frame so the grid stays aligned */
+#experiment .vcard-media {
+  background: rgba(255,255,255,0.04);
+}
+#experiment .vcard-media img {
+  object-fit: contain;
+  padding: 14px;
+  box-sizing: border-box;
+}
