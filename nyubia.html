@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NYU BIA — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=38" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+</head>
+<body class="project-page">
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><a href="index.html#work" class="nav-link">Work</a><a href="index.html#experiment" class="nav-link">Experiments</a><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <style>
+    .bia-title-row { display:flex; align-items:center; gap:clamp(14px,2vw,28px); margin-bottom:2rem; }
+    .bia-title-row .proj-title { margin-bottom:0; }
+    .bia-logo { height:clamp(64px,8vw,120px); width:auto; display:block; background:none; }
+    .bia-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .bia-grid--2 { grid-template-columns:repeat(2,1fr); }
+    .bia-fig { margin:0; border-radius:14px; overflow:hidden; background:var(--panel); aspect-ratio:3/2; }
+    .bia-fig img { width:100%; height:100%; object-fit:cover; display:block; }
+    .bia-fig--wide { grid-column:span 2; }
+    .bia-fig--tall { aspect-ratio:auto; }
+    .bia-fig--tall img { height:auto; }
+    @media (max-width:700px) { .bia-grid { grid-template-columns:1fr 1fr; } .bia-fig--wide { grid-column:1 / -1; } }
+  </style>
+
+  <section class="proj-hero">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-img">
+      <img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic9.jpg" alt="NYU BIA open house audience raising hands" style="object-position:center 45%;">
+    </div>
+    <div class="proj-hero-text">
+      <span class="proj-num">Event Planning · Community</span>
+      <div class="bia-title-row">
+        <h1 class="proj-title">NYU<span class="pr-star">★</span>BIA</h1>
+        <img class="bia-logo" src="range%20of%20practice/nyu%20bia%20open%20house/bia_logo.png" alt="NYU BIA logo">
+      </div>
+      <div class="proj-meta-row">
+        <span>Student Club · Event Production · Visual Design</span>
+        <span>2024 – 2025</span>
+        <span>Founder · Main Organizer · Visual Designer</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">A student-run community I founded to welcome each incoming class of Chinese students at NYU.</p>
+        <p>NYU BIA (Bring It All) covers campus life, housing, dining, internships, and social connection. I run the annual Open House as main organizer and visual designer, from bilingual design systems and printed collateral to the on-site program.</p>
+        <div class="pr-tags">
+          <span class="tag">Event Planning</span>
+          <span class="tag">Community Building</span>
+          <span class="tag">Visual Identity</span>
+          <span class="tag">Print Collateral</span>
+        </div>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">2</span><span class="proj-stat-l">Welcome Events</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">✦</span><span class="proj-stat-l">Founder</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">2</span><span class="proj-stat-l">Languages</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col">
+        <div class="fanscape-img"><img src="range%20of%20practice/nyu%20bia%20open%20house/poster.png" alt="NYU BIA Open House poster"></div>
+      </div>
+    </div>
+
+    <div class="proj-section">
+      <h2 class="proj-section-title">Welcome Events</h2>
+      <div class="proj-section-body">
+        <div class="bia-grid bia-grid--2">
+          <figure class="bia-fig bia-fig--tall"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202030er%20Welcome%21.jpg" alt="2030er Welcome Event graphic" loading="lazy"></figure>
+          <figure class="bia-fig bia-fig--tall"><img src="range%20of%20practice/nyu%20bia%20open%20house/NYU%202029er%20Welcome%20%281%29.jpg" alt="2029er Welcome Event graphic" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section">
+      <h2 class="proj-section-title">Event Collateral</h2>
+      <div class="proj-section-body">
+        <div class="bia-grid">
+          <figure class="bia-fig bia-fig--wide"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/blindbox.jpg" alt="NYU BIA blind box packaging" loading="lazy"></figure>
+          <figure class="bia-fig bia-fig--tall"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic5.jpg" alt="Welcome sign and stickers" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/boost.jpg" alt="Life in NYC guide boards" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic1_web.jpg" alt="Freshman handbook" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic12.jpg" alt="Freshman handbook spread" loading="lazy"></figure>
+          <figure class="bia-fig bia-fig--wide"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic6.jpg" alt="Welcome table with merch" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section">
+      <h2 class="proj-section-title">On Site</h2>
+      <div class="proj-section-body">
+        <div class="bia-grid">
+          <figure class="bia-fig bia-fig--wide"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/guest%20sharing.jpg" alt="Guest sharing session" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic2_web.jpg" alt="Handing out handbooks" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic10.jpg" alt="Table discussion" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic11.jpg" alt="Students talking" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic3.jpg" alt="Students at tables" loading="lazy"></figure>
+          <figure class="bia-fig bia-fig--wide"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic4.jpg" alt="Audience listening" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic3_web.jpg" alt="Presentation room" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic7.jpg" alt="Audience seating" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic8.jpg" alt="Audience in session" loading="lazy"></figure>
+          <figure class="bia-fig"><img src="range%20of%20practice/nyu%20bia%20open%20house/%E7%8E%B0%E5%9C%BA/pic9.jpg" alt="Audience raising hands" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="cantonfair.html" class="proj-back-link">← Canton Fair</a>
+    <a href="range.html#echo" class="proj-next-link">
+      <span class="proj-next-label">Next</span>
+      <span class="proj-next-title">Echo Curtain →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js?v=38"></script>
+</body>
+</html>
