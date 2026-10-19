@@ -499,12 +499,12 @@ function initScrollAnimation() {
   });
 
   // ── Daily Practice section ──
-  gsap.from('#experiment .section-header, #experiment .sub-head', {
+  gsap.from('#work .sub-head', {
     opacity: 0, y: 22,
     stagger: 0.12,
     duration: 0.75,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '#experiment', start: 'top 82%', once: true },
+    scrollTrigger: { trigger: '#work', start: 'top 82%', once: true },
   });
 
   gsap.from('.daily-card', {

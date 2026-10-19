@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jennifer Qian — Experience & Brand Designer</title>
-  <link rel="stylesheet" href="style.css?v=39" />
+  <link rel="stylesheet" href="style.css?v=40" />
   <style>
     /* ── Branding & Web Interactivity grid ── */
     .daily-grid {
@@ -147,8 +147,13 @@
       <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
     </div>
     <div id="nav-links">
-      <a href="#work" class="nav-link">Work</a>
-      <a href="#experiment" class="nav-link">Experiments</a>
+      <div class="nav-dd">
+        <a href="#work" class="nav-link">Work</a>
+        <div class="nav-dd-menu">
+          <a href="#live" class="nav-link nav-dd-item">Live Experience</a>
+          <a href="#digital" class="nav-link nav-dd-item">Digital Experience</a>
+        </div>
+      </div>
       <a href="#about" class="nav-link">About</a>
       <a href="#contact" class="nav-link">Contact</a>
     </div>
@@ -204,11 +209,16 @@
     <!-- WORK -->
     <section id="work">
       <div class="section-header">
-        <span class="section-num">Selected Work</span>
+        <span class="section-num">Work</span>
         <span class="section-rule"></span>
       </div>
 
-      <div class="vgrid vgrid--work">
+      <div class="work-group" id="live">
+        <div class="sub-head">
+          <h3 class="sub-title">Live Experience</h3>
+          <span class="sub-note">Events · Installations · Activations</span>
+        </div>
+        <div class="vgrid vgrid--work">
         <a class="vcard vcard--wide" href="crimepartner.html">
           <div class="vcard-media"><img src="crimepartner_pic%20copy/web/3.0/ed3-group.jpg" style="object-position:center 72%" alt="Crime Partner" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Crime<span class="pr-star">★</span>Partner</span><span class="vcard-tag">Nightlife Series · 3 Editions · 2025</span></div>
@@ -227,39 +237,33 @@
         </a>
         <a class="vcard" href="range.html#echo">
           <div class="vcard-media"><img src="range%20of%20practice/echocurtain_cover.png" alt="Echo Curtain" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Echo<span class="pr-star">★</span>Curtain</span><span class="vcard-tag">Interactive Installation</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Echo<span class="pr-star">★</span>Curtain</span><span class="vcard-tag">Physical Computing · Performance</span></div>
         </a>
         <a class="vcard" href="suffocatedlove.html">
           <div class="vcard-media"><img src="Suffocated_Love/cover.jpg" alt="Suffocated Love" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Suffocated<span class="pr-star">★</span>Love</span><span class="vcard-tag">Wearable Experience · 2024</span></div>
         </a>
-        <a class="vcard" href="joydotz.html">
+        </div>
+      </div>
+
+      <div class="work-group" id="digital">
+        <span id="experiment" aria-hidden="true"></span>
+        <div class="sub-head">
+          <h3 class="sub-title">Digital Experience</h3>
+          <span class="sub-note">Brand · Web · Interactive Tools</span>
+        </div>
+        <div class="vgrid vgrid--work">
+        <a class="vcard vcard--wide" href="joydotz.html">
           <div class="vcard-media" style="aspect-ratio:2000/1129;"><img src="joydotz_branding/joydotz_cover_web.jpg" alt="Joy Dotz" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Joy<span class="pr-star">★</span>Dotz</span><span class="vcard-tag">Site Rebuild · 2025–26</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Joy<span class="pr-star">★</span>Dotz</span><span class="vcard-tag">Brand &amp; Site Rebuild · 2025–26</span></div>
         </a>
-        <a class="vcard" href="joydotz-campaign.html">
-          <div class="vcard-media" style="aspect-ratio:2000/1129;"><img src="joydotz_branding/statue_campaign_cover.jpg" alt="Statue Patches campaign concept" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Statue<span class="pr-star">★</span>Patches</span><span class="vcard-tag">Joydotz Campaign Concept</span></div>
-        </a>
-      </div>
-    </section>
+        </div>
 
-    <!-- EXPERIMENTS -->
-    <section id="experiment">
-      <div class="section-header" style="padding:0 6vw; margin-bottom:48px;">
-        <span class="section-num">Experiments</span>
-        <span class="section-rule"></span>
-      </div>
-
-      <div class="sub-head">
-        <h3 class="sub-title">Web Interactivity</h3>
-        <span class="sub-note">Browser tools, built with AI</span>
-      </div>
-      <div class="vgrid vgrid--3">
-        <a class="vcard" href="ai-avatar-card-generator.html">
-          <div class="vcard-media"><img src="90days/day15.png" alt="AI Avatar Card Generator" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">AI Avatar Card Generator</span><span class="vcard-tag">Web Tool</span></div>
-        </a>
+        <div class="sub-head sub-head--minor">
+          <h4 class="sub-title sub-title--minor">Web Interactivity</h4>
+          <span class="sub-note">Browser tools, built with AI</span>
+        </div>
+        <div class="vgrid vgrid--3 vgrid--masonry">
         <a class="vcard" href="custom-online-photo-booth.html">
           <div class="vcard-media"><img src="90days/day14_cover.jpg" alt="Custom Online Photo Booth" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Custom Online Photo Booth</span><span class="vcard-tag">Web Tool</span></div>
@@ -284,13 +288,13 @@
           <div class="vcard-media vcard-kaomoji"><span>(｡•̀ᴗ-)✧</span></div>
           <div class="vcard-meta"><span class="vcard-title">Kaomoji Prototype</span><span class="vcard-tag">p5.js</span></div>
         </a>
-      </div>
+        </div>
 
-      <div class="sub-head" id="playground">
-        <h3 class="sub-title">Graphic / Motion Playground</h3>
-        <a class="sub-link" href="range.html">View all ↗</a>
-      </div>
-      <div class="vgrid vgrid--3">
+        <div class="sub-head sub-head--minor" id="playground">
+          <h4 class="sub-title sub-title--minor">Graphic / Motion Playground</h4>
+          <a class="sub-link" href="range.html">View all ↗</a>
+        </div>
+        <div class="vgrid vgrid--3 vgrid--masonry">
         <a class="vcard" href="range.html#posters">
           <div class="vcard-media"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="Poster Series" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Poster Series</span><span class="vcard-tag">Typography</span></div>
@@ -311,6 +315,7 @@
           <div class="vcard-media"><img src="https://vumbnail.com/1201879166.jpg" alt="JailBreak" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">JailBreak</span><span class="vcard-tag">Stop Motion</span></div>
         </a>
+        </div>
       </div>
     </section>
 
@@ -428,6 +433,6 @@
   <script src="gradient.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="main.js?v=27"></script>
+  <script src="main.js?v=28"></script>
 </body>
 </html>
