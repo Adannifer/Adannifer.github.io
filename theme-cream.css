@@ -74,3 +74,7 @@ body::after{display:none;}
 .proj-hero-text, .proj-hero-text *{color:#f7f1ea;}
 .proj-hero-text .pr-star{color:#ff1aa8;}
 @media (min-width:701px){ #hero-title{font-size:clamp(3.6rem,16.5vw,16rem);} }
+
+/* Lime is unreadable as text on cream: use dark text with a lime highlighter, like the resume */
+.proj-stat-n, .system-card .sys-num{color:#170a24; background:linear-gradient(transparent 60%, #b4ff50 60%); display:inline-block; padding:0 .06em;}
+.time-date, .flow-step b, .ops-head .ops-cell{color:#d4007f;}
