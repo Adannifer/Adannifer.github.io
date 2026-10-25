@@ -94,3 +94,11 @@ body::after{display:none;}
 #nav-logo-text{text-transform:uppercase; font-family:'Inter',sans-serif; font-weight:900; letter-spacing:-0.01em;}
 /* No flying name between hero and nav */
 #floating-logo{display:none !important;}
+
+/* Homepage: grids align with titles on both edges */
+#work .vgrid{margin-left:0; margin-right:0;}
+/* UI/UX: original images, no crop; columns sized by image ratio so both fill the width at equal height */
+.vgrid--native{grid-template-columns:1.7778fr 1.7906fr;}
+.vgrid--native .vcard-media{aspect-ratio:auto;}
+.vgrid--native .vcard-media img{height:auto; object-fit:contain; display:block;}
+@media (max-width:700px){.vgrid--native{grid-template-columns:1fr;}}
