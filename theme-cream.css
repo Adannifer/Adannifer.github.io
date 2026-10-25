@@ -1,0 +1,76 @@
+/* ════════════════════════════════════════
+   CREAM THEME — matches Designed Resume A
+   Loaded after style.css
+   ════════════════════════════════════════ */
+:root{
+  --black:#f7f1ea; --panel:#efe5da; --charcoal:#e6d9cc;
+  --ink:#170a24; --ink-dim:rgba(23,10,36,.74); --ink-muted:rgba(23,10,36,.46);
+  --muted:#3a2c48; --border:rgba(23,10,36,.12); --blue:#4a1a6f;
+  --sub:#4a1a6f;
+  --font-display:'Inter','Helvetica Neue',Arial,sans-serif;
+  --font-body:'Inter','Helvetica Neue',Arial,sans-serif;
+}
+html{background:#f7f1ea;}
+body{background-image:none;}
+body::after{display:none;}
+#bg-canvas,#blob-trail{display:none;}
+
+/* ── Hero: resume header ── */
+#hero{
+  background-color:#ff1aa8;
+  background-image:
+    radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
+    linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 38%);
+  background-size:12px 12px, 100% 100%;
+}
+#hero-content{gap:0;}
+#hero-sub{
+  font-family:'Inter',sans-serif;
+  font-weight:800;
+  font-size:clamp(.75rem,1.1vw,1rem);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:#170a24;
+  margin:0 0 clamp(1.6rem,3.2vw,3rem);
+}
+#hero-title{
+  font-family:'Inter',sans-serif;
+  font-weight:900;
+  text-transform:uppercase;
+  font-size:clamp(2.6rem,14.5vw,16rem);
+  letter-spacing:-0.045em;
+  line-height:.86;
+  flex-wrap:wrap;
+  align-items:baseline;
+}
+#hero .hw, #hero .hc, #hero .hw--pink{color:#170a24; -webkit-text-fill-color:#170a24; background:none; font-weight:900;}
+#hw-jennifer{flex-basis:100%;}
+#hero .hw-star{
+  color:#170a24; -webkit-text-fill-color:#170a24; -webkit-text-stroke:0;
+  font-size:.55em; margin-left:.04em; align-self:flex-end;
+  position:relative; top:-.06em;
+}
+#scroll-cue, #scroll-cue *{color:#170a24;}
+
+/* ── Nav ── */
+#nav{background:rgba(247,241,234,.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-color:rgba(23,10,36,.12);}
+#nav.scrolled{background:rgba(247,241,234,.95); border-color:rgba(255,26,168,.45);}
+.nav-link{color:#170a24;}
+.nav-dd-menu{background:rgba(247,241,234,.97); border-color:rgba(23,10,36,.12);}
+
+/* ── Section labels as lime pills ── */
+.section-num{color:#170a24; background:#b4ff50; padding:5px 14px; border-radius:999px; font-size:.7rem;}
+.section-rule{background:rgba(23,10,36,.14);}
+.sub-note, .vcard-tag{color:var(--sub);}
+.vcard-media{background:#efe5da;}
+
+/* ── About ── */
+#about{background:#efe5da;}
+.about-body{color:#3a2c48;}
+#about-portrait img{border:8px solid #fff; box-shadow:0 12px 30px rgba(23,10,36,.18); transform:rotate(2deg); filter:none;}
+#about-portrait:hover img{filter:none;}
+
+/* ── Project pages: keep hero text light over photos ── */
+.proj-hero-text, .proj-hero-text *{color:#f7f1ea;}
+.proj-hero-text .pr-star{color:#ff1aa8;}
+@media (min-width:701px){ #hero-title{font-size:clamp(3.6rem,16.5vw,16rem);} }
