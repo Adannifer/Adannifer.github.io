@@ -395,55 +395,18 @@ function initScrollAnimation() {
     start: 'top top',
     end: 'bottom top',
     scrub: 0.7,
-    onUpdate: self => {
-      const p = self.progress;
-      const navRect = getNavTarget();
-      const hRect = heroTitle.getBoundingClientRect();
-
-      // Source (hero) coords (at p=0)
-      const srcX = hRect.left;
-      const srcY = hRect.top;
-      const srcSize = hRect.height * 0.46;
-
-      // Target (nav) coords (at p=1)
-      const tgtX = navRect.left + 4;
-      const tgtY = navRect.top + navRect.height / 2 - 11;
-      const tgtSize = 17;
-
-      const eased = gsap.parseEase('power2.inOut')(p);
-
-      const x = gsap.utils.interpolate(srcX, tgtX, eased);
-      const y = gsap.utils.interpolate(srcY, tgtY, eased);
-      const sz = gsap.utils.interpolate(srcSize, tgtSize, eased);
-
-      // Gravity pull: slight vertical stretch at ~p=0.3
-      const stretchPeak = Math.sin(p * Math.PI) * 0.08;
-      const scaleX = 1 - stretchPeak * 0.4;
-      const scaleY = 1 + stretchPeak;
-
-      // Hero fades out 0→0.10, float takes over immediately at 0.10 — zero gap, zero overlap
-      const heroOpacity  = 1 - gsap.utils.clamp(0, 1, p / 0.10);
-      const floatOpacity = p < 0.10 ? 0 : p < 0.16 ? (p - 0.10) / 0.06 : 1;
-
-      floatingLogo.style.left    = `${x}px`;
-      floatingLogo.style.top     = `${y}px`;
-      floatingLogo.style.opacity = floatOpacity;
-      flText.style.fontSize      = `${sz}px`;
-      flText.style.transform     = `scaleX(${scaleX}) scaleY(${scaleY})`;
-      heroTitle.style.opacity    = heroOpacity;
-
-      // Show nav logo text only once logo is docked
-      gsap.set(navLogoSlot, { opacity: p > 0.92 ? (p - 0.92) / 0.08 : 0 });
-      // Hide floating logo once docked
-      if (p > 0.95) {
-        gsap.set(floatingLogo, { opacity: 1 - (p - 0.95) / 0.05 });
-      }
-
-      // Scrolled nav style
-      if (p > 0.3) navEl.classList.add('scrolled');
-      else navEl.classList.remove('scrolled');
-    },
+    onUpdate: self => updateNavName(self.progress),
+    onRefresh: self => updateNavName(self.progress),
   });
+
+  // Nav name stays hidden over the hero, then fades in once the hero is scrolled past.
+  // (The old hero-to-nav flying name animation is turned off.)
+  function updateNavName(p) {
+    floatingLogo.style.opacity = 0;
+    gsap.set(navLogoSlot, { opacity: p > 0.85 ? Math.min(1, (p - 0.85) / 0.15) : 0 });
+    if (p > 0.3) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+  }
 
   // Section reveal via IntersectionObserver
   const reveals = $$('.reveal');

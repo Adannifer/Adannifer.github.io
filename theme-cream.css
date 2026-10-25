@@ -78,3 +78,19 @@ body::after{display:none;}
 /* Lime is unreadable as text on cream: use dark text with a lime highlighter, like the resume */
 .proj-stat-n, .system-card .sys-num{color:#170a24; background:linear-gradient(transparent 60%, #b4ff50 60%); display:inline-block; padding:0 .06em;}
 .time-date, .flow-step b, .ops-head .ops-cell{color:#d4007f;}
+
+/* Content boxes: light cards instead of dark */
+.concept-card, .closing-card, .flow-step, .time-row, .research-card,
+.wc-step, .system-card, .module-card{
+  background:#ffffff !important;
+  border:1px solid rgba(23,10,36,.08) !important;
+  box-shadow:0 6px 20px rgba(23,10,36,.05);
+  color:#170a24;
+}
+.concept-card p, .closing-card p, .flow-step p, .time-row, .research-card p,
+.wc-step p, .system-card p, .module-card p{color:#3a2c48;}
+
+/* Nav name in caps to match the hero */
+#nav-logo-text{text-transform:uppercase; font-family:'Inter',sans-serif; font-weight:900; letter-spacing:-0.01em;}
+/* No flying name between hero and nav */
+#floating-logo{display:none !important;}
