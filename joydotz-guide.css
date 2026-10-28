@@ -74,7 +74,7 @@
 .jm-vid--wide{aspect-ratio:1260/720;}
 .jm-vid--tall{aspect-ratio:9/16;}
 .jm-vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
-.jm-pair{display:grid; grid-template-columns:repeat(2,minmax(0,360px)); gap:16px;}
+.jm-pair{display:grid; grid-template-columns:repeat(3,minmax(0,340px)); gap:16px;}
 .jm-pair figure{margin:0;}
 .jm-pair figcaption{font-size:.82rem; font-weight:600; color:#865177; margin-top:8px;}
-@media (max-width:760px){.jm-pair{grid-template-columns:1fr 1fr; gap:10px;}}
+@media (max-width:760px){.jm-pair{grid-template-columns:repeat(3,1fr); gap:8px;} .jm-pair figcaption{font-size:.7rem;}}
