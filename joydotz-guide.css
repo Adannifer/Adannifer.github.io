@@ -70,9 +70,11 @@
 .jm-label{font-family:'Inter',sans-serif; font-weight:800; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:0 0 14px;}
 .jm-label--gap{margin-top:48px;}
 .jm-note{font-size:.88rem; color:#3a2c48; margin:-6px 0 16px; max-width:620px;}
-.jm-vid{position:relative; padding-top:75%; border-radius:14px; overflow:hidden; background:#efe5da;}
+.jm-vid{position:relative; border-radius:14px; overflow:hidden;}
+.jm-vid--wide{aspect-ratio:1260/720;}
+.jm-vid--tall{aspect-ratio:9/16;}
 .jm-vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
-.jm-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.jm-pair{display:grid; grid-template-columns:repeat(2,minmax(0,360px)); gap:16px;}
 .jm-pair figure{margin:0;}
 .jm-pair figcaption{font-size:.82rem; font-weight:600; color:#865177; margin-top:8px;}
-@media (max-width:760px){.jm-pair{grid-template-columns:1fr;}}
+@media (max-width:760px){.jm-pair{grid-template-columns:1fr 1fr; gap:10px;}}
