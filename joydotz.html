@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="joydotz-guide.css?v=1" />
   <svg id="svg-filters" aria-hidden="true" focusable="false">
     <defs>
       <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%"
@@ -92,23 +94,76 @@
       </div>
     </div>
 
-    <!-- Color System -->
-    <div class="proj-section">
-      <h2 class="proj-section-title">Color System</h2>
+    <!-- Brand Style Guide -->
+    <div class="proj-section jg">
+      <h2 class="proj-section-title">Brand Style Guide</h2>
       <div class="proj-section-body">
-        <p style="font-size:0.84rem; color:var(--ink-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-          Replaced the clinical acne-red with a softer palette pulled from the packaging itself.
-        </p>
-        <div class="color-swatch-strip">
-          <div class="color-swatch" data-hex="#F5F2F2" style="background:#F5F2F2;"></div>
-          <div class="color-swatch" data-hex="#B3C8FC" style="background:#B3C8FC;"></div>
-          <div class="color-swatch" data-hex="#D8AE93" style="background:#D8AE93;"></div>
-          <div class="color-swatch" data-hex="#FAD5ED" style="background:#FAD5ED;"></div>
-          <div class="color-swatch" data-hex="#FF79C4" style="background:#FF79C4;"></div>
-          <div class="color-swatch" data-hex="#ADA6D0" style="background:#ADA6D0;"></div>
-          <div class="color-swatch" data-hex="#8B7C99" style="background:#8B7C99;"></div>
-          <div class="color-swatch" data-hex="#6B3F5C" style="background:#6B3F5C;"></div>
+        <p class="jg-lede">Built from the packaging outward: one color shift, two typefaces, three patch shapes.</p>
+
+        <h3 class="jg-h"><span>01</span>Color Evolution</h3>
+        <div class="jg-evo">
+          <div class="jg-evo-card">
+            <span class="jg-evo-tag">Before</span>
+            <div class="jg-evo-sw" style="background:#E3C0B2;"></div>
+            <b>Pantone 7520 C</b><code>#E3C0B2</code>
+            <p>The original brand color: one muted nude carrying the whole identity.</p>
+          </div>
+          <div class="jg-evo-arrow" aria-hidden="true">→</div>
+          <div class="jg-evo-card">
+            <span class="jg-evo-tag is-after">After</span>
+            <div class="jg-evo-sw" style="background:linear-gradient(90deg,#FF79C4 0%,#B3C8FC 50%,#FEEDF9 100%);"></div>
+            <b>Packaging Palette</b><code>#FF79C4 · #B3C8FC · #FEEDF9</code>
+            <p>Pulled from the new pink, periwinkle and holographic packs. 7520 C stays on as a warm neutral.</p>
+          </div>
         </div>
+
+        <h3 class="jg-h"><span>02</span>Core Palette</h3>
+        <div class="jg-chips jg-chips--8"><div class="jg-chip"><span class="jg-chip-c" style="background:#F5F2F2;"></span><b>Cloud White</b><code>#F5F2F2</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#B3C8FC;"></span><b>Sky</b><code>#B3C8FC</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#E3C0B2;"></span><b>Nude 7520 C</b><code>#E3C0B2</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#FAD5ED;"></span><b>Blush</b><code>#FAD5ED</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#FF79C4;"></span><b>Joy Pink</b><code>#FF79C4</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#ACB3EF;"></span><b>Periwinkle</b><code>#ACB3EF</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#B6B2D7;"></span><b>Lilac Haze</b><code>#B6B2D7</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#865177;"></span><b>Plum</b><code>#865177</code></div></div>
+        <div class="jg-fam">
+          <div><p class="jg-fam-l">Cool family · sky to dusk</p><div class="jg-chips jg-chips--5"><div class="jg-chip"><span class="jg-chip-c" style="background:#F5F2F2;"></span><b>Cloud White</b><code>#F5F2F2</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#B3C8FC;"></span><b>Sky</b><code>#B3C8FC</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#ACB3EF;"></span><b>Periwinkle</b><code>#ACB3EF</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#B6B2D7;"></span><b>Lilac Haze</b><code>#B6B2D7</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#6C6980;"></span><b>Dusk</b><code>#6C6980</code></div></div></div>
+          <div><p class="jg-fam-l">Warm family · petal to berry</p><div class="jg-chips jg-chips--5"><div class="jg-chip"><span class="jg-chip-c" style="background:#FEEDF9;"></span><b>Petal</b><code>#FEEDF9</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#FAD5ED;"></span><b>Blush</b><code>#FAD5ED</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#E2B8B2;"></span><b>Rose Nude</b><code>#E2B8B2</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#FF79C4;"></span><b>Joy Pink</b><code>#FF79C4</code></div><div class="jg-chip"><span class="jg-chip-c" style="background:#773B57;"></span><b>Berry</b><code>#773B57</code></div></div></div>
+        </div>
+
+        <h3 class="jg-h"><span>03</span>Gradients</h3>
+        <div class="jg-grads">
+          <div class="jg-grad">
+            <div class="jg-grad-sw jg-diamond"></div>
+            <b>Daydream Glow</b><span class="jg-grad-t">Diamond</span>
+            <code>#F5F2F2 10% · #B3C8FC 51% · #FAD5ED 88%</code>
+          </div>
+          <div class="jg-grad">
+            <div class="jg-grad-sw" style="background:linear-gradient(90deg,#FF79C4 0%,#B3C8FC 50%,#FEEDF9 100%);"></div>
+            <b>Joy Fade</b><span class="jg-grad-t">Linear</span>
+            <code>#FF79C4 0% · #B3C8FC 50% · #FEEDF9 100%</code>
+          </div>
+        </div>
+
+        <h3 class="jg-h"><span>04</span>Typography</h3>
+        <div class="jg-type">
+          <div class="jg-type-card">
+            <span class="jg-type-role">Heading · Accent</span>
+            <div class="jg-type-aa" style="font-family:'Montserrat',sans-serif;font-weight:800;">Aa</div>
+            <b style="font-family:'Montserrat',sans-serif;font-weight:700;">Montserrat</b>
+            <p style="font-family:'Montserrat',sans-serif;font-weight:700;">joydotz hydrocolloid spot patches</p>
+          </div>
+          <div class="jg-type-card">
+            <span class="jg-type-role">Body · Subheading</span>
+            <div class="jg-type-aa" style="font-family:'M PLUS Rounded 1c',sans-serif;font-weight:500;">Aa</div>
+            <b style="font-family:'M PLUS Rounded 1c',sans-serif;font-weight:700;">M PLUS Rounded 1c</b>
+            <p style="font-family:'M PLUS Rounded 1c',sans-serif;">a soft little layer of comfort and joy.</p>
+          </div>
+        </div>
+
+        <h3 class="jg-h"><span>05</span>Shape Language</h3>
+        <div class="jg-shapes">
+          <figure><img src="joydotz_branding/guide/jd-patch-cloud.png" alt="Daydream Cloud patch tray, holographic clouds" loading="lazy"><figcaption><b>Daydream Cloud</b><span>Holographic</span></figcaption></figure>
+          <figure><img src="joydotz_branding/guide/jd-patch-flower.png" alt="Blush Flower patch tray, pink and cream flowers" loading="lazy"><figcaption><b>Blush Flower</b><span>Blush + Cream</span></figcaption></figure>
+          <figure><img src="joydotz_branding/guide/jd-patch-butterfly.png" alt="Softwing Butterfly patch tray, clear butterflies" loading="lazy"><figcaption><b>Softwing Butterfly</b><span>Clear</span></figcaption></figure>
+        </div>
+
+        <h3 class="jg-h"><span>06</span>Packaging</h3>
+        <div class="jg-pack"><img src="joydotz_branding/guide/jd-packaging-dielines.jpg" alt="Joydotz packaging dielines: Daydream Cloud, Blush Flower, Softwing Butterfly" loading="lazy"></div>
+        <p class="jg-cap">One dieline, three skins. Each box takes its color world from the patch inside.</p>
       </div>
     </div>
 
