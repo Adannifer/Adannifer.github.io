@@ -785,14 +785,8 @@ async function init() {
   initStarCanvas();
   prepareRevealEls();
 
-  // Phase A — only on first visit per session
-  const seen = sessionStorage.getItem('introPlayed');
-  if (seen) {
-    await skipIntroAnimation();
-  } else {
-    await runIntroAnimation();
-    sessionStorage.setItem('introPlayed', '1');
-  }
+  // Coin-flip intro removed: always show the hero directly
+  await skipIntroAnimation();
 
   // Phase B + C
   initScrollAnimation();

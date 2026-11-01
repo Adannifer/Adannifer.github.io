@@ -102,3 +102,6 @@ body::after{display:none;}
 .vgrid--native .vcard-media{aspect-ratio:auto;}
 .vgrid--native .vcard-media img{height:auto; object-fit:contain; display:block;}
 @media (max-width:700px){.vgrid--native{grid-template-columns:1fr;}}
+
+/* Coin-flip intro removed */
+#intro{display:none !important;}
