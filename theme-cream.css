@@ -108,3 +108,27 @@ body::after{display:none;}
 
 /* First minor group right under a group title */
 .sub-head--minor.sub-head--first{margin-top:8px;}
+
+/* ── Hero collage: tight grid on the right, fading into the pink ── */
+#hero{overflow:hidden;}
+#hero-content,#scroll-cue{position:relative; z-index:2;}
+#hero-collage{
+  position:absolute; top:0; right:0; bottom:0; width:58vw; z-index:0;
+  display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr); gap:0;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 22%, rgba(0,0,0,.6) 48%, #000 72%);
+          mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 22%, rgba(0,0,0,.6) 48%, #000 72%);
+  pointer-events:none;
+}
+#hero-collage img{width:100%; height:100%; object-fit:cover; display:block; min-width:0; min-height:0;}
+#hero-collage .c1{grid-column-start:1;} #hero-collage .c2{grid-column-start:2;}
+#hero-collage .c3{grid-column-start:3;} #hero-collage .c4{grid-column-start:4;}
+#hero-collage .r1{grid-row-start:1;} #hero-collage .r2{grid-row-start:2;}
+#hero-collage .r3{grid-row-start:3;} #hero-collage .r4{grid-row-start:4;}
+#hero-collage .w2{grid-column-end:span 2;} #hero-collage .h2{grid-row-end:span 2;}
+@media (min-width:701px){ #hero-title{font-size:clamp(3.6rem,12vw,13rem);} }
+@media (max-width:700px){
+  #hero-collage{width:100%; top:auto; height:46%;
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 35%, #000 70%);
+            mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 35%, #000 70%);}
+  #hero-content{margin-top:-18vh;}
+}
