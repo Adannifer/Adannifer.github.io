@@ -403,6 +403,7 @@ function initScrollAnimation() {
   // (The old hero-to-nav flying name animation is turned off.)
   function updateNavName(p) {
     floatingLogo.style.opacity = 0;
+    if (document.body.classList.contains('hero-dock')) return; // hero-dock.js drives the nav name
     gsap.set(navLogoSlot, { opacity: p > 0.85 ? Math.min(1, (p - 0.85) / 0.15) : 0 });
     if (p > 0.3) navEl.classList.add('scrolled');
     else navEl.classList.remove('scrolled');
