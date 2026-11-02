@@ -105,3 +105,6 @@ body::after{display:none;}
 
 /* Coin-flip intro removed */
 #intro{display:none !important;}
+
+/* First minor group right under a group title */
+.sub-head--minor.sub-head--first{margin-top:8px;}
