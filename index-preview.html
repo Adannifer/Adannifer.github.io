@@ -115,23 +115,25 @@
   <style>
     /* hero-dock preview */
     body.hero-dock #hero{
-      min-height:82svh; justify-content:flex-start;
-      padding-top:calc(var(--nav-h) + 11vh);
+      min-height:0; justify-content:flex-start;
+      padding:calc(var(--nav-h) + 6vh) 6vw 15vh;
       background-color:#ff1aa8;
       background-image:
-        linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 46%, rgba(247,241,234,.55) 74%, #f7f1ea 100%),
+        linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 50%, rgba(247,241,234,.6) 78%, #f7f1ea 100%),
         radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
         linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 38%) !important;
       background-size:100% 100%, 12px 12px, 100% 100% !important;
     }
+    body.hero-dock #hero-title-wrap{display:flex; flex-direction:column; align-items:flex-start;}
+    body.hero-dock #hero-sub{order:2; margin:clamp(1rem,1.8vw,1.6rem) 0 0 !important;}
     body.hero-dock #scroll-cue{display:none;}
-    body.hero-dock #work{padding-top:3rem;}
+    body.hero-dock #work{padding-top:1rem;}
     @media (min-width:701px){
       body.hero-dock #hero-title{display:inline-flex; flex-wrap:nowrap !important; white-space:nowrap; will-change:transform;}
       body.hero-dock #hw-jennifer{flex-basis:auto !important; margin-right:.22em;}
       body.hero-dock #nav:not(.docked){background:transparent !important; border-color:transparent !important; box-shadow:none !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important;}
     }
-    @media (max-width:700px){ body.hero-dock #hero{min-height:62svh; padding-top:calc(var(--nav-h) + 6vh);} }
+    @media (max-width:700px){ body.hero-dock #hero{padding:calc(var(--nav-h) + 5vh) 6vw 10vh;} }
     body.hero-dock #nav{transition:background-color .35s ease, border-color .35s ease, box-shadow .35s ease;}
   </style>
 </head>
@@ -479,6 +481,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
-  <script src="hero-dock.js?v=2"></script>
+  <script src="hero-dock.js?v=3"></script>
 </body>
 </html>

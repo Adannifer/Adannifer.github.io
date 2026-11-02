@@ -59,7 +59,7 @@
     const nr = navText.getBoundingClientRect();
     const top0 = tr.top + sy;
     const k = nr.width / tr.width;
-    const D = Math.round(window.innerHeight * 0.5);
+    const D = Math.round(window.innerHeight * 0.38);
     const yEnd = D + (nr.top + nr.height / 2) - top0 - (tr.height * k) / 2;
     const xEnd = nr.left - tr.left;
     const tw = gsap.fromTo(title, { x: 0, y: 0, scale: 1 }, {
