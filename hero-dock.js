@@ -23,9 +23,9 @@
 
   function intro() {
     gsap.set(navSlot, { opacity: 0 });
-    title.style.clipPath = 'inset(-20% -10% 0 -10%)';
+    title.style.clipPath = 'inset(-20% -10% -14% -10%)';
     const tl = gsap.timeline({ onComplete: () => { title.style.clipPath = ''; } });
-    tl.from(letters, { yPercent: 115, duration: 0.7, ease: 'power4.out', stagger: 0.035 })
+    tl.from(letters, { yPercent: 135, duration: 0.7, ease: 'power4.out', stagger: 0.035 })
       .from(star, { scale: 0, rotation: -140, transformOrigin: '50% 55%', duration: 0.55, ease: 'back.out(2.2)' }, '-=0.38')
       .from(sub, { opacity: 0, y: 12, duration: 0.45, ease: 'power2.out' }, 0.15);
   }
