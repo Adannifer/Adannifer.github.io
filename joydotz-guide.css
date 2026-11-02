@@ -79,3 +79,12 @@
 .jm-pair figure{margin:0;}
 .jm-pair figcaption{font-size:.82rem; font-weight:600; color:#865177; margin-top:8px;}
 @media (max-width:760px){.jm-pair{grid-template-columns:repeat(3,1fr); gap:8px;} .jm-pair figcaption{font-size:.7rem;}}
+
+/* Overview: three short paragraphs, own-work highlighted */
+.proj-desc-col .jd-ov-lead{font-size:clamp(1.15rem,1.9vw,1.45rem) !important; font-weight:700; line-height:1.45 !important; margin:0 0 18px;}
+.proj-desc-col .jd-ov-ctx{font-size:clamp(.95rem,1.3vw,1.05rem) !important; font-weight:500; color:#3a2c48 !important; margin:0 0 18px;}
+.proj-desc-col .jd-ov-own{font-size:clamp(.95rem,1.3vw,1.05rem) !important; font-weight:600; margin:0;}
+.jd-ov-own mark{background:linear-gradient(transparent 55%, #b4ff50 55%); color:inherit; padding:0 .1em;}
+/* Visit button: spaced from the tags, solid pill */
+.proj-desc-col .proj-cta-link{margin-top:22px; background:#ff1aa8; border-color:#ff1aa8; color:#fff; padding:.75rem 1.3rem; font-size:.72rem;}
+.proj-desc-col .proj-cta-link:hover{background:#170a24; border-color:#170a24; color:#fff;}
