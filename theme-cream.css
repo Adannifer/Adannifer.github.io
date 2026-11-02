@@ -111,7 +111,7 @@ body::after{display:none;}
 
 /* ── Hero collage: tight grid on the right, fading into the pink ── */
 #hero{overflow:hidden;}
-#hero-content,#scroll-cue{position:relative; z-index:2;}
+#hero-content{position:relative; z-index:2;} #scroll-cue{z-index:2;}
 #hero-collage{
   position:absolute; top:0; right:0; bottom:0; width:58vw; z-index:0;
   display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr); gap:0;
