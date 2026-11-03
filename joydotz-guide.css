@@ -127,3 +127,6 @@
 .proj-section-body > p.jl-kicker{margin:0 0 10px;}
 .jl-text strong, .jf-cards strong{font-weight:700; color:#170a24;}
 .jf-cards strong{background:linear-gradient(transparent 60%, rgba(180,255,80,.7) 60%);}
+
+/* Let section text span the full content width */
+.proj-section-body > p.jl-text, .jv3 p, .jg-lede{max-width:none;}
