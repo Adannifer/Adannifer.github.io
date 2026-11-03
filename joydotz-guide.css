@@ -130,3 +130,7 @@
 
 /* Let section text span the full content width */
 .proj-section-body > p.jl-text, .jv3 p, .jg-lede{max-width:none;}
+
+.jy-ugc{border-radius:16px; overflow:hidden; border:1px solid rgba(23,10,36,.08);}
+.jy-ugc img{display:block; width:100%; height:auto;}
+.jl-text strong{font-weight:700; color:#170a24;}
