@@ -108,7 +108,7 @@
 .jf .proj-section-body{display:block;}
 .jf-video{border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#efe5da;}
 .jf-video video{width:100%; height:100%; object-fit:cover; display:block;}
-.jf-cards{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:16px;}
+.jf-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px;}
 .jf-cards > div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:18px; box-shadow:0 8px 24px rgba(23,10,36,.05);}
 .jf-cards b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#865177; margin-bottom:8px;}
 .jf-cards p{margin:0; font-size:.84rem; line-height:1.55; color:#3a2c48;}
@@ -119,5 +119,5 @@
 .jv3-stat{display:flex; flex-direction:column; gap:6px;}
 .jv3-stat .proj-stat-n{font-size:clamp(3rem,6vw,5rem); line-height:1;}
 .jv3 p{margin:0; font-size:.95rem; line-height:1.6; color:#3a2c48;}
-@media (max-width:900px){ .jf-cards{grid-template-columns:1fr 1fr;} }
+@media (max-width:900px){ .jf-cards{grid-template-columns:1fr;} }
 @media (max-width:640px){ .jf-cards{grid-template-columns:1fr;} .jv3{grid-template-columns:1fr; gap:14px;} }
