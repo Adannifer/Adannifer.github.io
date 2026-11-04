@@ -130,7 +130,7 @@ body::after{display:none;}
   #hero-collage{width:100%; top:auto; height:46%;
     -webkit-mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 35%, #000 70%);
             mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 35%, #000 70%);}
-  #hero-content{margin-top:-18vh;}
+
 }
 
     /* ── Hero dock: one-line name, flies into the nav ── */
