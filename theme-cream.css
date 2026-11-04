@@ -164,3 +164,10 @@ body::after{display:none;}
 .vcard-hook{font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(.95rem,1.15vw,1.1rem); line-height:1.4; color:#3a2c48; margin:6px 0 0; max-width:none;}
 
 .vcard-media video{width:100%; height:100%; object-fit:cover; display:block;}
+
+/* Phones: center the two-line name over the centered subtitle */
+@media (max-width:700px){
+  body.hero-dock #hero-title-wrap{display:flex; align-self:stretch;}
+  body.hero-dock #hero-title{justify-content:center; text-align:center; width:100%;}
+  body.hero-dock #hw-jennifer{text-align:center;}
+}
