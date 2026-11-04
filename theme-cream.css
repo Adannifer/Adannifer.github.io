@@ -169,5 +169,5 @@ body::after{display:none;}
 @media (max-width:700px){
   body.hero-dock #hero-title-wrap{display:flex; align-self:stretch;}
   body.hero-dock #hero-title{justify-content:center; text-align:center; width:100%;}
-  body.hero-dock #hw-jennifer{text-align:center;}
+  body.hero-dock #hw-jennifer{text-align:center; display:flex; justify-content:center;}
 }
