@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PWQJ7HBL');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7615TEK1PY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7615TEK1PY');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Brand — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=40" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <link rel="icon" href="favicon.ico?v=1" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+</head>
+<body class="project-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><div class="nav-dd"><a href="index.html#work" class="nav-link">Work</a><div class="nav-dd-menu"><a href="index.html#digital" class="nav-link nav-dd-item">Digital Branding</a><a href="index.html#live" class="nav-link nav-dd-item">Live Branding</a></div></div><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <style>
+    .pb .proj-section-body{display:block;}
+    .pb-lede{font-size:.95rem; line-height:1.6; color:#3a2c48; margin:0 0 22px;}
+    .pb-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .pb-card{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:20px; box-shadow:0 8px 24px rgba(23,10,36,.05);}
+    .pb-card b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:8px;}
+    .pb-card p{margin:0; font-size:.88rem; line-height:1.6; color:#3a2c48;}
+    .pb-statement{margin-top:16px; background:#0A0613; border-radius:18px; padding:clamp(24px,4vw,44px); display:flex; justify-content:space-between; align-items:center; gap:24px;}
+    .pb-statement p{margin:0; font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1.3rem,2.8vw,2.4rem); line-height:1.1; letter-spacing:-.01em; text-transform:uppercase; color:#F7F1EA;}
+    .pb-statement .pk{color:#FF1AA8;} .pb-statement .gr{color:#D7FF45;}
+    .pb-statement span.star{font-size:clamp(3rem,7vw,6rem); color:#FF1AA8; line-height:1;}
+    .pb-step{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:44px 0 10px; display:flex; gap:12px; align-items:center;}
+    .pb-step:first-child{margin-top:0;}
+    .pb-step span{background:#FAD5ED; color:#773B57; border-radius:999px; padding:4px 10px; font-size:.68rem;}
+    .pb-fig{margin:0 0 12px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; overflow:hidden;}
+    .pb-fig img{display:block; width:100%; height:auto;}
+    .pb-fig figcaption{font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#865177; padding:10px 14px; border-top:1px solid rgba(23,10,36,.06);}
+    .pb-2{display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start;}
+    .pb-rules{display:grid; grid-template-columns:1fr 1fr; gap:28px 40px;}
+    .pb-rules h4{font-family:'Inter',sans-serif; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f; margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid rgba(23,10,36,.12);}
+    .pb-rules ul{margin:0; padding:0; list-style:none;}
+    .pb-rules li{font-size:.9rem; line-height:1.55; color:#3a2c48; padding:4px 0;}
+    .pb-rules li strong{color:#170a24;}
+    .pb-chips{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:8px;}
+    .pb-chip{display:flex; flex-direction:column; gap:3px; font-size:.78rem;}
+    .pb-chip i{display:block; aspect-ratio:4/3; border-radius:12px; border:1px solid rgba(23,10,36,.08); margin-bottom:6px;}
+    .pb-chip b{color:#170a24;} .pb-chip code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .pb-chip em{font-style:normal; font-size:.72rem; color:#865177;}
+    .pb-type{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;}
+    .pb-type .pb-card .aa{font-size:clamp(3rem,6vw,5rem); line-height:1; color:#170a24; margin:10px 0 8px;}
+    .pb-type .serif{font-family:'Bodoni Moda',Didot,'Bodoni 72',serif;}
+    .pb-type .sans{font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-weight:500;}
+    .pb-type .note{font-size:.76rem; color:#6C6980; margin-top:6px;}
+    .pb-principle{margin-top:18px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:22px;}
+    .pb-principle p{margin:0; font-size:.92rem; line-height:1.6; color:#3a2c48;}
+    .pb-principle .dont{margin-top:14px; padding-left:14px; border-left:3px solid #FF1AA8; color:#170a24; font-weight:600;}
+    .pb-gh{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:40px 0 14px;}
+    .pb-gh:first-child{margin-top:0;}
+    .pb-apps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .pb-apps figure{margin:0; border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:#efe5da;}
+    .pb-apps img{width:100%; height:100%; object-fit:cover; display:block;}
+    @media (max-width:760px){ .pb-cards,.pb-2,.pb-rules,.pb-type,.pb-apps{grid-template-columns:1fr;} .pb-chips{grid-template-columns:repeat(3,1fr);} .pb-statement span.star{display:none;} }
+  </style>
+
+  <section class="proj-hero">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-img">
+      <img src="personal_brand/pb-signboard.jpg" alt="Q-and-star monogram on a hanging signboard against a brick wall" style="object-position:center 45%;">
+    </div>
+    <div class="proj-hero-text">
+      <span class="proj-num">Identity Design · Personal Brand</span>
+      <h1 class="proj-title">PERSONAL<span class="pr-star">★</span>BRAND</h1>
+      <div class="proj-meta-row">
+        <span>Logo System · Visual Identity Guide</span>
+        <span>Self-Initiated · 2024</span>
+        <span>Designer</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">A personal identity system built around contrast: editorial precision meets energetic transformation.</p>
+        <p>I designed my own identity to carry a multidisciplinary practice across cultural programming, digital design and community-facing work. The serif structure communicates craft and authorship, and the star brings curiosity, momentum and a disruptive spark.</p>
+        <div class="pr-tags">
+          <span class="tag">Logo Design</span>
+          <span class="tag">Monogram</span>
+          <span class="tag">Wordmark</span>
+          <span class="tag">Brand Guidelines</span>
+        </div>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Marks in the Family</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">5</span><span class="proj-stat-l">Core Colors</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">2</span><span class="proj-stat-l">Typefaces</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col">
+        <div class="fanscape-img"><img src="personal_brand/pb-hangtag.jpg" alt="Q-and-star monogram on a hang tag"></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <h2 class="proj-section-title">Brand Intent</h2>
+      <div class="proj-section-body">
+        <div class="pb-cards">
+          <div class="pb-card"><b>The Challenge</b><p>Create a personal identity that is distinctive without being tied to one medium, and recognizable across print, environmental and digital applications.</p></div>
+          <div class="pb-card"><b>The Idea</b><p>Editorial precision meets energetic transformation. The serif structure communicates craft and authorship; the star introduces curiosity, momentum and a disruptive spark.</p></div>
+          <div class="pb-card"><b>The Outcome</b><p>A scalable family of marks: a Q-and-star monogram, a full Jennifer Qian wordmark and a compact JQ lockup, supported by a controlled high-energy palette.</p></div>
+        </div>
+        <div class="pb-statement"><p>Editorial precision<br><span class="pk">meets energetic</span><br><span class="gr">transformation.</span></p><span class="star" aria-hidden="true">★</span></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <h2 class="proj-section-title">Process</h2>
+      <div class="proj-section-body">
+        <p class="pb-step"><span>01</span>Letterform Exploration</p>
+        <p class="pb-lede">Early studies tested the initials J and Q through overlap, shared strokes, extended tails and full-name wordmarks. The circular body and expressive tail made the Q the most distinctive foundation for the system.</p>
+        <figure class="pb-fig"><img src="personal_brand/pb-initials.jpg" alt="Serif studies of the letters J and Q" loading="lazy"><figcaption>Initial studies</figcaption></figure>
+        <figure class="pb-fig"><img src="personal_brand/pb-wordmarks.jpg" alt="Wordmark and monogram iterations" loading="lazy"><figcaption>Wordmark and monogram iterations</figcaption></figure>
+
+        <p class="pb-step"><span>02</span>Symbol Development</p>
+        <p class="pb-lede">Coin-like emblems, diamonds, petals and starbursts were explored as secondary forms. The star proved most effective because it could act as a spark, a marker and a graphic interruption within the Q.</p>
+        <div class="pb-2">
+          <figure class="pb-fig"><img src="personal_brand/pb-references.jpg" alt="Reference and composition studies" loading="lazy"><figcaption>Reference and composition studies</figcaption></figure>
+          <figure class="pb-fig"><img src="personal_brand/pb-star-tests.jpg" alt="Testing star scale, angle and overlap" loading="lazy"><figcaption>Testing star scale, angle and overlap</figcaption></figure>
+        </div>
+
+        <p class="pb-step"><span>03</span>Refinement</p>
+        <p class="pb-lede">The final direction stabilizes the black serif monogram and uses electric magenta as the signature accent. Larger applications can introduce acid gradients and expanded star forms; small applications return to a simple solid mark.</p>
+        <figure class="pb-fig"><img src="personal_brand/pb-final-studies.jpg" alt="Final direction studies and expanded graphic language" loading="lazy"><figcaption>Final direction studies and expanded graphic language</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <h2 class="proj-section-title">Visual Guide</h2>
+      <div class="proj-section-body">
+        <p class="pb-lede">A flexible identity, held by clear rules. The monogram stays consistent while color, scale and composition shift according to context.</p>
+
+        <div class="pb-rules">
+          <div><h4>Logo System</h4><ul>
+            <li><strong>Primary:</strong> Q-and-star monogram.</li>
+            <li><strong>Wordmark:</strong> Jennifer Qian with star accent.</li>
+            <li><strong>Secondary:</strong> compact JQ lockup.</li>
+            <li><strong>Icon:</strong> simplified solid-color monogram.</li></ul></div>
+          <div><h4>Clear Space + Scale</h4><ul>
+            <li>Clear space: at least one Q stem width.</li>
+            <li>Use the wordmark above 40 mm / 180 px.</li>
+            <li>Use the monogram below that size.</li>
+            <li>Avoid gradients in very small applications.</li></ul></div>
+        </div>
+
+        <p class="pb-gh">Core Palette</p>
+        <div class="pb-chips">
+          <div class="pb-chip"><i style="background:#0A0613"></i><b>Deep Ink</b><code>#0A0613</code><em>Foundation</em></div>
+          <div class="pb-chip"><i style="background:#FF1AA8"></i><b>Electric Pink</b><code>#FF1AA8</code><em>Signature accent</em></div>
+          <div class="pb-chip"><i style="background:#D7FF45"></i><b>Acid Green</b><code>#D7FF45</code><em>Selective</em></div>
+          <div class="pb-chip"><i style="background:#F7F1EA"></i><b>Soft Ivory</b><code>#F7F1EA</code><em>Foundation</em></div>
+          <div class="pb-chip"><i style="background:#8CC8FF"></i><b>Sky Blue</b><code>#8CC8FF</code><em>Selective</em></div>
+        </div>
+
+        <p class="pb-gh">Typography</p>
+        <div class="pb-type">
+          <div class="pb-card"><b>Display</b><div class="aa serif">Aa</div><p>CoFo Raffin, or a comparable high-contrast editorial serif, for dramatic headlines.</p><p class="note">Shown here in Bodoni Moda as a web stand-in.</p></div>
+          <div class="pb-card"><b>Support</b><div class="aa sans">Aa</div><p>Helvetica Neue, Arial or Inter for small, precise information next to serif headlines.</p></div>
+        </div>
+
+        <p class="pb-gh">Composition</p>
+        <div class="pb-rules"><div><ul>
+          <li>Favor asymmetry and generous negative space.</li>
+          <li>Use one expressive star as a focal point.</li></ul></div><div><ul>
+          <li>Allow large elements to crop beyond the frame.</li>
+          <li>Keep photography clear and observational.</li></ul></div></div>
+
+        <div class="pb-principle">
+          <p>Use Deep Ink and Soft Ivory as the foundation. Electric Pink is the signature accent. Acid Green, Sky Blue and spectrum gradients appear selectively so the system stays recognizable and controlled.</p>
+          <p class="dont">Preserve the final Q-and-star relationship. Do not stretch the mark, replace the star, or crowd the composition with multiple decorative effects.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <h2 class="proj-section-title">Applications</h2>
+      <div class="proj-section-body">
+        <div class="pb-apps">
+          <figure><img src="personal_brand/pb-hangtag.jpg" alt="Monogram on a hang tag" loading="lazy"></figure>
+          <figure><img src="personal_brand/pb-signboard.jpg" alt="Monogram on a wall signboard" loading="lazy"></figure>
+          <figure><img src="personal_brand/pb-cards.jpg" alt="Wordmark business cards" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="range.html" class="proj-back-link">← Playground</a>
+    <a href="joydotz.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Skincare★Rebrand →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js?v=40"></script>
+</body>
+</html>
