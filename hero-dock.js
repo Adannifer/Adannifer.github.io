@@ -5,6 +5,7 @@
   const hero = document.getElementById('hero');
   const title = document.getElementById('hero-title');
   const sub = document.getElementById('hero-sub');
+  const role = document.getElementById('nav-role');
   const nav = document.getElementById('nav');
   const navSlot = document.getElementById('nav-logo-slot');
   const navText = document.getElementById('nav-logo-text');
@@ -37,6 +38,7 @@
     gsap.set(navSlot, { opacity: done ? Math.min(1, (p - 0.86) / 0.1) : 0 });
     title.style.opacity = p < 0.86 ? 1 : Math.max(0, 1 - (p - 0.86) / 0.1);
     if (sub) sub.style.opacity = Math.max(0, 1 - p * 2.2);
+    if (role) role.style.opacity = Math.max(0, 1 - p * 3);
   }
 
   function build() {

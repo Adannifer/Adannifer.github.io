@@ -171,3 +171,13 @@ body::after{display:none;}
   body.hero-dock #hero-title{justify-content:center; text-align:center; width:100%;}
   body.hero-dock #hw-jennifer{text-align:center; display:flex; justify-content:center;}
 }
+
+/* Job title sits in the nav's left slot on load, fades as the name docks */
+#nav-role{display:none;}
+@media (min-width:701px){
+  body.hero-dock #nav-role{display:block; position:absolute; left:28px; top:50%; transform:translateY(-50%); font-family:'Inter',sans-serif; font-weight:800; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:#4a1a6f; white-space:nowrap; pointer-events:none;}
+  body.hero-dock #hero-sub{display:none;}
+  body.hero-dock #hero{padding-bottom:9vh;}
+}
+.sub-title-link{color:inherit; text-decoration:none;}
+.sub-title-link:hover{color:#ff1aa8;}
