@@ -135,6 +135,18 @@
     .jd-feature:hover .jd-feature-cta{color:#ff1aa8;}
     .jd-feature:hover .jd-feature-title{color:#ff1aa8;}
     @media (max-width:760px){ .jd-feature{grid-template-columns:1fr; gap:16px;} }
+    /* v2: gradient star from the favicon, lighter project title, lime Work row */
+    #hero .hw-star--img{font-size:1em !important; width:.74em; align-self:flex-start; position:relative; top:-.02em; margin-left:.06em !important;}
+    #hero .hw-star--img img{width:100%; height:auto; display:block; transform:rotate(-8deg);}
+    .jd-workrow{margin:6px 0 34px !important;}
+    .jd-feature{grid-template-columns:7fr 4fr !important; align-items:end !important;}
+    .jd-feature-text{padding-bottom:6px;}
+    .jd-feature-kicker{color:#865177 !important;}
+    .jd-feature-title{font-weight:600 !important; font-size:clamp(1.5rem,2.3vw,2.2rem) !important; letter-spacing:-.02em !important; margin:10px 0 10px !important;}
+    .jd-feature-hook{margin:0 0 18px !important;}
+    .jd-feature-cta{display:inline-flex; align-items:center; gap:8px; border:0 !important; background:#b4ff50; border-radius:999px; padding:8px 16px !important; font-size:.7rem !important;}
+    .jd-feature-cta::after{content:""; width:14px; height:14px; background:url(favicon-32.png) center/contain no-repeat;}
+    .jd-feature:hover .jd-feature-title{color:#ff1aa8;}
   </style>
 </head>
 <body class="hero-dock">
@@ -201,7 +213,7 @@
               ><span class="hc">J</span><span class="hc">e</span><span class="hc">n</span><span class="hc">n</span><span class="hc">i</span><span class="hc">f</span><span class="hc">e</span><span class="hc">r</span></span
             ><span class="hw hw--pink" id="hw-qian"
               ><span class="hc">Q</span><span class="hc">i</span><span class="hc">a</span><span class="hc">n</span></span
-            ><span class="hw-star hc">★</span>
+            ><span class="hw-star hc hw-star--img"><img src="favicon-512.png" alt="" aria-hidden="true"></span>
           </h1>
         </div>
       </div>
@@ -242,14 +254,17 @@
     <section id="work">
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
+        <div class="section-header jd-workrow">
+          <span class="section-num">Work</span>
+          <span class="section-rule"></span>
+        </div>
         <a class="jd-feature" href="joydotz.html">
           <div class="jd-feature-media"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
           <div class="jd-feature-text">
-            <span class="jd-feature-kicker">Featured · Joydotz · 2025–26</span>
-            <h3 class="jd-feature-title">Skincare<span class="pr-star">★</span>Rebrand</h3>
+            <span class="jd-feature-kicker">Joydotz · 2025–26</span>
+            <h3 class="jd-feature-title">Skincare Rebrand</h3>
             <p class="jd-feature-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</p>
-            <div class="jd-feature-tags"><span>Visual Identity</span><span>Motion &amp; Social</span><span>Web Design</span></div>
-            <span class="jd-feature-cta">View case study →</span>
+            <span class="jd-feature-cta">View case study</span>
           </div>
         </a>
 
