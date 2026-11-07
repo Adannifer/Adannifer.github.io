@@ -116,37 +116,24 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
   <style>
-    /* preview: name stays in solid pink, fade only below it */
-    body.hero-dock #hero{padding-bottom:13vh !important;
-      background-image:
-        linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 70%, rgba(247,241,234,.7) 88%, #f7f1ea 100%),
-        radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
-        linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 38%) !important;}
-    /* preview: featured JoyDotz fits fully in the first screen */
-    .jd-feature{display:grid; grid-template-columns:7fr 5fr; gap:clamp(24px,3vw,48px); align-items:center; text-decoration:none; color:inherit; margin:0 0 20px;}
-    .jd-feature-media{border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#efe5da;}
-    .jd-feature-media video{width:100%; height:100%; object-fit:cover; display:block;}
-    .jd-feature-kicker{font-family:'Inter',sans-serif; font-weight:800; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:#4a1a6f;}
-    .jd-feature-title{font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(2rem,3.6vw,3.4rem); line-height:1; letter-spacing:-.03em; color:#170a24; margin:12px 0 14px;}
-    .jd-feature-hook{font-size:clamp(.95rem,1.15vw,1.1rem); line-height:1.5; color:#3a2c48; margin:0 0 18px; max-width:32ch;}
-    .jd-feature-tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;}
-    .jd-feature-tags span{border:1px solid #ff1aa8; color:#d4007f; border-radius:999px; padding:5px 12px; font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;}
-    .jd-feature-cta{font-weight:800; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:#170a24; border-bottom:2px solid #b4ff50; padding-bottom:2px;}
-    .jd-feature:hover .jd-feature-cta{color:#ff1aa8;}
-    .jd-feature:hover .jd-feature-title{color:#ff1aa8;}
-    @media (max-width:760px){ .jd-feature{grid-template-columns:1fr; gap:16px;} }
-    /* v2: gradient star from the favicon, lighter project title, lime Work row */
-    #hero .hw-star--img{font-size:1em !important; width:.74em; align-self:flex-start; position:relative; top:-.02em; margin-left:.06em !important;}
-    #hero .hw-star--img img{width:100%; height:auto; display:block; transform:rotate(-8deg);}
-    .jd-workrow{margin:6px 0 34px !important;}
-    .jd-feature{grid-template-columns:7fr 4fr !important; align-items:end !important;}
-    .jd-feature-text{padding-bottom:6px;}
-    .jd-feature-kicker{color:#865177 !important;}
-    .jd-feature-title{font-weight:600 !important; font-size:clamp(1.5rem,2.3vw,2.2rem) !important; letter-spacing:-.02em !important; margin:10px 0 10px !important;}
-    .jd-feature-hook{margin:0 0 18px !important;}
-    .jd-feature-cta{display:inline-flex; align-items:center; gap:8px; border:0 !important; background:#b4ff50; border-radius:999px; padding:8px 16px !important; font-size:.7rem !important;}
-    .jd-feature-cta::after{content:""; width:14px; height:14px; background:url(favicon-32.png) center/contain no-repeat;}
-    .jd-feature:hover .jd-feature-title{color:#ff1aa8;}
+    /* preview: first screen only, Josh Rudisel style: small eyebrow, smaller centered name, big visual */
+    @media (min-width:701px){
+      body.hero-dock #hero{padding:calc(var(--nav-h) + 7vh) 6vw 26vh !important; align-items:center;
+        background-image:
+          linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 58%, rgba(247,241,234,.75) 82%, #f7f1ea 100%),
+          radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
+          linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 38%) !important;}
+      body.hero-dock #hero-content{align-items:center; width:100%;}
+      body.hero-dock #hero-title-wrap{align-self:center !important;}
+      body.hero-dock #hero-sub{display:block !important; order:-1; margin:0 0 clamp(14px,1.6vw,22px) !important; font-size:.78rem !important; letter-spacing:.18em !important; color:#4a1a6f !important;}
+      body.hero-dock #work{padding-top:0 !important;}
+      .jr-first{width:min(72vw,1080px); margin:calc(-24vh + 8px) auto 0 !important; position:relative; z-index:2;}
+      .jr-first .vcard-media{border-radius:18px; box-shadow:0 30px 60px rgba(120,10,80,.18);}
+    }
+    .jr-cap{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-top:14px;}
+    .jr-cap-title{font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(1rem,1.3vw,1.2rem); color:#170a24;}
+    .jr-cap-hook{font-size:.92rem; color:#3a2c48;}
+    .jr-cap-meta{margin-left:auto; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f;}
   </style>
 </head>
 <body class="hero-dock">
@@ -207,8 +194,8 @@
     <section id="hero">
       <div id="hero-content">
         <div id="hero-title-wrap">
-          <p id="hero-sub">Brand &amp; Visual Designer</p>
-          <h1 id="hero-title">
+          <p id="hero-sub">Beauty &amp; Lifestyle Brands // New York</p>
+          <h1 id="hero-title" data-fit="0.62">
             <span class="hw" id="hw-jennifer"
               ><span class="hc">J</span><span class="hc">e</span><span class="hc">n</span><span class="hc">n</span><span class="hc">i</span><span class="hc">f</span><span class="hc">e</span><span class="hc">r</span></span
             ><span class="hw hw--pink" id="hw-qian"
@@ -254,19 +241,12 @@
     <section id="work">
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
-        <div class="section-header jd-workrow">
-          <span class="section-num">Work</span>
-          <span class="section-rule"></span>
-        </div>
-        <a class="jd-feature" href="joydotz.html">
-          <div class="jd-feature-media"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
-          <div class="jd-feature-text">
-            <span class="jd-feature-kicker">Joydotz · 2025–26</span>
-            <h3 class="jd-feature-title">Skincare Rebrand</h3>
-            <p class="jd-feature-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</p>
-            <span class="jd-feature-cta">View case study</span>
-          </div>
+        <div class="vgrid vgrid--work jr-first">
+        <a class="vcard vcard--wide" href="joydotz.html">
+          <div class="vcard-media" style="aspect-ratio:16/9;"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
+          <div class="jr-cap"><span class="jr-cap-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="jr-cap-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</span><span class="jr-cap-meta">Joydotz · 2025–26 →</span></div>
         </a>
+        </div>
 
         <div class="sub-head sub-head--minor" id="playground">
           <h4 class="sub-title sub-title--minor">Graphic / Motion Playground</h4>
@@ -492,6 +472,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
-  <script src="hero-dock.js?v=5"></script>
+  <script src="hero-dock.js?v=6"></script>
 </body>
 </html>

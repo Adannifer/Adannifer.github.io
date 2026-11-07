@@ -18,7 +18,7 @@
     if (!wide.matches) { title.style.fontSize = ''; return; }
     title.style.fontSize = '100px';
     const cs = getComputedStyle(hero);
-    const avail = hero.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const avail = (hero.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) * (parseFloat(title.dataset.fit) || 1);
     title.style.fontSize = (100 * avail / title.getBoundingClientRect().width).toFixed(2) + 'px';
     // second pass: correct for any non-linear spacing so the line never overflows
     const w2 = title.getBoundingClientRect().width;
