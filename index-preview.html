@@ -118,7 +118,7 @@
   <style>
     /* preview: first screen only, Josh Rudisel style: small eyebrow, smaller centered name, big visual */
     @media (min-width:701px){
-      body.hero-dock #hero{padding:calc(var(--nav-h) + 7vh) 6vw 26vh !important; align-items:center;
+      body.hero-dock #hero{padding:calc(var(--nav-h) + 3vh) 6vw 26vh !important; align-items:center;
         background-image:
           linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 58%, rgba(247,241,234,.75) 82%, #f7f1ea 100%),
           radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
@@ -133,6 +133,10 @@
     .jr-cap-title{font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(1rem,1.3vw,1.2rem); color:#170a24;}
     .jr-cap-hook{font-size:.92rem; color:#3a2c48;}
     .jr-cap-meta{margin-left:auto; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f;}
+    #hero-eyebrow{display:none;}
+    @media (min-width:701px){
+      body.hero-dock #hero-eyebrow{display:block; order:3; margin:clamp(12px,1.4vw,20px) 0 0; font-family:'Inter',sans-serif; font-weight:800; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:#4a1a6f; text-align:center;}
+    }
   </style>
 </head>
 <body class="hero-dock">
@@ -201,6 +205,7 @@
               ><span class="hc">Q</span><span class="hc">i</span><span class="hc">a</span><span class="hc">n</span></span
             ><span class="hw-star hc">★</span>
           </h1>
+          <p id="hero-eyebrow">Beauty &amp; Lifestyle Brands // New York</p>
         </div>
       </div>
       <div id="scroll-cue" aria-label="Scroll down">
@@ -471,6 +476,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
-  <script src="hero-dock.js?v=6"></script>
+  <script src="hero-dock.js?v=7"></script>
 </body>
 </html>

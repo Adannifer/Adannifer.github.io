@@ -41,6 +41,7 @@
     gsap.set(navSlot, { opacity: done ? Math.min(1, (p - 0.86) / 0.1) : 0 });
     title.style.opacity = p < 0.86 ? 1 : Math.max(0, 1 - (p - 0.86) / 0.1);
     if (sub) sub.style.opacity = Math.max(0, 1 - p * 2.2);
+    const eb = document.getElementById('hero-eyebrow'); if (eb) eb.style.opacity = Math.max(0, 1 - p * 2.2);
     if (role) role.style.opacity = Math.max(0, 1 - p * 3);
   }
 
