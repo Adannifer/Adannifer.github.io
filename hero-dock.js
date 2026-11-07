@@ -20,6 +20,9 @@
     const cs = getComputedStyle(hero);
     const avail = hero.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     title.style.fontSize = (100 * avail / title.getBoundingClientRect().width).toFixed(2) + 'px';
+    // second pass: correct for any non-linear spacing so the line never overflows
+    const w2 = title.getBoundingClientRect().width;
+    if (w2 > avail) title.style.fontSize = (parseFloat(title.style.fontSize) * avail / w2 * 0.995).toFixed(2) + 'px';
   }
 
   function intro() {
