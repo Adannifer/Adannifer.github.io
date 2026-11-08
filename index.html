@@ -129,6 +129,31 @@
   <link rel="icon" href="favicon.ico?v=1" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+  <style>
+    /* First screen: centered name, big featured video */
+    @media (min-width:701px){
+      body.hero-dock #hero{padding:calc(var(--nav-h) + 3vh) 6vw 26vh !important; align-items:center;
+        background-image:
+          linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 58%, rgba(247,241,234,.75) 82%, #f7f1ea 100%),
+          radial-gradient(rgba(120,10,80,.28) 1.5px, transparent 1.9px),
+          linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 38%) !important;}
+      body.hero-dock #hero-content{align-items:center; width:100%;}
+      body.hero-dock #hero-title-wrap{align-self:center !important;}
+      body.hero-dock #work{padding-top:0 !important;}
+      .jr-first{width:min(64vw,1000px); margin:calc(-24vh + 8px) auto 0 !important; position:relative; z-index:2;}
+      .jr-first .vcard-media{border-radius:18px; box-shadow:0 30px 60px rgba(120,10,80,.18);}
+    }
+    .jr-cap{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-top:14px;}
+    .jr-cap-title{font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(1rem,1.3vw,1.2rem); color:#170a24;}
+    .jr-cap-hook{font-size:.92rem; color:#3a2c48;}
+    .jr-cap-meta{margin-left:auto; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f;}
+    #hero-eyebrow{display:none;}
+    @media (min-width:701px){
+      body.hero-dock #hero-eyebrow{display:flex; align-items:center; gap:24px; order:3; align-self:stretch; width:88vw; max-width:none; margin:14px 0 0;}
+      body.hero-dock #hero-eyebrow .eb-line{flex:1; height:1px; background:rgba(23,10,36,.22);}
+      body.hero-dock #hero-eyebrow .section-num{text-decoration:none; flex:none;}
+    }
+  </style>
 </head>
 <body class="hero-dock">
   <!-- Google Tag Manager (noscript) -->
@@ -192,7 +217,7 @@
       <div id="hero-content">
         <div id="hero-title-wrap">
           <p id="hero-sub">Brand &amp; Visual Designer</p>
-          <h1 id="hero-title">
+          <h1 id="hero-title" data-fit="0.8">
             <span class="hw" id="hw-jennifer"
               ><span class="hc">J</span><span class="hc">e</span><span class="hc">n</span><span class="hc">n</span><span class="hc">i</span><span class="hc">f</span><span class="hc">e</span><span class="hc">r</span></span
             ><span class="hw hw--pink" id="hw-qian"
@@ -238,14 +263,10 @@
     <section id="work">
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
-        <div class="sub-head">
-          <h3 class="sub-title"><a href="joydotz.html" class="sub-title-link">Skincare<span class="pr-star">★</span>Rebrand</a></h3>
-          <span class="sub-note">Joydotz · 2025–26</span>
-        </div>
-        <div class="vgrid vgrid--work">
+        <div class="vgrid vgrid--work jr-first">
         <a class="vcard vcard--wide" href="joydotz.html">
           <div class="vcard-media" style="aspect-ratio:16/9;"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
-          <p class="vcard-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</p>
+          <div class="jr-cap"><span class="jr-cap-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="jr-cap-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</span><span class="jr-cap-meta">Joydotz · 2025–26 →</span></div>
         </a>
         </div>
 
@@ -473,6 +494,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
-  <script src="hero-dock.js?v=5"></script>
+  <script src="hero-dock.js?v=7"></script>
 </body>
 </html>
