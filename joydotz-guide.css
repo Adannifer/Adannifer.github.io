@@ -134,3 +134,10 @@
 .jy-ugc{border-radius:16px; overflow:hidden; border:1px solid rgba(23,10,36,.08);}
 .jy-ugc img{display:block; width:100%; height:auto;}
 .jl-text strong{font-weight:700; color:#170a24;}
+
+/* Section notes sit under the left title; captions span full width */
+.proj-section-head{position:sticky; top:90px; align-self:start;}
+.proj-section-head .proj-section-title{position:static;}
+.proj-section-note{margin:14px 0 0; font-size:.84rem; line-height:1.55; color:#3a2c48; max-width:220px;}
+.proj-section-body > p.jg-cap, .proj-section-body > p.jm-note, .jg-cap, .jm-note{max-width:none;}
+@media (max-width:760px){ .proj-section-head{position:static;} .proj-section-note{max-width:none; margin-bottom:14px;} }
