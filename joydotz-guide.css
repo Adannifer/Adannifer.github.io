@@ -144,3 +144,5 @@
 
 /* Before screenshots are wider than the after shots: show them whole instead of cropping */
 .compare-stack img.cs-before[src*="-before"]{object-fit:contain; background:#ecebef;}
+
+.jm-vid video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;}
