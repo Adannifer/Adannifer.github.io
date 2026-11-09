@@ -141,3 +141,6 @@
 .proj-section-note{margin:14px 0 0; font-size:.84rem; line-height:1.55; color:#3a2c48; max-width:220px;}
 .proj-section-body > p.jg-cap, .proj-section-body > p.jm-note, .jg-cap, .jm-note{max-width:none;}
 @media (max-width:760px){ .proj-section-head{position:static;} .proj-section-note{max-width:none; margin-bottom:14px;} }
+
+/* Before screenshots are wider than the after shots: show them whole instead of cropping */
+.compare-stack img.cs-before[src*="-before"]{object-fit:contain; background:#ecebef;}
