@@ -151,11 +151,19 @@
     .pp-cut .pb-card img{display:block; width:100%; height:auto; border-radius:10px; margin-bottom:12px;}
     .pp-fredoka{font-family:'Fredoka',sans-serif; font-weight:600;}
     .pp-mono{font-family:'DM Mono',monospace;}
-    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc,.pp-pair{grid-template-columns:1fr;} .pp-row{grid-template-columns:1fr; padding:12px 12px 20px;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
+    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc,.pp-pair{grid-template-columns:1fr;} .pp-pal{grid-template-columns:1fr 1fr;} .pp-ratio-l span:last-child{display:none;} .pp-row{grid-template-columns:1fr; padding:12px 12px 20px;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
     .pp-canvas{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:18px 0 22px;}
     .pp-canvas span{font-size:.86rem; font-weight:600; color:#3a2c48;}
     .pp-canvas .pp-canvas-btn{margin:0; background:#170a24; border-color:#170a24; color:#fff;}
     .pp-canvas .pp-canvas-btn:hover{background:#F77EAD; border-color:#F77EAD; color:#fff;}
+    .pp-pal{display:grid; grid-template-columns:repeat(3,1fr); gap:22px 16px; margin-top:8px;}
+    .pp-pal i{display:block; aspect-ratio:2.1/1; border-radius:18px; border:1px solid rgba(23,10,36,.08); margin-bottom:12px;}
+    .pp-pal b{display:block; font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.25rem; color:#170a24;}
+    .pp-pal code{display:block; font-family:'DM Mono',monospace; font-size:.78rem; color:#6C6980; margin:4px 0;}
+    .pp-pal em{font-style:normal; font-size:.84rem; color:#3a2c48;}
+    .pp-ratio{display:flex; height:30px; border-radius:15px; overflow:hidden; border:1px solid rgba(23,10,36,.08); margin-top:26px;}
+    .pp-ratio span{display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:.74rem; color:#241B3A;}
+    .pp-ratio-l{display:flex; justify-content:space-between; gap:12px; font-family:'DM Mono',monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#6C6980; margin:10px 0 22px;}
   </style>
 
   <section class="proj-hero">
@@ -259,15 +267,16 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Visual Guide</h2><p class="proj-section-note">Puffy, pearly, a little Y2K.</p></div>
       <div class="proj-section-body">
         <figure class="pp-board"><img src="poppumi/pp-guide-board.jpg" alt="Poppumi brand colors and visual guide board" loading="lazy"></figure>
-        <div class="pb-chips" style="grid-template-columns:repeat(6,1fr)">
-          <div class="pb-chip"><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8</code><em>Backgrounds</em></div>
-          <div class="pb-chip"><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD</code><em>Logo, CTAs</em></div>
-          <div class="pb-chip"><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4</code><em>Soft accents</em></div>
-          <div class="pb-chip"><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB</code><em>Page base</em></div>
-          <div class="pb-chip"><i style="background:#E4D6F2"></i><b>Opal Lilac</b><code>#E4D6F2</code><em>Sheen</em></div>
-          <div class="pb-chip"><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A</code><em>Body text</em></div>
+        <div class="pp-pal">
+          <div><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8 · 150 205 248</code><em>Backgrounds, campaign fields</em></div>
+          <div><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD · 247 126 173</code><em>Logo, headlines, CTAs</em></div>
+          <div><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4 · 243 169 196</code><em>The gum stars, soft accents</em></div>
+          <div><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB · 251 246 251</code><em>Product body, page base</em></div>
+          <div><i style="background:linear-gradient(135deg,#F1E1EF 0%,#E4D6F2 45%,#DCE6F7 100%)"></i><b>Opal Lilac</b><code>#E4D6F2 · 228 214 242</code><em>Iridescent sheen, gradients</em></div>
+          <div><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A · 36 27 58</code><em>Body text, legal copy</em></div>
         </div>
-        <p class="pp-src">Usage ratio: about 40% Pearl, 30% Sky, 12% Gum Pink, 10% Poppumi Pink, the rest Lilac and Ink.</p>
+        <div class="pp-ratio"><span style="flex:40;background:#FBF6FB">40%</span><span style="flex:30;background:#96CDF8">30%</span><span style="flex:12;background:#F3A9C4">12%</span><span style="flex:10;background:#F77EAD;color:#fff">10%</span><span style="flex:6;background:#E4D6F2"></span><span style="flex:2;background:#241B3A"></span></div>
+        <div class="pp-ratio-l"><span>Usage ratio</span><span>Pearl · Sky · Gum · Pink · Lilac · Ink</span></div>
         <p class="pb-gh">Logo on color</p>
         <div class="pp-logos">
           <img src="poppumi/pp-logotile-pink.png" alt="Poppumi logo in Poppumi Pink on Pearl White" loading="lazy">
