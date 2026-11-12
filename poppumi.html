@@ -131,6 +131,10 @@
     .pp-fredoka{font-family:'Fredoka',sans-serif; font-weight:600;}
     .pp-mono{font-family:'DM Mono',monospace;}
     @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-logos,.pp-cut{grid-template-columns:1fr;} .pp-reels{grid-template-columns:1fr 1fr;} }
+    .pp-canvas{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:18px 0 22px;}
+    .pp-canvas span{font-size:.86rem; font-weight:600; color:#3a2c48;}
+    .pp-canvas .pp-canvas-btn{margin:0; background:#170a24; border-color:#170a24; color:#fff;}
+    .pp-canvas .pp-canvas-btn:hover{background:#F77EAD; border-color:#F77EAD; color:#fff;}
   </style>
 
   <section class="proj-hero">
@@ -156,6 +160,7 @@
         <h2>Overview</h2>
         <p class="proj-pitch">Bubble gum you wear: a refillable star bag charm with star-shaped gum inside.</p>
         <p>Poppumi turns a forgettable single-use buy into a collectible Gen Z accessory. My teammate Tianai Bi and I built a launch-ready brand kit in five days for the FIG AI Design Makeathon, directing Lovart's AI design agent as creative directors and keeping a human layer in Figma for the logo, text and final layouts.</p>
+        <div class="pp-canvas"><span>Built with Lovart's AI design agent</span><a class="proj-cta-link pp-canvas-btn" href="https://www.lovart.ai/canvas?projectId=2vgkax42ohds" target="_blank" rel="noopener">Open Lovart Canvas ↗</a></div>
         <div class="pr-tags">
           <span class="tag">Brand Strategy</span>
           <span class="tag">Visual Identity</span>
@@ -175,7 +180,7 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">The Problem</h2><p class="proj-section-note">Gen Z stopped chewing gum. They didn't stop collecting charms.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Research</h2><p class="proj-section-note">Gen Z stopped chewing gum. They didn't stop collecting charms.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">Gum is a forgettable purchase: every pack looks the same and ends up in the trash. Meanwhile, Gen Z keeps buying and stacking bag charms. Our question was simple: <strong>what if gum became a charm?</strong></p>
         <div class="pp-stats">
@@ -200,29 +205,7 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Process</h2><p class="proj-section-note">Every big decision, from name to hinge.</p></div>
-      <div class="proj-section-body">
-        <p class="pb-step"><span>01</span>Two aesthetic directions</p>
-        <p class="pb-lede">A soft, pearly, healing look (pearls, pastels, satin) and a bold Y2K look (high contrast, rhinestones, flash photography). The pearly look became the product base; the Y2K energy lives in the campaign and social content.</p>
-        <p class="pb-step"><span>02</span>Naming and logo</p>
-        <p class="pb-lede">Our first name, Wishpop, was already used by a similar product, so we dropped it to avoid infringement risk. Chewel was taken and Gummypop sat too close to existing candy brands, so we landed on <strong>Poppumi</strong>. The wordmark samples chubby, cloud-like puffy lettering, with a small star above the i.</p>
-        <div class="pp-logos">
-          <div style="background:#FBF6FB"><img src="poppumi/pp-logo-pink.png" alt="Poppumi logo in Poppumi Pink"></div>
-          <div style="background:#96CDF8"><img src="poppumi/pp-logo-white.png" alt="Poppumi logo in white on Pop Sky"></div>
-          <div style="background:#fff; border:1px solid rgba(23,10,36,.08)"><img src="poppumi/pp-logo-plum.png" alt="Poppumi logo in Ink Plum"></div>
-        </div>
-        <p class="pb-step"><span>03</span>A real case, not just a cute render</p>
-        <p class="pb-lede">We set the puffy star shape first, then added a clear, bubble-like shell so it reads as gum. To make it usable, I sketched how the case opens by hand and fed the sketch to the AI agent. The final case has two openings: a small flip cap on the top point to shake out gum, and a full clamshell for refills, with the hinge on the left point and a press latch on the right.</p>
-        <div class="pp-3">
-          <div><figure class="pp-fig"><img src="poppumi/pp-sketch.jpg" alt="Hand sketch of how the star case opens" loading="lazy"></figure><p class="pp-figcap">Hand sketch</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky charm closed" loading="lazy"></figure><p class="pp-figcap">Closed</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-open.jpg" alt="Pop Sky charm open with star gums" loading="lazy"></figure><p class="pp-figcap">Open: holds 15 star gums</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Flavor System</h2><p class="proj-section-note">Same star. Same logo. New mood.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Product</h2><p class="proj-section-note">Same star. Same logo. New mood.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">The star shape, clear shell and logo never change. Each flavor only swaps case color, logo color, gum color and background.</p>
         <div class="pp-flavors">
@@ -252,20 +235,26 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Stachews</h2><p class="proj-section-note">The world's most serious statues, caught blowing a bubble.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Visual Guide</h2><p class="proj-section-note">Puffy, pearly, a little Y2K.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">A Reels campaign concept for @poppumi: a deadpan face, one bubble and a charm placed so it feels believable in each scene. Every image needed the right scale, perspective and reflections, since the pearlescent case picks up each scene's color.</p>
-        <div class="pp-reels">
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-liberty.jpg" alt="Statue of Liberty selfie with a pink bubble" loading="lazy"></figure><p class="pp-figcap">Liberty · Pop Sky</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-thinker.jpg" alt="The Thinker at night with a mint bubble" loading="lazy"></figure><p class="pp-figcap">The Thinker · Pop Frost</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-david.jpg" alt="David with a purple bubble and the charm" loading="lazy"></figure><p class="pp-figcap">David · Pop Haze</p></div>
+        <div class="pb-chips" style="grid-template-columns:repeat(6,1fr)">
+          <div class="pb-chip"><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8</code><em>Backgrounds</em></div>
+          <div class="pb-chip"><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD</code><em>Logo, CTAs</em></div>
+          <div class="pb-chip"><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4</code><em>Soft accents</em></div>
+          <div class="pb-chip"><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB</code><em>Page base</em></div>
+          <div class="pb-chip"><i style="background:#E4D6F2"></i><b>Opal Lilac</b><code>#E4D6F2</code><em>Sheen</em></div>
+          <div class="pb-chip"><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A</code><em>Body text</em></div>
         </div>
-        <p class="pp-src">Campaign concept only. The statues are public-domain works; images were created as a concept, not a live ad.</p>
+        <p class="pp-src">Usage ratio: about 40% Pearl, 30% Sky, 12% Gum Pink, 10% Poppumi Pink, the rest Lilac and Ink.</p>
+        <div class="pb-type">
+          <div class="pb-card"><b>Headlines + Body</b><div class="aa pp-fredoka">Aa</div><p class="pp-fredoka" style="font-weight:400">Fredoka. Rounded and friendly, next to the custom bubble wordmark.</p></div>
+          <div class="pb-card"><b>Labels</b><div class="aa pp-mono">Aa</div><p class="pp-mono" style="font-size:.84rem">DM Mono. POP SKY / STRAWBERRY</p></div>
+        </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Social + Web</h2><p class="proj-section-note">Worn, not just posted.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Social Media</h2><p class="proj-section-note">Worn, not just posted.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">One lifestyle mood per flavor, then a website that sells the charm, the refill and the collector box.</p>
         <div class="pp-3 pp-ig">
@@ -281,20 +270,36 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Visual Identity</h2><p class="proj-section-note">Puffy, pearly, a little Y2K.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Stachews</h2><p class="proj-section-note">The world's most serious statues, caught blowing a bubble.</p></div>
       <div class="proj-section-body">
-        <div class="pb-chips" style="grid-template-columns:repeat(6,1fr)">
-          <div class="pb-chip"><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8</code><em>Backgrounds</em></div>
-          <div class="pb-chip"><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD</code><em>Logo, CTAs</em></div>
-          <div class="pb-chip"><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4</code><em>Soft accents</em></div>
-          <div class="pb-chip"><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB</code><em>Page base</em></div>
-          <div class="pb-chip"><i style="background:#E4D6F2"></i><b>Opal Lilac</b><code>#E4D6F2</code><em>Sheen</em></div>
-          <div class="pb-chip"><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A</code><em>Body text</em></div>
+        <p class="pb-lede">A Reels campaign concept for @poppumi: a deadpan face, one bubble and a charm placed so it feels believable in each scene. Every image needed the right scale, perspective and reflections, since the pearlescent case picks up each scene's color.</p>
+        <div class="pp-reels">
+          <div><figure class="pp-fig"><img src="poppumi/pp-reel-liberty.jpg" alt="Statue of Liberty selfie with a pink bubble" loading="lazy"></figure><p class="pp-figcap">Liberty · Pop Sky</p></div>
+          <div><figure class="pp-fig"><img src="poppumi/pp-reel-thinker.jpg" alt="The Thinker at night with a mint bubble" loading="lazy"></figure><p class="pp-figcap">The Thinker · Pop Frost</p></div>
+          <div><figure class="pp-fig"><img src="poppumi/pp-reel-david.jpg" alt="David with a purple bubble and the charm" loading="lazy"></figure><p class="pp-figcap">David · Pop Haze</p></div>
         </div>
-        <p class="pp-src">Usage ratio: about 40% Pearl, 30% Sky, 12% Gum Pink, 10% Poppumi Pink, the rest Lilac and Ink.</p>
-        <div class="pb-type">
-          <div class="pb-card"><b>Headlines + Body</b><div class="aa pp-fredoka">Aa</div><p class="pp-fredoka" style="font-weight:400">Fredoka. Rounded and friendly, next to the custom bubble wordmark.</p></div>
-          <div class="pb-card"><b>Labels</b><div class="aa pp-mono">Aa</div><p class="pp-mono" style="font-size:.84rem">DM Mono. POP SKY / STRAWBERRY</p></div>
+        <p class="pp-src">Campaign concept only. The statues are public-domain works; images were created as a concept, not a live ad.</p>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Process</h2><p class="proj-section-note">Every big decision, from name to hinge.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-step"><span>01</span>Two aesthetic directions</p>
+        <p class="pb-lede">A soft, pearly, healing look (pearls, pastels, satin) and a bold Y2K look (high contrast, rhinestones, flash photography). The pearly look became the product base; the Y2K energy lives in the campaign and social content.</p>
+        <p class="pb-step"><span>02</span>Naming and logo</p>
+        <p class="pb-lede">Our first name, Wishpop, was already used by a similar product, so we dropped it to avoid infringement risk. Chewel was taken and Gummypop sat too close to existing candy brands, so we landed on <strong>Poppumi</strong>. The wordmark samples chubby, cloud-like puffy lettering, with a small star above the i.</p>
+        <div class="pp-logos">
+          <div style="background:#FBF6FB"><img src="poppumi/pp-logo-pink.png" alt="Poppumi logo in Poppumi Pink"></div>
+          <div style="background:#96CDF8"><img src="poppumi/pp-logo-white.png" alt="Poppumi logo in white on Pop Sky"></div>
+          <div style="background:#fff; border:1px solid rgba(23,10,36,.08)"><img src="poppumi/pp-logo-plum.png" alt="Poppumi logo in Ink Plum"></div>
+        </div>
+        <p class="pb-step"><span>03</span>A real case, not just a cute render</p>
+        <p class="pb-lede">We set the puffy star shape first, then added a clear, bubble-like shell so it reads as gum. To make it usable, I sketched how the case opens by hand and fed the sketch to the AI agent. The final case has two openings: a small flip cap on the top point to shake out gum, and a full clamshell for refills, with the hinge on the left point and a press latch on the right.</p>
+        <div class="pp-3">
+          <div><figure class="pp-fig"><img src="poppumi/pp-sketch.jpg" alt="Hand sketch of how the star case opens" loading="lazy"></figure><p class="pp-figcap">Hand sketch</p></div>
+          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky charm closed" loading="lazy"></figure><p class="pp-figcap">Closed</p></div>
+          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-open.jpg" alt="Pop Sky charm open with star gums" loading="lazy"></figure><p class="pp-figcap">Open: holds 15 star gums</p></div>
         </div>
       </div>
     </div>
