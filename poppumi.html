@@ -123,14 +123,25 @@
     .pp-price td:last-child{text-align:right; font-weight:700; color:#170a24;}
     .pp-reels{display:grid; grid-template-columns:repeat(3,minmax(0,300px)); gap:14px;}
     .pp-reels img, .pp-ig img{border-radius:14px;}
-    .pp-logos{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
-    .pp-logos div{border-radius:14px; padding:34px 26px; display:flex; align-items:center; justify-content:center; aspect-ratio:16/9;}
+    .pp-logos{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px;}
+    .pp-logos div{border-radius:16px; padding:30px 12%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(23,10,36,.08);}
     .pp-logos img{width:100%; height:auto; display:block;}
+    .pp-board{margin:0 0 18px; border-radius:16px; overflow:hidden; border:1px solid rgba(23,10,36,.08);}
+    .pp-board img{display:block; width:100%; height:auto;}
+    .pp-track{margin:0 0 6px; border-radius:12px; overflow:hidden; background:#4b4b4b;}
+    .pp-track img{display:block; width:100%; height:auto;}
+    .pp-logoproc{display:grid; grid-template-columns:minmax(0,260px) 1fr; gap:18px; align-items:start;}
+    .pp-logoproc .pp-explore{border-radius:12px; overflow:hidden; background:#333;}
+    .pp-logoproc .pp-explore img{display:block; width:100%; height:auto;}
+    .pp-final{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:12% 10%; display:flex; align-items:center; justify-content:center;}
+    .pp-final img{width:100%; height:auto; display:block;}
+    .pp-phones{display:grid; grid-template-columns:repeat(3,minmax(0,280px)); gap:18px; justify-content:start;}
+    .pp-phones img{display:block; width:100%; height:auto;}
     .pp-cut{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
     .pp-cut .pb-card img{display:block; width:100%; height:auto; border-radius:10px; margin-bottom:12px;}
     .pp-fredoka{font-family:'Fredoka',sans-serif; font-weight:600;}
     .pp-mono{font-family:'DM Mono',monospace;}
-    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-logos,.pp-cut{grid-template-columns:1fr;} .pp-reels{grid-template-columns:1fr 1fr;} }
+    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc{grid-template-columns:1fr;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
     .pp-canvas{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:18px 0 22px;}
     .pp-canvas span{font-size:.86rem; font-weight:600; color:#3a2c48;}
     .pp-canvas .pp-canvas-btn{margin:0; background:#170a24; border-color:#170a24; color:#fff;}
@@ -237,6 +248,7 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Visual Guide</h2><p class="proj-section-note">Puffy, pearly, a little Y2K.</p></div>
       <div class="proj-section-body">
+        <figure class="pp-board"><img src="poppumi/pp-guide-board.jpg" alt="Poppumi brand colors and visual guide board" loading="lazy"></figure>
         <div class="pb-chips" style="grid-template-columns:repeat(6,1fr)">
           <div class="pb-chip"><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8</code><em>Backgrounds</em></div>
           <div class="pb-chip"><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD</code><em>Logo, CTAs</em></div>
@@ -246,6 +258,12 @@
           <div class="pb-chip"><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A</code><em>Body text</em></div>
         </div>
         <p class="pp-src">Usage ratio: about 40% Pearl, 30% Sky, 12% Gum Pink, 10% Poppumi Pink, the rest Lilac and Ink.</p>
+        <p class="pb-gh">Logo on color</p>
+        <div class="pp-logos">
+          <div style="background:#FBF6FB"><img src="poppumi/pp-logo2-pink.png" alt="Poppumi logo in Poppumi Pink on Pearl White"></div>
+          <div style="background:#96CDF8"><img src="poppumi/pp-logo2-white.png" alt="Poppumi logo in white on Pop Sky"></div>
+          <div style="background:#fff"><img src="poppumi/pp-logo2-plum.png" alt="Poppumi logo in Ink Plum on white"></div>
+        </div>
         <div class="pb-type">
           <div class="pb-card"><b>Headlines + Body</b><div class="aa pp-fredoka">Aa</div><p class="pp-fredoka" style="font-weight:400">Fredoka. Rounded and friendly, next to the custom bubble wordmark.</p></div>
           <div class="pb-card"><b>Labels</b><div class="aa pp-mono">Aa</div><p class="pp-mono" style="font-size:.84rem">DM Mono. POP SKY / STRAWBERRY</p></div>
@@ -273,10 +291,10 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Stachews</h2><p class="proj-section-note">The world's most serious statues, caught blowing a bubble.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">A Reels campaign concept for @poppumi: a deadpan face, one bubble and a charm placed so it feels believable in each scene. Every image needed the right scale, perspective and reflections, since the pearlescent case picks up each scene's color.</p>
-        <div class="pp-reels">
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-liberty.jpg" alt="Statue of Liberty selfie with a pink bubble" loading="lazy"></figure><p class="pp-figcap">Liberty · Pop Sky</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-thinker.jpg" alt="The Thinker at night with a mint bubble" loading="lazy"></figure><p class="pp-figcap">The Thinker · Pop Frost</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-reel-david.jpg" alt="David with a purple bubble and the charm" loading="lazy"></figure><p class="pp-figcap">David · Pop Haze</p></div>
+        <div class="pp-phones">
+          <div><img src="poppumi/pp-phone-liberty.webp" alt="Reels mockup: Statue of Liberty selfie with a pink bubble" loading="lazy"><p class="pp-figcap">Liberty · Pop Sky</p></div>
+          <div><img src="poppumi/pp-phone-thinker.webp" alt="Reels mockup: The Thinker with a mint bubble" loading="lazy"><p class="pp-figcap">The Thinker · Pop Frost</p></div>
+          <div><img src="poppumi/pp-phone-david.webp" alt="Reels mockup: David with a grape bubble" loading="lazy"><p class="pp-figcap">David · Pop Haze</p></div>
         </div>
         <p class="pp-src">Campaign concept only. The statues are public-domain works; images were created as a concept, not a live ad.</p>
       </div>
@@ -286,13 +304,16 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Process</h2><p class="proj-section-note">Every big decision, from name to hinge.</p></div>
       <div class="proj-section-body">
         <p class="pb-step"><span>01</span>Two aesthetic directions</p>
-        <p class="pb-lede">A soft, pearly, healing look (pearls, pastels, satin) and a bold Y2K look (high contrast, rhinestones, flash photography). The pearly look became the product base; the Y2K energy lives in the campaign and social content.</p>
+        <p class="pb-lede">A soft, pearly, healing look (pearls, pastels, satin) and a bold Y2K look (high contrast, rhinestones, flash photography). The pearly look became the product base; the Y2K energy lives in the campaign and social content. We ran both as parallel generation tracks in Lovart, changing one variable at a time.</p>
+        <figure class="pp-track"><img src="poppumi/pp-track-pearly.jpg" alt="Track A generations: pearly satin star charms" loading="lazy"></figure>
+        <p class="pp-figcap">Track A · Soft and pearly: satin star, pastel backdrops, ribbons stripped back over time</p>
+        <figure class="pp-track" style="margin-top:14px"><img src="poppumi/pp-track-y2k.jpg" alt="Track B generations: bedazzled Y2K jelly star cases" loading="lazy"></figure>
+        <p class="pp-figcap">Track B · Bold Y2K: rhinestone jelly case, flash photography</p>
         <p class="pb-step"><span>02</span>Naming and logo</p>
         <p class="pb-lede">Our first name, Wishpop, was already used by a similar product, so we dropped it to avoid infringement risk. Chewel was taken and Gummypop sat too close to existing candy brands, so we landed on <strong>Poppumi</strong>. The wordmark samples chubby, cloud-like puffy lettering, with a small star above the i.</p>
-        <div class="pp-logos">
-          <div style="background:#FBF6FB"><img src="poppumi/pp-logo-pink.png" alt="Poppumi logo in Poppumi Pink"></div>
-          <div style="background:#96CDF8"><img src="poppumi/pp-logo-white.png" alt="Poppumi logo in white on Pop Sky"></div>
-          <div style="background:#fff; border:1px solid rgba(23,10,36,.08)"><img src="poppumi/pp-logo-plum.png" alt="Poppumi logo in Ink Plum"></div>
+        <div class="pp-logoproc">
+          <div><figure class="pp-explore"><img src="poppumi/pp-logo-explore.jpg" alt="Logo explorations: bubble, script and puffy wordmarks" loading="lazy"></figure><p class="pp-figcap">Explorations</p></div>
+          <div><div class="pp-final"><img src="poppumi/pp-logo2-pink.png" alt="Final Poppumi wordmark"></div><p class="pp-figcap">Final wordmark, placed by hand in Figma</p></div>
         </div>
         <p class="pb-step"><span>03</span>A real case, not just a cute render</p>
         <p class="pb-lede">We set the puffy star shape first, then added a clear, bubble-like shell so it reads as gum. To make it usable, I sketched how the case opens by hand and fed the sketch to the AI agent. The final case has two openings: a small flip cap on the top point to shake out gum, and a full clamshell for refills, with the hinge on the left point and a press latch on the right.</p>
@@ -319,11 +340,6 @@
             <li>The pearlescent case picked up every scene's color.</li>
             <li>The star shape drifted between generations.</li>
             <li>Small text on cards and labels came out garbled.</li></ul></div>
-        </div>
-        <p class="pb-gh">What we cut</p>
-        <div class="pp-cut">
-          <div class="pb-card"><img src="poppumi/pp-iter-satin.jpg" alt="Early pearlescent satin charm with ribbon" loading="lazy"><b>Satin charm, v1</b><p>Too decorative, extra ribbons and a weak star. Stripped back to shape and material.</p></div>
-          <div class="pb-card"><img src="poppumi/pp-iter-jelly.jpg" alt="Early bedazzled jelly case" loading="lazy"><b>Bedazzled jelly case</b><p>Clearly read as gum, but looked like a toy. We kept the idea of visible function.</p></div>
         </div>
       </div>
     </div>
