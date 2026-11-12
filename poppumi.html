@@ -118,6 +118,17 @@
     .pp-flavor span{font-size:.8rem; color:#3a2c48;}
     .pp-dots{display:flex; gap:6px; margin-top:10px;}
     .pp-dots i{width:18px; height:18px; border-radius:50%; border:1px solid rgba(23,10,36,.12);}
+    .pp-rows{display:flex; flex-direction:column; gap:18px;}
+    .pp-row{display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:28px; align-items:center; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:14px 28px 14px 14px;}
+    .pp-row > img{display:block; width:100%; aspect-ratio:4/3; height:auto; object-fit:contain; border-radius:12px;}
+    .pp-row h3{font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(1.6rem,2.6vw,2.2rem); line-height:1; color:#170a24; margin:0 0 6px; text-transform:none; letter-spacing:0;}
+    .pp-row .fl{font-family:'DM Mono',monospace; font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:#865177; margin:0 0 20px;}
+    .pp-sw{display:grid; grid-template-columns:28px 1fr auto; gap:6px 12px; align-items:center; font-size:.84rem; color:#3a2c48;}
+    .pp-sw i{width:28px; height:28px; border-radius:8px; border:1px solid rgba(23,10,36,.12);}
+    .pp-sw code{font-family:'DM Mono',monospace; font-size:.76rem; color:#6C6980;}
+    .pp-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .pp-pair figure{margin:0; aspect-ratio:5/4; border-radius:14px; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+    .pp-pair figure img{display:block; width:100%; height:100%; object-fit:contain;}
     .pp-price{width:100%; border-collapse:collapse; margin-top:14px; font-size:.9rem;}
     .pp-price td{padding:10px 0; border-bottom:1px solid rgba(23,10,36,.1); color:#3a2c48;}
     .pp-price td:last-child{text-align:right; font-weight:700; color:#170a24;}
@@ -141,7 +152,7 @@
     .pp-cut .pb-card img{display:block; width:100%; height:auto; border-radius:10px; margin-bottom:12px;}
     .pp-fredoka{font-family:'Fredoka',sans-serif; font-weight:600;}
     .pp-mono{font-family:'DM Mono',monospace;}
-    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc{grid-template-columns:1fr;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
+    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc,.pp-pair{grid-template-columns:1fr;} .pp-row{grid-template-columns:1fr; padding:12px 12px 20px;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
     .pp-canvas{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:18px 0 22px;}
     .pp-canvas span{font-size:.86rem; font-weight:600; color:#3a2c48;}
     .pp-canvas .pp-canvas-btn{margin:0; background:#170a24; border-color:#170a24; color:#fff;}
@@ -219,10 +230,10 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Product</h2><p class="proj-section-note">Same star. Same logo. New mood.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">The star shape, clear shell and logo never change. Each flavor only swaps case color, logo color, gum color and background.</p>
-        <div class="pp-flavors">
-          <div class="pp-flavor"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky strawberry charm" loading="lazy"><div><b>Pop Sky</b><span>Strawberry · the hero</span><div class="pp-dots"><i style="background:#FBF6FB"></i><i style="background:#F77EAD"></i><i style="background:#F3A9C4"></i><i style="background:#96CDF8"></i></div></div></div>
-          <div class="pp-flavor"><img src="poppumi/pp-pophaze.jpg" alt="Pop Haze grape charm" loading="lazy"><div><b>Pop Haze</b><span>Grape</span><div class="pp-dots"><i style="background:#D9CCEB"></i><i style="background:#FBF6FB"></i><i style="background:#A88BD6"></i><i style="background:#F5E8C4"></i></div></div></div>
-          <div class="pp-flavor"><img src="poppumi/pp-popfrost.jpg" alt="Pop Frost mint charm" loading="lazy"><div><b>Pop Frost</b><span>Mint</span><div class="pp-dots"><i style="background:#D8DDE3"></i><i style="background:#C8FF1A"></i><i style="background:#B5F2D6"></i><i style="background:#1E1F24"></i></div></div></div>
+        <div class="pp-rows">
+          <div class="pp-row"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky strawberry charm" loading="lazy"><div><h3>Pop Sky</h3><p class="fl">Strawberry · the hero</p><div class="pp-sw"><i style="background:#FBF6FB"></i><span>Case · Pearl White</span><code>#FBF6FB</code><i style="background:#F77EAD"></i><span>Logo · Poppumi Pink</span><code>#F77EAD</code><i style="background:#F3A9C4"></i><span>Gum · Gum Pink</span><code>#F3A9C4</code><i style="background:#96CDF8"></i><span>Background · Pop Sky</span><code>#96CDF8</code></div></div></div>
+          <div class="pp-row"><img src="poppumi/pp-pophaze.jpg" alt="Pop Haze grape charm" loading="lazy"><div><h3>Pop Haze</h3><p class="fl">Grape</p><div class="pp-sw"><i style="background:#D9CCEB"></i><span>Case · Lavender Satin</span><code>#D9CCEB</code><i style="background:#FBF6FB"></i><span>Logo · Pearl White</span><code>#FBF6FB</code><i style="background:#A88BD6"></i><span>Gum · Soft Grape</span><code>#A88BD6</code><i style="background:#F5E8C4"></i><span>Background · Cream</span><code>#F5E8C4</code></div></div></div>
+          <div class="pp-row"><img src="poppumi/pp-popfrost.jpg" alt="Pop Frost mint charm" loading="lazy"><div><h3>Pop Frost</h3><p class="fl">Mint</p><div class="pp-sw"><i style="background:#D8DDE3"></i><span>Case · Holographic Silver</span><code>#D8DDE3</code><i style="background:#C8FF1A"></i><span>Logo · Acid Lime</span><code>#C8FF1A</code><i style="background:#B5F2D6"></i><span>Gum · Icy Mint</span><code>#B5F2D6</code><i style="background:#1E1F24"></i><span>Background · Near Black</span><code>#1E1F24</code></div></div></div>
         </div>
       </div>
     </div>
@@ -230,9 +241,9 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Refill + Gift</h2><p class="proj-section-note">Buy the star once. Refill the gum.</p></div>
       <div class="proj-section-body">
-        <div class="pb-2">
-          <div><figure class="pp-fig"><img src="poppumi/pp-refill.jpg" alt="Re-pop strawberry-shaped refill pouch" loading="lazy"></figure><p class="pp-figcap">Re-pop! refill pouch, shaped like its flavor</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms, pearl chain and star card" loading="lazy"></figure><p class="pp-figcap">Trio Gift Box</p></div>
+        <div class="pp-pair">
+          <div><figure style="background:#F5EFF3"><img src="poppumi/pp-refill.jpg" alt="Re-pop strawberry-shaped refill pouch" loading="lazy"></figure><p class="pp-figcap">Re-pop! refill pouch, shaped like its flavor</p></div>
+          <div><figure style="background:#efeceb"><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms, pearl chain and star card" loading="lazy"></figure><p class="pp-figcap">Trio Gift Box</p></div>
         </div>
         <p class="pb-lede" style="margin-top:18px">The gift box design drew on how Gen Z beauty and skincare brands, including pimple-patch brands, package bundles and gifts. A silver metallic version looked like a tin can, so we switched to a matte pearl-white paper box.</p>
         <table class="pp-price">
