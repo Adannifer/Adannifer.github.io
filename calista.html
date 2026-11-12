@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PWQJ7HBL');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7615TEK1PY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7615TEK1PY');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calista by Cheyenne Tsai — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=40" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <link rel="icon" href="favicon.ico?v=1" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+</head>
+<body class="project-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><div class="nav-dd"><a href="index.html#work" class="nav-link">Work</a><div class="nav-dd-menu"><a href="index.html#digital" class="nav-link nav-dd-item">Digital Branding</a><a href="index.html#live" class="nav-link nav-dd-item">Live Branding</a></div></div><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <style>
+    .pb .proj-section-body{display:block;}
+    .pb-lede{font-size:.95rem; line-height:1.6; color:#3a2c48; margin:0 0 22px;}
+    .pb-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .pb-card{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:20px; box-shadow:0 8px 24px rgba(23,10,36,.05);}
+    .pb-card b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:8px;}
+    .pb-card p{margin:0; font-size:.88rem; line-height:1.6; color:#3a2c48;}
+    .pb-statement{margin-top:16px; background:#0A0613; border-radius:18px; padding:clamp(24px,4vw,44px); display:flex; justify-content:space-between; align-items:center; gap:24px;}
+    .pb-statement p{margin:0; font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1.3rem,2.8vw,2.4rem); line-height:1.1; letter-spacing:-.01em; text-transform:uppercase; color:#F7F1EA;}
+    .pb-statement .pk{color:#FF1AA8;} .pb-statement .gr{color:#D7FF45;}
+    .pb-statement span.star{font-size:clamp(3rem,7vw,6rem); color:#FF1AA8; line-height:1;}
+    .pb-step{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:44px 0 10px; display:flex; gap:12px; align-items:center;}
+    .pb-step:first-child{margin-top:0;}
+    .pb-step span{background:#FAD5ED; color:#773B57; border-radius:999px; padding:4px 10px; font-size:.68rem;}
+    .pb-fig{margin:0 0 12px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; overflow:hidden;}
+    .pb-fig img{display:block; width:100%; height:auto;}
+    .pb-fig figcaption{font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#865177; padding:10px 14px; border-top:1px solid rgba(23,10,36,.06);}
+    .pb-2{display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start;}
+    .pb-rules{display:grid; grid-template-columns:1fr 1fr; gap:28px 40px;}
+    .pb-rules h4{font-family:'Inter',sans-serif; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f; margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid rgba(23,10,36,.12);}
+    .pb-rules ul{margin:0; padding:0; list-style:none;}
+    .pb-rules li{font-size:.9rem; line-height:1.55; color:#3a2c48; padding:4px 0;}
+    .pb-rules li strong{color:#170a24;}
+    .pb-chips{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:8px;}
+    .pb-chip{display:flex; flex-direction:column; gap:3px; font-size:.78rem;}
+    .pb-chip i{display:block; aspect-ratio:4/3; border-radius:12px; border:1px solid rgba(23,10,36,.08); margin-bottom:6px;}
+    .pb-chip b{color:#170a24;} .pb-chip code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .pb-chip em{font-style:normal; font-size:.72rem; color:#865177;}
+    .pb-type{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;}
+    .pb-type .pb-card .aa{font-size:clamp(3rem,6vw,5rem); line-height:1; color:#170a24; margin:10px 0 8px;}
+    .pb-type .serif{font-family:'Bodoni Moda',Didot,'Bodoni 72',serif;}
+    .pb-type .sans{font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-weight:500;}
+    .pb-type .note{font-size:.76rem; color:#6C6980; margin-top:6px;}
+    .pb-principle{margin-top:18px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:22px;}
+    .pb-principle p{margin:0; font-size:.92rem; line-height:1.6; color:#3a2c48;}
+    .pb-principle .dont{margin-top:14px; padding-left:14px; border-left:3px solid #FF1AA8; color:#170a24; font-weight:600;}
+    .pb-gh{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:40px 0 14px;}
+    .pb-gh:first-child{margin-top:0;}
+    .pb-apps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .pb-apps figure{margin:0; border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:#efe5da;}
+    .pb-apps img{width:100%; height:100%; object-fit:cover; display:block;}
+    .pb .proj-section-body > p.pb-lede{margin:0 0 22px; max-width:none;}
+    .pb .proj-section-body > p.pb-step{margin:48px 0 12px;}
+    .pb .proj-section-body > p.pb-step:first-child{margin-top:0;}
+    .pb .proj-section-body > p.pb-gh{margin:44px 0 14px;}
+    .pb-rules + .pb-principle, .pb-rules{margin-top:4px;}
+    @media (max-width:760px){ .pb-cards,.pb-2,.pb-rules,.pb-type,.pb-apps{grid-template-columns:1fr;} .pb-chips{grid-template-columns:repeat(3,1fr);} .pb-statement span.star{display:none;} }
+    .cl-reels{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; max-width:860px;}
+    .cl-reels figure{margin:0;}
+    .cl-vid{position:relative; aspect-ratio:9/16; border-radius:14px; overflow:hidden; background:#e9e4de;}
+    .cl-vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+    .cl-reels figcaption,.cl-cap{font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177; margin:8px 0 0;}
+    .cl-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:12px;}
+    .cl-grid img{display:block; width:100%; height:100%; object-fit:cover; border-radius:12px;}
+    .cl-grid .w{grid-column:span 4;} .cl-grid .t{grid-column:span 2;} .cl-grid .h{grid-column:span 3;}
+    .cl-ig{display:grid; grid-template-columns:repeat(2,minmax(0,340px)); gap:14px;}
+    .cl-ig img{display:block; width:100%; height:auto; border-radius:12px;}
+    @media (max-width:760px){ .cl-reels{grid-template-columns:1fr 1fr;} .cl-grid .w,.cl-grid .t,.cl-grid .h{grid-column:span 6;} .cl-ig{grid-template-columns:1fr 1fr;} }
+  </style>
+
+  <section class="proj-hero">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-img">
+      <img src="calista/cl-seated.jpg" alt="Model in a Calista gown seated along the runway chairs" style="object-position:center 60%;">
+    </div>
+    <div class="proj-hero-text">
+      <span class="proj-num">Social Content · Event Coverage</span>
+      <h1 class="proj-title">CALISTA<span class="pr-star">★</span></h1>
+      <div class="proj-meta-row">
+        <span>Calista by Cheyenne Tsai</span>
+        <span>New York Bridal Market</span>
+        <span>Reels · Photography</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">Reels and social photos for a New York bridal couture label, captured on the floor at New York Bridal Market.</p>
+        <p>I covered Calista by Cheyenne Tsai's booth across fittings, buyer appointments and quiet moments between shows, then cut the footage into vertical Reels and finished a set of branded photos for Instagram, each signed with the label's script logo.</p>
+        <div class="pr-tags">
+          <span class="tag">Reels</span>
+          <span class="tag">Event Photography</span>
+          <span class="tag">Social Content</span>
+          <span class="tag">Fashion</span>
+        </div>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Reels</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">8</span><span class="proj-stat-l">Posts</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">1</span><span class="proj-stat-l">Market</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col">
+        <div class="fanscape-img"><img src="calista/cl-sign.jpg" alt="Fitting under the Cheyenne Tsai Couture sign"></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Reels</h2><p class="proj-section-note">Vertical cuts from the market floor.</p></div>
+      <div class="proj-section-body">
+        <div class="cl-reels">
+          <figure><div class="cl-vid"><iframe src="https://player.vimeo.com/video/1246397000?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="CheyenneTsai1" loading="lazy"></iframe></div><figcaption>Reel 01</figcaption></figure>
+          <figure><div class="cl-vid"><iframe src="https://player.vimeo.com/video/1246396998?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="CheyenneTsai3" loading="lazy"></iframe></div><figcaption>Reel 03</figcaption></figure>
+          <figure><div class="cl-vid"><iframe src="https://player.vimeo.com/video/1246396999?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="CheyenneTsai2" loading="lazy"></iframe></div><figcaption>Reel 02</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">On the Floor</h2><p class="proj-section-note">Fittings, appointments and the gowns in between.</p></div>
+      <div class="proj-section-body">
+        <div class="cl-grid">
+          <div class="w"><img src="calista/cl-seated.jpg" alt="Model seated along the runway chairs" loading="lazy"></div>
+          <div class="t"><img src="calista/cl-duo.jpg" alt="Two models in Calista gowns under the Cheyenne Tsai sign" loading="lazy"></div>
+          <div class="h"><img src="calista/cl-fitting.jpg" alt="Designer adjusting a lace veil during a fitting" loading="lazy"></div>
+          <div class="h"><img src="calista/cl-designer.jpg" alt="Cheyenne Tsai with a model in front of the Bridal Market wall" loading="lazy"></div>
+          <div class="t"><img src="calista/cl-sign.jpg" alt="Fitting under the Cheyenne Tsai Couture sign" loading="lazy"></div>
+          <div class="w"><img src="calista/cl-team.jpg" alt="Designer and models at the Calista booth" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Selfie Posts</h2><p class="proj-section-note">First-person details, cropped 4:5 for the feed.</p></div>
+      <div class="proj-section-body">
+        <div class="cl-ig">
+          <div><img src="calista/cl-selfie-lace.jpg" alt="Selfie of a beaded lace bodice and veil" loading="lazy"><p class="cl-cap">Beaded lace</p></div>
+          <div><img src="calista/cl-selfie-roses.jpg" alt="Selfie of a corset bodice with sculpted roses" loading="lazy"><p class="cl-cap">Sculpted roses</p></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="poppumi.html" class="proj-back-link">← Poppumi★</a>
+    <a href="joydotz.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Skincare★Rebrand →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js?v=40"></script>
+</body>
+</html>
