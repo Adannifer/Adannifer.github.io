@@ -151,7 +151,7 @@
     .pp-cut .pb-card img{display:block; width:100%; height:auto; border-radius:10px; margin-bottom:12px;}
     .pp-fredoka{font-family:'Fredoka',sans-serif; font-weight:600;}
     .pp-mono{font-family:'DM Mono',monospace;}
-    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc,.pp-pair{grid-template-columns:1fr;} .pp-pal{grid-template-columns:1fr 1fr;} .pp-ratio-l span:last-child{display:none;} .pp-row{grid-template-columns:1fr; padding:12px 12px 20px;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
+    @media (max-width:760px){ .pp-3,.pp-stats,.pp-flavors,.pp-cut,.pp-logoproc,.pp-pair,.pp-steps,.pp-gift{grid-template-columns:1fr;} .pp-pal{grid-template-columns:1fr 1fr;} .pp-ratio-l span:last-child{display:none;} .pp-row{grid-template-columns:1fr; padding:12px 12px 20px;} .pp-reels{grid-template-columns:1fr 1fr;} .pp-phones{grid-template-columns:1fr 1fr;} .pp-logos{grid-template-columns:1fr;} .pp-logoproc .pp-explore{max-width:260px;} }
     .pp-canvas{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:18px 0 22px;}
     .pp-canvas span{font-size:.86rem; font-weight:600; color:#3a2c48;}
     .pp-canvas .pp-canvas-btn{margin:0; background:#170a24; border-color:#170a24; color:#fff;}
@@ -164,6 +164,17 @@
     .pp-ratio{display:flex; height:30px; border-radius:15px; overflow:hidden; border:1px solid rgba(23,10,36,.08); margin-top:26px;}
     .pp-ratio span{display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:.74rem; color:#241B3A;}
     .pp-ratio-l{display:flex; justify-content:space-between; gap:12px; font-family:'DM Mono',monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#6C6980; margin:10px 0 22px;}
+    .pp-refill-hero{margin:0; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:4% 3%;}
+    .pp-refill-hero img{display:block; width:100%; height:auto;}
+    .pp-steps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0 34px;}
+    .pp-steps div{display:grid; grid-template-columns:44px 1fr; column-gap:14px; align-items:center; background:#FBF6FB; border:1px solid rgba(23,10,36,.06); border-radius:16px; padding:16px 18px;}
+    .pp-steps span{grid-row:span 2; width:44px; height:44px; border-radius:50%; background:#F77EAD; color:#fff; font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.2rem; display:flex; align-items:center; justify-content:center;}
+    .pp-steps b{font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.1rem; color:#241B3A;}
+    .pp-steps p{margin:2px 0 0; font-size:.84rem; line-height:1.4; color:#3a2c48;}
+    .pp-gift{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:26px; align-items:center;}
+    .pp-gift figure{margin:0; border-radius:14px; overflow:hidden;}
+    .pp-gift figure img{display:block; width:100%; height:auto;}
+    .pp-gift .pp-price{margin-top:6px;}
   </style>
 
   <section class="proj-hero">
@@ -248,17 +259,26 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Refill + Gift</h2><p class="proj-section-note">Buy the star once. Refill the gum.</p></div>
       <div class="proj-section-body">
-        <div class="pp-pair">
-          <div><figure style="background:#F5EFF3"><img src="poppumi/pp-refill.jpg" alt="Re-pop strawberry-shaped refill pouch" loading="lazy"></figure><p class="pp-figcap">Re-pop! refill pouch, shaped like its flavor</p></div>
-          <div><figure style="background:#efeceb"><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms, pearl chain and star card" loading="lazy"></figure><p class="pp-figcap">Trio Gift Box</p></div>
+        <figure class="pp-refill-hero"><img src="poppumi/pp-refill-trio.jpg" alt="Re-pop! refill pouches shaped like a grape, a strawberry and a mint leaf" loading="lazy"></figure>
+        <p class="pp-figcap">Re-pop! refill packs · each pouch is shaped like its flavor</p>
+        <div class="pp-steps">
+          <div><span>1</span><b>Tear</b><p>Notch at the top opens in one pull</p></div>
+          <div><span>2</span><b>Refill</b><p>Pour the star gums into your charm</p></div>
+          <div><span>3</span><b>Re-pop</b><p>Same star, fresh gum, zero new case</p></div>
         </div>
-        <p class="pb-lede" style="margin-top:18px">The gift box design drew on how Gen Z beauty and skincare brands, including pimple-patch brands, package bundles and gifts. A silver metallic version looked like a tin can, so we switched to a matte pearl-white paper box.</p>
-        <table class="pp-price">
-          <tr><td>Star Charm (case + 15 star gums)</td><td>$12</td></tr>
-          <tr><td>Gum Refill Pack</td><td>$5</td></tr>
-          <tr><td>Pearl Star Chain</td><td>$8</td></tr>
-          <tr><td>Trio Gift Box (3 charms + chain + card)</td><td>$29 <span style="font-weight:400;color:#6C6980">vs. $44 separately</span></td></tr>
-        </table>
+        <div class="pp-gift">
+          <figure><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms, pearl chain and star card" loading="lazy"></figure>
+          <div>
+            <p class="pb-gh" style="margin-top:0">Trio Gift Box</p>
+            <p class="pb-lede">The gift box design drew on how Gen Z beauty and skincare brands, including pimple-patch brands, package bundles and gifts. A silver metallic version looked like a tin can, so we switched to a matte pearl-white paper box.</p>
+            <table class="pp-price">
+              <tr><td>Star Charm (case + 15 star gums)</td><td>$12</td></tr>
+              <tr><td>Gum Refill Pack</td><td>$5</td></tr>
+              <tr><td>Pearl Star Chain</td><td>$8</td></tr>
+              <tr><td>Trio Gift Box</td><td>$29 <span style="font-weight:400;color:#6C6980">vs. $44</span></td></tr>
+            </table>
+          </div>
+        </div>
         <p class="pp-src">Prices are team estimates based on comparable products. Sold online, on the bag-charm wall in accessory and toy stores, and at concert and con merch booths.</p>
       </div>
     </div>
