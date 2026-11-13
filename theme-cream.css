@@ -181,3 +181,8 @@ body::after{display:none;}
 }
 .sub-title-link{color:inherit; text-decoration:none;}
 .sub-title-link:hover{color:#ff1aa8;}
+
+/* card titles: one line, lighter */
+.vcard-meta{align-items:baseline; min-width:0;}
+.vcard-title{font-size:clamp(.95rem,1.12vw,1.08rem); font-weight:600; letter-spacing:-.005em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+.vcard-tag{flex-shrink:0;}
