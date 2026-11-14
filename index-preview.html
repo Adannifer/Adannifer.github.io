@@ -113,6 +113,10 @@
         <feColorMatrix in="blur" mode="matrix"
           values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
       </filter>
+      <filter id="acid-about" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="about-blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
       <filter id="acid-bubble" x="-20%" y="-60%" width="140%" height="220%"
               color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="bubble-blur"/>
@@ -164,9 +168,10 @@
     .big-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
     .big-grid .bg-feature .vcard-media{background:#f3d9e6;}
     .about-name{margin:0 0 clamp(2rem,4vw,3.5rem);}
-    .about-big{font-family:'Inter',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:-0.045em; line-height:.86; font-size:clamp(3rem,11vw,11rem); color:#170a24; margin:0; white-space:nowrap;}
+    .about-big{filter:url(#acid-about); user-select:none; font-family:'Inter',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:-0.045em; line-height:.86; font-size:clamp(3rem,11vw,11rem); color:#170a24; margin:0; white-space:nowrap;}
     .about-big .about-q{color:#170a24; margin-left:.22em;}
-    .about-big .about-star{font-size:.55em; margin-left:.04em; position:relative; top:-.06em;}
+    .about-big .ac{display:inline-block;}
+    .about-big .about-star{display:inline-block; font-size:.55em; margin-left:.04em; position:relative; top:-.06em;}
     .about-role{font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(.75rem,1.1vw,1rem); letter-spacing:.2em; text-transform:uppercase; color:#4a1a6f; margin:14px 0 0;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .about-big{white-space:normal;} }
@@ -495,5 +500,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
   <script src="hero-dock.js?v=7"></script>
+  <script>
+  /* About name: same acid mercury mouse effect as the old hero */
+  (function(){
+    var h=document.querySelector('.about-big'); if(!h||!window.gsap) return;
+    h.querySelectorAll('.about-q').forEach(function(){});
+    function wrap(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){ var f=document.createDocumentFragment(); n.textContent.split('').forEach(function(ch){ var sp=document.createElement('span'); sp.className='ac'; sp.textContent=ch; f.appendChild(sp); }); n.replaceWith(f); }
+        else if(!n.classList.contains('about-star')) wrap(n); else n.classList.add('ac');
+      });
+    }
+    wrap(h);
+    var chars=[].slice.call(h.querySelectorAll('.ac')), blur=document.getElementById('about-blur');
+    if(window.ScrollTrigger){
+      gsap.from(chars,{yPercent:60,opacity:0,duration:.7,stagger:.035,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 85%',once:true}});
+    }
+    document.addEventListener('mousemove',function(e){
+      var r0=h.getBoundingClientRect(); if(r0.bottom<0||r0.top>innerHeight) return;
+      var maxF=0;
+      chars.forEach(function(c){
+        var r=c.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, d=Math.hypot(e.clientX-cx,e.clientY-cy), rad=180;
+        if(d<rad){ var t=1-d/rad, f=t*t*32, a=Math.atan2(e.clientY-cy,e.clientX-cx); maxF=Math.max(maxF,t);
+          gsap.to(c,{x:-Math.cos(a)*f,y:-Math.sin(a)*f,duration:.28,ease:'power2.out',overwrite:'auto'}); }
+        else gsap.to(c,{x:0,y:0,duration:.85,ease:'elastic.out(1, 0.45)',overwrite:'auto'});
+      });
+      if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*4.5},duration:.25,ease:'power2.out',overwrite:'auto'});
+    });
+  })();
+  </script>
 </body>
 </html>
