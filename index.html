@@ -187,6 +187,25 @@
     .big-grid .bg-feature .vcard-media iframe{position:absolute; top:50%; left:50%; width:112%; height:100%; transform:translate(-50%,-50%); border:0; pointer-events:none;}
     .big-grid .bg-feature .vcard-media img{object-fit:cover;}
     .big-grid .bg-feature .jr-cap{margin-top:12px;}
+    /* try: soft pink wash (no dots); nav frameless at top, framed after scroll */
+    body{background:#f7f1ea;}
+    #work{position:relative; isolation:isolate;}
+    .pink-band{position:absolute; left:0; right:0; top:0; height:clamp(300px,40vh,380px); z-index:-1; pointer-events:none; overflow:hidden;
+      background-color:#ff1aa8;
+      background-image:linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 45%, rgba(247,241,234,.55) 78%, rgba(247,241,234,.85) 100%), radial-gradient(rgba(120,10,80,.13) 1.2px, transparent 1.6px), linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 40%);
+      background-size:100% 100%, 14px 14px, 100% 100%;
+      transform:translateY(-101%); animation:bandDrop .9s cubic-bezier(.22,.8,.25,1) .35s forwards; will-change:transform;}
+    .pink-band svg{position:absolute; left:0; bottom:-1px; width:100%; height:90px; display:block; transform-origin:50% 100%; animation:waveSettle 1.2s ease-in-out 1.05s both;}
+    @keyframes bandDrop{to{transform:translateY(0);}}
+    @keyframes waveSettle{0%{transform:scaleY(1);} 30%{transform:scaleY(1.55);} 60%{transform:scaleY(.8);} 82%{transform:scaleY(1.12);} 100%{transform:scaleY(1);}}
+    @media (prefers-reduced-motion:reduce){ .pink-band{animation:none; transform:none;} .pink-band svg{animation:none;} }
+    /* projects show immediately; only the pink background animates */
+    .big-grid .vcard{opacity:1 !important; transform:none !important; visibility:visible !important;}
+    #nav:not(.nav-framed) #nav-logo-text, #nav:not(.nav-framed) #nav-logo-text *{color:#170a24 !important; -webkit-text-fill-color:#170a24 !important;}
+    @media (min-width:701px){
+      #nav{transition:background-color .35s ease, border-color .35s ease, box-shadow .35s ease, -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease;}
+      #nav:not(.nav-framed){background:transparent !important; border-color:transparent !important; box-shadow:none !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important;}
+    }
     #nav-logo-slot{opacity:1 !important;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
@@ -273,6 +292,10 @@
 
     <!-- WORK -->
     <section id="work">
+      <div class="pink-band" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="#f7f1ea" d="M0,58 C180,28 360,28 540,52 C720,76 900,80 1080,54 C1260,28 1350,34 1440,48 L1440,90 L0,90 Z">
+        </path></svg>
+      </div>
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
 
@@ -533,6 +556,10 @@
       if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*4.5},duration:.25,ease:'power2.out',overwrite:'auto'});
     });
   })();
+  </script>
+  <script>
+  (function(){ var n=document.getElementById('nav'); if(!n) return;
+    function f(){ n.classList.toggle('nav-framed', scrollY>24); } f(); addEventListener('scroll',f,{passive:true}); })();
   </script>
 </body>
 </html>
