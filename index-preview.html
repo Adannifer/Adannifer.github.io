@@ -164,11 +164,17 @@
     .big-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
     .about-name{margin:0 0 clamp(2rem,4vw,3.5rem);}
     .about-big{font-family:'Inter',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:-0.045em; line-height:.86; font-size:clamp(3rem,11vw,11rem); color:#170a24; margin:0; white-space:nowrap;}
-    .about-big .about-q{color:#170a24;}
+    .about-big .about-q{color:#170a24; margin-left:.22em;}
     .about-big .about-star{font-size:.55em; margin-left:.04em; position:relative; top:-.06em;}
     .about-role{font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(.75rem,1.1vw,1rem); letter-spacing:.2em; text-transform:uppercase; color:#4a1a6f; margin:14px 0 0;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .about-big{white-space:normal;} }
+    .big-grid .bg-feature{grid-column:span 2; grid-row:span 2; display:flex; flex-direction:column;}
+    .big-grid .bg-feature .vcard-media{flex:1; aspect-ratio:auto; position:relative; border-radius:18px;}
+    .big-grid .bg-feature .vcard-media video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+    .big-grid .bg-feature .jr-cap{margin-top:12px;}
+    #nav-logo-slot{opacity:1 !important;}
+    @media (max-width:900px){ .big-grid .bg-feature{grid-column:1/-1; grid-row:auto;} .big-grid .bg-feature .vcard-media{aspect-ratio:16/9; flex:none;} }
   </style>
 </head>
 <body>
@@ -222,6 +228,7 @@
 
   <main id="main">
 
+    <section id="hero" aria-hidden="true" style="height:0;min-height:0;padding:0;margin:0;overflow:hidden;"><div id="hero-content"><h1 id="hero-title"></h1></div></section>
     <!-- NARRATIVE — pinned bubble sequence, origin story into CrimePartner / AllKnight -->
 <!-- narrative section hidden for now
     <section id="narrative">
@@ -253,14 +260,12 @@
     <section id="work">
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
-        <div class="vgrid vgrid--work jr-first">
-        <a class="vcard vcard--wide" href="joydotz.html">
-          <div class="vcard-media" style="aspect-ratio:16/9;"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
-          <div class="jr-cap"><span class="jr-cap-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="jr-cap-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</span><span class="jr-cap-meta">Joydotz · 2025–26 →</span></div>
-        </a>
-        </div>
 
         <div class="big-grid">
+        <a class="vcard vcard--wide bg-feature" href="joydotz.html">
+          <div class="vcard-media"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
+          <div class="jr-cap"><span class="jr-cap-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="jr-cap-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</span><span class="jr-cap-meta">Joydotz · 2025–26 →</span></div>
+        </a>
         <a class="vcard" href="poppumi.html">
           <div class="vcard-media"><img src="poppumi/pp-popsky-closed.jpg" alt="Poppumi" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">AI-Directed Brand Launch</span><span class="vcard-tag">Poppumi</span></div>
