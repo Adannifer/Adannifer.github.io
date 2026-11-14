@@ -112,6 +112,10 @@
         <feColorMatrix in="blur" mode="matrix"
           values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
       </filter>
+      <filter id="acid-about" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="about-blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
       <filter id="acid-bubble" x="-20%" y="-60%" width="140%" height="220%"
               color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="bubble-blur"/>
@@ -154,8 +158,40 @@
       body.hero-dock #hero-eyebrow .section-num{text-decoration:none; flex:none;}
     }
   </style>
+  <style>
+    /* index preview: grid-first homepage */
+    #work{padding-top:calc(var(--nav-h, 72px) + 32px);}
+    /* nav spans the same width as the grid and blends with the page */
+    @media (min-width:701px){
+      #nav{left:6vw; right:6vw; transform:none !important; min-width:0; width:auto; top:12px;
+        background:rgba(247,241,234,.82) !important; border-color:rgba(23,10,36,.10) !important; box-shadow:0 8px 30px rgba(23,10,36,.05);}
+    }
+    .jr-first{width:100% !important; margin:0 0 28px !important;}
+    .big-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 12px; margin-bottom:72px;}
+    .big-grid .vcard-media{aspect-ratio:4/3;}
+    .big-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
+    .big-grid .bg-feature .vcard-media{background:#f3d9e6;}
+    .about-name{margin:0 0 clamp(2rem,4vw,3.5rem);}
+    .about-big{filter:url(#acid-about); user-select:none; font-family:'Inter',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:-0.045em; line-height:.86; font-size:clamp(3rem,11vw,11rem); color:#170a24; margin:0; white-space:nowrap;}
+    .about-big .about-q{color:#170a24; margin-left:.22em;}
+    .about-big .ac{display:inline-block;}
+    .about-big .about-star{display:inline-block; font-size:.55em; margin-left:.04em; position:relative; top:-.06em;}
+    .about-role{font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(.75rem,1.1vw,1rem); letter-spacing:.2em; text-transform:uppercase; color:#4a1a6f; margin:14px 0 0;}
+    @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} }
+    @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .about-big{white-space:normal;} }
+    .big-grid{grid-template-columns:repeat(6,minmax(0,1fr));}
+    .big-grid > .vcard{grid-column:span 2;}
+    .big-grid > .bg-feature{grid-column:span 3;}
+    .big-grid .bg-feature .vcard-media{aspect-ratio:16/10; position:relative; border-radius:18px; overflow:hidden;}
+    .big-grid .bg-feature .vcard-media iframe{position:absolute; top:50%; left:50%; width:112%; height:100%; transform:translate(-50%,-50%); border:0; pointer-events:none;}
+    .big-grid .bg-feature .vcard-media img{object-fit:cover;}
+    .big-grid .bg-feature .jr-cap{margin-top:12px;}
+    #nav-logo-slot{opacity:1 !important;}
+    @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
+    @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
+  </style>
 </head>
-<body class="hero-dock">
+<body>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
@@ -198,13 +234,7 @@
       <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
     </div>
     <div id="nav-links">
-      <div class="nav-dd">
-        <a href="#work" class="nav-link">Work</a>
-        <div class="nav-dd-menu">
-          <a href="#digital" class="nav-link nav-dd-item">Digital Branding</a>
-          <a href="#live" class="nav-link nav-dd-item">Live Branding</a>
-        </div>
-      </div>
+      <a href="#work" class="nav-link">Work</a>
       <a href="#about" class="nav-link">About</a>
       <a href="#contact" class="nav-link">Contact</a>
     </div>
@@ -212,26 +242,7 @@
 
   <main id="main">
 
-    <!-- HERO — title-case Jennifer★Qian, acid mouse -->
-    <section id="hero">
-      <div id="hero-content">
-        <div id="hero-title-wrap">
-          <p id="hero-sub">Brand &amp; Visual Designer</p>
-          <h1 id="hero-title" data-fit="0.8">
-            <span class="hw" id="hw-jennifer"
-              ><span class="hc">J</span><span class="hc">e</span><span class="hc">n</span><span class="hc">n</span><span class="hc">i</span><span class="hc">f</span><span class="hc">e</span><span class="hc">r</span></span
-            ><span class="hw hw--pink" id="hw-qian"
-              ><span class="hc">Q</span><span class="hc">i</span><span class="hc">a</span><span class="hc">n</span></span
-            ><span class="hw-star hc">★</span>
-          </h1>
-        </div>
-      </div>
-      <div id="scroll-cue" aria-label="Scroll down">
-        <span class="sc-label">SCROLL</span>
-        <span class="sc-arrow">↓</span>
-      </div>
-    </section>
-
+    <section id="hero" aria-hidden="true" style="height:0;min-height:0;padding:0;margin:0;overflow:hidden;"><div id="hero-content"><h1 id="hero-title"><span class="hw" id="hw-jennifer"><span class="hc"></span></span><span class="hw" id="hw-qian"><span class="hc"></span></span><span class="hw-star hc"></span></h1></div></section>
     <!-- NARRATIVE — pinned bubble sequence, origin story into CrimePartner / AllKnight -->
 <!-- narrative section hidden for now
     <section id="narrative">
@@ -263,54 +274,31 @@
     <section id="work">
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
-        <div class="vgrid vgrid--work jr-first">
-        <a class="vcard vcard--wide" href="joydotz.html">
-          <div class="vcard-media" style="aspect-ratio:16/9;"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg" aria-label="Joydotz homepage hero film"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video></div>
-          <div class="jr-cap"><span class="jr-cap-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="jr-cap-hook">A dreamy, collectible rebrand for a Gen Z spot-patch brand.</span><span class="jr-cap-meta">Joydotz · 2025–26 →</span></div>
-        </a>
-        </div>
 
-        <div class="sub-head sub-head--minor" id="playground">
-          <h4 class="sub-title sub-title--minor">Graphic / Motion Playground</h4>
-          <a class="sub-link" href="range.html">View all ↗</a>
-        </div>
-        <div class="pg-grid">
-          <div class="pg-col">
-        <a class="vcard" href="range.html#posters">
-          <div class="vcard-media" style="--ar:3/4"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="Poster Series" loading="lazy" style="object-position:center top"></div>
-          <div class="vcard-meta"><span class="vcard-title">Typographic Poster Design</span><span class="vcard-tag">NYU</span></div>
+        <div class="big-grid">
+        <a class="vcard bg-feature" href="joydotz.html">
+          <div class="vcard-media"><iframe src="https://player.vimeo.com/video/1240442334?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz Daydream Cloud product motion" tabindex="-1"></iframe></div>
+          <div class="vcard-meta"><span class="vcard-title">Skincare<span class="pr-star">★</span>Rebrand</span><span class="vcard-tag">Joydotz</span></div>
         </a>
-        <a class="vcard" href="range.html#fashion">
-          <div class="vcard-media" style="--ar:1800/1251"><img src="range%20of%20practice/fashion_coexist_HK%20History/coexist_tote_mockup.jpg" alt="Coexist" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Hong Kong Collage Series</span><span class="vcard-tag">Coexist</span></div>
-        </a>
-          </div>
-          <div class="pg-col">
-        <a class="vcard" href="poppumi.html">
-          <div class="vcard-media" style="--ar:4/3"><img src="poppumi/pp-popsky-closed.jpg" alt="Poppumi" loading="lazy"></div>
+        <a class="vcard bg-feature" href="poppumi.html">
+          <div class="vcard-media"><img src="poppumi/pp-cover.gif" alt="Poppumi" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">AI-Directed Brand Launch</span><span class="vcard-tag">Poppumi</span></div>
         </a>
-        <a class="vcard" href="range.html#pattern">
-          <div class="vcard-media" style="--ar:3/2"><img src="glyph_pattern/gp-kira.png" alt="Glyph pattern on KIRA Coffee cups and carrier" loading="lazy" style="object-position:center 18%"></div>
-          <div class="vcard-meta"><span class="vcard-title">Single-Glyph Pattern Design</span><span class="vcard-tag">Kira</span></div>
-        </a>
-        <a class="vcard" href="range.html#motion">
-          <div class="vcard-media" style="--ar:2940/1376"><img src="range%20of%20practice/tongtong_cover.png" alt="TongTong" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">2D Character Animation</span><span class="vcard-tag">TongTong</span></div>
-        </a>
-          </div>
-          <div class="pg-col">
-        <a class="vcard" href="calista.html">
-          <div class="vcard-media" style="--ar:25/32"><img src="calista/cl-sign.jpg" alt="Calista by Cheyenne Tsai" loading="lazy" style="object-position:center 30%"></div>
-          <div class="vcard-meta"><span class="vcard-title">Freelance Bridal Photographer</span><span class="vcard-tag">Calista</span></div>
-        </a>
         <a class="vcard" href="personalbrand.html">
-          <div class="vcard-media" style="--ar:4/3"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt="Personal Brand" loading="lazy"></div>
+          <div class="vcard-media"><img src="range%20of%20practice/personal%20branding/Free_Signboard_Mockup_2.png" alt="Personal Brand" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Personal Identity System</span><span class="vcard-tag">Jennifer Qian</span></div>
         </a>
-          </div>
+        <a class="vcard" href="range.html#pattern">
+          <div class="vcard-media"><img style="object-position:center 22%" src="glyph_pattern/gp-kira.png" alt="Glyph pattern on KIRA Coffee cups and carrier" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Single-Glyph Pattern Design</span><span class="vcard-tag">Kira</span></div>
+        </a>
+        <a class="vcard" href="range.html#fashion">
+          <div class="vcard-media"><img src="range%20of%20practice/fashion_coexist_HK%20History/coexist_tote_mockup.jpg" alt="Coexist" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Hong Kong Collage Series</span><span class="vcard-tag">Coexist</span></div>
+        </a>
         </div>
-
+      </div>
+      <div class="work-group">
         <div class="sub-head sub-head--minor">
           <h4 class="sub-title sub-title--minor">UI / UX</h4>
           <span class="sub-note">App &amp; Product Design</span>
@@ -318,17 +306,18 @@
         <div class="vgrid vgrid--work vgrid--native">
         <a class="vcard" href="fanscape.html">
           <div class="vcard-media"><img src="Fanscape/new_cover.png" alt="Fanscape" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Fan<span class="pr-star">★</span>scape</span><span class="vcard-tag">Map Interface · UX</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Map Interface UX Design</span><span class="vcard-tag">Fanscape</span></div>
         </a>
         <a class="vcard" href="squeak.html">
           <div class="vcard-media"><img src="Squeak/cover.png" alt="Squeak" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Squeak<span class="pr-star">★</span></span><span class="vcard-tag">AI Product Design · UX</span></div>
+          <div class="vcard-meta"><span class="vcard-title">AI Product UX Design</span><span class="vcard-tag">Squeak</span></div>
         </a>
         </div>
-
+      </div>
+      <div class="work-group" id="playground">
         <div class="sub-head sub-head--minor">
           <h4 class="sub-title sub-title--minor">Web Interactivity</h4>
-          <span class="sub-note">Browser tools, built with AI</span>
+          <a class="sub-link" href="range.html">Playground ↗</a>
         </div>
         <div class="vgrid vgrid--3 vgrid--masonry">
         <a class="vcard" href="custom-online-photo-booth.html">
@@ -356,38 +345,40 @@
           <div class="vcard-meta"><span class="vcard-title">Kaomoji Prototype</span><span class="vcard-tag">p5.js</span></div>
         </a>
         </div>
-
       </div>
-
       <div class="work-group" id="live">
-        <div class="sub-head">
-          <h3 class="sub-title">Live Branding</h3>
+        <div class="sub-head sub-head--minor">
+          <h4 class="sub-title sub-title--minor">Events &amp; Physical Experience</h4>
           <span class="sub-note">Events · Installations · Activations</span>
         </div>
         <div class="vgrid vgrid--work">
         <a class="vcard" href="crimepartner.html">
-          <div class="vcard-media"><img src="crimepartner_pic%20copy/web/3.0/ed3-group.jpg" style="object-position:center 72%" alt="Crime Partner" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Crime<span class="pr-star">★</span>Partner</span><span class="vcard-tag">Nightlife Series · 3 Editions · 2025</span></div>
+          <div class="vcard-media"><img style="object-position:center 72%" src="crimepartner_pic%20copy/web/3.0/ed3-group.jpg" alt="Crime Partner" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Nightlife Event Branding</span><span class="vcard-tag">Crime Partner</span></div>
         </a>
         <a class="vcard" href="allknight.html">
           <div class="vcard-media"><img src="allknight_pic%20copy/final-photo.jpg" alt="AllKnight NYC" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">AllKnight<span class="pr-star">★</span>NYC</span><span class="vcard-tag">Anime Convention · 2025</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Anime Convention Branding</span><span class="vcard-tag">AllKnight NYC</span></div>
         </a>
         <a class="vcard" href="cantonfair.html">
           <div class="vcard-media"><img src="cantonfair_pic%20copy/cantonfair_cover2.jpg" alt="Canton Fair" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Canton<span class="pr-star">★</span>Fair</span><span class="vcard-tag">Retail Activation · 2025</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Retail Activation Design</span><span class="vcard-tag">Canton Fair</span></div>
+        </a>
+        <a class="vcard" href="calista.html">
+          <div class="vcard-media"><img style="object-position:center 35%" src="calista/cl-sign.jpg" alt="Calista by Cheyenne Tsai" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Freelance Bridal Photographer</span><span class="vcard-tag">Calista</span></div>
         </a>
         <a class="vcard" href="nyubia.html">
           <div class="vcard-media"><img src="range%20of%20practice/nyubia_cover.png" alt="NYU BIA" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">NYU<span class="pr-star">★</span>BIA</span><span class="vcard-tag">Student Org · Events · 2024–25</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Student Org Event Branding</span><span class="vcard-tag">NYU BIA</span></div>
         </a>
         <a class="vcard" href="echocurtain.html">
           <div class="vcard-media"><img src="range%20of%20practice/echocurtain_cover.png" alt="Echo Curtain" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Echo<span class="pr-star">★</span>Curtain</span><span class="vcard-tag">Physical Computing · Performance</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Interactive Installation</span><span class="vcard-tag">Echo Curtain</span></div>
         </a>
         <a class="vcard" href="suffocatedlove.html">
           <div class="vcard-media"><img src="Suffocated_Love/cover.jpg" alt="Suffocated Love" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Suffocated<span class="pr-star">★</span>Love</span><span class="vcard-tag">Wearable Experience · 2024</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Wearable Experience Design</span><span class="vcard-tag">Suffocated Love</span></div>
         </a>
         </div>
       </div>
@@ -398,6 +389,10 @@
       <div class="section-header">
         <span class="section-num">About</span>
         <span class="section-rule"></span>
+      </div>
+      <div class="about-name">
+        <h2 class="about-big">Jennifer<span class="about-q">Qian</span><span class="about-star">★</span></h2>
+        <p class="about-role">Brand &amp; Visual Designer</p>
       </div>
       <div id="about-content">
         <div id="about-portrait">
@@ -509,5 +504,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js?v=31"></script>
   <script src="hero-dock.js?v=7"></script>
+  <script>
+  /* About name: same acid mercury mouse effect as the old hero */
+  (function(){
+    var h=document.querySelector('.about-big'); if(!h||!window.gsap) return;
+    h.querySelectorAll('.about-q').forEach(function(){});
+    function wrap(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){ var f=document.createDocumentFragment(); n.textContent.split('').forEach(function(ch){ var sp=document.createElement('span'); sp.className='ac'; sp.textContent=ch; f.appendChild(sp); }); n.replaceWith(f); }
+        else if(!n.classList.contains('about-star')) wrap(n); else n.classList.add('ac');
+      });
+    }
+    wrap(h);
+    var chars=[].slice.call(h.querySelectorAll('.ac')), blur=document.getElementById('about-blur');
+    if(window.ScrollTrigger){
+      gsap.from(chars,{yPercent:60,opacity:0,duration:.7,stagger:.035,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 85%',once:true}});
+    }
+    document.addEventListener('mousemove',function(e){
+      var r0=h.getBoundingClientRect(); if(r0.bottom<0||r0.top>innerHeight) return;
+      var maxF=0;
+      chars.forEach(function(c){
+        var r=c.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, d=Math.hypot(e.clientX-cx,e.clientY-cy), rad=180;
+        if(d<rad){ var t=1-d/rad, f=t*t*32, a=Math.atan2(e.clientY-cy,e.clientX-cx); maxF=Math.max(maxF,t);
+          gsap.to(c,{x:-Math.cos(a)*f,y:-Math.sin(a)*f,duration:.28,ease:'power2.out',overwrite:'auto'}); }
+        else gsap.to(c,{x:0,y:0,duration:.85,ease:'elastic.out(1, 0.45)',overwrite:'auto'});
+      });
+      if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*4.5},duration:.25,ease:'power2.out',overwrite:'auto'});
+    });
+  })();
+  </script>
 </body>
 </html>
