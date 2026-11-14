@@ -161,11 +161,6 @@
   <style>
     /* index preview: grid-first homepage */
     #work{padding-top:calc(var(--nav-h, 72px) + 32px);}
-    /* nav spans the same width as the grid and blends with the page */
-    @media (min-width:701px){
-      #nav{left:6vw; right:6vw; transform:none !important; min-width:0; width:auto; top:12px;
-        background:rgba(247,241,234,.82) !important; border-color:rgba(23,10,36,.10) !important; box-shadow:0 8px 30px rgba(23,10,36,.05);}
-    }
     .jr-first{width:100% !important; margin:0 0 28px !important;}
     .big-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 12px; margin-bottom:72px;}
     .big-grid .vcard-media{aspect-ratio:4/3;}
@@ -201,11 +196,6 @@
     @media (prefers-reduced-motion:reduce){ .pink-band{animation:none; transform:none;} .pink-band svg{animation:none;} }
     /* projects show immediately; only the pink background animates */
     .big-grid .vcard{opacity:1 !important; transform:none !important; visibility:visible !important;}
-    #nav:not(.nav-framed) #nav-logo-text, #nav:not(.nav-framed) #nav-logo-text *{color:#170a24 !important; -webkit-text-fill-color:#170a24 !important;}
-    @media (min-width:701px){
-      #nav{transition:background-color .35s ease, border-color .35s ease, box-shadow .35s ease, -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease;}
-      #nav:not(.nav-framed){background:transparent !important; border-color:transparent !important; box-shadow:none !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important;}
-    }
     #nav-logo-slot{opacity:1 !important;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
@@ -556,10 +546,6 @@
       if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*4.5},duration:.25,ease:'power2.out',overwrite:'auto'});
     });
   })();
-  </script>
-  <script>
-  (function(){ var n=document.getElementById('nav'); if(!n) return;
-    function f(){ n.classList.toggle('nav-framed', scrollY>24); } f(); addEventListener('scroll',f,{passive:true}); })();
   </script>
 </body>
 </html>
