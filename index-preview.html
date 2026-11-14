@@ -161,7 +161,12 @@
   </style>
   <style>
     /* index preview: grid-first homepage */
-    #work{padding-top:calc(var(--nav-h, 72px) + 56px);}
+    #work{padding-top:calc(var(--nav-h, 72px) + 32px);}
+    /* nav spans the same width as the grid and blends with the page */
+    @media (min-width:701px){
+      #nav{left:6vw; right:6vw; transform:none !important; min-width:0; width:auto; top:12px;
+        background:rgba(247,241,234,.82) !important; border-color:rgba(23,10,36,.10) !important; box-shadow:0 8px 30px rgba(23,10,36,.05);}
+    }
     .jr-first{width:100% !important; margin:0 0 28px !important;}
     .big-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 12px; margin-bottom:72px;}
     .big-grid .vcard-media{aspect-ratio:4/3;}
@@ -182,14 +187,6 @@
     .big-grid .bg-feature .vcard-media iframe{position:absolute; top:50%; left:50%; width:112%; height:100%; transform:translate(-50%,-50%); border:0; pointer-events:none;}
     .big-grid .bg-feature .vcard-media img{object-fit:cover;}
     .big-grid .bg-feature .jr-cap{margin-top:12px;}
-    /* pink dotted wash behind the top of the grid (from the old hero) */
-    #work{position:relative; isolation:isolate;}
-    #work::before{content:""; position:absolute; left:0; right:0; top:0; height:300px; z-index:-1; pointer-events:none;
-      background-image:
-        radial-gradient(rgba(255,26,168,.35) 1.4px, transparent 1.8px),
-        linear-gradient(to bottom, rgba(255,26,168,.38) 0%, rgba(255,26,168,.14) 45%, rgba(247,241,234,0) 100%);
-      background-size:12px 12px, 100% 100%;
-      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 35%,transparent 100%); mask-image:linear-gradient(to bottom,#000 0%,#000 35%,transparent 100%);}
     #nav-logo-slot{opacity:1 !important;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
