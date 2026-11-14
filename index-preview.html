@@ -172,6 +172,7 @@
     .big-grid .vcard-media{aspect-ratio:4/3;}
     .big-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
     .big-grid .bg-feature .vcard-media{background:#f3d9e6;}
+    .big-grid a[href="joydotz.html"] .vcard-media{background:#f3d9e6 url(joydotz_branding/web/jd-daydream-poster.jpg) center/cover no-repeat;}
     .about-name{margin:0 0 clamp(2rem,4vw,3.5rem);}
     .about-big{filter:url(#acid-about); user-select:none; font-family:'Inter',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:-0.045em; line-height:.86; font-size:clamp(3rem,11vw,11rem); color:#170a24; margin:0; white-space:nowrap;}
     .about-big .about-q{color:#170a24; margin-left:.22em;}
@@ -190,8 +191,15 @@
     /* try: soft pink wash (no dots); nav frameless at top, framed after scroll */
     body{background:#f7f1ea;}
     #work{position:relative; isolation:isolate;}
-    #work::before{content:""; position:absolute; left:0; right:0; top:0; height:clamp(360px,52vh,520px); z-index:-1; pointer-events:none;
-      background:linear-gradient(180deg, #f9a8d4 0%, #f6c6e2 32%, #f3dcea 62%, rgba(247,241,234,0) 100%);}
+    .pink-band{position:absolute; left:0; right:0; top:0; height:clamp(300px,40vh,380px); z-index:-1; pointer-events:none; overflow:hidden;
+      background-color:#ff1aa8;
+      background-image:linear-gradient(to bottom, rgba(247,241,234,0) 0%, rgba(247,241,234,0) 45%, rgba(247,241,234,.55) 78%, rgba(247,241,234,.85) 100%), radial-gradient(rgba(120,10,80,.13) 1.2px, transparent 1.6px), linear-gradient(205deg, rgba(226,128,214,.75) 0%, rgba(255,26,168,0) 40%);
+      background-size:100% 100%, 14px 14px, 100% 100%;
+      animation:bandIn 1s cubic-bezier(.2,.8,.2,1) both;}
+    .pink-band svg{position:absolute; left:0; bottom:-1px; width:100%; height:90px; display:block;}
+    @keyframes bandIn{from{clip-path:inset(0 0 100% 0);} to{clip-path:inset(0 0 0 0);}}
+    @media (prefers-reduced-motion:reduce){ .pink-band{animation:none;} }
+    #nav:not(.nav-framed) #nav-logo-text, #nav:not(.nav-framed) #nav-logo-text *{color:#170a24 !important; -webkit-text-fill-color:#170a24 !important;}
     @media (min-width:701px){
       #nav{transition:background-color .35s ease, border-color .35s ease, box-shadow .35s ease, -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease;}
       #nav:not(.nav-framed){background:transparent !important; border-color:transparent !important; box-shadow:none !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important;}
@@ -282,6 +290,12 @@
 
     <!-- WORK -->
     <section id="work">
+      <div class="pink-band" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="#f7f1ea" d="M0,58 C180,28 360,28 540,52 C720,76 900,80 1080,54 C1260,28 1350,34 1440,48 L1440,90 L0,90 Z">
+          <animate attributeName="d" dur="1.4s" fill="freeze" calcMode="spline" keyTimes="0;0.5;1" keySplines=".4 0 .2 1;.4 0 .2 1"
+            values="M0,20 C180,70 360,70 540,24 C720,0 900,4 1080,40 C1260,80 1350,70 1440,30 L1440,90 L0,90 Z;M0,70 C180,20 360,26 540,66 C720,90 900,84 1080,44 C1260,14 1350,22 1440,62 L1440,90 L0,90 Z;M0,58 C180,28 360,28 540,52 C720,76 900,80 1080,54 C1260,28 1350,34 1440,48 L1440,90 L0,90 Z"/>
+        </path></svg>
+      </div>
       <div class="work-group" id="digital">
         <span id="experiment" aria-hidden="true"></span>
 
