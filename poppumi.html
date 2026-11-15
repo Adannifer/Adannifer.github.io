@@ -202,7 +202,7 @@
     .pr-colors b{font-family:'Fredoka',sans-serif; font-weight:600; color:#241B3A;}
     /* ── product ── */
     .pd-hero{position:relative; margin:0; border-radius:18px; overflow:hidden; aspect-ratio:4/3; cursor:pointer;}
-    .pd-hero img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1);}
+    .pd-hero img,.pd-hero video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1);}
     .pd-open{opacity:0; transform:scale(1.04);}
     .pd-hero:hover .pd-open,.pd-hero.is-open .pd-open{opacity:1; transform:scale(1);}
     .pd-hint{position:absolute; right:14px; bottom:14px; background:rgba(255,255,255,.85); color:#241B3A; font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; padding:6px 12px; border-radius:999px; transition:opacity .3s;}
@@ -259,7 +259,7 @@
     .sw-browser{margin:0; border-radius:16px; overflow:hidden; border:1px solid rgba(23,10,36,.1); background:#fff; box-shadow:0 20px 50px rgba(23,10,36,.08);}
     .sw-bar{height:30px; display:flex; align-items:center; gap:6px; padding:0 14px; background:#f3eef3;}
     .sw-bar i{width:9px; height:9px; border-radius:50%; background:#e3d7e3;}
-    .sw-browser img{display:block; width:100%; height:auto;}
+    .sw-browser video{display:block; width:100%; height:auto; aspect-ratio:1200/750;}
     /* reveal */
     .pp-reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);}
     .pp-reveal.is-in{opacity:1; transform:none;}
@@ -348,8 +348,8 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Product</h2><p class="proj-section-note">Same star. Same logo. New mood.</p></div>
       <div class="proj-section-body">
-        <figure class="pd-hero pp-reveal">
-          <img class="pd-base" src="poppumi/pp-cover.gif" alt="Poppumi star charms in Pop Sky, Pop Haze and Pop Frost">
+        <figure class="pd-hero">
+          <video class="pd-base" src="poppumi/pp-cover.mp4" poster="poppumi/pp-cover-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Poppumi star charms in Pop Sky, Pop Haze and Pop Frost"></video>
           <img class="pd-open" src="poppumi/pp-popsky-open.jpg" alt="Pop Sky charm opened, star gums popping out" loading="lazy">
           <span class="pd-hint">Hover to pop it open</span>
         </figure>
@@ -423,7 +423,7 @@
           <img class="pp-reveal" src="poppumi/pp-ig-frost.jpg" alt="Pop Frost lifestyle post" loading="lazy">
         </div>
         <div class="sw-arrow">↓ same three flavors on the shop page</div>
-        <figure class="sw-browser pp-reveal"><div class="sw-bar"><i></i><i></i><i></i></div><img src="poppumi/pp-web-product.gif" alt="Poppumi product pages cycling through the three flavors" loading="lazy"></figure>
+        <figure class="sw-browser"><div class="sw-bar"><i></i><i></i><i></i></div><video src="poppumi/pp-web-product.mp4" poster="poppumi/pp-web-product-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Poppumi product pages cycling through the three flavors"></video></figure>
       </div>
     </div>
 
@@ -477,6 +477,7 @@
   (function(){var els=document.querySelectorAll('.pp-reveal'); if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('is-in')});return;}
     var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var t=x.target, sib=[].indexOf.call(t.parentNode.children,t); t.style.transitionDelay=Math.min(sib,6)*70+'ms'; t.classList.add('is-in'); io.unobserve(t);}})},{threshold:.15});
     els.forEach(function(e){io.observe(e)});
+    setTimeout(function(){els.forEach(function(e){if(e.getBoundingClientRect().top<innerHeight) e.classList.add('is-in')})},1500);
     var h=document.querySelector('.pd-hero'); if(h){h.addEventListener('click',function(){h.classList.toggle('is-open')});}
   })();
   </script>
