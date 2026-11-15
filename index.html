@@ -200,9 +200,14 @@
     .pg-tabs{display:flex; gap:6px; flex-wrap:wrap;}
     .pg-tabs button{font:inherit; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:7px 14px; border-radius:999px; border:1px solid rgba(23,10,36,.15); background:transparent; color:#170a24; cursor:pointer; transition:background .2s,color .2s;}
     .pg-tabs button.is-on, .pg-tabs button:hover{background:#170a24; color:#fff;}
-    .pg-play{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 12px; margin-bottom:72px;}
-    .pg-play .vcard-media{aspect-ratio:4/3;}
-    .pg-play .vcard-media img{width:100%; height:100%; object-fit:cover;}
+    .pg-play{display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x proximity; padding-bottom:14px; margin-bottom:72px; scrollbar-width:thin;}
+    .pg-play .vcard{flex:0 0 auto; min-width:190px; scroll-snap-align:start; display:flex; flex-direction:column;}
+    .pg-play .vcard-media{height:clamp(170px,15vw,210px); aspect-ratio:auto; background:none; border-radius:14px; overflow:hidden;}
+    .pg-play .vcard-media{display:flex; justify-content:center; background:#efe8ef;}
+    .pg-play .vcard-media img{height:100%; width:auto; max-height:none; object-fit:contain; display:block;}
+    .pg-play .vcard-kaomoji{width:calc(clamp(170px,15vw,210px)*4/3);}
+    .pg-play .vcard-meta{width:0; min-width:100%; gap:10px;}
+    .pg-play .vcard-tag{display:none;}
     .pg-play .pg-item.is-hidden{display:none;}
     /* events: 3 + 4 */
     .ev-grid{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:28px 12px;}
@@ -210,8 +215,8 @@
     .ev-grid > .vcard:nth-child(-n+3){grid-column:span 4;}
     .ev-grid .vcard-media{aspect-ratio:4/3;}
     .ev-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
-    @media (max-width:900px){ .pg-play{grid-template-columns:1fr 1fr;} .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:span 6;} }
-    @media (max-width:600px){ .pg-play{grid-template-columns:1fr;} .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:1/-1;} }
+    @media (max-width:900px){ .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:span 6;} }
+    @media (max-width:600px){ .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:1/-1;} }
     #nav-logo-slot{opacity:1 !important;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
@@ -361,7 +366,7 @@
           <div class="vcard-meta"><span class="vcard-title">Stop-Motion Short</span><span class="vcard-tag">JailBreak</span></div>
         </a>
         <a class="vcard pg-item" data-cat="graphic" href="range.html#posters">
-          <div class="vcard-media"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="IMA/ITP show poster" loading="lazy" style="object-position:center top"></div>
+          <div class="vcard-media"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="IMA/ITP show poster" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Show Poster Design</span><span class="vcard-tag">NYU IMA/ITP</span></div>
         </a>
         <a class="vcard pg-item" data-cat="web" href="custom-online-photo-booth.html">
