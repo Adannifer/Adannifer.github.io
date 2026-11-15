@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PWQJ7HBL');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7615TEK1PY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7615TEK1PY');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Headspace Onboarding Redesign — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=40" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <link rel="icon" href="favicon.ico?v=1" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+  <style>
+    .hs-img{margin:0; border-radius:14px; overflow:hidden; background:#efe9ea;} .hs-img img{display:block; width:100%; height:auto;}
+    .hs-img--soft{background:#FFCE00;}
+    .hs-ov{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0 22px;}
+    .hs-ov div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 18px;}
+    .hs-ov b,.hs-findings b,.hs-col b,.hs-learn b,.hs-dirs b,.hs-opps b,.hs-change-t b,.hs-next b,.hs-placeholder b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d9541e; margin-bottom:6px;}
+    .hs-ov p,.hs-findings p,.hs-learn p,.hs-dirs p,.hs-opps p,.hs-change-t p,.hs-next p,.hs-col li{font-size:.88rem; line-height:1.5; color:#3a2c48; margin:0;}
+    .hs-dd{display:inline-block; font-size:.66rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border-radius:999px; margin-bottom:10px; color:#fff;}
+    .hs-dd--discover{background:#6B8BFF;} .hs-dd--define{background:#3D348B;} .hs-dd--develop{background:#F47D31;} .hs-dd--deliver{background:#d9541e;}
+    .hs-personas{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .hs-persona{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:18px; text-align:center;}
+    .hs-face{width:84px; height:84px; display:block; margin:0 auto 10px; transition:transform .5s cubic-bezier(.2,.8,.2,1);} .hs-persona:hover .hs-face{transform:translateY(-5px) rotate(-4deg);}
+    .hs-persona b{display:block; color:#170a24;} .hs-persona span{font-size:.84rem; color:#6C6980; line-height:1.45; display:block; margin-top:4px;}
+    .hs-journey{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:18px 18px 6px;}
+    .hs-curve{display:block; width:100%; height:120px;}
+    .hs-stages{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:-6px;}
+    .hs-stage{padding:10px 8px 14px;} .hs-stage i{display:block; width:10px; height:10px; border-radius:50%; margin:0 0 8px 21px;}
+    .hs-stage b{display:block; font-size:.9rem; color:#170a24;} .hs-stage span{display:block; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#6C6980; margin:2px 0 8px;}
+    .hs-stage p{margin:0; font-size:.82rem; line-height:1.45; color:#3a2c48;}
+    .hs-src,.hs-note{font-size:.8rem; color:#6C6980; margin:12px 0 0;}
+    .hs-gh{font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:24px 0 10px;}
+    .hs-two{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;} .hs-two .hs-gh{margin-top:0;}
+    .hs-two--type{max-width:900px;}
+    .hs-findings{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px;} .hs-findings div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; padding:14px 16px;}
+    .hs-hmw{background:#170a24; border-radius:18px; padding:24px 26px; margin-bottom:12px;} .hs-hmw b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#FFCE00; margin-bottom:8px;} .hs-hmw p{margin:0; color:#F7F1EA; font-weight:700; font-size:clamp(1.05rem,1.5vw,1.3rem); line-height:1.35;}
+    .hs-opps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;} .hs-opps div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 18px;} .hs-opps span{font-family:ui-monospace,monospace; font-size:.75rem; color:#F47D31; font-weight:700;}
+    .hs-goal{margin-top:14px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; background:#FFF3D6; border-radius:16px; padding:16px 20px;} .hs-goal span{font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d9541e;} .hs-goal b{font-size:1.6rem; color:#170a24;} .hs-goal em{font-style:normal; font-size:.88rem; color:#3a2c48;}
+    .hs-dirs{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:14px;} .hs-dirs div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 18px;}
+    .hs-placeholder{margin-top:12px; border:2px dashed rgba(23,10,36,.18); border-radius:16px; padding:28px; text-align:center; color:#6C6980;} .hs-placeholder b{margin-bottom:4px;} .hs-placeholder span{font-size:.84rem;}
+    .hs-change{display:grid; grid-template-columns:minmax(0,.75fr) minmax(0,1.5fr); gap:22px; align-items:center; padding:20px 0; border-top:1px dashed rgba(23,10,36,.14);} .hs-change:first-child{border-top:0; padding-top:0;}
+    .hs-change-t span{font-family:ui-monospace,monospace; font-size:.75rem; color:#F47D31; font-weight:700;} .hs-change-t b{font-size:1.05rem; letter-spacing:0; text-transform:none; color:#170a24; margin:4px 0 6px;} .hs-change-t em{font-style:normal; color:#d9541e; font-weight:700;}
+    .hs-cols{display:grid; grid-template-columns:1fr 1fr; gap:12px;} .hs-col{border-radius:16px; padding:18px 20px;} .hs-col--ok{background:#eef3ff;} .hs-col--no{background:#fff1e6;} .hs-col ul{margin:0; padding-left:18px;} .hs-col li+li{margin-top:5px;}
+    .hs-next{margin-top:12px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 20px;}
+    .hs-learn{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;} .hs-learn div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 18px;}
+    .hs-chips{display:flex; flex-wrap:wrap; gap:8px;} .hs-chips span{background:#fff; border:1px solid rgba(23,10,36,.12); border-radius:999px; padding:8px 14px; font-size:.82rem; font-weight:600; color:#d9541e;}
+    .hs-credit{margin:22px 0 0; font-size:.8rem; color:#6C6980;}
+    @media (max-width:760px){ .hs-ov,.hs-personas,.hs-two,.hs-findings,.hs-opps,.hs-dirs,.hs-change,.hs-cols,.hs-learn{grid-template-columns:1fr;} .hs-stages{grid-template-columns:1fr; } .hs-curve{display:none;} .hs-stage i{margin-left:0;} }
+    .hs-pains{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .hs-pain{display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:14px;}
+    .hs-pain figure{margin:0; border-radius:12px; overflow:hidden; border:1px solid rgba(23,10,36,.08);} .hs-pain img{display:block; width:100%; height:auto;}
+    .hs-pain span{font-family:ui-monospace,monospace; font-size:.72rem; color:#F47D31; font-weight:700;} .hs-pain b{display:block; font-size:1rem; color:#170a24; margin:4px 0 4px;} .hs-pain p{margin:0 0 8px; font-size:.86rem; line-height:1.45; color:#3a2c48;}
+    .hs-pain em{display:inline-block; font-style:normal; font-weight:700; font-size:.86rem; color:#170a24; background:#FFF3D6; border-radius:12px 12px 12px 4px; padding:6px 10px;}
+    @media (max-width:760px){ .hs-pains{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body class="project-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><div class="nav-dd"><a href="index.html#work" class="nav-link">Work</a><div class="nav-dd-menu"><a href="index.html#digital" class="nav-link nav-dd-item">Digital Branding</a><a href="index.html#live" class="nav-link nav-dd-item">Live Branding</a></div></div><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-img"><img src="Headspace/hs-hero.jpg" alt="Headspace breathing screen, before and after the redesign" style="object-position:center center;"></div>
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-text">
+      <span class="proj-num">UX Audit · Interface Design</span>
+      <h1 class="proj-title">HEADSPACE<span class="pr-star">★</span>ONBOARDING</h1>
+      <p class="proj-hero-sub" style="font-size:clamp(0.85rem,1.4vw,1.1rem); color:var(--ink-dim); margin-top:0.8rem; max-width:600px; line-height:1.7;">Cutting a 6-minute onboarding to 3, and making the breathing moment carry the message instead of the ads.</p>
+      <div class="proj-meta-row"><span>Group project · Haley, Jindi, Jennifer</span><span>Figma · 1 week</span><span>My part: breathing animation + microcopy</span></div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">Headspace is a meditation app people open when they are stressed. Its onboarding makes them sit through ads first.</p>
+        <div class="hs-ov">
+          <div><b>What Headspace is</b><p>A guided meditation and sleep app with a calm, cartoon-led brand and a signature "breathe in, breathe out" opening.</p></div>
+          <div><b>The problem</b><p>Onboarding runs about 6 minutes and 17 screens: three App Store style promo pages, a sign-up wall, a goal picker that changes nothing, then a long breathing exercise.</p></div>
+          <div><b>Why it hurts</b><p>The people opening the app are anxious or in a hurry. Ads in the first seconds read as "we want your money, not your calm," and the drop-off happens before the first real session.</p></div>
+        </div>
+        <p class="hs-credit" style="margin:0 0 18px">Group work with Haley and Jindi on research and discussion. I owned the breathing-animation copy and the microcopy pass. Earlier onboarding screens via App Fuel.</p>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">17</span><span class="proj-stat-l">Screens today</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">6→3</span><span class="proj-stat-l">Minutes, goal</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Changes shipped</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col"><figure class="hs-img hs-img--soft"><img src="Headspace/hs-breathe-ba.jpg" alt="Breathing screen before and after: the message moves into the animation" loading="lazy"></figure></div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--discover">Discover</span><h2 class="proj-section-title">Who it's for</h2><p class="proj-section-note">Three people, one shared mood: not patient.</p></div>
+      <div class="proj-section-body">
+        <div class="hs-personas">
+          <div class="hs-persona"><svg class="hs-face" viewBox="0 0 100 100"><circle cx="50" cy="52" r="40" fill="#F47D31"/><path d="M34 46l14 4M66 46l-14 4" stroke="#3b2a1a" stroke-width="4" stroke-linecap="round"/><path d="M40 68q10-6 20 0" stroke="#3b2a1a" stroke-width="4" fill="none" stroke-linecap="round"/></svg><b>The anxious first-timer</b><span>Downloaded at 11pm after a bad day. Wants relief in the next 60 seconds.</span></div>
+          <div class="hs-persona"><svg class="hs-face" viewBox="0 0 100 100"><circle cx="50" cy="52" r="40" fill="#FFCE00"/><path d="M36 50q6-6 12 0M54 50q6-6 12 0" stroke="#3b2a1a" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M40 64q10 8 20 0" stroke="#3b2a1a" stroke-width="4" fill="none" stroke-linecap="round"/></svg><b>The curious trial user</b><span>Heard about Headspace, hasn't decided to pay. One pushy screen and they leave.</span></div>
+          <div class="hs-persona"><svg class="hs-face" viewBox="0 0 100 100"><circle cx="50" cy="52" r="40" fill="#6B8BFF"/><path d="M34 52h14M52 52h14" stroke="#3b2a1a" stroke-width="4" stroke-linecap="round"/><path d="M42 66q8 4 16 0" stroke="#3b2a1a" stroke-width="4" fill="none" stroke-linecap="round"/></svg><b>The sleep seeker</b><span>Only wants a sleepcast. Doesn't want a lesson on breathing first.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--discover">Discover</span><h2 class="proj-section-title">Research</h2><p class="proj-section-note">We walked the flow as each of these people, stage by stage.</p></div>
+      <div class="proj-section-body">
+        <p class="hs-gh" style="margin-top:0">5E journey map · how the mood moves through onboarding</p>
+        <div class="hs-journey">
+          <svg class="hs-curve" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="hsg" x1="0" x2="1"><stop offset="0" stop-color="#8bc68b"/><stop offset=".5" stop-color="#f08a5d"/><stop offset="1" stop-color="#b94b7a"/></linearGradient></defs>
+            <polyline points="40,75.19999999999999 270,132.8 500,158.4 730,161.6 960,145.6" fill="none" stroke="url(#hsg)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="75.19999999999999" r="9" fill="#8bc68b" stroke="#fff" stroke-width="3"/><circle cx="270" cy="132.8" r="9" fill="#f6a04d" stroke="#fff" stroke-width="3"/><circle cx="500" cy="158.4" r="9" fill="#f08a5d" stroke="#fff" stroke-width="3"/><circle cx="730" cy="161.6" r="9" fill="#e05d5d" stroke="#fff" stroke-width="3"/><circle cx="960" cy="145.6" r="9" fill="#b94b7a" stroke="#fff" stroke-width="3"/>
+          </svg>
+          <div class="hs-stages">
+            <div class="hs-stage"><i style="background:#8bc68b"></i><b>Entice</b><span>App Store listing</span><p>Promises calm. Fine.</p></div><div class="hs-stage"><i style="background:#f6a04d"></i><b>Enter</b><span>First open</span><p>Breathe-in, then three promo pages and a sign-up wall.</p></div><div class="hs-stage"><i style="background:#f08a5d"></i><b>Engage</b><span>Goals + breathing</span><p>Goal picks change nothing; 1.5 to 5 min of breathing before any content.</p></div><div class="hs-stage"><i style="background:#e05d5d"></i><b>Exit</b><span>Leaving onboarding</span><p>Lands on home with a 30% off pop-up stacked on top.</p></div><div class="hs-stage"><i style="background:#b94b7a"></i><b>Extend</b><span>Coming back</span><p>Trial and reminder prompts are the reason to return, not a session.</p></div>
+          </div>
+        </div>
+        <p class="hs-src">Mood curve is our read from walking the flow as each persona, not measured data.</p>
+        <p class="hs-gh">Walkthrough audit</p>
+        <div class="hs-two">
+          <div><p class="hs-gh">Today's onboarding · 17 screens</p><figure class="hs-img"><img src="Headspace/hs-flow-current.jpg" alt="All 17 screens of the current Headspace onboarding" loading="lazy"></figure></div>
+          <div><p class="hs-gh">Earlier version · 12 screens, no ads before sign-up</p><figure class="hs-img"><img src="Headspace/hs-flow-old.jpg" alt="Earlier Headspace onboarding flow" loading="lazy"></figure></div>
+        </div>
+        <p class="hs-gh">What we flagged, screen by screen</p>
+        <figure class="hs-img"><img src="Headspace/hs-audit-notes.jpg" alt="Sticky-note audit of the promo and personalization screens" loading="lazy"></figure>
+        <div class="hs-findings">
+          <div><b>Style breaks</b><p>Promo pages use photos; the rest of the app is cartoon.</p></div>
+          <div><b>Nothing to do</b><p>Three screens with no interaction, repeating later content.</p></div>
+          <div><b>Fake personalization</b><p>Goal picks don't change the next screen.</p></div>
+          <div><b>Ads before value</b><p>Trial pricing and a 30% pop-up land before the first session.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--define">Define</span><h2 class="proj-section-title">Pain points</h2><p class="proj-section-note">What the journey surfaced: four moments where an anxious user stops trusting the app.</p></div>
+      <div class="proj-section-body">
+        <p class="hs-src" style="margin:0 0 12px">Quotes are what our personas would be thinking, written from our walkthroughs.</p>
+        <div class="hs-pains">
+          <div class="hs-pain"><figure><img src="Headspace/hs-pp-promo.jpg" alt="Photo-heavy promo screen" loading="lazy"></figure><div><span>01 · First 5 seconds</span><b>Ads before anything happens</b><p>Three App Store style pages, photos instead of the cartoon world, nothing to tap.</p><em>"Are you here for me, or for my card?"</em></div></div>
+          <div class="hs-pain"><figure><img src="Headspace/hs-pp-goals.jpg" alt="Goal picker screen" loading="lazy"></figure><div><span>02 · Sign-up</span><b>Personalization that changes nothing</b><p>Pick your goals, get the same next screen as everyone else.</p><em>"Then why did you ask?"</em></div></div>
+          <div class="hs-pain"><figure><img src="Headspace/hs-pp-breathe.jpg" alt="Breathing exercise screen" loading="lazy"></figure><div><span>03 · Before home</span><b>A breathing lesson nobody asked for yet</b><p>1.5 to 5 minutes of guided breathing, and the blue-sky story keeps getting interrupted.</p><em>"I came to sleep, not to train."</em></div></div>
+          <div class="hs-pain"><figure><img src="Headspace/hs-pp-popup.jpg" alt="30 percent off pop-up on the home screen" loading="lazy"></figure><div><span>04 · Home screen</span><b>A discount pop-up before the first session</b><p>Trial pricing, a 30% offer and notification asks stack up before any calm.</p><em>"This feels like a store."</em></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--define">Define</span><h2 class="proj-section-title">Opportunities</h2><p class="proj-section-note">One question, three places to act.</p></div>
+      <div class="proj-section-body">
+        <div class="hs-hmw"><b>How might we</b><p>let an anxious person reach their first calm moment in half the time, without losing what Headspace needs to say?</p></div>
+        <div class="hs-opps">
+          <div><span>01</span><b>Remove</b><p>the three App Store style promo screens and anything priced before sign-up.</p></div>
+          <div><span>02</span><b>Merge</b><p>the promo message into the breathe-in / breathe-out animation users already like.</p></div>
+          <div><span>03</span><b>Connect</b><p>goal selection to a visibly different next screen.</p></div>
+        </div>
+        <div class="hs-goal"><span>Goal</span><b>6 min → ~3 min</b><em>and keep attention unbroken to the home screen</em></div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--develop">Develop</span><h2 class="proj-section-title">Ideation</h2><p class="proj-section-note">Early directions on the flow itself.</p></div>
+      <div class="proj-section-body">
+        <div class="hs-dirs">
+          <div><b>Shorter</b><p>No ads before sign-up; delete three promo screens.</p></div>
+          <div><b>Honest</b><p>A personalization flow that visibly changes recommendations.</p></div>
+          <div><b>Memorable</b><p>Make breathing in and out the one thing people remember.</p></div>
+        </div>
+        <figure class="hs-img"><img src="Headspace/hs-ideation-notes.jpg" alt="Ideation notes placed on the onboarding flow" loading="lazy"></figure>
+        <div class="hs-placeholder"><b>Early sketches</b><span>Rough paper ideas coming here.</span></div>
+        <p class="hs-gh">Keeping the Headspace voice</p>
+        <div class="hs-two hs-two--type"><figure class="hs-img"><img src="Headspace/hs-type.jpg" alt="Headspace heading and body font" loading="lazy"></figure><figure class="hs-img"><img src="Headspace/hs-promo-text.jpg" alt="The three promo headlines we had to keep somewhere" loading="lazy"></figure></div>
+        <p class="hs-note">We matched the heading and body type so the new copy sits inside the app without a seam, and tested which promo line was worth keeping: "Stress less, sleep soundly" over "Everything your mind needs."</p>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--deliver">Deliver</span><h2 class="proj-section-title">Final design</h2><p class="proj-section-note">Three changes, before and after.</p></div>
+      <div class="proj-section-body">
+        <div class="hs-change">
+          <div class="hs-change-t"><span>01</span><b>Three promo pages, gone</b><p>They looked like App Store previews, broke the cartoon style, had nothing to tap, and repeated later screens.</p></div>
+          <figure class="hs-img"><img src="Headspace/hs-promo-screens.jpg" alt="The three promotional screens removed from onboarding" loading="lazy"></figure>
+        </div>
+        <div class="hs-change">
+          <div class="hs-change-t"><span>02</span><b>The message rides the breath</b><p>Key lines from the deleted pages move into the opening breathe-in / breathe-out pop-up. The animation runs a little longer; context stays, flow stays smooth. <em>My part.</em></p></div>
+          <figure class="hs-img"><img src="Headspace/hs-breathe-ba.jpg" alt="Breathe in screen before and after, with the message inside the animation" loading="lazy"></figure>
+        </div>
+        <div class="hs-change">
+          <div class="hs-change-t"><span>03</span><b>Goals that actually do something</b><p>Pick "Reduce stress" and "Manage anxiety", and the next screen highlights a grounding exercise for anxiety, labelled so it reads as recommended, not generic.</p></div>
+          <div class="hs-two"><figure class="hs-img"><img src="Headspace/hs-personal-before.jpg" alt="Goal and activity screens before: nothing changes" loading="lazy"></figure><figure class="hs-img"><img src="Headspace/hs-personal-ba.jpg" alt="Goal and activity screens after: the chosen goal is reflected" loading="lazy"></figure></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><span class="hs-dd hs-dd--deliver">Deliver</span><h2 class="proj-section-title">Testing</h2><p class="proj-section-note">12 people walked the new flow: classmates, ITP students and Design Lab.</p></div>
+      <div class="proj-section-body">
+        <div class="hs-cols">
+          <div class="hs-col hs-col--ok"><b>Held up</b><ul><li>Everyone agreed the three promo pages should go</li><li>"I love the combo of the breathing exercise."</li><li>"Love the idea of adding the animation for the leading page."</li><li>Shorter, less time-consuming</li></ul></div>
+          <div class="hs-col hs-col--no"><b>Pushback</b><ul><li>One tester felt text inside the breath was "being controlled by the company"</li><li>People wanted to see course titles under the goal they picked</li><li>Hierarchy and UX writing on the activity list still too even</li></ul></div>
+        </div>
+        <div class="hs-next"><b>Not yet validated</b><p>The 3-minute target is estimated from screen count, not timed with users. Next round: time the same 12 people end to end, and test the breath-text with and without copy.</p></div>
+      </div>
+    </div>
+
+    <div class="proj-section hs">
+      <div class="proj-section-head"><h2 class="proj-section-title">Learned</h2><p class="proj-section-note"></p></div>
+      <div class="proj-section-body">
+        <div class="hs-learn">
+          <div><b>Audit fast</b><p>A full UX audit is possible in a week if you walk the flow as a user, not a designer.</p></div>
+          <div><b>Flow over screens</b><p>Clarity and continuity beat extra marketing screens, especially in a wellness app.</p></div>
+          <div><b>Microcopy is personalization</b><p>"For you" and a matching title did more than any new feature.</p></div>
+        </div>
+        <p class="hs-gh">Next</p>
+        <div class="hs-chips"><span>Dynamic recommendations from goals</span><span>Animated, scrollable goal picker</span><span>Home screen hierarchy pass</span></div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="proj-bottom">
+    <a href="fanscape.html" class="proj-back-link">← Fan★scape</a>
+    <a href="squeak.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Squeak★ →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="page.js?v=40"></script>
+</body>
+</html>
