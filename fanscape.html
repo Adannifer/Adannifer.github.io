@@ -58,7 +58,6 @@
     .fs-idea{border-radius:16px; padding:16px 18px; background:#fff; border:1px solid rgba(23,10,36,.08); position:relative;}
     .fs-idea span{font-weight:800; font-size:.75rem; color:#6C6980;} .fs-idea b{display:block; margin:6px 0 4px; color:#170a24;} .fs-idea p{margin:0; font-size:.82rem; color:#6C6980;}
     .fs-idea--x b{text-decoration:line-through; text-decoration-color:#F35B04; text-decoration-thickness:2px;}
-    .fs-idea--ok{background:linear-gradient(135deg,#F7B801,#F35B04); border:0;} .fs-idea--ok span,.fs-idea--ok b,.fs-idea--ok p{color:#fff;}
     .fs-pair{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; align-items:start;}
     .fs-pair--narrow{max-width:760px;}
     .fs-dd{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:16px;} .fs-dd svg{display:block; width:100%; height:auto;}
@@ -135,6 +134,14 @@
     .fs-deck span{font-size:.86rem; font-weight:600; color:#3a2c48;}
     .fs-deck .fs-deck-btn{margin:0; background:#3D348B; border-color:#3D348B; color:#fff; padding:.7rem 1.2rem; flex:0 0 auto;}
     .fs-deck .fs-deck-btn:hover{background:#F35B04; border-color:#F35B04; color:#fff;}
+    .fs-idea{cursor:pointer; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;}
+    .fs-idea:hover,.fs-idea.is-on{transform:translateY(-4px); box-shadow:0 12px 28px rgba(23,10,36,.08); border-color:#3D348B;}
+    .fs-idea--ok{background:#fff; border:2px solid #170a24;}
+    .fs-idea--ok span{display:inline-block; background:#170a24; color:#F7F1EA; border-radius:999px; padding:3px 10px; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;}
+    .fs-idea--ok b{color:#170a24;} .fs-idea--ok p{color:#3a2c48;}
+    .fs-ideaimgs .fs-ideaimg{transition:opacity .35s ease, filter .35s ease, transform .35s ease;}
+    .fs-ideaimgs.has-focus .fs-ideaimg{opacity:.28; filter:grayscale(.6);}
+    .fs-ideaimgs.has-focus .fs-ideaimg.is-lit{opacity:1; filter:none; transform:scale(1.015);}
   </style>
 </head>
 <body class="project-page">
@@ -254,12 +261,12 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Ideation</h2><p class="proj-section-note">Three ideas I dropped, one I kept.</p></div>
       <div class="proj-section-body">
         <div class="fs-ideas">
-          <div class="fs-idea fs-idea--x"><span>01</span><b>Collective emotion map</b><p>Unclear use; why care about other fandoms' emotions?</p></div>
-          <div class="fs-idea fs-idea--x"><span>02</span><b>Draw your emotion</b><p>Too personal, weak link to place.</p></div>
-          <div class="fs-idea fs-idea--x"><span>03</span><b>Fandom-only feed</b><p>Duplicates existing platforms.</p></div>
-          <div class="fs-idea fs-idea--ok"><span>✓</span><b>Global fandom map</b><p>Filters, check-ins and guidebooks. The most direct fix for scattered location info.</p></div>
+          <div class="fs-idea fs-idea--x" data-i="1" tabindex="0"><span>01</span><b>Collective emotion map</b><p>Unclear use; why care about other fandoms' emotions?</p></div>
+          <div class="fs-idea fs-idea--x" data-i="2" tabindex="0"><span>02</span><b>Draw your emotion</b><p>Too personal, weak link to place.</p></div>
+          <div class="fs-idea fs-idea--x" data-i="3" tabindex="0"><span>03</span><b>Fandom-only feed</b><p>Duplicates existing platforms.</p></div>
+          <div class="fs-idea fs-idea--ok" data-i="4" tabindex="0"><span>✓ Kept</span><b>Global fandom map</b><p>Filters, check-ins and guidebooks. The most direct fix for scattered location info.</p></div>
         </div>
-        <div class="fs-pair"><figure class="fs-img"><img src="Fanscape/v2/fs-emotion-map.jpg" alt="Abandoned emotion map prototype screens" loading="lazy"></figure><figure class="fs-img"><img src="Fanscape/v2/fs-moodsketch.jpg" alt="Abandoned MoodSketch prototype screens" loading="lazy"></figure></div>
+        <div class="fs-pair fs-ideaimgs"><figure class="fs-img fs-ideaimg" data-i="1"><img src="Fanscape/v2/fs-emotion-map.jpg" alt="Abandoned emotion map prototype screens" loading="lazy"></figure><figure class="fs-img fs-ideaimg" data-i="2"><img src="Fanscape/v2/fs-moodsketch.jpg" alt="Abandoned MoodSketch prototype screens" loading="lazy"></figure></div>
       </div>
     </div>
 
@@ -355,6 +362,11 @@
   <script>
   (function(){function fit(img){var f=img.closest('.fs-img'); if(!f||!img.naturalWidth) return; var w=img.naturalWidth; if(w<1300){f.style.maxWidth=w+'px';}}
     document.querySelectorAll('.fs-img img').forEach(function(i){ if(i.complete) fit(i); else i.addEventListener('load',function(){fit(i)}); });})();
+  </script>
+  <script>
+  (function(){var cards=document.querySelectorAll('.fs-idea[data-i]'), wrap=document.querySelector('.fs-ideaimgs'); if(!wrap) return; var imgs=wrap.querySelectorAll('.fs-ideaimg'), pinned=null;
+    function show(i){wrap.classList.toggle('has-focus',!!i); imgs.forEach(function(f){f.classList.toggle('is-lit',f.dataset.i===i)}); cards.forEach(function(c){c.classList.toggle('is-on',c.dataset.i===i)});}
+    cards.forEach(function(c){c.addEventListener('mouseenter',function(){show(c.dataset.i)}); c.addEventListener('mouseleave',function(){show(pinned)}); c.addEventListener('click',function(){pinned=(pinned===c.dataset.i)?null:c.dataset.i; show(pinned)});});})();
   </script>
 </body>
 </html>
