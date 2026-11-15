@@ -196,6 +196,22 @@
     @media (prefers-reduced-motion:reduce){ .pink-band{animation:none; transform:none;} .pink-band svg{animation:none;} }
     /* projects show immediately; only the pink background animates */
     .big-grid .vcard{opacity:1 !important; transform:none !important; visibility:visible !important;}
+    /* playground: filterable grid */
+    .pg-tabs{display:flex; gap:6px; flex-wrap:wrap;}
+    .pg-tabs button{font:inherit; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:7px 14px; border-radius:999px; border:1px solid rgba(23,10,36,.15); background:transparent; color:#170a24; cursor:pointer; transition:background .2s,color .2s;}
+    .pg-tabs button.is-on, .pg-tabs button:hover{background:#170a24; color:#fff;}
+    .pg-play{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 12px; margin-bottom:72px;}
+    .pg-play .vcard-media{aspect-ratio:4/3;}
+    .pg-play .vcard-media img{width:100%; height:100%; object-fit:cover;}
+    .pg-play .pg-item.is-hidden{display:none;}
+    /* events: 3 + 4 */
+    .ev-grid{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:28px 12px;}
+    .ev-grid > .vcard{grid-column:span 3;}
+    .ev-grid > .vcard:nth-child(-n+3){grid-column:span 4;}
+    .ev-grid .vcard-media{aspect-ratio:4/3;}
+    .ev-grid .vcard-media img{width:100%; height:100%; object-fit:cover;}
+    @media (max-width:900px){ .pg-play{grid-template-columns:1fr 1fr;} .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:span 6;} }
+    @media (max-width:600px){ .pg-play{grid-template-columns:1fr;} .ev-grid > .vcard, .ev-grid > .vcard:nth-child(-n+3){grid-column:1/-1;} }
     #nav-logo-slot{opacity:1 !important;}
     @media (max-width:900px){ .big-grid{grid-template-columns:1fr 1fr;} .big-grid > .vcard{grid-column:span 1;} .big-grid > .bg-feature{grid-column:1/-1;} }
     @media (max-width:600px){ .big-grid{grid-template-columns:1fr;} .big-grid > .vcard{grid-column:auto;} }
@@ -330,31 +346,45 @@
       </div>
       <div class="work-group" id="playground">
         <div class="sub-head sub-head--minor">
-          <h4 class="sub-title sub-title--minor">Web Interactivity</h4>
-          <a class="sub-link" href="range.html">Playground ↗</a>
+          <h4 class="sub-title sub-title--minor">Playground</h4>
+          <div class="pg-tabs" role="tablist">
+            <button class="is-on" data-f="all">All</button><button data-f="motion">Motion</button><button data-f="graphic">Graphic</button><button data-f="web">Web</button>
+          </div>
         </div>
-        <div class="vgrid vgrid--3 vgrid--masonry">
-        <a class="vcard" href="custom-online-photo-booth.html">
+        <div class="pg-play">
+        <a class="vcard pg-item" data-cat="motion" href="range.html#motion">
+          <div class="vcard-media"><img src="range%20of%20practice/tongtong_cover.png" alt="TongTong" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">2D Character Animation</span><span class="vcard-tag">TongTong</span></div>
+        </a>
+        <a class="vcard pg-item" data-cat="motion" href="range.html#motion">
+          <div class="vcard-media"><img src="https://vumbnail.com/1201879166.jpg" alt="JailBreak" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Stop-Motion Short</span><span class="vcard-tag">JailBreak</span></div>
+        </a>
+        <a class="vcard pg-item" data-cat="graphic" href="range.html#posters">
+          <div class="vcard-media"><img src="range%20of%20practice/graphic%20poster/JenniferQian_DILP_Poster.png" alt="IMA/ITP show poster" loading="lazy" style="object-position:center top"></div>
+          <div class="vcard-meta"><span class="vcard-title">Show Poster Design</span><span class="vcard-tag">NYU IMA/ITP</span></div>
+        </a>
+        <a class="vcard pg-item" data-cat="web" href="custom-online-photo-booth.html">
           <div class="vcard-media"><img src="90days/day14_cover.jpg" alt="Custom Online Photo Booth" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Custom Online Photo Booth</span><span class="vcard-tag">Web Tool</span></div>
         </a>
-        <a class="vcard" href="custom-receipt-generator.html">
+        <a class="vcard pg-item" data-cat="web" href="custom-receipt-generator.html">
           <div class="vcard-media"><img src="90days/day22_cover.png" alt="Custom Receipt Generator" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Custom Receipt Generator</span><span class="vcard-tag">Web Tool</span></div>
         </a>
-        <a class="vcard" href="custom-editorial-poster-generator.html">
+        <a class="vcard pg-item" data-cat="web" href="custom-editorial-poster-generator.html">
           <div class="vcard-media"><img src="90days/day10.png" alt="Editorial Poster Generator" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Editorial Poster Generator</span><span class="vcard-tag">Web Tool</span></div>
         </a>
-        <a class="vcard" href="custom-word-grid-poster-generator.html">
+        <a class="vcard pg-item" data-cat="web" href="custom-word-grid-poster-generator.html">
           <div class="vcard-media"><img src="90days/day9.png" alt="Word Grid Poster Generator" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Word Grid Poster Generator</span><span class="vcard-tag">Web Tool</span></div>
         </a>
-        <a class="vcard" href="custom-friend-capsule-generator.html">
+        <a class="vcard pg-item" data-cat="web" href="custom-friend-capsule-generator.html">
           <div class="vcard-media"><img src="90days/day17_1.png" alt="Friend Capsule Generator" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Friend Capsule Generator</span><span class="vcard-tag">Web Tool</span></div>
         </a>
-        <a class="vcard" href="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" target="_blank" rel="noopener">
+        <a class="vcard pg-item" data-cat="web" href="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" target="_blank" rel="noopener">
           <div class="vcard-media vcard-kaomoji"><span>(｡•̀ᴗ-)✧</span></div>
           <div class="vcard-meta"><span class="vcard-title">Kaomoji Prototype</span><span class="vcard-tag">p5.js</span></div>
         </a>
@@ -365,7 +395,7 @@
           <h4 class="sub-title sub-title--minor">Events &amp; Physical Experience</h4>
           <span class="sub-note">Events · Installations · Activations</span>
         </div>
-        <div class="vgrid vgrid--work">
+        <div class="ev-grid">
         <a class="vcard" href="crimepartner.html">
           <div class="vcard-media"><img style="object-position:center 72%" src="crimepartner_pic%20copy/web/3.0/ed3-group.jpg" alt="Crime Partner" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Nightlife Event Branding</span><span class="vcard-tag">Crime Partner</span></div>
@@ -378,10 +408,6 @@
           <div class="vcard-media"><img src="cantonfair_pic%20copy/cantonfair_cover2.jpg" alt="Canton Fair" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Retail Activation Design</span><span class="vcard-tag">Canton Fair</span></div>
         </a>
-        <a class="vcard" href="calista.html">
-          <div class="vcard-media"><img style="object-position:center 35%" src="calista/cl-sign.jpg" alt="Calista by Cheyenne Tsai" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Freelance Bridal Photographer</span><span class="vcard-tag">Calista</span></div>
-        </a>
         <a class="vcard" href="nyubia.html">
           <div class="vcard-media"><img src="range%20of%20practice/nyubia_cover.png" alt="NYU BIA" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Student Org Event Branding</span><span class="vcard-tag">NYU BIA</span></div>
@@ -392,7 +418,11 @@
         </a>
         <a class="vcard" href="suffocatedlove.html">
           <div class="vcard-media"><img src="Suffocated_Love/cover.jpg" alt="Suffocated Love" loading="lazy"></div>
-          <div class="vcard-meta"><span class="vcard-title">Wearable Experience Design</span><span class="vcard-tag">Suffocated Love</span></div>
+          <div class="vcard-meta"><span class="vcard-title">Wearable Experience</span><span class="vcard-tag">Suffocated Love</span></div>
+        </a>
+        <a class="vcard" href="calista.html">
+          <div class="vcard-media"><img style="object-position:center 35%" src="calista/cl-sign.jpg" alt="Calista by Cheyenne Tsai" loading="lazy"></div>
+          <div class="vcard-meta"><span class="vcard-title">Freelance Bridal Photographer</span><span class="vcard-tag">Calista</span></div>
         </a>
         </div>
       </div>
@@ -546,6 +576,11 @@
       if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*4.5},duration:.25,ease:'power2.out',overwrite:'auto'});
     });
   })();
+  </script>
+  <script>
+  (function(){var tabs=document.querySelectorAll('.pg-tabs button'), items=document.querySelectorAll('.pg-item');
+    tabs.forEach(function(b){b.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('is-on',x===b)}); var f=b.dataset.f;
+      items.forEach(function(it){it.classList.toggle('is-hidden', f!=='all' && it.dataset.cat!==f)});});});})();
   </script>
 </body>
 </html>

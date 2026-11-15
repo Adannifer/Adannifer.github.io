@@ -100,6 +100,10 @@
     .pb .proj-section-body > p.pb-gh{margin:44px 0 14px;}
     .pb-rules + .pb-principle, .pb-rules{margin-top:4px;}
     @media (max-width:760px){ .pb-cards,.pb-2,.pb-rules,.pb-type,.pb-apps{grid-template-columns:1fr;} .pb-chips{grid-template-columns:repeat(3,1fr);} .pb-statement span.star{display:none;} }
+    .pbv-tags{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 18px;}
+    .pbv-tags span{border:1px solid rgba(23,10,36,.15); border-radius:999px; padding:7px 14px; font-size:.78rem; font-weight:700; letter-spacing:.06em; color:#170a24; background:#fff;}
+    .pbv-ratio{display:flex; height:14px; border-radius:7px; overflow:hidden; margin:18px 0 8px; border:1px solid rgba(23,10,36,.1);}
+    .pbv-cap{font-size:.78rem; color:#6C6980; margin:0 0 18px;}
   </style>
 
   <section class="proj-hero">
@@ -155,6 +159,17 @@
     </div>
 
     <div class="proj-section pb">
+      <h2 class="proj-section-title">Applications</h2>
+      <div class="proj-section-body">
+        <div class="pb-apps">
+          <figure><img src="personal_brand/pb-hangtag.jpg" alt="Monogram on a hang tag" loading="lazy"></figure>
+          <figure><img src="personal_brand/pb-signboard.jpg" alt="Monogram on a wall signboard" loading="lazy"></figure>
+          <figure><img src="personal_brand/pb-cards.jpg" alt="Wordmark business cards" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
       <h2 class="proj-section-title">Process</h2>
       <div class="proj-section-body">
         <p class="pb-step"><span>01</span>Letterform Exploration</p>
@@ -178,57 +193,20 @@
     <div class="proj-section pb">
       <h2 class="proj-section-title">Visual Guide</h2>
       <div class="proj-section-body">
-        <p class="pb-lede">A flexible identity, held by clear rules. The monogram stays consistent while color, scale and composition shift according to context.</p>
-
-        <div class="pb-rules">
-          <div><h4>Logo System</h4><ul>
-            <li><strong>Primary:</strong> Q-and-star monogram.</li>
-            <li><strong>Wordmark:</strong> Jennifer Qian with star accent.</li>
-            <li><strong>Secondary:</strong> compact JQ lockup.</li>
-            <li><strong>Icon:</strong> simplified solid-color monogram.</li></ul></div>
-          <div><h4>Clear Space + Scale</h4><ul>
-            <li>Clear space: at least one Q stem width.</li>
-            <li>Use the wordmark above 40 mm / 180 px.</li>
-            <li>Use the monogram below that size.</li>
-            <li>Avoid gradients in very small applications.</li></ul></div>
-        </div>
-
-        <p class="pb-gh">Core Palette</p>
+        <p class="pb-lede">One mark, clear rules: the Q-and-star stays fixed while color and scale flex.</p>
+        <div class="pbv-tags"><span>Q-and-star monogram</span><span>Jennifer★Qian wordmark</span><span>JQ lockup</span><span>Solid icon</span></div>
         <div class="pb-chips">
-          <div class="pb-chip"><i style="background:#0A0613"></i><b>Deep Ink</b><code>#0A0613</code><em>Foundation</em></div>
-          <div class="pb-chip"><i style="background:#FF1AA8"></i><b>Electric Pink</b><code>#FF1AA8</code><em>Signature accent</em></div>
-          <div class="pb-chip"><i style="background:#D7FF45"></i><b>Acid Green</b><code>#D7FF45</code><em>Selective</em></div>
-          <div class="pb-chip"><i style="background:#F7F1EA"></i><b>Soft Ivory</b><code>#F7F1EA</code><em>Foundation</em></div>
-          <div class="pb-chip"><i style="background:#8CC8FF"></i><b>Sky Blue</b><code>#8CC8FF</code><em>Selective</em></div>
+          <div class="pb-chip"><i style="background:#0A0613"></i><b>Deep Ink</b><code>#0A0613</code></div>
+          <div class="pb-chip"><i style="background:#FF1AA8"></i><b>Electric Pink</b><code>#FF1AA8</code></div>
+          <div class="pb-chip"><i style="background:#D7FF45"></i><b>Acid Green</b><code>#D7FF45</code></div>
+          <div class="pb-chip"><i style="background:#F7F1EA"></i><b>Soft Ivory</b><code>#F7F1EA</code></div>
+          <div class="pb-chip"><i style="background:#8CC8FF"></i><b>Sky Blue</b><code>#8CC8FF</code></div>
         </div>
-
-        <p class="pb-gh">Typography</p>
+        <div class="pbv-ratio"><span style="flex:40;background:#0A0613"></span><span style="flex:35;background:#F7F1EA"></span><span style="flex:15;background:#FF1AA8"></span><span style="flex:6;background:#D7FF45"></span><span style="flex:4;background:#8CC8FF"></span></div>
+        <p class="pbv-cap">Ink + Ivory base · Pink signature · Green and Blue sparingly</p>
         <div class="pb-type">
-          <div class="pb-card"><b>Display</b><div class="aa serif">Aa</div><p>CoFo Raffin, or a comparable high-contrast editorial serif, for dramatic headlines.</p><p class="note">Shown here in Bodoni Moda as a web stand-in.</p></div>
-          <div class="pb-card"><b>Support</b><div class="aa sans">Aa</div><p>Helvetica Neue, Arial or Inter for small, precise information next to serif headlines.</p></div>
-        </div>
-
-        <p class="pb-gh">Composition</p>
-        <div class="pb-rules"><div><ul>
-          <li>Favor asymmetry and generous negative space.</li>
-          <li>Use one expressive star as a focal point.</li></ul></div><div><ul>
-          <li>Allow large elements to crop beyond the frame.</li>
-          <li>Keep photography clear and observational.</li></ul></div></div>
-
-        <div class="pb-principle">
-          <p>Use Deep Ink and Soft Ivory as the foundation. Electric Pink is the signature accent. Acid Green, Sky Blue and spectrum gradients appear selectively so the system stays recognizable and controlled.</p>
-          <p class="dont">Preserve the final Q-and-star relationship. Do not stretch the mark, replace the star, or crowd the composition with multiple decorative effects.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <h2 class="proj-section-title">Applications</h2>
-      <div class="proj-section-body">
-        <div class="pb-apps">
-          <figure><img src="personal_brand/pb-hangtag.jpg" alt="Monogram on a hang tag" loading="lazy"></figure>
-          <figure><img src="personal_brand/pb-signboard.jpg" alt="Monogram on a wall signboard" loading="lazy"></figure>
-          <figure><img src="personal_brand/pb-cards.jpg" alt="Wordmark business cards" loading="lazy"></figure>
+          <div class="pb-card"><div class="aa serif">Aa</div><b>Editorial serif · headlines</b></div>
+          <div class="pb-card"><div class="aa sans">Aa</div><b>Clean sans · details</b></div>
         </div>
       </div>
     </div>
