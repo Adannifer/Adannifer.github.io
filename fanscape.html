@@ -115,6 +115,21 @@
     .fs-split{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1fr); gap:24px; align-items:center; max-width:820px;}
     .fs-split .fs-img{max-width:380px;}
     @media (max-width:760px){ .fs-prob-row,.fs-success-grid,.fs-personas,.fs-decide,.fs-split{grid-template-columns:1fr;}  }
+    .fs-hpair{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch;}
+    .fs-hcard{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:18px; outline:none;}
+    .fs-hmedia{position:relative; border-radius:14px; overflow:hidden; aspect-ratio:4/3.4; background:#f1eef6; display:flex; align-items:center; justify-content:center;}
+    .fs-hmedia .fs-img{max-width:none !important; width:100%; height:100%; background:none;} .fs-hmedia .fs-img img{width:100%; height:100%; object-fit:contain; transition:filter .35s ease, transform .5s ease;}
+    .fs-hchips{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:10px; padding:24px 28px; background:rgba(23,10,36,.55); opacity:0; transition:opacity .35s ease;}
+    .fs-hchips span{border-radius:999px; padding:9px 16px; font-size:.95rem; font-weight:700; opacity:0; transform:translateX(-14px); transition:opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1);}
+    .fs-hcard--say .fs-hchips span{background:#FFC72C; color:#170a24;} .fs-hcard--say .fs-hchips span:nth-child(even){background:#F18701; color:#fff;}
+    .fs-hcard--lens .fs-hchips span{background:#fff; color:#3D348B;}
+    .fs-hcard:hover .fs-hchips,.fs-hcard:focus .fs-hchips{opacity:1;}
+    .fs-hcard:hover .fs-hchips span,.fs-hcard:focus .fs-hchips span{opacity:1; transform:none;}
+    .fs-hcard:hover .fs-hmedia img,.fs-hcard:focus .fs-hmedia img{filter:blur(2px); transform:scale(1.03);}
+    .fs-hchips span:nth-child(2){transition-delay:.05s} .fs-hchips span:nth-child(3){transition-delay:.1s} .fs-hchips span:nth-child(4){transition-delay:.15s} .fs-hchips span:nth-child(5){transition-delay:.2s}
+    .fs-hhint{margin:10px 0 0; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#6C6980;}
+    @media (hover:none){ .fs-hhint{display:none;} .fs-hchips{position:static; background:none; opacity:1; padding:12px 0 0;} .fs-hchips span{opacity:1; transform:none;} .fs-hmedia{aspect-ratio:auto; display:block; overflow:visible; background:none;} }
+    @media (max-width:760px){ .fs-hpair{grid-template-columns:1fr;} }
   </style>
 </head>
 <body class="project-page">
@@ -261,12 +276,18 @@
         <div class="fs-chips fs-chips--tone"><span>Friendly</span><span>Clear & minimal</span><span>Community-oriented</span><span>Encouraging</span></div>
         <figure class="fs-img fs-wide"><img src="Fanscape/v2/fs-visual-system.jpg" alt="Palette, Inter + Sigmar typography, lens icons and Fandom Choice states" loading="lazy"></figure>
         </div>
-        <div class="fs-dstep"><div class="fs-dstep-h"><span>04</span><div><b>Microcopy</b><p>Words a fan would actually say. No jargon.</p></div></div>
-        <div class="fs-split"><figure class="fs-img"><img src="Fanscape/v2/fs-microcopy.jpg" alt="Add Fandom and Pin your Fanscape cards" loading="lazy"></figure><div><div class="fs-chips fs-chips--say"><span>"Share a Moment"</span><span>"Add Fandoms"</span><span>"Guidebook"</span><span>"For You"</span><span>"Choose Lenses"</span></div></div></div>
-        </div>
-        <div class="fs-dstep"><div class="fs-dstep-h"><span>05</span><div><b>Lens labels</b><p>Five lenses, two words max.</p></div></div>
-        <div class="fs-split"><figure class="fs-img"><img src="Fanscape/v2/fs-lenses-popup.jpg" alt="Lenses pop-up with Fandom Choice" loading="lazy"></figure><div><div class="fs-chips fs-chips--lens"><span>Concert / Event</span><span>Merch / Pop-ups</span><span>Murals / Exhibition</span><span>Spot-on Food</span><span>Spot-on Location</span></div></div></div>
-        </div>
+        <div class="fs-dstep"><div class="fs-hpair">
+          <div class="fs-hcard fs-hcard--say" tabindex="0">
+            <div class="fs-dstep-h"><span>04</span><div><b>Microcopy</b><p>Words a fan would actually say. No jargon.</p></div></div>
+            <div class="fs-hmedia"><figure class="fs-img"><img src="Fanscape/v2/fs-microcopy.jpg" alt="Add Fandom and Pin your Fanscape cards" loading="lazy"></figure><div class="fs-hchips"><span>"Share a Moment"</span><span>"Add Fandoms"</span><span>"Guidebook"</span><span>"For You"</span><span>"Choose Lenses"</span></div></div>
+            <p class="fs-hhint">Hover to see the words</p>
+          </div>
+          <div class="fs-hcard fs-hcard--lens" tabindex="0">
+            <div class="fs-dstep-h"><span>05</span><div><b>Lens labels</b><p>Five lenses, two words max.</p></div></div>
+            <div class="fs-hmedia"><figure class="fs-img"><img src="Fanscape/v2/fs-lenses-popup.jpg" alt="Lenses pop-up with Fandom Choice" loading="lazy"></figure><div class="fs-hchips"><span>Concert / Event</span><span>Merch / Pop-ups</span><span>Murals / Exhibition</span><span>Spot-on Food</span><span>Spot-on Location</span></div></div>
+            <p class="fs-hhint">Hover to see the words</p>
+          </div>
+        </div></div>
       </div>
     </div>
 
