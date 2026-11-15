@@ -175,6 +175,97 @@
     .pp-gift figure{margin:0; border-radius:14px; overflow:hidden;}
     .pp-gift figure img{display:block; width:100%; height:auto;}
     .pp-gift .pp-price{margin-top:6px;}
+    /* ── research ── */
+    .pr-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); gap:14px; align-items:stretch;}
+    .pr-chart{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:22px 24px; display:flex; flex-direction:column;}
+    .pr-k{font-family:'DM Mono',monospace; font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:#865177;}
+    .pr-bars{flex:1; display:flex; align-items:flex-end; gap:22%; padding:18px 12% 0; min-height:220px;}
+    .pr-bar{flex:1; height:var(--h); background:#d9d1dd; border-radius:12px 12px 0 0; position:relative; display:flex; align-items:flex-end; justify-content:center; transform-origin:bottom; transition:transform 1.1s cubic-bezier(.2,.8,.2,1);}
+    .pr-bar--down{background:#F77EAD;}
+    .pr-bar b{position:absolute; bottom:-26px; font-family:'DM Mono',monospace; font-size:.8rem; color:#241B3A;}
+    .pr-bar em{position:absolute; top:-38px; font-style:normal; font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.6rem; color:#F77EAD;}
+    .pr-chart:not(.is-in) .pr-bar{transform:scaleY(.05);}
+    .pr-src{margin-top:34px; font-size:.72rem; color:#6C6980; text-decoration:none;}
+    .pr-charms{position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+    .pr-charms img{width:100%; height:100%; min-height:0; object-fit:cover; border-radius:12px; display:block;}
+    .pr-charms img:nth-child(even){transform:translateY(14px); height:calc(100% - 14px);}
+    .pr-tag{position:absolute; left:12px; bottom:12px; background:#241B3A; color:#fff; font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; padding:6px 12px; border-radius:999px;}
+    .pr-stats{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:34px 0 8px;}
+    .pr-stats div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 20px; display:flex; align-items:baseline; gap:14px;}
+    .pr-stats b{font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.6rem; color:#241B3A; white-space:nowrap;}
+    .pr-stats span{font-size:.84rem; color:#3a2c48;}
+    .pr-colors{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+    .pr-colors div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:14px; display:grid; grid-template-columns:34px 1fr; grid-template-rows:auto auto auto; column-gap:10px; row-gap:6px; align-items:center;}
+    .pr-colors i{width:34px; height:34px; border-radius:50%; border:1px solid rgba(23,10,36,.08);}
+    .pr-colors span{font-size:.82rem; color:#6C6980;}
+    .pr-colors em{grid-column:1/-1; font-style:normal; color:#F77EAD; font-size:.9rem; line-height:1;}
+    .pr-colors b{font-family:'Fredoka',sans-serif; font-weight:600; color:#241B3A;}
+    /* ── product ── */
+    .pd-hero{position:relative; margin:0; border-radius:18px; overflow:hidden; aspect-ratio:4/3; cursor:pointer;}
+    .pd-hero img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1);}
+    .pd-open{opacity:0; transform:scale(1.04);}
+    .pd-hero:hover .pd-open,.pd-hero.is-open .pd-open{opacity:1; transform:scale(1);}
+    .pd-hint{position:absolute; right:14px; bottom:14px; background:rgba(255,255,255,.85); color:#241B3A; font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; padding:6px 12px; border-radius:999px; transition:opacity .3s;}
+    .pd-hero:hover .pd-hint{opacity:0;}
+    .pd-flavors{display:flex; flex-wrap:wrap; gap:18px; margin:14px 0 26px; font-size:.86rem; color:#3a2c48;}
+    .pd-flavors i{display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:7px; vertical-align:-1px; border:1px solid rgba(23,10,36,.12);}
+    .pd-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .pd-pair figure{margin:0; border-radius:18px; overflow:hidden; border:1px solid rgba(23,10,36,.06); transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s;}
+    .pd-pair figure:hover{transform:translateY(-6px); box-shadow:0 18px 40px rgba(23,10,36,.10);}
+    .pd-pair img{display:block; width:100%; aspect-ratio:5/4; object-fit:contain;}
+    .pd-pair figcaption{background:#fff; padding:12px 16px; display:flex; justify-content:space-between; gap:10px; align-items:baseline;}
+    .pd-pair figcaption b{font-family:'Fredoka',sans-serif; font-weight:600; color:#241B3A;}
+    .pd-pair figcaption span{font-size:.8rem; color:#6C6980;}
+    /* ── visual guide ── */
+    .vg-pal{display:grid; grid-template-columns:repeat(6,1fr); gap:12px;}
+    .vg-pal i{display:block; aspect-ratio:1/1; border-radius:18px; border:1px solid rgba(23,10,36,.08); margin-bottom:8px; transition:transform .5s cubic-bezier(.2,.8,.2,1);}
+    .vg-pal div:hover i{transform:translateY(-6px) rotate(-3deg);}
+    .vg-pal b{display:block; font-family:'Fredoka',sans-serif; font-weight:600; font-size:.95rem; color:#241B3A;}
+    .vg-pal code{font-family:'DM Mono',monospace; font-size:.72rem; color:#6C6980;}
+    .vg-opal{background:linear-gradient(120deg,#F1E1EF,#E4D6F2,#DCE6F7,#F1E1EF); background-size:300% 300%; animation:opal 6s ease-in-out infinite;}
+    @keyframes opal{0%,100%{background-position:0% 50%} 50%{background-position:100% 50%}}
+    .vg-ratio{display:flex; height:30px; border-radius:15px; overflow:hidden; border:1px solid rgba(23,10,36,.08); margin:22px 0 18px;}
+    .vg-ratio span{width:var(--w); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:.72rem; color:#241B3A; transition:width 1.1s cubic-bezier(.2,.8,.2,1);}
+    .vg-ratio:not(.is-in) span{width:0;}
+    .vg-logos img{transition:transform .4s cubic-bezier(.2,.8,.2,1);}
+    .vg-logos img:hover{transform:translateY(-6px);}
+    .vg-type{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;}
+    .vg-type div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:16px;}
+    .vg-type span{font-size:2.6rem; line-height:1; color:#F77EAD;}
+    .vg-type b{color:#241B3A;}
+    .pp-proc{margin-top:26px;}
+    .pp-proc summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:12px; background:#241B3A; color:#fff; border-radius:999px; padding:12px 22px; font-weight:700; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; transition:background .25s;}
+    .pp-proc summary::-webkit-details-marker{display:none;}
+    .pp-proc summary:hover{background:#F77EAD;}
+    .pp-proc summary i{font-style:normal; font-size:1.1rem; transition:transform .3s;}
+    .pp-proc[open] summary i{transform:rotate(45deg);}
+    .pp-proc-body{margin-top:22px; animation:procIn .5s cubic-bezier(.2,.8,.2,1);}
+    @keyframes procIn{from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:none;}}
+    .pp-proc-lede{font-size:.9rem; color:#3a2c48; max-width:62ch; margin:0 0 14px;}
+    .pp-rounds{display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; margin-bottom:28px;}
+    .pp-rounds figure{flex:0 0 46%; margin:0; scroll-snap-align:start;}
+    .pp-rounds img{width:100%; border-radius:12px; display:block; border:1px solid rgba(23,10,36,.06);}
+    .pp-rounds-wish{flex-basis:30% !important;} .pp-rounds-wish img{background:#f4f4f4;}
+    .pp-rounds-final{flex-basis:30% !important; display:flex; flex-direction:column;}
+    .pp-rounds-final img{background:#fff; padding:18% 12%; flex:1; object-fit:contain;}
+    .pp-rounds figcaption,.pp-final-row figcaption{font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:#865177; margin-top:6px;}
+    .pp-final-row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; max-width:640px;}
+    .pp-final-row figure{margin:0;} .pp-final-row img{width:100%; border-radius:12px; display:block; aspect-ratio:4/3; object-fit:cover;}
+    /* ── social + web ── */
+    .sw-feed{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+    .sw-feed img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; display:block; transition:transform .4s cubic-bezier(.2,.8,.2,1);}
+    .sw-feed img:hover{transform:scale(1.03);}
+    .sw-arrow{text-align:center; font-family:'DM Mono',monospace; font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:#865177; margin:16px 0;}
+    .sw-browser{margin:0; border-radius:16px; overflow:hidden; border:1px solid rgba(23,10,36,.1); background:#fff; box-shadow:0 20px 50px rgba(23,10,36,.08);}
+    .sw-bar{height:30px; display:flex; align-items:center; gap:6px; padding:0 14px; background:#f3eef3;}
+    .sw-bar i{width:9px; height:9px; border-radius:50%; background:#e3d7e3;}
+    .sw-browser img{display:block; width:100%; height:auto;}
+    /* reveal */
+    .pp-reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);}
+    .pp-reveal.is-in{opacity:1; transform:none;}
+    .pr-charms.pp-reveal.is-in img:nth-child(even){transform:translateY(14px);}
+    @media (prefers-reduced-motion:reduce){ .pp-reveal{opacity:1; transform:none;} .pr-chart .pr-bar{transform:none !important;} .vg-ratio span{width:var(--w) !important;} .vg-opal{animation:none;} }
+    @media (max-width:760px){ .pr-grid,.pr-stats,.pd-pair{grid-template-columns:1fr;} .pr-colors{grid-template-columns:1fr 1fr;} .vg-pal{grid-template-columns:repeat(3,1fr);} .pp-rounds figure{flex-basis:82%;} .pr-charms{margin-top:18px;} }
   </style>
 
   <section class="proj-hero">
@@ -220,109 +311,119 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Research</h2><p class="proj-section-note">Gen Z stopped chewing gum. They didn't stop collecting charms.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Research</h2><p class="proj-section-note">Gum is fading. Charms are everywhere.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">Gum is a forgettable purchase: every pack looks the same and ends up in the trash. Meanwhile, Gen Z keeps buying and stacking bag charms. Our question was simple: <strong>what if gum became a charm?</strong></p>
-        <div class="pp-stats">
-          <div class="pp-stat"><span class="n">−32%</span><p>US gum packs sold in 2023 compared with 2018. Gen Z leans toward novelty candy like sour gummies instead.</p></div>
-          <div class="pp-stat"><span class="n">6 mo → 3 wk</span><p>Coach's repeat-purchase cycle after bag charms took off.</p></div>
-          <div class="pp-stat"><span class="n">70%</span><p>of Coach's 4.6 million new North American customers were Gen Z or millennials.</p></div>
+        <div class="pr-grid">
+          <div class="pr-chart pp-reveal">
+            <span class="pr-k">US gum packs sold</span>
+            <div class="pr-bars">
+              <div class="pr-bar" style="--h:100%"><b>2018</b></div>
+              <div class="pr-bar pr-bar--down" style="--h:68%"><em>−32%</em><b>2023</b></div>
+            </div>
+            <a class="pr-src" href="https://fortune.com/2024/03/07/chewing-gum-sales-decline-gen-z-likes-sour-gummy-mondelez-wrigley/" target="_blank" rel="noopener">Circana via Fortune ↗</a>
+          </div>
+          <div class="pr-charms pp-reveal">
+            <img src="poppumi/pp-charm-1.jpg" alt="Hello Kitty plush charm on a silver bag" loading="lazy">
+            <img src="poppumi/pp-charm-2.jpg" alt="Fluffy charm on a burgundy bag" loading="lazy">
+            <img src="poppumi/pp-charm-3.jpg" alt="Lollipop and bead charms on a blue bag" loading="lazy">
+            <img src="poppumi/pp-charm-4.jpg" alt="Bows, photocards and a plush on a cream bag" loading="lazy">
+            <span class="pr-tag">Bag charms around us</span>
+          </div>
         </div>
-        <p class="pp-src">Sources: <a href="https://fortune.com/2024/03/07/chewing-gum-sales-decline-gen-z-likes-sour-gummy-mondelez-wrigley/" target="_blank" rel="noopener">Fortune, March 2024</a> (Circana data) · <a href="https://www.glossy.co/fashion/luxury/luxury-briefing-bag-first-charm-later-coachs-formula-for-repeat-gen-z-luxury-spending/" target="_blank" rel="noopener">Glossy, August 2025</a></p>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Audience</h2><p class="proj-section-note">Gen Z who wear their personality on their bag.</p></div>
-      <div class="proj-section-body">
-        <p class="pb-lede">Style-driven Gen Z who post outfits and "what's in my bag" content, stack plushies, photocards and pearl chains on their bags, and show up at concerts, cons, campus and on TikTok, Instagram and Xiaohongshu.</p>
-        <div class="pb-cards">
-          <div class="pb-card"><b>Gen Z</b><p>Built for bag-charm culture and made to be shared.</p></div>
-          <div class="pb-card"><b>Fashion</b><p>An accessory first, in three collectible colorways.</p></div>
-          <div class="pb-card"><b>Less Waste</b><p>One refillable case replaces a stream of single-use gum packs.</p></div>
+        <div class="pr-stats">
+          <div class="pp-reveal"><b>6 mo → 3 wk</b><span>Coach repeat-purchase cycle after charms</span></div>
+          <div class="pp-reveal"><b>70%</b><span>of Coach's new N. American shoppers are Gen Z + millennials</span></div>
         </div>
+        <p class="pb-gh">Gen Z color signals → our colors</p>
+        <div class="pr-colors">
+          <div class="pp-reveal"><i style="background:linear-gradient(135deg,#f6c9dc,#cfe6f8)"></i><span>Soft pastels</span><em>→</em><i style="background:#96CDF8"></i><b>Pop Sky</b></div>
+          <div class="pp-reveal"><i style="background:linear-gradient(135deg,#b8a3e8,#6b5bb8)"></i><span>Lilac / aura</span><em>→</em><i style="background:#D9CCEB"></i><b>Pop Haze</b></div>
+          <div class="pp-reveal"><i style="background:linear-gradient(135deg,#f4c7f0,#d5f0ff,#fff6d6)"></i><span>Pearlcore</span><em>→</em><i style="background:linear-gradient(135deg,#F1E1EF,#E4D6F2,#DCE6F7)"></i><b>Pearl shell</b></div>
+          <div class="pp-reveal"><i style="background:linear-gradient(135deg,#f6c9dc,#c8ff1a)"></i><span>Pastel + neon pop</span><em>→</em><i style="background:#C8FF1A"></i><b>Pop Frost</b></div>
+        </div>
+        <p class="pp-src">Signals: <a href="https://trendalytics.co/insights/from-pastels-to-neons-gen-z-color-forecast-2026-2028" target="_blank" rel="noopener">Trendalytics Gen Z color forecast</a> · <a href="https://business.pinterest.com/en-gb/blog/2025-pinterest-palette-this-years-trending-colors/" target="_blank" rel="noopener">Pinterest 2025 Palette</a> · <a href="https://www.foxnews.com/lifestyle/pinterest-style-trend-forecast-2022-pearls-mullets-checkboards.amp" target="_blank" rel="noopener">Pinterest Predicts: Pearlcore</a> · <a href="https://www.glossy.co/fashion/luxury/luxury-briefing-bag-first-charm-later-coachs-formula-for-repeat-gen-z-luxury-spending/" target="_blank" rel="noopener">Glossy</a></p>
       </div>
     </div>
 
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Product</h2><p class="proj-section-note">Same star. Same logo. New mood.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">The star shape, clear shell and logo never change. Each flavor only swaps case color, logo color, gum color and background.</p>
-        <div class="pp-rows">
-          <div class="pp-row"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky strawberry charm" loading="lazy"><div><h3>Pop Sky</h3><p class="fl">Strawberry · the hero</p><div class="pp-sw"><i style="background:#FBF6FB"></i><span>Case · Pearl White</span><code>#FBF6FB</code><i style="background:#F77EAD"></i><span>Logo · Poppumi Pink</span><code>#F77EAD</code><i style="background:#F3A9C4"></i><span>Gum · Gum Pink</span><code>#F3A9C4</code><i style="background:#96CDF8"></i><span>Background · Pop Sky</span><code>#96CDF8</code></div></div></div>
-          <div class="pp-row"><img src="poppumi/pp-pophaze.jpg" alt="Pop Haze grape charm" loading="lazy"><div><h3>Pop Haze</h3><p class="fl">Grape</p><div class="pp-sw"><i style="background:#D9CCEB"></i><span>Case · Lavender Satin</span><code>#D9CCEB</code><i style="background:#FBF6FB"></i><span>Logo · Pearl White</span><code>#FBF6FB</code><i style="background:#A88BD6"></i><span>Gum · Soft Grape</span><code>#A88BD6</code><i style="background:#F5E8C4"></i><span>Background · Cream</span><code>#F5E8C4</code></div></div></div>
-          <div class="pp-row"><img src="poppumi/pp-popfrost.jpg" alt="Pop Frost mint charm" loading="lazy"><div><h3>Pop Frost</h3><p class="fl">Mint</p><div class="pp-sw"><i style="background:#D8DDE3"></i><span>Case · Holographic Silver</span><code>#D8DDE3</code><i style="background:#C8FF1A"></i><span>Logo · Acid Lime</span><code>#C8FF1A</code><i style="background:#B5F2D6"></i><span>Gum · Icy Mint</span><code>#B5F2D6</code><i style="background:#1E1F24"></i><span>Background · Near Black</span><code>#1E1F24</code></div></div></div>
+        <figure class="pd-hero pp-reveal">
+          <img class="pd-base" src="poppumi/pp-cover.gif" alt="Poppumi star charms in Pop Sky, Pop Haze and Pop Frost">
+          <img class="pd-open" src="poppumi/pp-popsky-open.jpg" alt="Pop Sky charm opened, star gums popping out" loading="lazy">
+          <span class="pd-hint">Hover to pop it open</span>
+        </figure>
+        <div class="pd-flavors">
+          <span><i style="background:#96CDF8"></i>Pop Sky · Strawberry</span>
+          <span><i style="background:#D9CCEB"></i>Pop Haze · Grape</span>
+          <span><i style="background:#B5F2D6"></i>Pop Frost · Mint</span>
         </div>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Refill + Gift</h2><p class="proj-section-note">Buy the star once. Refill the gum.</p></div>
-      <div class="proj-section-body">
-        <figure class="pp-refill-hero"><img src="poppumi/pp-refill-trio.jpg" alt="Re-pop! refill pouches shaped like a grape, a strawberry and a mint leaf" loading="lazy"></figure>
-        <p class="pp-figcap">Re-pop! refill packs · each pouch is shaped like its flavor</p>
-        <div class="pp-steps">
-          <div><span>1</span><b>Tear</b><p>Notch at the top opens in one pull</p></div>
-          <div><span>2</span><b>Refill</b><p>Pour the star gums into your charm</p></div>
-          <div><span>3</span><b>Re-pop</b><p>Same star, fresh gum, zero new case</p></div>
+        <div class="pd-pair">
+          <figure class="pp-reveal" style="background:#fff"><img src="poppumi/pp-refill-trio.jpg" alt="Re-pop! refill pouches shaped like grape, strawberry and mint" loading="lazy"><figcaption><b>Re-pop! refill · $5</b><span>Keep the star, swap the gum</span></figcaption></figure>
+          <figure class="pp-reveal" style="background:#efeceb"><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms and a pearl chain" loading="lazy"><figcaption><b>Trio Gift Box · $29</b><span>All three stars + pearl chain</span></figcaption></figure>
         </div>
-        <div class="pp-gift">
-          <figure><img src="poppumi/pp-trio-box.jpg" alt="Trio Gift Box with three charms, pearl chain and star card" loading="lazy"></figure>
-          <div>
-            <p class="pb-gh" style="margin-top:0">Trio Gift Box</p>
-            <p class="pb-lede">The gift box design drew on how Gen Z beauty and skincare brands, including pimple-patch brands, package bundles and gifts. A silver metallic version looked like a tin can, so we switched to a matte pearl-white paper box.</p>
-            <table class="pp-price">
-              <tr><td>Star Charm (case + 15 star gums)</td><td>$12</td></tr>
-              <tr><td>Gum Refill Pack</td><td>$5</td></tr>
-              <tr><td>Pearl Star Chain</td><td>$8</td></tr>
-              <tr><td>Trio Gift Box</td><td>$29 <span style="font-weight:400;color:#6C6980">vs. $44</span></td></tr>
-            </table>
-          </div>
-        </div>
-        <p class="pp-src">Prices are team estimates based on comparable products. Sold online, on the bag-charm wall in accessory and toy stores, and at concert and con merch booths.</p>
+        <p class="pp-src">Prices are team estimates.</p>
       </div>
     </div>
 
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Visual Guide</h2><p class="proj-section-note">Puffy, pearly, a little Y2K.</p></div>
       <div class="proj-section-body">
-        <figure class="pp-board"><img src="poppumi/pp-guide-board.jpg" alt="Poppumi brand colors and visual guide board" loading="lazy"></figure>
-        <div class="pp-pal">
-          <div><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8 · 150 205 248</code><em>Backgrounds, campaign fields</em></div>
-          <div><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD · 247 126 173</code><em>Logo, headlines, CTAs</em></div>
-          <div><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4 · 243 169 196</code><em>The gum stars, soft accents</em></div>
-          <div><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB · 251 246 251</code><em>Product body, page base</em></div>
-          <div><i style="background:linear-gradient(135deg,#F1E1EF 0%,#E4D6F2 45%,#DCE6F7 100%)"></i><b>Opal Lilac</b><code>#E4D6F2 · 228 214 242</code><em>Iridescent sheen, gradients</em></div>
-          <div><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A · 36 27 58</code><em>Body text, legal copy</em></div>
+        <div class="vg-pal">
+          <div class="pp-reveal"><i style="background:#96CDF8"></i><b>Pop Sky</b><code>#96CDF8</code></div>
+          <div class="pp-reveal"><i style="background:#F77EAD"></i><b>Poppumi Pink</b><code>#F77EAD</code></div>
+          <div class="pp-reveal"><i style="background:#F3A9C4"></i><b>Gum Pink</b><code>#F3A9C4</code></div>
+          <div class="pp-reveal"><i style="background:#FBF6FB"></i><b>Pearl White</b><code>#FBF6FB</code></div>
+          <div class="pp-reveal"><i class="vg-opal"></i><b>Opal Lilac</b><code>#E4D6F2</code></div>
+          <div class="pp-reveal"><i style="background:#241B3A"></i><b>Ink Plum</b><code>#241B3A</code></div>
         </div>
-        <div class="pp-ratio"><span style="flex:40;background:#FBF6FB">40%</span><span style="flex:30;background:#96CDF8">30%</span><span style="flex:12;background:#F3A9C4">12%</span><span style="flex:10;background:#F77EAD;color:#fff">10%</span><span style="flex:6;background:#E4D6F2"></span><span style="flex:2;background:#241B3A"></span></div>
-        <div class="pp-ratio-l"><span>Usage ratio</span><span>Pearl · Sky · Gum · Pink · Lilac · Ink</span></div>
-        <p class="pb-gh">Logo on color</p>
-        <div class="pp-logos">
-          <img src="poppumi/pp-logotile-pink.png" alt="Poppumi logo in Poppumi Pink on Pearl White" loading="lazy">
-          <img src="poppumi/pp-logotile-sky.png" alt="Poppumi logo in white on Pop Sky" loading="lazy">
-          <img src="poppumi/pp-logotile-plum.png" alt="Poppumi logo in Ink Plum on white" loading="lazy">
+        <div class="vg-ratio pp-reveal"><span style="--w:40%;background:#FBF6FB">40</span><span style="--w:30%;background:#96CDF8">30</span><span style="--w:12%;background:#F3A9C4">12</span><span style="--w:10%;background:#F77EAD;color:#fff">10</span><span style="--w:6%;background:#E4D6F2"></span><span style="--w:2%;background:#241B3A"></span></div>
+        <div class="pp-logos vg-logos">
+          <img class="pp-reveal" src="poppumi/pp-logotile-pink.png" alt="Poppumi logo in pink on pearl" loading="lazy">
+          <img class="pp-reveal" src="poppumi/pp-logotile-sky.png" alt="Poppumi logo in white on Pop Sky" loading="lazy">
+          <img class="pp-reveal" src="poppumi/pp-logotile-plum.png" alt="Poppumi logo in ink plum" loading="lazy">
         </div>
-        <div class="pb-type">
-          <div class="pb-card"><b>Headlines + Body</b><div class="aa pp-fredoka">Aa</div><p class="pp-fredoka" style="font-weight:400">Fredoka. Rounded and friendly, next to the custom bubble wordmark.</p></div>
-          <div class="pb-card"><b>Labels</b><div class="aa pp-mono">Aa</div><p class="pp-mono" style="font-size:.84rem">DM Mono. POP SKY / STRAWBERRY</p></div>
+        <div class="vg-type">
+          <div class="pp-reveal"><span class="pp-fredoka">Aa</span><b>Fredoka</b></div>
+          <div class="pp-reveal"><span class="pp-mono">Aa</span><b>DM Mono</b></div>
         </div>
+        <details class="pp-proc">
+          <summary><span>See the process</span><i>+</i></summary>
+          <div class="pp-proc-body">
+            <p class="pb-step"><span>01</span>Logo: Wishpop → Poppumi</p>
+            <p class="pp-proc-lede">We started as Wishpop, with the campaign line "Make a wish, pop it." A similar product already existed, so we renamed to Poppumi and ran three rounds of puffy, gum-like wordmarks in Lovart before redrawing the final one by hand.</p>
+            <div class="pp-rounds">
+              <figure class="pp-rounds-wish"><img src="poppumi/pp-logo-wishpop.jpg" alt="Early Wishpop wordmark explorations" loading="lazy"><figcaption>Wishpop · first name</figcaption></figure>
+              <figure><img src="poppumi/pp-logo-round1.jpg" alt="Logo round 1" loading="lazy"><figcaption>Round 1</figcaption></figure>
+              <figure><img src="poppumi/pp-logo-round2.jpg" alt="Logo round 2" loading="lazy"><figcaption>Round 2</figcaption></figure>
+              <figure><img src="poppumi/pp-logo-round3.jpg" alt="Logo round 3" loading="lazy"><figcaption>Round 3</figcaption></figure>
+              <figure class="pp-rounds-final"><img src="poppumi/pp-logo2-pink.png" alt="Final Poppumi wordmark" loading="lazy"><figcaption>Final</figcaption></figure>
+            </div>
+            <p class="pb-step"><span>02</span>Two tracks → one pearl</p>
+            <p class="pp-proc-lede">We generated a soft pearly track and a bold Y2K rhinestone track side by side, then kept the pearl shell and moved the Y2K energy into the campaign.</p>
+            <figure class="pp-track"><img src="poppumi/pp-track-pearly.jpg" alt="Track A: pearly satin star charms" loading="lazy"></figure>
+            <p class="pp-figcap">Track A · Pearl</p>
+            <figure class="pp-track" style="margin-top:12px"><img src="poppumi/pp-track-y2k.jpg" alt="Track B: rhinestone jelly star cases" loading="lazy"></figure>
+            <p class="pp-figcap">Track B · Y2K rhinestone</p>
+            <div class="pp-final-row">
+              <figure><img src="poppumi/pp-sketch.jpg" alt="Hand sketch of how the case opens" loading="lazy"><figcaption>Hand sketch</figcaption></figure>
+              <figure><img src="poppumi/pp-popsky-closed.jpg" alt="Final pearl star charm" loading="lazy"><figcaption>Final pearl shell</figcaption></figure>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Social Media</h2><p class="proj-section-note">Worn, not just posted.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Social + Web</h2><p class="proj-section-note">One mood per flavor, from feed to shop.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">One lifestyle mood per flavor, then a website that sells the charm, the refill and the collector box.</p>
-        <div class="pp-3 pp-ig">
-          <div><figure class="pp-fig"><img src="poppumi/pp-ig-sky.jpg" alt="Pop Sky lifestyle Instagram post" loading="lazy"></figure><p class="pp-figcap">pop sky days</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-ig-haze.jpg" alt="Pop Haze lifestyle Instagram post" loading="lazy"></figure><p class="pp-figcap">pop haze, softly</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-ig-frost.jpg" alt="Pop Frost lifestyle Instagram post" loading="lazy"></figure><p class="pp-figcap">pop frost after dark</p></div>
+        <div class="sw-feed">
+          <img class="pp-reveal" src="poppumi/pp-ig-sky.jpg" alt="Pop Sky lifestyle post" loading="lazy">
+          <img class="pp-reveal" src="poppumi/pp-ig-haze.jpg" alt="Pop Haze lifestyle post" loading="lazy">
+          <img class="pp-reveal" src="poppumi/pp-ig-frost.jpg" alt="Pop Frost lifestyle post" loading="lazy">
         </div>
-        <div class="pb-2" style="margin-top:14px">
-          <div><figure class="pp-fig"><img src="poppumi/pp-web-home.jpg" alt="Poppumi website homepage" loading="lazy"></figure><p class="pp-figcap">Homepage</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-web-collection.jpg" alt="Poppumi collection page" loading="lazy"></figure><p class="pp-figcap">Collection: meet the pops</p></div>
-        </div>
+        <div class="sw-arrow">↓ same three flavors on the shop page</div>
+        <figure class="sw-browser pp-reveal"><div class="sw-bar"><i></i><i></i><i></i></div><img src="poppumi/pp-web-product.gif" alt="Poppumi product pages cycling through the three flavors" loading="lazy"></figure>
       </div>
     </div>
 
@@ -336,31 +437,6 @@
           <div><img src="poppumi/pp-phone-david.webp" alt="Reels mockup: David with a grape bubble" loading="lazy"><p class="pp-figcap">David · Pop Haze</p></div>
         </div>
         <p class="pp-src">Campaign concept only. The statues are public-domain works; images were created as a concept, not a live ad.</p>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Process</h2><p class="proj-section-note">Every big decision, from name to hinge.</p></div>
-      <div class="proj-section-body">
-        <p class="pb-step"><span>01</span>Two aesthetic directions</p>
-        <p class="pb-lede">A soft, pearly, healing look (pearls, pastels, satin) and a bold Y2K look (high contrast, rhinestones, flash photography). The pearly look became the product base; the Y2K energy lives in the campaign and social content. We ran both as parallel generation tracks in Lovart, changing one variable at a time.</p>
-        <figure class="pp-track"><img src="poppumi/pp-track-pearly.jpg" alt="Track A generations: pearly satin star charms" loading="lazy"></figure>
-        <p class="pp-figcap">Track A · Soft and pearly: satin star, pastel backdrops, ribbons stripped back over time</p>
-        <figure class="pp-track" style="margin-top:14px"><img src="poppumi/pp-track-y2k.jpg" alt="Track B generations: bedazzled Y2K jelly star cases" loading="lazy"></figure>
-        <p class="pp-figcap">Track B · Bold Y2K: rhinestone jelly case, flash photography</p>
-        <p class="pb-step"><span>02</span>Naming and logo</p>
-        <p class="pb-lede">Our first name, Wishpop, was already used by a similar product, so we dropped it to avoid infringement risk. Chewel was taken and Gummypop sat too close to existing candy brands, so we landed on <strong>Poppumi</strong>. The wordmark samples chubby, cloud-like puffy lettering, with a small star above the i.</p>
-        <div class="pp-logoproc">
-          <div><figure class="pp-explore"><img src="poppumi/pp-logo-explore.jpg" alt="Logo explorations: bubble, script and puffy wordmarks" loading="lazy"></figure><p class="pp-figcap">Explorations</p></div>
-          <div><div class="pp-final"><img src="poppumi/pp-logo2-pink.png" alt="Final Poppumi wordmark"></div><p class="pp-figcap">Final wordmark, placed by hand in Figma</p></div>
-        </div>
-        <p class="pb-step"><span>03</span>A real case, not just a cute render</p>
-        <p class="pb-lede">We set the puffy star shape first, then added a clear, bubble-like shell so it reads as gum. To make it usable, I sketched how the case opens by hand and fed the sketch to the AI agent. The final case has two openings: a small flip cap on the top point to shake out gum, and a full clamshell for refills, with the hinge on the left point and a press latch on the right.</p>
-        <div class="pp-3">
-          <div><figure class="pp-fig"><img src="poppumi/pp-sketch.jpg" alt="Hand sketch of how the star case opens" loading="lazy"></figure><p class="pp-figcap">Hand sketch</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-closed.jpg" alt="Pop Sky charm closed" loading="lazy"></figure><p class="pp-figcap">Closed</p></div>
-          <div><figure class="pp-fig"><img src="poppumi/pp-popsky-open.jpg" alt="Pop Sky charm open with star gums" loading="lazy"></figure><p class="pp-figcap">Open: holds 15 star gums</p></div>
-        </div>
       </div>
     </div>
 
@@ -397,5 +473,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="page.js?v=40"></script>
+  <script>
+  (function(){var els=document.querySelectorAll('.pp-reveal'); if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('is-in')});return;}
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var t=x.target, sib=[].indexOf.call(t.parentNode.children,t); t.style.transitionDelay=Math.min(sib,6)*70+'ms'; t.classList.add('is-in'); io.unobserve(t);}})},{threshold:.15});
+    els.forEach(function(e){io.observe(e)});
+    var h=document.querySelector('.pd-hero'); if(h){h.addEventListener('click',function(){h.classList.toggle('is-open')});}
+  })();
+  </script>
 </body>
 </html>
