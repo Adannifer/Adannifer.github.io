@@ -109,6 +109,28 @@
     .gp-apps>div{aspect-ratio:4/5; border-radius:12px; overflow:hidden; display:flex; align-items:center; justify-content:center;}
     .gp-apps img{width:100%; height:100%; border-radius:0; aspect-ratio:auto; object-fit:cover;}
     @media (max-width:760px){ .gp-3{grid-template-columns:1fr;} }
+    .gp-pal{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+    .gp-sw{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; overflow:hidden;}
+    .gp-sw i{display:block; aspect-ratio:1/1;}
+    .gp-sw div{padding:10px 12px 12px; display:flex; flex-direction:column; gap:2px;}
+    .gp-sw b{font-size:.8rem; color:#170a24;}
+    .gp-sw code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .gp-sw em{font-style:normal; font-size:.72rem; line-height:1.45; color:#865177; margin-top:4px;}
+    .gp-type{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-type .pb-card{display:flex; flex-direction:column;}
+    .gp-type .spec{border-radius:12px; overflow:hidden; background:#fff; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; margin:6px 0 14px; border:1px solid rgba(23,10,36,.06);}
+    .gp-type .spec img{width:100%; height:100%; object-fit:cover;}
+    .gp-type .spec.glyph img{width:auto; height:72%; object-fit:contain;}
+    .gp-type .fname{font-family:'Inter',sans-serif; font-weight:800; font-size:1.25rem; color:#170a24; margin:0 0 4px;}
+    .gp-apps-big{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-apps-big figure{margin:0;}
+    .gp-apps-big .full{grid-column:1 / -1;}
+    .gp-apps-big .frame{border-radius:16px; overflow:hidden; aspect-ratio:4/5;}
+    .gp-apps-big .full .frame{aspect-ratio:auto;}
+    .gp-apps-big img{width:100%; height:100%; object-fit:cover; display:block;}
+    .gp-apps-big .full img{height:auto;}
+    .gp-apps-big figcaption{margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    @media (max-width:760px){ .gp-pal{grid-template-columns:repeat(2,1fr);} .gp-type,.gp-apps-big{grid-template-columns:1fr;} }
   </style>
 
   <section class="proj-hero">
@@ -153,23 +175,64 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Colorways</h2><p class="proj-section-note">The same tile, read as figure and as ground.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Visual Guide</h2><p class="proj-section-note">Color, type and how the pattern behaves.</p></div>
       <div class="proj-section-body">
+        <p class="pb-step"><span>01</span>Color Palette</p>
+        <div class="gp-pal">
+          <div class="gp-sw"><i style="background:#5FB8C9"></i><div><b>Aqua</b><code>#5FB8C9</code><em>Primary ground and pattern bands</em></div></div>
+          <div class="gp-sw"><i style="background:#275DA7"></i><div><b>Cobalt</b><code>#275DA7</code><em>Glyph figure and wordmark shadow</em></div></div>
+          <div class="gp-sw"><i style="background:#CC792E"></i><div><b>Orange</b><code>#CC792E</code><em>Accent diamonds and wordmark</em></div></div>
+          <div class="gp-sw"><i style="background:#000000"></i><div><b>Black</b><code>#000000</code><em>Glyph outlines and detail</em></div></div>
+          <div class="gp-sw"><i style="background:#FFFFFF; border-bottom:1px solid rgba(23,10,36,.08)"></i><div><b>White</b><code>#FFFFFF</code><em>Negative space and packaging base</em></div></div>
+        </div>
+
+        <p class="pb-step"><span>02</span>Colorways</p>
         <div class="gp-3">
           <img src="glyph_pattern/gp-orange.png" alt="Glyph pattern on orange" loading="lazy">
           <img src="glyph_pattern/gp-aqua.png" alt="Glyph pattern on aqua" loading="lazy">
           <img src="glyph_pattern/gp-cobalt.png" alt="Glyph pattern on cobalt" loading="lazy">
         </div>
+        <p class="pp-figcap" style="margin-top:8px">Same tile, three grounds: orange, aqua, cobalt</p>
+
+        <p class="pb-step"><span>03</span>Typography</p>
+        <div class="gp-type">
+          <div class="pb-card">
+            <b>Wordmark</b>
+            <div class="spec"><img src="glyph_pattern/gp-kira-wordmark.jpg" alt="KIRA Coffee wordmark set in AM Assab" loading="lazy"></div>
+            <p class="fname">AM Assab</p>
+            <p>Used for the KIRA COFFEE wordmark. Orange letterforms with an offset cobalt shadow, set on a white field so the logo reads clearly against the busy pattern.</p>
+          </div>
+          <div class="pb-card">
+            <b>Pattern Glyph</b>
+            <div class="spec glyph"><img src="glyph_pattern/gp-glyph.png" alt="Deseo Medium script J" loading="lazy"></div>
+            <p class="fname">Deseo Medium</p>
+            <p>The script J that builds every tile. Mirrored and rotated so the curves interlock and the gaps between letters form a second shape.</p>
+          </div>
+        </div>
+
+        <p class="pb-step"><span>04</span>Pattern Rules</p>
+        <div class="pb-rules">
+          <div><h4>Build</h4><ul>
+            <li><strong>One glyph only.</strong> Every shape comes from the Deseo J, mirrored and rotated.</li>
+            <li><strong>Figure equals ground.</strong> Positive and negative space should both read as shapes.</li>
+            <li><strong>Swap, don't add.</strong> New colorways come from swapping the five palette colors, not adding new ones.</li>
+          </ul></div>
+          <div><h4>Apply</h4><ul>
+            <li><strong>Pattern as border.</strong> On packaging, the pattern runs as bands at the top and bottom edges.</li>
+            <li><strong>Logo on white.</strong> The wordmark always sits on a clean white field, never directly on the pattern.</li>
+            <li><strong>Wrap the form.</strong> On cups, tumblers and cassettes, the tile wraps the whole surface or label.</li>
+          </ul></div>
+        </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Applications</h2><p class="proj-section-note">Cassette, tumbler, coffee carrier.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Applications</h2><p class="proj-section-note">Coffee carrier, tumbler, cassette.</p></div>
       <div class="proj-section-body">
-        <div class="gp-3 gp-apps">
-          <div style="background:#B1E2FF"><img src="glyph_pattern/gp-cassette.png" alt="Pattern on a cassette tape" loading="lazy" style="object-fit:contain;"></div>
-          <div><img src="glyph_pattern/gp-tumbler.png" alt="Pattern on a tumbler" loading="lazy"></div>
-          <div><img src="glyph_pattern/gp-kira.png" alt="Pattern on KIRA Coffee cups and carrier" loading="lazy"></div>
+        <div class="gp-apps-big">
+          <figure class="full"><div class="frame"><img src="glyph_pattern/gp-kira.png" alt="Pattern on KIRA Coffee cups and carrier" loading="lazy"></div><figcaption>KIRA Coffee · Cups &amp; carrier</figcaption></figure>
+          <figure><div class="frame"><img src="glyph_pattern/gp-tumbler.png" alt="Pattern on a tumbler" loading="lazy"></div><figcaption>Tumbler</figcaption></figure>
+          <figure><div class="frame" style="background:#B1E2FF; display:flex; align-items:center;"><img src="glyph_pattern/gp-cassette.png" alt="Pattern on a cassette tape" loading="lazy" style="object-fit:contain; height:auto;"></div><figcaption>Cassette</figcaption></figure>
         </div>
       </div>
     </div>
