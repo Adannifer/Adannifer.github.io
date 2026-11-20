@@ -207,10 +207,17 @@
     .pg-play .vcard-media img{height:100%; width:auto; max-height:none; object-fit:contain; display:block;}
     .pg-play .vcard-kaomoji{width:calc(clamp(170px,15vw,210px)*4/3);}
     .pg-play .vcard-kaocat{align-items:center; background:#FAD5ED !important;}
-    .pg-play .vcard-kaocat img{height:58%; width:auto; animation:kcFloat 3.2s ease-in-out infinite; transition:transform .3s;}
-    .vcard:hover .vcard-kaocat img{animation-play-state:paused; transform:scale(1.08) rotate(-4deg);}
+    .pg-play .vcard-kaocat .kc-wrap{position:relative; height:80%; aspect-ratio:1/1; display:block; animation:kcFloat 3.2s ease-in-out infinite;}
+    .pg-play .vcard-kaocat img{height:100%; width:100%; transition:transform .3s;}
+    .vcard:hover .vcard-kaocat .kc-wrap{animation-play-state:paused;}
+    .vcard:hover .vcard-kaocat img{transform:scale(1.06) rotate(-4deg);}
+    .kc-bubble{position:absolute; top:-2%; right:-30%; background:#fff; border-radius:14px; padding:8px 11px; display:flex; gap:4px; box-shadow:0 4px 12px rgba(120,10,80,.15);}
+    .kc-bubble::after{content:""; position:absolute; left:10px; bottom:-6px; width:12px; height:12px; background:#fff; transform:rotate(45deg); border-radius:2px;}
+    .kc-bubble i{width:6px; height:6px; border-radius:50%; background:#17171c; animation:kcDot 1.2s ease-in-out infinite;}
+    .kc-bubble i:nth-child(2){animation-delay:.15s;} .kc-bubble i:nth-child(3){animation-delay:.3s;}
+    @keyframes kcDot{0%,60%,100%{opacity:.3; transform:translateY(0)}30%{opacity:1; transform:translateY(-3px)}}
     @keyframes kcFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-3deg)}}
-    @media (prefers-reduced-motion:reduce){.pg-play .vcard-kaocat img{animation:none}}
+    @media (prefers-reduced-motion:reduce){.pg-play .vcard-kaocat .kc-wrap,.kc-bubble i{animation:none}}
     .pg-play .vcard-meta{width:0; min-width:100%; gap:10px;}
     .pg-play .vcard-tag{display:none;}
     .pg-play .pg-item.is-hidden{display:none;}
@@ -379,7 +386,7 @@
           <div class="vcard-meta"><span class="vcard-title">Stop-Motion Short</span><span class="vcard-tag">JailBreak</span></div>
         </a>
         <a class="vcard pg-item" data-cat="web" href="kaomojicat.html">
-          <div class="vcard-media vcard-kaomoji vcard-kaocat"><img src="kaomoji/cat-icon.svg" alt="Kaomoji Cat"></div>
+          <div class="vcard-media vcard-kaomoji vcard-kaocat"><span class="kc-wrap"><img src="kaomoji/cat-icon.svg" alt="Kaomoji Cat"><span class="kc-bubble" aria-hidden="true"><i></i><i></i><i></i></span></span></div>
           <div class="vcard-meta"><span class="vcard-title">Kaomoji Cat</span><span class="vcard-tag">Chrome Extension</span></div>
         </a>
         <a class="vcard pg-item" data-cat="graphic" href="posters.html">
