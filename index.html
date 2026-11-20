@@ -206,6 +206,11 @@
     .pg-play .vcard-media{display:flex; justify-content:center; background:#efe8ef;}
     .pg-play .vcard-media img{height:100%; width:auto; max-height:none; object-fit:contain; display:block;}
     .pg-play .vcard-kaomoji{width:calc(clamp(170px,15vw,210px)*4/3);}
+    .pg-play .vcard-kaocat{align-items:center; background:#FAD5ED !important;}
+    .pg-play .vcard-kaocat img{height:58%; width:auto; animation:kcFloat 3.2s ease-in-out infinite; transition:transform .3s;}
+    .vcard:hover .vcard-kaocat img{animation-play-state:paused; transform:scale(1.08) rotate(-4deg);}
+    @keyframes kcFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-3deg)}}
+    @media (prefers-reduced-motion:reduce){.pg-play .vcard-kaocat img{animation:none}}
     .pg-play .vcard-meta{width:0; min-width:100%; gap:10px;}
     .pg-play .vcard-tag{display:none;}
     .pg-play .pg-item.is-hidden{display:none;}
@@ -373,6 +378,10 @@
           <div class="vcard-media"><img src="https://vumbnail.com/1201879166.jpg" alt="JailBreak" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Stop-Motion Short</span><span class="vcard-tag">JailBreak</span></div>
         </a>
+        <a class="vcard pg-item" data-cat="web" href="kaomojicat.html">
+          <div class="vcard-media vcard-kaomoji vcard-kaocat"><img src="kaomoji/cat-icon.svg" alt="Kaomoji Cat"></div>
+          <div class="vcard-meta"><span class="vcard-title">Kaomoji Cat</span><span class="vcard-tag">Chrome Extension</span></div>
+        </a>
         <a class="vcard pg-item" data-cat="graphic" href="posters.html">
           <div class="vcard-media"><img src="range%20of%20practice/graphic%20poster/school/JenniferQian_DILP_Poster.png" alt="IMA/ITP show poster" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Show Poster Design</span><span class="vcard-tag">NYU IMA/ITP</span></div>
@@ -412,10 +421,6 @@
         <a class="vcard pg-item" data-cat="web" href="custom-friend-capsule-generator.html">
           <div class="vcard-media"><img src="90days/day17_1.png" alt="Friend Capsule Generator" loading="lazy"></div>
           <div class="vcard-meta"><span class="vcard-title">Friend Capsule Generator</span><span class="vcard-tag">Web Tool</span></div>
-        </a>
-        <a class="vcard pg-item" data-cat="web" href="kaomojicat.html">
-          <div class="vcard-media vcard-kaomoji"><span>(｡•̀ᴗ-)✧</span></div>
-          <div class="vcard-meta"><span class="vcard-title">Kaomoji Cat</span><span class="vcard-tag">Chrome Extension</span></div>
         </a>
         </div>
       </div>
