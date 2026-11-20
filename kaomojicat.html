@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PWQJ7HBL');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7615TEK1PY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7615TEK1PY');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaomoji Cat — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=40" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <link rel="icon" href="favicon.ico?v=1" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+</head>
+<body class="project-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="index.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><div class="nav-dd"><a href="index.html#work" class="nav-link">Work</a><div class="nav-dd-menu"><a href="index.html#digital" class="nav-link nav-dd-item">Digital Branding</a><a href="index.html#live" class="nav-link nav-dd-item">Live Branding</a></div></div><a href="index.html#about" class="nav-link">About</a><a href="index.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <style>
+    .pb .proj-section-body{display:block;}
+    .pb-lede{font-size:.95rem; line-height:1.6; color:#3a2c48; margin:0 0 22px;}
+    .pb-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .pb-card{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:20px; box-shadow:0 8px 24px rgba(23,10,36,.05);}
+    .pb-card b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:8px;}
+    .pb-card p{margin:0; font-size:.88rem; line-height:1.6; color:#3a2c48;}
+    .pb-statement{margin-top:16px; background:#0A0613; border-radius:18px; padding:clamp(24px,4vw,44px); display:flex; justify-content:space-between; align-items:center; gap:24px;}
+    .pb-statement p{margin:0; font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1.3rem,2.8vw,2.4rem); line-height:1.1; letter-spacing:-.01em; text-transform:uppercase; color:#F7F1EA;}
+    .pb-statement .pk{color:#FF1AA8;} .pb-statement .gr{color:#D7FF45;}
+    .pb-statement span.star{font-size:clamp(3rem,7vw,6rem); color:#FF1AA8; line-height:1;}
+    .pb-step{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:44px 0 10px; display:flex; gap:12px; align-items:center;}
+    .pb-step:first-child{margin-top:0;}
+    .pb-step span{background:#FAD5ED; color:#773B57; border-radius:999px; padding:4px 10px; font-size:.68rem;}
+    .pb-fig{margin:0 0 12px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; overflow:hidden;}
+    .pb-fig img{display:block; width:100%; height:auto;}
+    .pb-fig figcaption{font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#865177; padding:10px 14px; border-top:1px solid rgba(23,10,36,.06);}
+    .pb-2{display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start;}
+    .pb-rules{display:grid; grid-template-columns:1fr 1fr; gap:28px 40px;}
+    .pb-rules h4{font-family:'Inter',sans-serif; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f; margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid rgba(23,10,36,.12);}
+    .pb-rules ul{margin:0; padding:0; list-style:none;}
+    .pb-rules li{font-size:.9rem; line-height:1.55; color:#3a2c48; padding:4px 0;}
+    .pb-rules li strong{color:#170a24;}
+    .pb-chips{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:8px;}
+    .pb-chip{display:flex; flex-direction:column; gap:3px; font-size:.78rem;}
+    .pb-chip i{display:block; aspect-ratio:4/3; border-radius:12px; border:1px solid rgba(23,10,36,.08); margin-bottom:6px;}
+    .pb-chip b{color:#170a24;} .pb-chip code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .pb-chip em{font-style:normal; font-size:.72rem; color:#865177;}
+    .pb-type{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;}
+    .pb-type .pb-card .aa{font-size:clamp(3rem,6vw,5rem); line-height:1; color:#170a24; margin:10px 0 8px;}
+    .pb-type .serif{font-family:'Bodoni Moda',Didot,'Bodoni 72',serif;}
+    .pb-type .sans{font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-weight:500;}
+    .pb-type .note{font-size:.76rem; color:#6C6980; margin-top:6px;}
+    .pb-principle{margin-top:18px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:22px;}
+    .pb-principle p{margin:0; font-size:.92rem; line-height:1.6; color:#3a2c48;}
+    .pb-principle .dont{margin-top:14px; padding-left:14px; border-left:3px solid #FF1AA8; color:#170a24; font-weight:600;}
+    .pb-gh{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:40px 0 14px;}
+    .pb-gh:first-child{margin-top:0;}
+    .pb-apps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .pb-apps figure{margin:0; border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:#efe5da;}
+    .pb-apps img{width:100%; height:100%; object-fit:cover; display:block;}
+    .pb .proj-section-body > p.pb-lede{margin:0 0 22px; max-width:none;}
+    .pb .proj-section-body > p.pb-step{margin:48px 0 12px;}
+    .pb .proj-section-body > p.pb-step:first-child{margin-top:0;}
+    .pb .proj-section-body > p.pb-gh{margin:44px 0 14px;}
+    .pb-rules + .pb-principle, .pb-rules{margin-top:4px;}
+    @media (max-width:760px){ .pb-cards,.pb-2,.pb-rules,.pb-type,.pb-apps{grid-template-columns:1fr;} .pb-chips{grid-template-columns:repeat(3,1fr);} .pb-statement span.star{display:none;} }
+    .cx-img{width:100%; height:auto; border-radius:14px; display:block;}
+    .pp-figcap{font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    .gp-glyphcard{background:#fff; border-radius:16px; border:1px solid rgba(23,10,36,.08); display:flex; align-items:center; justify-content:center; padding:14%;}
+    .gp-glyphcard img{width:60%; height:auto;}
+    .gp-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .gp-3 img{width:100%; height:auto; border-radius:12px; display:block; aspect-ratio:1/1; object-fit:cover;}
+    .gp-apps>div{aspect-ratio:4/5; border-radius:12px; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+    .gp-apps img{width:100%; height:100%; border-radius:0; aspect-ratio:auto; object-fit:cover;}
+    @media (max-width:760px){ .gp-3{grid-template-columns:1fr;} }
+    .gp-pal{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+    .gp-sw{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; overflow:hidden;}
+    .gp-sw i{display:block; aspect-ratio:1/1;}
+    .gp-sw div{padding:10px 12px 12px; display:flex; flex-direction:column; gap:2px;}
+    .gp-sw b{font-size:.8rem; color:#170a24;}
+    .gp-sw code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .gp-sw em{font-style:normal; font-size:.72rem; line-height:1.45; color:#865177; margin-top:4px;}
+    .gp-type{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-type .pb-card{display:flex; flex-direction:column;}
+    .gp-type .spec{border-radius:12px; overflow:hidden; background:#fff; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; margin:6px 0 14px; border:1px solid rgba(23,10,36,.06);}
+    .gp-type .spec img{width:100%; height:100%; object-fit:cover;}
+    .gp-type .spec.glyph img{width:auto; height:72%; object-fit:contain;}
+    .gp-type .fname{font-family:'Inter',sans-serif; font-weight:800; font-size:1.25rem; color:#170a24; margin:0 0 4px;}
+    .gp-apps-big{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-apps-big figure{margin:0;}
+    .gp-apps-big .full{grid-column:1 / -1;}
+    .gp-apps-big .frame{border-radius:16px; overflow:hidden; aspect-ratio:4/5;}
+    .gp-apps-big .full .frame{aspect-ratio:auto;}
+    .gp-apps-big img{width:100%; height:100%; object-fit:cover; display:block;}
+    .gp-apps-big .full img{height:auto;}
+    .gp-apps-big figcaption{margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    @media (max-width:760px){ .gp-pal{grid-template-columns:repeat(2,1fr);} .gp-type,.gp-apps-big{grid-template-columns:1fr;} }
+  </style>
+
+  <style>
+    .proj-hero-img.kc-vidhero{background:#170a24;}
+    .kc-vidhero iframe{position:absolute; top:50%; left:50%; width:max(100%, 167.8vh); height:max(100%, 53.61vw); transform:translate(-50%,-50%); border:0; pointer-events:none;}
+    .kc-vid{position:relative; padding-top:53.61%; border-radius:16px; overflow:hidden; background:#170a24;}
+    .kc-vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+    .kc-cap{margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    .kc-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    .kc-2 img{width:100%; height:auto; border-radius:12px; display:block; border:1px solid rgba(23,10,36,.08);}
+    .kc-flow{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+    .kc-flow .pb-card span{display:block; font-family:'Inter',sans-serif; font-weight:900; font-size:1.6rem; color:#FF1AA8; line-height:1; margin-bottom:10px;}
+    .kc-flow code, .kc-q code{font-family:ui-monospace,Menlo,monospace; background:#FAD5ED; color:#773B57; border-radius:6px; padding:1px 6px; font-size:.84em;}
+    .kc-ba{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:stretch;}
+    .kc-ba .pb-card{display:flex; flex-direction:column;}
+    .kc-ba .face{flex:1; min-height:220px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin:6px 0 14px; background:#5c9a35;}
+    .kc-ba .face img{width:60%; max-width:240px; height:auto;}
+    .kc-ba .face.after{background:#170a24; color:#F7F1EA; font-family:ui-monospace,Menlo,monospace; font-size:clamp(2.6rem,5vw,4rem); letter-spacing:.06em;}
+    .kc-bug{display:grid; grid-template-columns:1.1fr 1fr; gap:24px; align-items:center;}
+    .kc-bug img{width:100%; height:auto; border-radius:12px; display:block; border:1px solid rgba(23,10,36,.08);}
+    .kc-bug p{margin:0 0 12px; font-size:.92rem; line-height:1.6; color:#3a2c48;}
+    .kc-bug p strong{color:#170a24;}
+    .kc-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px;}
+    .kc-links a{display:inline-block; border:1px solid rgba(23,10,36,.15); border-radius:999px; padding:8px 16px; font-size:.82rem; font-weight:700; color:#170a24; text-decoration:none;}
+    .kc-links a:hover{background:#FAD5ED;}
+    .kc-fine{font-size:.78rem; line-height:1.6; color:#6C6980; margin-top:16px;}
+    .kc-chars{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:4px;}
+    .kc-chars .pb-card{text-align:center; display:flex; flex-direction:column; align-items:center;}
+    .kc-chars .stage{width:100%; aspect-ratio:4/3; border-radius:12px; background:#F7EEF3; display:flex; align-items:center; justify-content:center; margin:6px 0 14px;}
+    .kc-chars .stage img{width:128px; height:128px;}
+    .kc-chars .chosen{border-color:#FF1AA8;}
+    .kc-sizes{display:flex; align-items:flex-end; justify-content:center; gap:22px;}
+    .kc-sizes figure{margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; font-size:.7rem; font-weight:700; letter-spacing:.08em; color:#865177;}
+    @media (max-width:760px){ .kc-chars{grid-template-columns:1fr;} }
+    @media (max-width:760px){ .kc-2,.kc-flow,.kc-ba,.kc-bug{grid-template-columns:1fr;} }
+  </style>
+  <section class="proj-hero">
+    <div class="proj-hero-overlay" style="z-index:1"></div>
+    <div class="proj-hero-img kc-vidhero">
+      <iframe src="https://player.vimeo.com/video/1248761779?background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture" title="Kaomoji Cat in use"></iframe>
+    </div>
+    <div class="proj-hero-text" style="z-index:2">
+      <span class="proj-num">Interaction Design · Chrome Extension</span>
+      <h1 class="proj-title">KAOMOJI<span class="pr-star">★</span>CAT</h1>
+      <div class="proj-meta-row">
+        <span>Self-directed</span>
+        <span>p5.js to Chrome MV3</span>
+        <span>Working prototype</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">A chatbot that could only answer in kaomoji, turned into a browser cat that finds the right one for you.</p>
+        <p>It started as a school p5.js experiment: ask anything, get a text face back. It was expressive but had no real job. I developed it into Kaomoji Cat, a Chrome extension where you describe a mood or gesture and copy a matching expression into whatever you are writing.</p>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">1,708</span><span class="proj-stat-l">Expressions</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Suggestions per ask</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">0</span><span class="proj-stat-l">Model calls</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col">
+        <div class="pb-card" style="height:100%">
+          <b>My role</b><p>Interaction design, visual direction, product decisions and prototyping, with AI-assisted coding.</p>
+          <b style="margin-top:16px">Context</b><p>Self-directed continuation of a school project, shaped by classroom feedback, design review and hands-on testing.</p>
+          <b style="margin-top:16px">Tools</b><p>p5.js, HTML, CSS, JavaScript, Chrome Manifest V3.</p>
+          <b style="margin-top:16px">Status</b><p>Working, locally installable prototype. Friend usability testing is next.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">The Starting Point</h2><p class="proj-section-note">A chatbot that answered in faces.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">In the original p5.js piece, you type a message and get a kaomoji back while the background shifts color. The replies were ambiguous on purpose: sometimes affectionate, sometimes confused, sometimes oddly right. Classmates started reading it as a little AI character, which raised the real question: what would make someone come back after the novelty wears off?</p>
+        <div class="kc-2">
+          <img src="kaomoji/p5-idle.jpg" alt="Original p5.js kaomoji chatbot, idle state" loading="lazy">
+          <img src="kaomoji/p5-reply.jpg" alt="p5.js chatbot replying to a question with a kaomoji" loading="lazy">
+          <img src="kaomoji/p5-crying.jpg" alt="p5.js chatbot replying with a crying kaomoji" loading="lazy">
+          <img src="kaomoji/p5-history.jpg" alt="p5.js chatbot history of previous questions and replies" loading="lazy">
+        </div>
+        <p class="kc-cap">Original p5.js experiment: ask, shuffle, history</p>
+        <p class="pb-step"><span>Fork</span>Two directions from feedback</p>
+        <div class="pb-cards" style="grid-template-columns:1fr 1fr">
+          <div class="pb-card"><b>Make it physical</b><p>Give the pet its own screen or a robot-like object.</p></div>
+          <div class="pb-card" style="border-color:#FF1AA8"><b>Give it a job ★ chosen</b><p>Keep the companion feeling, but make every interaction end in something useful.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">The Job</h2><p class="proj-section-note">One small moment in everyday messaging.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">You know the tone you want, but you don't have the right kaomoji ready to paste. Searching another site or scrolling a long list breaks the moment. My hypothesis was that a companion living in the browser could make that choice more direct. The intended users are people who already enjoy text expressions and write in browser-based tools; that is a starting definition to test, not an interview finding.</p>
+        <div class="pb-statement"><p>When I know the feeling, <span class="pk">help me find</span> a kaomoji <span class="gr">I can paste.</span></p><span class="star">★</span></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">The Flow</h2><p class="proj-section-note">Ask, pick, copy, paste.</p></div>
+      <div class="proj-section-body">
+        <div class="kc-flow">
+          <div class="pb-card"><span>01</span><p>Click the small cat floating on the page.</p></div>
+          <div class="pb-card"><span>02</span><p>Type a mood or gesture, like <code>shy</code> or <code>need a hug</code>.</p></div>
+          <div class="pb-card"><span>03</span><p>Pick from up to three matching kaomoji.</p></div>
+          <div class="pb-card"><span>04</span><p>Click to copy, then paste into your message.</p></div>
+        </div>
+        <div class="pb-principle">
+          <p>The cat never reads your conversations or guesses your mood from the page. You choose what to tell it, which keeps the interaction understandable and easy to evaluate.</p>
+          <p style="margin-top:10px">Instead of a small hand-coded pool, it uses an open kaomoji dataset: 1,708 expressions after deduplication, with search aliases, categories, favorites and recent copies. That number describes scope, not accuracy; accuracy needs testing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Iterations</h2><p class="proj-section-note">From design review and daily use during the build.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-step"><span>01</span>First browser pet</p>
+        <p class="pb-lede">The first Chrome version moved the character into the browser as a draggable pet with a chat panel. It set up the interaction, but replies were still random: it could respond, but it couldn't give you the expression you asked for.</p>
+        <div class="kc-vid"><iframe src="https://player.vimeo.com/video/1248764455?autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Kaomoji pet, first version" loading="lazy"></iframe></div>
+        <p class="kc-cap">Early version: draggable pet, random replies</p>
+
+        <p class="pb-step"><span>02</span>Bring the pet back to the front</p>
+        <p class="pb-lede">One redesign opened a large expression library as the main interface. Search was easy, but the companion became secondary and the whole thing turned into a browsing panel. I reset the hierarchy so the cat leads and the library sits one level down.</p>
+        <div class="pb-cards">
+          <div class="pb-card"><b>Default</b><p>A small floating cat.</p></div>
+          <div class="pb-card"><b>Click</b><p>A compact conversation.</p></div>
+          <div class="pb-card"><b>Settings</b><p>Full searchable library, favorites, recent copies.</p></div>
+        </div>
+        <p class="kc-fine">Tradeoff: the library is now one step deeper, so whether people find Settings is part of the next test.</p>
+
+        <p class="pb-step"><span>03</span>A character that works small</p>
+        <p class="pb-lede">The physical-pet feedback led me to a rounded pink robot screen first, but the framed screen read as a tiny device. A soft glowing pink form felt friendlier but too abstract to recognize. I chose a graphic black cat with a pink bow: a clear silhouette, and the bow ties it to my personal visual identity.</p>
+        <div class="kc-chars">
+          <div class="pb-card"><b>Robot screen</b><div class="stage"><img src="kaomoji/char-robot.png" alt="Pink robot screen character" loading="lazy"></div><p>Read as a miniature device, not a companion.</p></div>
+          <div class="pb-card"><b>Glowing form</b><div class="stage"><img src="kaomoji/char-glow.png" alt="Soft glowing pink character" loading="lazy"></div><p>Friendly, but no silhouette to remember.</p></div>
+          <div class="pb-card chosen"><b>Black cat ★ chosen</b><div class="stage"><img src="kaomoji/char-cat.png" alt="Black cat with pink bow" loading="lazy"></div><p>Strong silhouette, pink bow as the accent.</p></div>
+        </div>
+        <p class="pb-lede" style="margin-top:18px">The cat now carries across the floating pet, toolbar icon, launcher and chat greeting. The toolbar icon is far smaller than the pet, so eye strokes, bow size and margins have to hold up at that scale.</p>
+        <div class="pb-card"><b>Scale check</b><div class="kc-sizes">
+          <figure><img src="kaomoji/char-cat.png" width="128" height="128" alt="Cat icon at 128px">128px</figure>
+          <figure><img src="kaomoji/char-cat.png" width="48" height="48" alt="Cat icon at 48px">48px</figure>
+          <figure><img src="kaomoji/char-cat.png" width="32" height="32" alt="Cat icon at 32px">32px</figure>
+          <figure><img src="kaomoji/char-cat.png" width="16" height="16" alt="Cat icon at 16px">16px</figure>
+        </div></div>
+
+        <p class="pb-step"><span>04</span>Keep the face consistent</p>
+        <div class="kc-ba">
+          <div class="pb-card"><b>Before</b><div class="face"><img src="kaomoji/cat-face-before.png" alt="Cat with a long kaomoji printed on its face" loading="lazy"></div><p>Each reply replaced the cat's face. Long kaomoji shrank into small text on a dark silhouette and the character lost its face.</p></div>
+          <div class="pb-card"><b>After</b><div class="face after">^ ^</div><p>The cat keeps <code style="font-family:ui-monospace,Menlo,monospace">^ ^</code> through hover, chat and copy. Suggestions live in the conversation, and copying shows its own confirmation.</p></div>
+        </div>
+
+        <p class="pb-step"><span>05</span>Chrome's different surfaces</p>
+        <div class="kc-bug">
+          <img src="kaomoji/bug-popup-clipped.jpg" alt="Early toolbar popup clipped into a narrow vertical strip" loading="lazy">
+          <div>
+            <p><strong>Clipped popup.</strong> An early toolbar popup collapsed into a narrow strip, as seen here.</p>
+            <p><strong>New Tab error.</strong> Clicking the extension on Chrome's New Tab page could show an error badge, because that page can't host the floating pet.</p>
+            <p><strong>Fix.</strong> On New Tab and other protected pages, the toolbar now opens a small cat launcher with the same chat and copy flow. Explicit sizes for the launcher, chat and Settings let me check real popup behavior, not just a preview in a normal tab.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">The Prototype</h2><p class="proj-section-note">What works today.</p></div>
+      <div class="proj-section-body">
+        <div class="kc-vid"><iframe src="https://player.vimeo.com/video/1248761779?autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Kaomoji Cat prototype walkthrough" loading="lazy"></iframe></div>
+        <p class="kc-cap">Current prototype walkthrough</p>
+        <p class="pb-lede" style="margin-top:22px">Mood and gesture requests, copyable suggestions, an offline searchable library, favorites and recent history. It runs as a floating pet on ordinary sites and through the toolbar on Chrome New Tab. Build checks in an isolated Chrome profile covered popup sizing, keyword replies, exact clipboard contents, saved favorites, offline use, and the cat's face staying unchanged.</p>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Where AI Fits</h2><p class="proj-section-note">In the build, not in the product.</p></div>
+      <div class="proj-section-body">
+        <div class="pb-rules">
+          <div><h4>In the process</h4><ul>
+            <li>AI helped turn design decisions into runnable code and supported debugging.</li>
+            <li>I defined the experience, judged the results and rejected directions that didn't fit.</li>
+          </ul></div>
+          <div><h4>In the product</h4><ul>
+            <li><strong>No model calls.</strong> Matching uses local keywords, categories and aliases.</li>
+            <li><strong>Why:</strong> works offline, input never leaves the browser, no per-request cost.</li>
+            <li><strong>Limits:</strong> no reliable handling of negation, sarcasm or nuance like "affectionate but not too much".</li>
+          </ul></div>
+        </div>
+        <div class="pb-principle"><p>A future version could let a model translate a nuanced request into tags and pick from the curated library. I'd test that against the local baseline before adding the complexity.</p></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Next: Testing</h2><p class="proj-section-note">A working build is not a solved problem.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">The build checks show it functions. They don't show it's useful, discoverable or faster. Next is a small formative study with friends, compared against how they find kaomoji today. I'll record completion, help needed, relevance and hesitation, then update this page with results.</p>
+        <div class="pb-cards" style="grid-template-columns:repeat(4,1fr)">
+          <div class="pb-card"><b>Task 1</b><p>Find an expression for a given tone, uncoached.</p></div>
+          <div class="pb-card"><b>Task 2</b><p>Understand that clicking a suggestion copies it.</p></div>
+          <div class="pb-card"><b>Task 3</b><p>Save and reuse a favorite.</p></div>
+          <div class="pb-card"><b>Task 4</b><p>Reach the cat from Chrome New Tab.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Reflection</h2><p class="proj-section-note">Keep the charm, add a purpose.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">The hardest calls were about what stays small, what moves to a second view, and what never changes. The outcome so far is a functional prototype and a sharper hypothesis. The next decisions should come from watching people use it.</p>
+        <div class="kc-links">
+          <a href="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" target="_blank" rel="noopener">Original p5.js experiment ↗</a>
+          <a href="https://github.com/kaomojikan/kaomoji-data" target="_blank" rel="noopener">Kaomoji dataset (MIT) ↗</a>
+        </div>
+        <p class="kc-fine">Kaomoji data from kaomojikan/kaomoji-data, MIT license; categories and tags kept, duplicates merged. Implementation built with AI coding assistance. Classroom feedback shaped the direction.</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="proj-bottom">
+    <a href="index.html#playground" class="proj-back-link">← All Work</a>
+    <a href="custom-online-photo-booth.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Photo★Booth →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script src="page.js?v=40"></script>
+</body>
+</html>
