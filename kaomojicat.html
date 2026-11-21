@@ -172,6 +172,20 @@
     .kc-quotes p{margin:0; font-size:.95rem; line-height:1.5; color:#170a24;}
     .kc-quotes--fb blockquote.good{background:#170a24;} .kc-quotes--fb blockquote.good p{color:#F7F1EA;} .kc-quotes--fb blockquote.good b{color:#D7FF45;} .kc-quotes--fb blockquote.good::before{color:#3a2c48;}
     @media (max-width:760px){ .kc-quotes{grid-template-columns:1fr;} }
+    .kp{display:flex; flex-direction:column; gap:12px;}
+    .kp b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:10px;}
+    .kp-main{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:26px 28px;}
+    .kp-big{margin:0 0 18px; font-family:'Inter',sans-serif; font-size:clamp(1.2rem,1.9vw,1.6rem); font-weight:700; line-height:1.32; letter-spacing:-.01em; color:#170a24;}
+    .kp-big em,.kp-hmw em{font-style:normal; color:#FF1AA8;}
+    .kp-chips{display:flex; flex-wrap:wrap; gap:8px;} .kp-chips span{background:#F3EEF6; color:#5a4a66; border-radius:999px; padding:7px 14px; font-size:.82rem; font-weight:600;}
+    .kp-row{display:grid; grid-template-columns:1.15fr 1fr; gap:12px; align-items:stretch;}
+    .kp-pp,.kp-hmw{border-radius:18px; padding:24px 26px;}
+    .kp-pp{background:#FCE6F2;}
+    .kp-q{margin:0 0 10px; background:#fff; border-radius:16px 16px 16px 4px; padding:12px 16px; font-size:.93rem; line-height:1.45; color:#3a2c48;} .kp-q:last-child{margin-bottom:0;}
+    .kp-q i{display:block; font-style:normal; font-size:.66rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:4px;}
+    .kp-hmw{background:#170a24;} .kp-hmw b{color:#D7FF45;} .kp-hmw p{margin:0; font-family:'Inter',sans-serif; font-size:clamp(1.15rem,1.7vw,1.45rem); font-weight:700; line-height:1.35; color:#F7F1EA;}
+    .kp-user{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:18px 22px;} .kp-user p{margin:0; font-size:.92rem; line-height:1.5; color:#3a2c48;}
+    @media (max-width:760px){ .kp-row{grid-template-columns:1fr;} }
     @media (max-width:760px){ .kc-2,.kc-flow,.kc-ba,.kc-bug{grid-template-columns:1fr;} }
   </style>
   <section class="proj-hero">
@@ -198,7 +212,7 @@
         <p>It started as a school p5.js experiment: ask anything, get a text face back. It was expressive but had no real job. I developed it into Kaomoji Cat, a Chrome extension where you describe a mood or gesture and copy a matching expression into whatever you are writing.</p>
         <div class="proj-stats-strip">
           <div class="proj-stat-item"><span class="proj-stat-n">1,708</span><span class="proj-stat-l">Expressions</span></div>
-          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Suggestions per ask</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Interviews</span></div>
           <div class="proj-stat-item"><span class="proj-stat-n">0</span><span class="proj-stat-l">Model calls</span></div>
         </div>
       </div>
@@ -232,22 +246,24 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">The Job</h2><p class="proj-section-note">One small moment in everyday messaging.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Problem</h2><p class="proj-section-note">The right kaomoji is never where you're typing.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">You know the tone you want, but you don't have the right kaomoji ready to paste. Searching another site or scrolling a long list breaks the moment. My hypothesis was that a companion living in the browser could make that choice more direct. The intended users are people who already enjoy text expressions and write in browser-based tools.</p>
-        <div class="pb-statement"><p>When I know the feeling, <span class="pk">help me find</span> a kaomoji <span class="gr">I can paste.</span></p><span class="star">★</span></div>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Pain Points</h2><p class="proj-section-note">What people said when I asked how they find kaomoji today.</p></div>
-      <div class="proj-section-body">
-        <div class="kc-quotes">
-          <blockquote><b>Too few, too hard to find</b><p>"My keyboard has very few kaomoji, they're hard to find, and the suggested ones are ugly."</p></blockquote>
-          <blockquote><b>Too slow to type</b><p>"Even with a Japanese keyboard they're hard to type. Building one myself takes too long."</p></blockquote>
-          <blockquote><b>Websites get in the way</b><p>"Every time I look for new ones on a website, I tap an ad by accident or get asked to sign up for an account."</p></blockquote>
+        <div class="kp">
+          <div class="kp-main"><b>Problem</b>
+            <p class="kp-big">People know the mood they want to send, but finding the right kaomoji means <em>leaving the conversation</em>: too few in the keyboard, too slow to type, too many ads online.</p>
+            <div class="kp-chips"><span>Phone keyboard</span><span>Japanese keyboard</span><span>Kaomoji websites</span><span>Search "cute kaomoji"</span></div>
+          </div>
+          <div class="kp-row">
+            <div class="kp-pp"><b>Pain points · 3 interviews</b>
+              <p class="kp-q"><i>Too few</i>"My keyboard has very few kaomoji, they're hard to find, and the suggested ones are ugly."</p>
+              <p class="kp-q"><i>Too slow</i>"Even with a Japanese keyboard they're hard to type. Building one myself takes too long."</p>
+              <p class="kp-q"><i>Too noisy</i>"Every time I look for new ones on a website, I tap an ad by accident or get asked to sign up for an account."</p>
+            </div>
+            <div class="kp-hmw"><b>How might we</b><p>help people find a kaomoji that fits their mood and <em>paste it in one click</em>, without leaving what they're writing?</p></div>
+          </div>
+          <div class="kp-user"><b>Target user</b><p>People who already use kaomoji in chats, posts and emails, and write mostly in the browser. They care about cute, not just correct.</p></div>
         </div>
-        <p class="kc-fine">These shaped three rules for the build: a large, good-looking library; copy in one click instead of typing; and no ads, accounts or extra tabs.</p>
+        <p class="kc-fine">These became three rules for the build: a large, good-looking library; copy in one click instead of typing; and no ads, accounts or extra tabs.</p>
       </div>
     </div>
 
