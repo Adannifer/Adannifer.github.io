@@ -186,6 +186,43 @@
     .kp-hmw{background:#170a24;} .kp-hmw b{color:#D7FF45;} .kp-hmw p{margin:0; font-family:'Inter',sans-serif; font-size:clamp(1.15rem,1.7vw,1.45rem); font-weight:700; line-height:1.35; color:#F7F1EA;}
     .kp-user{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:18px 22px;} .kp-user p{margin:0; font-size:.92rem; line-height:1.5; color:#3a2c48;}
     @media (max-width:760px){ .kp-row{grid-template-columns:1fr;} }
+    .kx-meta{display:flex; flex-direction:column; gap:14px; height:100%;} .kx-meta p{margin:2px 0 0;}
+    .kx-tree{margin-top:18px; display:flex; flex-direction:column; align-items:center; gap:14px;}
+    .kx-node{background:#fff; border:1px solid rgba(23,10,36,.1); border-radius:999px; padding:10px 18px; font-size:.9rem; font-weight:600; color:#170a24; position:relative;}
+    .kx-split{display:flex; gap:18px;} .kx-off{color:#8a7f95; text-decoration:line-through; text-decoration-color:#FF1AA8;} .kx-on{background:#FF1AA8; color:#fff; border-color:#FF1AA8;}
+    .kx-tree > .kx-node::after,.kx-split::after{content:"↓"; position:absolute; left:50%; bottom:-22px; transform:translateX(-50%); color:#d4007f; font-weight:800;}
+    .kx-split{position:relative;}
+    .kx-job{background:#170a24; color:#F7F1EA; border-radius:18px; padding:20px 28px; font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(1.2rem,2vw,1.7rem); text-align:center; margin-top:6px;}
+    .kx-job span{display:block; font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:#D7FF45; margin-bottom:6px;} .kx-job em{font-style:normal; color:#FF1AA8;}
+    .kx-pain{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:24px; align-items:center; padding:18px 0; border-bottom:1px solid rgba(23,10,36,.08);}
+    .kx-pain:first-child{padding-top:0;}
+    .kx-ptext span{font-family:'Inter',sans-serif; font-weight:900; font-size:1.6rem; color:#FF1AA8;}
+    .kx-ptext h3{margin:4px 0 8px; font-size:1.2rem; color:#170a24;}
+    .kx-ptext p{margin:0; background:#FCE6F2; border-radius:16px 16px 16px 4px; padding:12px 16px; font-size:.95rem; line-height:1.45; color:#3a2c48;}
+    .kx-pimg{margin:0;} .kx-pimg img{width:100%; height:auto; max-height:360px; object-fit:contain; display:block; border-radius:14px; background:#fff; border:1px solid rgba(23,10,36,.08);}
+    .kx-steps{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px;}
+    .kx-steps span{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; padding:12px 14px; font-size:.9rem; font-weight:600; color:#170a24;}
+    .kx-steps b{display:block; color:#FF1AA8; font-weight:900; font-size:1.1rem; margin-bottom:2px;}
+    .kx-hier{display:flex; align-items:center; gap:12px;} .kx-hier>div{flex:1; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px; text-align:center; font-size:.85rem; color:#3a2c48;}
+    .kx-hier i{display:block; font-style:normal; font-size:1.8rem; margin-bottom:6px;} .kx-hier b{display:block; color:#170a24; font-size:.95rem;} .kx-hier>span{color:#d4007f; font-weight:900;}
+    .kc-quotes--fb blockquote.next{background:#D7FF45;} .kc-quotes--fb blockquote.next b{color:#170a24;} .kc-quotes--fb blockquote.next::before{content:"";}
+    .kx-notes{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px;}
+    .kx-notes div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; padding:14px 16px;}
+    .kx-notes b{display:block; font-size:.9rem; color:#170a24; margin-bottom:4px;} .kx-notes p{margin:0; font-size:.84rem; line-height:1.45; color:#3a2c48;}
+    @media (max-width:760px){ .kx-pain,.kx-steps,.kx-notes{grid-template-columns:1fr;} .kx-hier{flex-direction:column;} .kx-hier>span{transform:rotate(90deg);} }
+    .kx-choice{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    .kx-opt{border-radius:18px; padding:20px 22px; background:#fff; border:1px solid rgba(23,10,36,.08);}
+    .kx-opt em{display:inline-block; font-style:normal; font-size:.7rem; font-weight:800; letter-spacing:.12em; border-radius:999px; padding:4px 10px; margin-bottom:10px; background:#F3EEF6; color:#6C6980;}
+    .kx-opt b{display:block; font-family:'Inter',sans-serif; font-size:1.25rem; color:#170a24; margin-bottom:4px;}
+    .kx-opt p{margin:0; font-size:.9rem; line-height:1.45; color:#3a2c48;}
+    .kx-opt--off{opacity:.55;} .kx-opt--off b{text-decoration:line-through; text-decoration-color:#FF1AA8; text-decoration-thickness:2px;}
+    .kx-opt--on{background:#170a24; border-color:#170a24;} .kx-opt--on em{background:#FF1AA8; color:#fff;} .kx-opt--on b{color:#fff;} .kx-opt--on p{color:#d9d1e3;}
+    .kx-success{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    .kx-success div{background:#FCE6F2; border-radius:18px; padding:20px 22px; display:grid; grid-template-columns:auto 1fr; column-gap:14px; align-items:center;}
+    .kx-success i{grid-row:span 2; font-style:normal; font-size:1.6rem; width:52px; height:52px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; color:#FF1AA8;}
+    .kx-success b{font-family:'Inter',sans-serif; font-size:1.35rem; font-weight:900; color:#170a24;}
+    .kx-success p{margin:0; font-size:.88rem; color:#3a2c48;}
+    @media (max-width:760px){ .kx-choice,.kx-success{grid-template-columns:1fr;} }
     @media (max-width:760px){ .kc-2,.kc-flow,.kc-ba,.kc-bug{grid-template-columns:1fr;} }
   </style>
   <section class="proj-hero">
@@ -208,186 +245,134 @@
     <div class="proj-overview">
       <div class="proj-desc-col">
         <h2>Overview</h2>
-        <p class="proj-pitch">A chatbot that could only answer in kaomoji, turned into a browser cat that finds the right one for you.</p>
-        <p>It started as a school p5.js experiment: ask anything, get a text face back. It was expressive but had no real job. I developed it into Kaomoji Cat, a Chrome extension where you describe a mood or gesture and copy a matching expression into whatever you are writing.</p>
+        <p class="proj-pitch">A chatbot that only answered in kaomoji, turned into a browser cat that finds the right one for you.</p>
         <div class="proj-stats-strip">
-          <div class="proj-stat-item"><span class="proj-stat-n">1,708</span><span class="proj-stat-l">Expressions</span></div>
           <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Interviews</span></div>
-          <div class="proj-stat-item"><span class="proj-stat-n">0</span><span class="proj-stat-l">Model calls</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">1,708</span><span class="proj-stat-l">Kaomoji</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">1</span><span class="proj-stat-l">Click to copy</span></div>
         </div>
       </div>
       <div class="proj-right-col">
-        <div class="pb-card" style="height:100%">
-          <b>My role</b><p>Interaction design, visual direction, product decisions and prototyping, with AI-assisted coding.</p>
-          <b style="margin-top:16px">Context</b><p>Self-directed continuation of a school project, shaped by classroom feedback, short interviews and friend testing.</p>
-          <b style="margin-top:16px">Tools</b><p>p5.js, HTML, CSS, JavaScript, Chrome Manifest V3.</p>
-          <b style="margin-top:16px">Status</b><p>Working, locally installable prototype, tried by friends in a first round of feedback.</p>
+        <div class="pb-card kx-meta">
+          <div><b>Role</b><p>Interaction, visual, prototyping</p></div>
+          <div><b>Tools</b><p>p5.js · JS · Chrome MV3</p></div>
+          <div><b>Status</b><p>Working prototype, tested with friends</p></div>
         </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">The Starting Point</h2><p class="proj-section-note">A chatbot that answered in faces.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">The Starting Point</h2><p class="proj-section-note">A p5.js chatbot that answered in faces.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">In the original p5.js piece, you type a message and get a kaomoji back while the background shifts color. The replies were ambiguous on purpose: sometimes affectionate, sometimes confused, sometimes oddly right. Classmates started reading it as a little AI character, which raised the real question: what would make someone come back after the novelty wears off?</p>
         <div class="kc-2">
-          <img src="kaomoji/p5-idle.jpg" alt="Original p5.js kaomoji chatbot, idle state" loading="lazy">
-          <img src="kaomoji/p5-reply.jpg" alt="p5.js chatbot replying to a question with a kaomoji" loading="lazy">
-          <img src="kaomoji/p5-crying.jpg" alt="p5.js chatbot replying with a crying kaomoji" loading="lazy">
-          <img src="kaomoji/p5-history.jpg" alt="p5.js chatbot history of previous questions and replies" loading="lazy">
+          <img src="kaomoji/p5-reply.jpg" alt="p5.js chatbot replying with a kaomoji" loading="lazy">
+          <img src="kaomoji/p5-history.jpg" alt="p5.js chatbot history of questions and replies" loading="lazy">
         </div>
-        <p class="kc-cap">Original p5.js experiment: ask, shuffle, history</p>
-        <p class="pb-step"><span>Fork</span>Two directions from feedback</p>
-        <div class="pb-cards" style="grid-template-columns:1fr 1fr">
-          <div class="pb-card"><b>Make it physical</b><p>Give the pet its own screen or a robot-like object.</p></div>
-          <div class="pb-card" style="border-color:#FF1AA8"><b>Give it a job ★ chosen</b><p>Keep the companion feeling, but make every interaction end in something useful.</p></div>
+        <p class="pb-step"><span>Fork</span>Two ways forward</p>
+        <div class="kx-choice">
+          <div class="kx-opt kx-opt--off"><em>A</em><b>Make it physical</b><p>A screen or robot-like object on the desk.</p></div>
+          <div class="kx-opt kx-opt--on"><em>B ★</em><b>Give it a job</b><p>Keep the pet, and make it find the exact kaomoji you need.</p></div>
+        </div>
+        <p class="pb-step"><span>Goal</span>What success looks like</p>
+        <div class="kx-success">
+          <div><i>⚡</i><b>Fast</b><p>From mood to pasted kaomoji in a few seconds.</p></div>
+          <div><i>♡</i><b>Joyful</b><p>A cute cat to talk to, not another search box.</p></div>
         </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Problem</h2><p class="proj-section-note">The right kaomoji is never where you're typing.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Pain Points</h2><p class="proj-section-note">From 3 interviews.</p></div>
       <div class="proj-section-body">
-        <div class="kp">
-          <div class="kp-main"><b>Problem</b>
-            <p class="kp-big">People know the mood they want to send, but finding the right kaomoji means <em>leaving the conversation</em>: too few in the keyboard, too slow to type, too many ads online.</p>
-            <div class="kp-chips"><span>Phone keyboard</span><span>Japanese keyboard</span><span>Kaomoji websites</span><span>Search "cute kaomoji"</span></div>
-          </div>
-          <div class="kp-row">
-            <div class="kp-pp"><b>Pain points · 3 interviews</b>
-              <p class="kp-q"><i>Too few</i>"My keyboard has very few kaomoji, they're hard to find, and the suggested ones are ugly."</p>
-              <p class="kp-q"><i>Too slow</i>"Even with a Japanese keyboard they're hard to type. Building one myself takes too long."</p>
-              <p class="kp-q"><i>Too noisy</i>"Every time I look for new ones on a website, I tap an ad by accident or get asked to sign up for an account."</p>
-            </div>
-            <div class="kp-hmw"><b>How might we</b><p>help people find a kaomoji that fits their mood and <em>paste it in one click</em>, without leaving what they're writing?</p></div>
-          </div>
-          <div class="kp-user"><b>Target user</b><p>People who already use kaomoji in chats, posts and emails, and write mostly in the browser. They care about cute, not just correct.</p></div>
+        <div class="kx-pain">
+          <div class="kx-ptext"><span>01</span><h3>Too few, and not cute</h3><p>"My keyboard has very few kaomoji, and the suggested ones are ugly."</p></div>
+          <figure class="kx-pimg"><img src="kaomoji/ev-keyboard-few.jpg" alt="A keyboard theme that only offers basic emoticons like :) and :P" loading="lazy"></figure>
         </div>
-        <p class="kc-fine">These became three rules for the build: a large, good-looking library; copy in one click instead of typing; and no ads, accounts or extra tabs.</p>
+        <div class="kx-pain">
+          <div class="kx-ptext"><span>02</span><h3>Too slow to type</h3><p>"Even with a Japanese keyboard they're hard to type."</p></div>
+          <figure class="kx-pimg"><img src="kaomoji/ev-japanese-keyboard.jpg" alt="Japanese keyboard kaomoji suggestions that must be typed and scrolled through" loading="lazy"></figure>
+        </div>
+        <div class="kx-pain">
+          <div class="kx-ptext"><span>03</span><h3>Websites get in the way</h3><p>"I tap an ad by accident, or get asked to sign up."</p></div>
+          <figure class="kx-pimg"><img src="kaomoji/ev-website-ads.jpg" alt="A kaomoji website covered by a notification prompt and a fake update ad" loading="lazy"></figure>
+        </div>
       </div>
     </div>
 
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">The Flow</h2><p class="proj-section-note">Ask, pick, copy, paste.</p></div>
       <div class="proj-section-body">
-        <div class="kc-flow">
-          <div class="pb-card"><span>01</span><p>Click the small cat floating on the page.</p></div>
-          <div class="pb-card"><span>02</span><p>Type a mood or gesture, like <code>shy</code> or <code>need a hug</code>.</p></div>
-          <div class="pb-card"><span>03</span><p>Pick from up to three matching kaomoji.</p></div>
-          <div class="pb-card"><span>04</span><p>Click to copy, then paste into your message.</p></div>
-        </div>
-        <div class="pb-principle">
-          <p>The cat never reads your conversations or guesses your mood from the page. You choose what to tell it, which keeps the interaction understandable and easy to evaluate.</p>
-          <p style="margin-top:10px">Instead of a small hand-coded pool, it uses an open kaomoji dataset: 1,708 expressions after deduplication, with search aliases, categories, favorites and recent copies. That number describes scope, not accuracy; accuracy needs testing.</p>
-        </div>
+        <div class="kc-vid"><iframe src="https://player.vimeo.com/video/1248761779?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Kaomoji Cat flow" loading="lazy"></iframe></div>
+        <div class="kx-steps"><span><b>01</b>Click the cat</span><span><b>02</b>Type a mood</span><span><b>03</b>Pick one of 3</span><span><b>04</b>Copied, paste it</span></div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Iterations</h2><p class="proj-section-note">From design review and daily use during the build.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Iterations</h2><p class="proj-section-note">Five calls made while building.</p></div>
       <div class="proj-section-body">
-        <p class="pb-step"><span>01</span>First browser pet</p>
-        <p class="pb-lede">The first Chrome version moved the character into the browser as a draggable pet with a chat panel. It set up the interaction, but replies were still random: it could respond, but it couldn't give you the expression you asked for.</p>
+        <p class="pb-step"><span>01</span>From random replies to a real job</p>
         <div class="kc-vid"><iframe src="https://player.vimeo.com/video/1248764455?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Kaomoji pet, first version" loading="lazy"></iframe></div>
-        <p class="kc-cap">Early version: draggable pet, random replies</p>
+        <p class="kc-cap">v1: a draggable pet with random replies. It could answer, but not help.</p>
 
-        <p class="pb-step"><span>02</span>Bring the pet back to the front</p>
-        <p class="pb-lede">One redesign opened a large expression library as the main interface. Search was easy, but the companion became secondary and the whole thing turned into a browsing panel. I reset the hierarchy so the cat leads and the library sits one level down.</p>
-        <div class="pb-cards">
-          <div class="pb-card"><b>Default</b><p>A small floating cat.</p></div>
-          <div class="pb-card"><b>Click</b><p>A compact conversation.</p></div>
-          <div class="pb-card"><b>Settings</b><p>Full searchable library, favorites, recent copies.</p></div>
-        </div>
-        <p class="kc-fine">Tradeoff: the library is now one step deeper, behind Settings. Testing later confirmed this was a weak spot (see Feedback).</p>
+        <p class="pb-step"><span>02</span>The pet leads, the library waits</p>
+        <div class="kx-hier"><div><i>🐱</i><b>Default</b>Small floating cat</div><span>→</span><div><i>💬</i><b>Click</b>Compact chat</div><span>→</span><div><i>📚</i><b>Settings</b>Full library</div></div>
 
         <p class="pb-step"><span>03</span>A character that works small</p>
-        <p class="pb-lede">The physical-pet feedback led me to a rounded pink robot screen first, but the framed screen read as a tiny device. A soft glowing pink form felt friendlier but too abstract to recognize. I chose a graphic black cat with a pink bow: a clear silhouette, and the bow ties it to my personal visual identity.</p>
         <div class="kc-chars">
-          <div class="pb-card"><b>Robot screen</b><div class="stage"><img src="kaomoji/char-robot.png" alt="Pink robot screen character" loading="lazy"></div><p>Read as a miniature device, not a companion.</p></div>
-          <div class="pb-card"><b>Glowing form</b><div class="stage"><img src="kaomoji/char-glow.png" alt="Soft glowing pink character" loading="lazy"></div><p>Friendly, but no silhouette to remember.</p></div>
-          <div class="pb-card chosen"><b>Black cat ★ chosen</b><div class="stage"><img src="kaomoji/char-cat.png" alt="Black cat with pink bow" loading="lazy"></div><p>Strong silhouette, pink bow as the accent.</p></div>
+          <div class="pb-card"><div class="stage"><img src="kaomoji/char-robot.png" alt="Pink robot screen character" loading="lazy"></div><p>Robot: reads as a device</p></div>
+          <div class="pb-card"><div class="stage"><img src="kaomoji/char-glow.png" alt="Soft glowing pink character" loading="lazy"></div><p>Glow: no silhouette</p></div>
+          <div class="pb-card chosen"><div class="stage"><img src="kaomoji/char-cat.png" alt="Black cat with pink bow" loading="lazy"></div><p><b style="color:#d4007f">Cat ★</b> clear at any size</p></div>
         </div>
-        <p class="pb-lede" style="margin-top:18px">The cat now carries across the floating pet, toolbar icon, launcher and chat greeting. The toolbar icon is far smaller than the pet, so eye strokes, bow size and margins have to hold up at that scale.</p>
-        <div class="pb-card"><b>Scale check</b><div class="kc-sizes">
+        <div class="pb-card" style="margin-top:12px"><div class="kc-sizes">
           <figure><img src="kaomoji/char-cat.png" width="128" height="128" alt="Cat icon at 128px">128px</figure>
           <figure><img src="kaomoji/char-cat.png" width="48" height="48" alt="Cat icon at 48px">48px</figure>
           <figure><img src="kaomoji/char-cat.png" width="32" height="32" alt="Cat icon at 32px">32px</figure>
           <figure><img src="kaomoji/char-cat.png" width="16" height="16" alt="Cat icon at 16px">16px</figure>
         </div></div>
 
-        <p class="pb-step"><span>04</span>Keep the face consistent</p>
+        <p class="pb-step"><span>04</span>Keep the face</p>
         <div class="kc-ba">
-          <div class="pb-card"><b>Before</b><div class="face"><img src="kaomoji/cat-face-before.png" alt="Cat with a long kaomoji printed on its face" loading="lazy"></div><p>Each reply replaced the cat's face. Long kaomoji shrank into small text on a dark silhouette and the character lost its face.</p></div>
-          <div class="pb-card"><b>After</b><div class="face after">^ ^</div><p>The cat keeps <code style="font-family:ui-monospace,Menlo,monospace">^ ^</code> through hover, chat and copy. Suggestions live in the conversation, and copying shows its own confirmation.</p></div>
+          <div class="pb-card"><b>Before</b><div class="face"><img src="kaomoji/cat-face-before.png" alt="Cat with a long kaomoji printed on its face" loading="lazy"></div><p>Replies replaced the face.</p></div>
+          <div class="pb-card"><b>After</b><div class="face after">^ ^</div><p>The face stays; replies live in the chat.</p></div>
         </div>
 
-        <p class="pb-step"><span>05</span>Chrome's different surfaces</p>
+        <p class="pb-step"><span>05</span>Fix Chrome's edge cases</p>
         <div class="kc-bug">
-          <img src="kaomoji/bug-popup-clipped.jpg" alt="Early toolbar popup clipped into a narrow vertical strip" loading="lazy">
+          <img src="kaomoji/bug-popup-clipped.jpg" alt="Early toolbar popup clipped into a narrow strip" loading="lazy">
           <div>
-            <p><strong>Clipped popup.</strong> An early toolbar popup collapsed into a narrow strip, as seen here.</p>
-            <p><strong>New Tab error.</strong> Clicking the extension on Chrome's New Tab page could show an error badge, because that page can't host the floating pet.</p>
-            <p><strong>Fix.</strong> On New Tab and other protected pages, the toolbar now opens a small cat launcher with the same chat and copy flow. Explicit sizes for the launcher, chat and Settings let me check real popup behavior, not just a preview in a normal tab.</p>
+            <p><strong>Bug:</strong> the toolbar popup collapsed into a strip, and New Tab showed an error.</p>
+            <p><strong>Fix:</strong> a small cat launcher with fixed sizes, working on every page.</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">The Prototype</h2><p class="proj-section-note">What works today.</p></div>
-      <div class="proj-section-body">
-        <div class="kc-vid"><iframe src="https://player.vimeo.com/video/1248761779?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Kaomoji Cat prototype walkthrough" loading="lazy"></iframe></div>
-        <p class="kc-cap">Current prototype walkthrough</p>
-        <p class="pb-lede" style="margin-top:22px">Mood and gesture requests, copyable suggestions, an offline searchable library, favorites and recent history. It runs as a floating pet on ordinary sites and through the toolbar on Chrome New Tab. Build checks in an isolated Chrome profile covered popup sizing, keyword replies, exact clipboard contents, saved favorites, offline use, and the cat's face staying unchanged.</p>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Where AI Fits</h2><p class="proj-section-note">In the build, not in the product.</p></div>
-      <div class="proj-section-body">
-        <div class="pb-rules">
-          <div><h4>In the process</h4><ul>
-            <li>AI helped turn design decisions into runnable code and supported debugging.</li>
-            <li>I defined the experience, judged the results and rejected directions that didn't fit.</li>
-          </ul></div>
-          <div><h4>In the product</h4><ul>
-            <li><strong>No model calls.</strong> Matching uses local keywords, categories and aliases.</li>
-            <li><strong>Why:</strong> works offline, input never leaves the browser, no per-request cost.</li>
-            <li><strong>Limits:</strong> no reliable handling of negation, sarcasm or nuance like "affectionate but not too much".</li>
-          </ul></div>
-        </div>
-        <div class="pb-principle"><p>A future version could let a model translate a nuanced request into tags and pick from the curated library. I'd test that against the local baseline before adding the complexity.</p></div>
-      </div>
-    </div>
-
-    <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Feedback</h2><p class="proj-section-note">What friends said after trying it.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Feedback</h2><p class="proj-section-note">Friends after trying it.</p></div>
       <div class="proj-section-body">
         <div class="kc-quotes kc-quotes--fb">
-          <blockquote class="good"><b>The core job works</b><p>"So convenient, it really works. I don't have to type 'cute kaomoji' into a search box every time anymore."</p></blockquote>
-          <blockquote class="good"><b>The character lands</b><p>"Such a cute mascot, and it even blinks!"</p></blockquote>
-          <blockquote><b>Settings is the wrong door</b><p>"Could the settings icon be a (💗) or a favorites button? I don't usually click settings."</p></blockquote>
-          <blockquote><b>Make it mine</b><p>"Can I personalize the mascot, or change its bow?!"</p></blockquote>
-          <blockquote><b>Beyond the browser</b><p>"I want a full-screen version! Or a phone version."</p></blockquote>
-        </div>
-        <p class="pb-step"><span>Next</span>What I'll change</p>
-        <div class="pb-cards">
-          <div class="pb-card"><b>01 · Favorites, not Settings</b><p>Replace the Settings entry with a heart, so saved kaomoji and the library are where people expect them.</p></div>
-          <div class="pb-card"><b>02 · Dress up the cat</b><p>Let people pick a bow color or accessory, keeping the <code style="font-family:ui-monospace,Menlo,monospace">^ ^</code> face fixed.</p></div>
-          <div class="pb-card"><b>03 · More places to live</b><p>Explore a full-screen view for browsing and a phone keyboard version.</p></div>
+          <blockquote class="good"><b>Job done</b><p>"So convenient. No more searching 'cute kaomoji'."</p></blockquote>
+          <blockquote class="good"><b>Joyful</b><p>"Such a cute mascot, and it blinks!"</p></blockquote>
+          <blockquote><b>Wrong door</b><p>"Make settings a (💗). I never click settings."</p></blockquote>
+          <blockquote><b>Make it mine</b><p>"Can I change its bow?!"</p></blockquote>
+          <blockquote><b>Go bigger</b><p>"I want a full-screen or phone version!"</p></blockquote>
+          <blockquote class="next"><b>Next</b><p>💗 Favorites instead of Settings · Bow picker · Phone keyboard</p></blockquote>
         </div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Reflection</h2><p class="proj-section-note">Keep the charm, add a purpose.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Notes</h2><p class="proj-section-note">How it's built.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">The hardest calls were about what stays small, what moves to a second view, and what never changes. The first round of feedback confirmed the core job and pointed straight at the weak spot I had flagged: the library hidden behind Settings. The next version starts there.</p>
+        <div class="kx-notes">
+          <div><b>No AI in the product</b><p>Local keywords and aliases. Works offline, nothing uploaded.</p></div>
+          <div><b>AI in the build</b><p>AI-assisted coding; I designed, judged and cut.</p></div>
+          <div><b>Private by design</b><p>The cat never reads your page. You tell it the mood.</p></div>
+        </div>
         <div class="kc-links">
           <a href="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" target="_blank" rel="noopener">Original p5.js experiment ↗</a>
           <a href="https://github.com/kaomojikan/kaomoji-data" target="_blank" rel="noopener">Kaomoji dataset (MIT) ↗</a>
         </div>
-        <p class="kc-fine">Kaomoji data from kaomojikan/kaomoji-data, MIT license; categories and tags kept, duplicates merged. Implementation built with AI coding assistance. Classroom feedback shaped the direction.</p>
       </div>
     </div>
   </main>
