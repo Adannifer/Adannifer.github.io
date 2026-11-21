@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PWQJ7HBL');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7615TEK1PY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7615TEK1PY');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joydotz Product Page UX — Jennifer Qian</title>
+  <link rel="stylesheet" href="style.css?v=40" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-cream.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet" />
+  <svg id="svg-filters" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="blob-gooey" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 16 -5"/>
+      </filter>
+    </defs>
+  </svg>
+  <link rel="icon" href="favicon.ico?v=1" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+</head>
+<body class="project-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWQJ7HBL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="blob-trail" aria-hidden="true"></div>
+
+  <nav id="nav">
+    <div id="nav-logo-slot">
+      <a href="uiux.html"><span id="nav-logo-text">Jennifer<span class="star-sep">★</span>Qian</span></a>
+    </div>
+    <div id="nav-links"><a href="uiux.html#work" class="nav-link">Work</a><a href="uiux.html#about" class="nav-link">About</a><a href="uiux.html#contact" class="nav-link">Contact</a></div>
+  </nav>
+
+  <style>
+    .pb .proj-section-body{display:block;}
+    .pb-lede{font-size:.95rem; line-height:1.6; color:#3a2c48; margin:0 0 22px;}
+    .pb-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .pb-card{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:20px; box-shadow:0 8px 24px rgba(23,10,36,.05);}
+    .pb-card b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:8px;}
+    .pb-card p{margin:0; font-size:.88rem; line-height:1.6; color:#3a2c48;}
+    .pb-statement{margin-top:16px; background:#0A0613; border-radius:18px; padding:clamp(24px,4vw,44px); display:flex; justify-content:space-between; align-items:center; gap:24px;}
+    .pb-statement p{margin:0; font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1.3rem,2.8vw,2.4rem); line-height:1.1; letter-spacing:-.01em; text-transform:uppercase; color:#F7F1EA;}
+    .pb-statement .pk{color:#FF1AA8;} .pb-statement .gr{color:#D7FF45;}
+    .pb-statement span.star{font-size:clamp(3rem,7vw,6rem); color:#FF1AA8; line-height:1;}
+    .pb-step{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:44px 0 10px; display:flex; gap:12px; align-items:center;}
+    .pb-step:first-child{margin-top:0;}
+    .pb-step span{background:#FAD5ED; color:#773B57; border-radius:999px; padding:4px 10px; font-size:.68rem;}
+    .pb-fig{margin:0 0 12px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; overflow:hidden;}
+    .pb-fig img{display:block; width:100%; height:auto;}
+    .pb-fig figcaption{font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#865177; padding:10px 14px; border-top:1px solid rgba(23,10,36,.06);}
+    .pb-2{display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start;}
+    .pb-rules{display:grid; grid-template-columns:1fr 1fr; gap:28px 40px;}
+    .pb-rules h4{font-family:'Inter',sans-serif; font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#d4007f; margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid rgba(23,10,36,.12);}
+    .pb-rules ul{margin:0; padding:0; list-style:none;}
+    .pb-rules li{font-size:.9rem; line-height:1.55; color:#3a2c48; padding:4px 0;}
+    .pb-rules li strong{color:#170a24;}
+    .pb-chips{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:8px;}
+    .pb-chip{display:flex; flex-direction:column; gap:3px; font-size:.78rem;}
+    .pb-chip i{display:block; aspect-ratio:4/3; border-radius:12px; border:1px solid rgba(23,10,36,.08); margin-bottom:6px;}
+    .pb-chip b{color:#170a24;} .pb-chip code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .pb-chip em{font-style:normal; font-size:.72rem; color:#865177;}
+    .pb-type{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;}
+    .pb-type .pb-card .aa{font-size:clamp(3rem,6vw,5rem); line-height:1; color:#170a24; margin:10px 0 8px;}
+    .pb-type .serif{font-family:'Bodoni Moda',Didot,'Bodoni 72',serif;}
+    .pb-type .sans{font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-weight:500;}
+    .pb-type .note{font-size:.76rem; color:#6C6980; margin-top:6px;}
+    .pb-principle{margin-top:18px; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:22px;}
+    .pb-principle p{margin:0; font-size:.92rem; line-height:1.6; color:#3a2c48;}
+    .pb-principle .dont{margin-top:14px; padding-left:14px; border-left:3px solid #FF1AA8; color:#170a24; font-weight:600;}
+    .pb-gh{font-family:'Inter',sans-serif; font-weight:800; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:#170a24; margin:40px 0 14px;}
+    .pb-gh:first-child{margin-top:0;}
+    .pb-apps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .pb-apps figure{margin:0; border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:#efe5da;}
+    .pb-apps img{width:100%; height:100%; object-fit:cover; display:block;}
+    .pb .proj-section-body > p.pb-lede{margin:0 0 22px; max-width:none;}
+    .pb .proj-section-body > p.pb-step{margin:48px 0 12px;}
+    .pb .proj-section-body > p.pb-step:first-child{margin-top:0;}
+    .pb .proj-section-body > p.pb-gh{margin:44px 0 14px;}
+    .pb-rules + .pb-principle, .pb-rules{margin-top:4px;}
+    @media (max-width:760px){ .pb-cards,.pb-2,.pb-rules,.pb-type,.pb-apps{grid-template-columns:1fr;} .pb-chips{grid-template-columns:repeat(3,1fr);} .pb-statement span.star{display:none;} }
+    .cx-img{width:100%; height:auto; border-radius:14px; display:block;}
+    .pp-figcap{font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    .gp-glyphcard{background:#fff; border-radius:16px; border:1px solid rgba(23,10,36,.08); display:flex; align-items:center; justify-content:center; padding:14%;}
+    .gp-glyphcard img{width:60%; height:auto;}
+    .gp-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .gp-3 img{width:100%; height:auto; border-radius:12px; display:block; aspect-ratio:1/1; object-fit:cover;}
+    .gp-apps>div{aspect-ratio:4/5; border-radius:12px; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+    .gp-apps img{width:100%; height:100%; border-radius:0; aspect-ratio:auto; object-fit:cover;}
+    @media (max-width:760px){ .gp-3{grid-template-columns:1fr;} }
+    .gp-pal{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+    .gp-sw{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; overflow:hidden;}
+    .gp-sw i{display:block; aspect-ratio:1/1;}
+    .gp-sw div{padding:10px 12px 12px; display:flex; flex-direction:column; gap:2px;}
+    .gp-sw b{font-size:.8rem; color:#170a24;}
+    .gp-sw code{font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:#6C6980;}
+    .gp-sw em{font-style:normal; font-size:.72rem; line-height:1.45; color:#865177; margin-top:4px;}
+    .gp-type{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-type .pb-card{display:flex; flex-direction:column;}
+    .gp-type .spec{border-radius:12px; overflow:hidden; background:#fff; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; margin:6px 0 14px; border:1px solid rgba(23,10,36,.06);}
+    .gp-type .spec img{width:100%; height:100%; object-fit:cover;}
+    .gp-type .spec.glyph img{width:auto; height:72%; object-fit:contain;}
+    .gp-type .fname{font-family:'Inter',sans-serif; font-weight:800; font-size:1.25rem; color:#170a24; margin:0 0 4px;}
+    .gp-apps-big{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .gp-apps-big figure{margin:0;}
+    .gp-apps-big .full{grid-column:1 / -1;}
+    .gp-apps-big .frame{border-radius:16px; overflow:hidden; aspect-ratio:4/5;}
+    .gp-apps-big .full .frame{aspect-ratio:auto;}
+    .gp-apps-big img{width:100%; height:100%; object-fit:cover; display:block;}
+    .gp-apps-big .full img{height:auto;}
+    .gp-apps-big figcaption{margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    @media (max-width:760px){ .gp-pal{grid-template-columns:repeat(2,1fr);} .gp-type,.gp-apps-big{grid-template-columns:1fr;} }
+  </style>
+
+  <style>
+    .jx-q{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .jx-q .pb-card span{display:block; font-family:'Inter',sans-serif; font-weight:900; font-size:1.5rem; color:#FF1AA8; margin-bottom:8px;}
+    .jx-q .pb-card p{font-size:1rem; font-weight:700; color:#170a24;}
+    .jx-q .pb-card em{display:block; font-style:normal; font-size:.78rem; font-weight:500; color:#865177; margin-top:8px;}
+    .jx-2{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;}
+    .jx-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start;}
+    .jx-fig{margin:0;}
+    .jx-fig img,.jx-fig video{width:100%; height:auto; display:block; border-radius:14px; border:1px solid rgba(23,10,36,.08);}
+    .jx-fig figcaption{margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#865177;}
+    .jx-fig figcaption i{font-style:normal; font-weight:500; letter-spacing:0; text-transform:none; color:#6C6980;}
+    .jx-phone img{border-radius:26px; border:6px solid #170a24;}
+    .jx-vid{position:relative; border-radius:16px; overflow:hidden; background:#170a24;}
+    .jx-vid iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+    .jx-notes{margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px;}
+    .jx-notes li{font-size:.9rem; line-height:1.55; color:#3a2c48; padding-left:22px; position:relative;}
+    .jx-notes li::before{content:"✕"; position:absolute; left:0; top:0; color:#FF1AA8; font-weight:800;}
+    .jx-arrow{display:flex; align-items:center; justify-content:center; font-family:'Inter',sans-serif; font-weight:900; font-size:2rem; color:#FF1AA8;}
+    .jx-sub{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:36px; align-items:start;}
+    .jx-pinwrap{position:relative;}
+    .jx-pin{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:#FF1AA8; color:#fff; font:800 .85rem/30px 'Inter',sans-serif; text-align:center; box-shadow:0 0 0 4px rgba(255,26,168,.22);}
+    .jx-ann{counter-reset:a; margin:0; padding:0; list-style:none;}
+    .jx-ann li{position:relative; padding:0 0 16px 44px; margin-bottom:16px; border-bottom:1px solid rgba(23,10,36,.08);}
+    .jx-ann li::before{counter-increment:a; content:counter(a); position:absolute; left:0; top:0; width:30px; height:30px; border-radius:50%; background:#FF1AA8; color:#fff; font:800 .85rem/30px 'Inter',sans-serif; text-align:center;}
+    .jx-ann b{display:block; font-size:.95rem; color:#170a24; margin-bottom:4px;}
+    .jx-ann p{margin:0; font-size:.88rem; line-height:1.55; color:#3a2c48;}
+    .jx-ann li.key{background:#FAD5ED; border-radius:14px; padding:14px 14px 14px 56px; border:0;}
+    .jx-ann li.key::before{left:14px; top:14px;}
+    .jx-big{font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(4rem,10vw,8rem); line-height:.9; color:#170a24; letter-spacing:-.03em;}
+    .jx-big span{color:#FF1AA8;}
+    .jx-pal{display:grid; grid-template-columns:repeat(6,1fr); gap:10px;}
+    .jx-pal div{border-radius:12px; overflow:hidden; background:#fff; border:1px solid rgba(23,10,36,.08);}
+    .jx-pal i{display:block; height:64px;}
+    .jx-pal b{display:block; padding:8px 10px 0; font-size:.76rem; color:#170a24;}
+    .jx-pal code{display:block; padding:2px 10px 10px; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; color:#6C6980;}
+    .jx-link{display:inline-block; margin-top:14px; border:1px solid rgba(23,10,36,.15); border-radius:999px; padding:8px 16px; font-size:.82rem; font-weight:700; color:#170a24; text-decoration:none;}
+    .jx-link:hover{background:#FAD5ED;}
+    .jx-fine{font-size:.78rem; line-height:1.6; color:#6C6980; margin-top:10px;}
+    @media (max-width:760px){ .jx-q,.jx-2,.jx-3,.jx-sub{grid-template-columns:1fr;} .jx-pal{grid-template-columns:repeat(3,1fr);} .jx-arrow{transform:rotate(90deg);} }
+  </style>
+  <section class="proj-hero">
+    <div class="proj-hero-overlay"></div>
+    <div class="proj-hero-img">
+      <img src="joydotz_ux/v3-home.jpg" alt="Joydotz homepage, version 3, showing the three patch shapes up front" style="object-position:center 40%; filter:blur(3px) brightness(.55) saturate(1.2); transform:scale(1.04);">
+    </div>
+    <div class="proj-hero-text">
+      <span class="proj-num">UI/UX · E-commerce · Shopify</span>
+      <h1 class="proj-title">JOYDOTZ<span class="pr-star">★</span>SHOP</h1>
+      <div class="proj-meta-row">
+        <span>Sole designer + 1 engineer</span>
+        <span>Product page &amp; purchase decisions</span>
+        <span>Mobile-first v3, live</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="proj-content">
+    <div class="proj-overview">
+      <div class="proj-desc-col">
+        <h2>Overview</h2>
+        <p class="proj-pitch">Helping Gen Z pick the right patch, and the right way to buy it, within one phone screen.</p>
+        <p>Joydotz is a Gen Z skincare brand selling hydrocolloid spot patches in three shapes. As the only designer, working with one engineer, I designed the store's homepage entry, product page and the purchase choices on it, across three versions. After launch, 94% of visitors were on a phone, which reshaped what the page needed to do.</p>
+        <div class="proj-stats-strip">
+          <div class="proj-stat-item"><span class="proj-stat-n">94%</span><span class="proj-stat-l">Visitors on mobile</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">3</span><span class="proj-stat-l">Versions shipped</span></div>
+          <div class="proj-stat-item"><span class="proj-stat-n">15%</span><span class="proj-stat-l">Subscribe &amp; save</span></div>
+        </div>
+      </div>
+      <div class="proj-right-col">
+        <div class="pb-card" style="height:100%">
+          <b>My role</b><p>Sole designer: UX, UI and visual direction for the storefront.</p>
+          <b style="margin-top:16px">Team</b><p>Me and one engineer, who built it in Shopify.</p>
+          <b style="margin-top:16px">Scope</b><p>Homepage entry, product listing, product page and the buy-once vs. subscribe decision.</p>
+          <b style="margin-top:16px">Not mine</b><p>Checkout and the purple "Buy with Shop" button are Shopify's standard components.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Users</h2><p class="proj-section-note">Three questions on one product page.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">The core shopper is a Gen Z woman browsing on her phone, often right when a breakout shows up and she wants a fix now. Standing on the product page, she is weighing three things at once. Every decision in this case study answers one of them.</p>
+        <div class="jx-q">
+          <div class="pb-card"><span>Q1</span><p>Which one is right for me?</p><em>Answered by Decisions 1 and 2</em></div>
+          <div class="pb-card"><span>Q2</span><p>Buy once, or subscribe?</p><em>Answered by Decision 3</em></div>
+          <div class="pb-card"><span>Q3</span><p>If I subscribe, can I cancel?</p><em>Answered by Decision 3</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">The Problem</h2><p class="proj-section-note">Version 1: a default theme that answered none of them.</p></div>
+      <div class="proj-section-body">
+        <div class="jx-2">
+          <figure class="jx-fig"><img src="joydotz_branding/web/jd-hero-before.jpg" alt="Version 1 homepage on a default Shopify theme" loading="lazy"><figcaption>v1 homepage</figcaption></figure>
+          <figure class="jx-fig"><img src="joydotz_branding/web/jd-product-before.jpg" alt="Version 1 product page with placeholder content" loading="lazy"><figcaption>v1 product page <i>· $3.00 was a placeholder price on the unfinished store</i></figcaption></figure>
+        </div>
+        <ul class="jx-notes">
+          <li>Placeholder imagery, so nothing showed what the patches actually look like.</li>
+          <li>No way to tell the three products apart beyond their names.</li>
+          <li>"Add to cart" and "Buy it now" carried equal weight, so there was no clear main action.</li>
+          <li>No subscription option, and nothing that addressed the fear of recurring charges.</li>
+        </ul>
+        <div class="pb-statement" style="margin-top:22px"><p>How might we help her <span class="pk">tell two ways to buy apart</span> in one phone screen, and <span class="gr">subscribe without worry?</span></p><span class="star">★</span></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Decision 1</h2><p class="proj-section-note">What she sees first. Answers Q1.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-step"><span>v2</span>Lead with mood</p>
+        <p class="pb-lede">For version 2 I compared two openings: set the mood with atmosphere and color, or show the patches' shapes straight away. I chose atmosphere, and wrote the outline and storyboard for a homepage film, "A Little Joy Attack", where friends sneak patches onto each other's faces. A production team shot it.</p>
+        <div class="jx-2">
+          <figure class="jx-fig"><video autoplay muted loop playsinline preload="metadata" poster="joydotz_branding/web/jd-herofilm-poster.jpg"><source src="joydotz_branding/web/jd-herofilm.mp4" type="video/mp4"></video><figcaption>v2 hero film, built for silent autoplay</figcaption></figure>
+          <figure class="jx-fig"><img src="joydotz_branding/web/jd-hero-after.jpg" alt="Version 2 homepage with the hero film behind the logo" loading="lazy"><figcaption>v2 homepage, designed laptop first</figcaption></figure>
+        </div>
+        <p class="pb-step"><span>v3</span>Lead with the product</p>
+        <p class="pb-lede">After launch, 94% of visitors arrived on a phone, most likely from influencer posts, Reels and TikTok. On a phone the film was a small, slow moment in front of what people came for. I cared about that film, but it wasn't helping anyone choose, so version 3 drops it and opens on all three shapes, each with its price and a direct path in.</p>
+        <figure class="jx-fig"><img src="joydotz_ux/v3-home.jpg" alt="Version 3 homepage showing Softwing Butterfly, Daydream Cloud and Blush Flower with prices" loading="lazy"><figcaption>v3 homepage: three shapes, three prices, one main action</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Decision 2</h2><p class="proj-section-note">Choosing by shape, not name. Answers Q1.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">"Blush Flower", "Daydream Cloud" and "Softwing Butterfly" mean little until you see them. People recognize the shape faster than the product name, so I turned the three shapes into icons above the listing. Hover a product and its shape lights up while the card switches to the patch being worn.</p>
+        <div class="jx-2">
+          <figure class="jx-fig"><img src="joydotz_branding/web/jd-lights-default.jpg" alt="Product listing with the three shape icons unlit" loading="lazy"><figcaption>Default: three shapes, unlit</figcaption></figure>
+          <figure class="jx-fig"><img src="joydotz_branding/web/jd-lights-hover.jpg" alt="Hovering Daydream Cloud lights up the cloud icon and shows the patch worn on a face" loading="lazy"><figcaption>Hover: cloud lights up, card shows it worn</figcaption></figure>
+        </div>
+        <p class="jx-fine">This relied on hover, which phones don't have. It's one reason version 3 puts the shapes themselves on the homepage, so the comparison works with a thumb.</p>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Decision 3</h2><p class="proj-section-note">The subscription module. Answers Q2 and Q3.</p></div>
+      <div class="proj-section-body">
+        <p class="pb-lede">This is where a hesitant shopper either commits or leaves. The module had to make two ways of buying obvious at a glance, show the benefit of subscribing, and answer "will I get stuck paying?" before she has to ask.</p>
+        <div class="jx-sub">
+          <div class="jx-pinwrap jx-phone">
+            <img src="joydotz_ux/m-subscribe-module.jpg" alt="Version 3 subscription module on mobile" loading="lazy" style="width:100%; display:block;">
+            <span class="jx-pin" style="left:93%; top:31%">1</span>
+            <span class="jx-pin" style="left:62%; top:33.6%">2</span>
+            <span class="jx-pin" style="left:56%; top:44.3%">3</span>
+            <span class="jx-pin" style="left:73%; top:50.2%">4</span>
+            <span class="jx-pin" style="left:82%; top:60%">5</span>
+            <span class="jx-pin" style="left:95%; top:73%">6</span>
+          </div>
+          <ol class="jx-ann">
+            <li><b>One framed box, two options</b><p>Both choices sit inside a single outline, so it reads as "pick one" before any text is read.</p></li>
+            <li><b>Radio buttons, not a pill toggle</b><p>A control everyone already knows. No guessing whether it's a switch, a tab or a link.</p></li>
+            <li><b>The saving goes in the heading</b><p>"Subscribe and save 15%" puts the benefit first and the details second.</p></li>
+            <li><b>Frequency spelled out</b><p>"Deliver every month" says exactly what happens, so nobody has to guess how often a box arrives.</p></li>
+            <li class="key"><b>"Auto-renews, skip or cancel anytime." + policy link</b><p>The fear behind every subscription is being locked in. This one line answers it right where the worry starts, before the button, with the full policy one tap away instead of buried in the footer.</p></li>
+            <li><b>Clear action order</b><p>Quantity and "Add to cart" share one row as the main action; express checkout sits below. The purple "Buy with Shop" button is Shopify's own.</p></li>
+          </ol>
+        </div>
+        <p class="pb-step"><span>States</span>The choice follows her through</p>
+        <div class="jx-2">
+          <figure class="jx-fig"><img src="joydotz_ux/v3-product-onetime.jpg" alt="Product page with one-time purchase selected, $8.99" loading="lazy"><figcaption>One-time selected · $8.99</figcaption></figure>
+          <figure class="jx-fig"><img src="joydotz_ux/v3-product-subscribe.jpg" alt="Product page with subscription selected, price updates to $7.64 with the original crossed out" loading="lazy"><figcaption>Subscribe selected · price updates to $7.64, original struck through</figcaption></figure>
+        </div>
+        <div class="jx-2" style="margin-top:14px">
+          <figure class="jx-fig"><div class="jx-vid" style="padding-top:56.53%"><iframe src="https://player.vimeo.com/video/1248982323?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz product page" loading="lazy"></iframe></div><figcaption>Product page walkthrough</figcaption></figure>
+          <figure class="jx-fig"><div class="jx-vid" style="padding-top:75%"><iframe src="https://player.vimeo.com/video/1248982546?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz add-to-cart flow" loading="lazy"></iframe></div><figcaption>Add-to-cart flow</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Mobile-first v3</h2><p class="proj-section-note">Rebuilt for the 94%.</p></div>
+      <div class="proj-section-body">
+        <div style="display:flex; gap:28px; align-items:center; margin-bottom:24px; flex-wrap:wrap">
+          <p class="jx-big">94<span>%</span></p>
+          <p class="pb-lede" style="flex:1; min-width:260px; margin:0">Version 2 was designed laptop first, with many hover effects. With almost every visitor on a phone, version 3 rebuilds the same store mobile first: shapes visible without hover, the purchase module readable in one screen, and the subscription choice carried into the cart.</p>
+        </div>
+        <div class="jx-3">
+          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-product-top.jpg" alt="Mobile product page, top: product image and thumbnails" loading="lazy"><figcaption>Product first</figcaption></figure>
+          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-subscribe-module.jpg" alt="Mobile purchase module" loading="lazy"><figcaption>Decide in one screen</figcaption></figure>
+          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-cart.jpg" alt="Mobile cart showing a subscription line item, Deliver every month, 15% off" loading="lazy"><figcaption>Cart keeps the choice visible</figcaption></figure>
+        </div>
+        <figure class="jx-fig" style="margin-top:14px"><img src="joydotz_ux/v3-sticky-bar.jpg" alt="Sticky add-to-cart bar with the discounted subscription price" loading="lazy"><figcaption>Sticky add-to-cart bar keeps the action in reach while reading</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Results &amp; Learnings</h2><p class="proj-section-note">What I'll measure, and what I learned.</p></div>
+      <div class="proj-section-body">
+        <div class="pb-rules">
+          <div><h4>What I'm tracking</h4><ul>
+            <li><strong>Add-to-cart rate</strong> on product pages, v2 vs. v3.</li>
+            <li><strong>Subscription share</strong> of all orders, to see whether the reassurance line makes subscribing feel safe.</li>
+          </ul></div>
+          <div><h4>What I learned</h4><ul>
+            <li><strong>Design for where people actually are.</strong> One number, 94%, outweighed weeks of desktop polish.</li>
+            <li><strong>Let go of favorites.</strong> The hero film was work I loved, and removing it was the right call for the shopper.</li>
+            <li><strong>Answer the worry, not just the question.</strong> One sentence about cancelling may matter more than any visual.</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Visual System</h2><p class="proj-section-note">The new UI stays inside the brand.</p></div>
+      <div class="proj-section-body">
+        <div class="jx-pal">
+          <div><i style="background:#191D42"></i><b>Ink navy</b><code>#191D42</code></div>
+          <div><i style="background:#F3D6EC"></i><b>Blush</b><code>#F3D6EC</code></div>
+          <div><i style="background:#B8C8F9"></i><b>Periwinkle</b><code>#B8C8F9</code></div>
+          <div><i style="background:#D2CAF1"></i><b>Lavender</b><code>#D2CAF1</code></div>
+          <div><i style="background:#F8F8EC"></i><b>Cream</b><code>#F8F8EC</code></div>
+          <div><i style="background:#F6F6FF"></i><b>Mist</b><code>#F6F6FF</code></div>
+        </div>
+        <a class="jx-link" href="joydotz.html">See the full brand system ↗</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="proj-bottom">
+    <a href="uiux.html#work" class="proj-back-link">← All Work</a>
+    <a href="headspace.html" class="proj-next-link">
+      <span class="proj-next-label">Next Project</span>
+      <span class="proj-next-title">Headspace★ →</span>
+    </a>
+  </div>
+
+  <script src="gradient.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script src="page.js?v=40"></script>
+</body>
+</html>
