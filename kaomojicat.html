@@ -165,6 +165,13 @@
     .kc-sizes{display:flex; align-items:flex-end; justify-content:center; gap:22px;}
     .kc-sizes figure{margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; font-size:.7rem; font-weight:700; letter-spacing:.08em; color:#865177;}
     @media (max-width:760px){ .kc-chars{grid-template-columns:1fr;} }
+    .kc-quotes{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .kc-quotes blockquote{margin:0; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:18px 20px; position:relative;}
+    .kc-quotes blockquote::before{content:"“"; position:absolute; top:-6px; right:14px; font-family:Georgia,serif; font-size:3.4rem; line-height:1; color:#FAD5ED;}
+    .kc-quotes b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#d4007f; margin-bottom:8px;}
+    .kc-quotes p{margin:0; font-size:.95rem; line-height:1.5; color:#170a24;}
+    .kc-quotes--fb blockquote.good{background:#170a24;} .kc-quotes--fb blockquote.good p{color:#F7F1EA;} .kc-quotes--fb blockquote.good b{color:#D7FF45;} .kc-quotes--fb blockquote.good::before{color:#3a2c48;}
+    @media (max-width:760px){ .kc-quotes{grid-template-columns:1fr;} }
     @media (max-width:760px){ .kc-2,.kc-flow,.kc-ba,.kc-bug{grid-template-columns:1fr;} }
   </style>
   <section class="proj-hero">
@@ -198,9 +205,9 @@
       <div class="proj-right-col">
         <div class="pb-card" style="height:100%">
           <b>My role</b><p>Interaction design, visual direction, product decisions and prototyping, with AI-assisted coding.</p>
-          <b style="margin-top:16px">Context</b><p>Self-directed continuation of a school project, shaped by classroom feedback, design review and hands-on testing.</p>
+          <b style="margin-top:16px">Context</b><p>Self-directed continuation of a school project, shaped by classroom feedback, short interviews and friend testing.</p>
           <b style="margin-top:16px">Tools</b><p>p5.js, HTML, CSS, JavaScript, Chrome Manifest V3.</p>
-          <b style="margin-top:16px">Status</b><p>Working, locally installable prototype. Friend usability testing is next.</p>
+          <b style="margin-top:16px">Status</b><p>Working, locally installable prototype, tried by friends in a first round of feedback.</p>
         </div>
       </div>
     </div>
@@ -227,8 +234,20 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">The Job</h2><p class="proj-section-note">One small moment in everyday messaging.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">You know the tone you want, but you don't have the right kaomoji ready to paste. Searching another site or scrolling a long list breaks the moment. My hypothesis was that a companion living in the browser could make that choice more direct. The intended users are people who already enjoy text expressions and write in browser-based tools; that is a starting definition to test, not an interview finding.</p>
+        <p class="pb-lede">You know the tone you want, but you don't have the right kaomoji ready to paste. Searching another site or scrolling a long list breaks the moment. My hypothesis was that a companion living in the browser could make that choice more direct. The intended users are people who already enjoy text expressions and write in browser-based tools.</p>
         <div class="pb-statement"><p>When I know the feeling, <span class="pk">help me find</span> a kaomoji <span class="gr">I can paste.</span></p><span class="star">★</span></div>
+      </div>
+    </div>
+
+    <div class="proj-section pb">
+      <div class="proj-section-head"><h2 class="proj-section-title">Pain Points</h2><p class="proj-section-note">What people said when I asked how they find kaomoji today.</p></div>
+      <div class="proj-section-body">
+        <div class="kc-quotes">
+          <blockquote><b>Too few, too hard to find</b><p>"My keyboard has very few kaomoji, they're hard to find, and the suggested ones are ugly."</p></blockquote>
+          <blockquote><b>Too slow to type</b><p>"Even with a Japanese keyboard they're hard to type. Building one myself takes too long."</p></blockquote>
+          <blockquote><b>Websites get in the way</b><p>"Every time I look for new ones on a website, I tap an ad by accident or get asked to sign up for an account."</p></blockquote>
+        </div>
+        <p class="kc-fine">These shaped three rules for the build: a large, good-looking library; copy in one click instead of typing; and no ads, accounts or extra tabs.</p>
       </div>
     </div>
 
@@ -263,7 +282,7 @@
           <div class="pb-card"><b>Click</b><p>A compact conversation.</p></div>
           <div class="pb-card"><b>Settings</b><p>Full searchable library, favorites, recent copies.</p></div>
         </div>
-        <p class="kc-fine">Tradeoff: the library is now one step deeper, so whether people find Settings is part of the next test.</p>
+        <p class="kc-fine">Tradeoff: the library is now one step deeper, behind Settings. Testing later confirmed this was a weak spot (see Feedback).</p>
 
         <p class="pb-step"><span>03</span>A character that works small</p>
         <p class="pb-lede">The physical-pet feedback led me to a rounded pink robot screen first, but the framed screen read as a tiny device. A soft glowing pink form felt friendlier but too abstract to recognize. I chose a graphic black cat with a pink bow: a clear silhouette, and the bow ties it to my personal visual identity.</p>
@@ -326,14 +345,20 @@
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Next: Testing</h2><p class="proj-section-note">A working build is not a solved problem.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Feedback</h2><p class="proj-section-note">What friends said after trying it.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">The build checks show it functions. They don't show it's useful, discoverable or faster. Next is a small formative study with friends, compared against how they find kaomoji today. I'll record completion, help needed, relevance and hesitation, then update this page with results.</p>
-        <div class="pb-cards" style="grid-template-columns:repeat(4,1fr)">
-          <div class="pb-card"><b>Task 1</b><p>Find an expression for a given tone, uncoached.</p></div>
-          <div class="pb-card"><b>Task 2</b><p>Understand that clicking a suggestion copies it.</p></div>
-          <div class="pb-card"><b>Task 3</b><p>Save and reuse a favorite.</p></div>
-          <div class="pb-card"><b>Task 4</b><p>Reach the cat from Chrome New Tab.</p></div>
+        <div class="kc-quotes kc-quotes--fb">
+          <blockquote class="good"><b>The core job works</b><p>"So convenient, it really works. I don't have to type 'cute kaomoji' into a search box every time anymore."</p></blockquote>
+          <blockquote class="good"><b>The character lands</b><p>"Such a cute mascot, and it even blinks!"</p></blockquote>
+          <blockquote><b>Settings is the wrong door</b><p>"Could the settings icon be a (💗) or a favorites button? I don't usually click settings."</p></blockquote>
+          <blockquote><b>Make it mine</b><p>"Can I personalize the mascot, or change its bow?!"</p></blockquote>
+          <blockquote><b>Beyond the browser</b><p>"I want a full-screen version! Or a phone version."</p></blockquote>
+        </div>
+        <p class="pb-step"><span>Next</span>What I'll change</p>
+        <div class="pb-cards">
+          <div class="pb-card"><b>01 · Favorites, not Settings</b><p>Replace the Settings entry with a heart, so saved kaomoji and the library are where people expect them.</p></div>
+          <div class="pb-card"><b>02 · Dress up the cat</b><p>Let people pick a bow color or accessory, keeping the <code style="font-family:ui-monospace,Menlo,monospace">^ ^</code> face fixed.</p></div>
+          <div class="pb-card"><b>03 · More places to live</b><p>Explore a full-screen view for browsing and a phone keyboard version.</p></div>
         </div>
       </div>
     </div>
@@ -341,7 +366,7 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Reflection</h2><p class="proj-section-note">Keep the charm, add a purpose.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">The hardest calls were about what stays small, what moves to a second view, and what never changes. The outcome so far is a functional prototype and a sharper hypothesis. The next decisions should come from watching people use it.</p>
+        <p class="pb-lede">The hardest calls were about what stays small, what moves to a second view, and what never changes. The first round of feedback confirmed the core job and pointed straight at the weak spot I had flagged: the library hidden behind Settings. The next version starts there.</p>
         <div class="kc-links">
           <a href="https://editor.p5js.org/JenniferQian/full/1kKxk3cdA" target="_blank" rel="noopener">Original p5.js experiment ↗</a>
           <a href="https://github.com/kaomojikan/kaomoji-data" target="_blank" rel="noopener">Kaomoji dataset (MIT) ↗</a>
