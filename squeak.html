@@ -64,6 +64,11 @@
     .sq-mode{display:inline-block; font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; border-radius:999px; padding:6px 14px; margin-bottom:10px;}
     .sq-mode--a{background:#FFE9A8; color:#8a5a00;} .sq-mode--b{background:#EBDDFB; color:#6a2fc0;}
     @media (max-width:760px){ .sq-success,.sq-mb,.sq-personas{grid-template-columns:1fr;} }
+    .sq-team{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .sq-team div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:16px; padding:16px 18px;}
+    .sq-team b{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#7a3fd1; margin-bottom:6px;}
+    .sq-team p{margin:0; font-size:.95rem; font-weight:600; color:#170a24;}
+    @media (max-width:760px){ .sq-team{grid-template-columns:1fr;} }
   </style>
 </head>
 <body class="project-page">
@@ -153,6 +158,18 @@
       </div>
     </div>
 
+    <!-- Team -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Team</h2>
+      <div class="proj-section-body">
+        <div class="sq-team">
+          <div><b>Team of 4</b><p>Jennifer Qian, Astric, Amy, Ruihao</p></div>
+          <div><b>Context</b><p>UX Design course · Dec 2025</p></div>
+          <div><b>Sprint</b><p>1 week, prototyped in Figma Make</p></div>
+        </div>
+      </div>
+    </div>
+
     <!-- The Problem -->
     <div class="proj-section">
       <h2 class="proj-section-title">The Problem</h2>
@@ -189,8 +206,8 @@
       <div class="proj-section-body">
         <p class="sq-lede">Because some people love rats and some fear them, the app splits into two modes, one per persona.</p>
         <div class="sq-personas">
-          <figure><span class="sq-mode sq-mode--a">Adventure mode · Rat Ranger</span><img src="Squeak/web/persona-ranger.jpg" alt="Persona: Miguel Torres, the Rat Collector" loading="lazy"></figure>
-          <figure><span class="sq-mode sq-mode--b">Squeak-free mode · Walker</span><img src="Squeak/web/persona-walker.jpg" alt="Persona: Sarah Lin, the Rat Avoider" loading="lazy"></figure>
+          <figure><span class="sq-mode sq-mode--a">Adventure mode · Rat Ranger</span><img src="Squeak/web/persona-ranger.png" alt="Persona: Miguel Torres, the Rat Collector" loading="lazy"></figure>
+          <figure><span class="sq-mode sq-mode--b">Squeak-free mode · Walker</span><img src="Squeak/web/persona-walker.png" alt="Persona: Sarah Lin, the Rat Avoider" loading="lazy"></figure>
         </div>
       </div>
     </div>
