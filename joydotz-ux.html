@@ -153,7 +153,11 @@
     .jx-arrow{display:flex; align-items:center; justify-content:center; font-family:'Inter',sans-serif; font-weight:900; font-size:2rem; color:#FF1AA8;}
     .jx-sub{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:36px; align-items:start;}
     .jx-pinwrap{position:relative;}
-    .jx-pin{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:#FF1AA8; color:#fff; font:800 .85rem/30px 'Inter',sans-serif; text-align:center; box-shadow:0 0 0 4px rgba(255,26,168,.22);}
+    .jx-sub{position:relative;}
+    .jx-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:2;}
+    .jx-lines path{fill:none; stroke:#FF1AA8; stroke-width:1.5; stroke-dasharray:4 4;}
+    .jx-pin{position:absolute; z-index:3; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%; background:#FF1AA8; box-shadow:0 0 0 4px rgba(255,26,168,.25);}
+    @media (max-width:760px){ .jx-lines{display:none;} .jx-pin{width:26px; height:26px; margin:-13px 0 0 -13px;} .jx-pin::after{content:attr(data-n); display:block; color:#fff; font:800 .8rem/26px 'Inter',sans-serif; text-align:center;} }
     .jx-ann{counter-reset:a; margin:0; padding:0; list-style:none;}
     .jx-ann li{position:relative; padding:0 0 16px 44px; margin-bottom:16px; border-bottom:1px solid rgba(23,10,36,.08);}
     .jx-ann li::before{counter-increment:a; content:counter(a); position:absolute; left:0; top:0; width:30px; height:30px; border-radius:50%; background:#FF1AA8; color:#fff; font:800 .85rem/30px 'Inter',sans-serif; text-align:center;}
@@ -171,6 +175,17 @@
     .jx-link{display:inline-block; margin-top:14px; border:1px solid rgba(23,10,36,.15); border-radius:999px; padding:8px 16px; font-size:.82rem; font-weight:700; color:#170a24; text-decoration:none;}
     .jx-link:hover{background:#FAD5ED;}
     .jx-fine{font-size:.78rem; line-height:1.6; color:#6C6980; margin-top:10px;}
+    .jx-probs{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px;}
+    .jx-probs div{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:14px; padding:16px 18px;}
+    .jx-probs b{display:block; font-family:'Inter',sans-serif; font-weight:800; font-size:1rem; color:#170a24; margin-bottom:4px;}
+    .jx-probs b::before{content:"✕ "; color:#FF1AA8;}
+    .jx-probs p{margin:0; font-size:.86rem; line-height:1.5; color:#3a2c48;}
+    .jx-hmw{margin-top:16px; background:#0A0613; border-radius:16px; padding:22px 26px;}
+    .jx-hmw span{display:block; font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:#D7FF45; margin-bottom:8px;}
+    .jx-hmw p{margin:0; font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(1.1rem,1.9vw,1.45rem); line-height:1.35; color:#F7F1EA;}
+    .jx-hmw em{font-style:normal; color:#FF1AA8;}
+    .jx-4{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; align-items:start;}
+    @media (max-width:760px){ .jx-probs{grid-template-columns:1fr;} .jx-4{grid-template-columns:1fr 1fr;} }
     @media (max-width:760px){ .jx-q,.jx-2,.jx-3,.jx-sub{grid-template-columns:1fr;} .jx-pal{grid-template-columns:repeat(3,1fr);} .jx-arrow{transform:rotate(90deg);} }
   </style>
   <section class="proj-hero">
@@ -230,13 +245,12 @@
           <figure class="jx-fig"><img src="joydotz_branding/web/jd-hero-before.jpg" alt="Version 1 homepage on a default Shopify theme" loading="lazy"><figcaption>v1 homepage</figcaption></figure>
           <figure class="jx-fig"><img src="joydotz_branding/web/jd-product-before.jpg" alt="Version 1 product page with placeholder content" loading="lazy"><figcaption>v1 product page <i>· $3.00 was a placeholder price on the unfinished store</i></figcaption></figure>
         </div>
-        <ul class="jx-notes">
-          <li>Placeholder imagery, so nothing showed what the patches actually look like.</li>
-          <li>No way to tell the three products apart beyond their names.</li>
-          <li>"Add to cart" and "Buy it now" carried equal weight, so there was no clear main action.</li>
-          <li>No subscription option, and nothing that addressed the fear of recurring charges.</li>
-        </ul>
-        <div class="pb-statement" style="margin-top:22px"><p>How might we help her <span class="pk">tell two ways to buy apart</span> in one phone screen, and <span class="gr">subscribe without worry?</span></p><span class="star">★</span></div>
+        <div class="jx-probs">
+          <div><b>Can't see it</b><p>Placeholder images. No real patches.</p></div>
+          <div><b>Can't compare</b><p>Three names, no shapes to tell them apart.</p></div>
+          <div><b>Can't commit</b><p>No subscription, and two equal buttons.</p></div>
+        </div>
+        <div class="jx-hmw"><span>How might we</span><p>help her compare two ways to buy in one screen, and <em>subscribe without worry?</em></p></div>
       </div>
     </div>
 
@@ -271,15 +285,15 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Decision 3</h2><p class="proj-section-note">The subscription module. Answers Q2 and Q3.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">This is where a hesitant shopper either commits or leaves. The module had to make two ways of buying obvious at a glance, show the benefit of subscribing, and answer "will I get stuck paying?" before she has to ask.</p>
-        <div class="jx-sub">
+        <div class="jx-sub" id="jxSub"><svg class="jx-lines" aria-hidden="true"></svg>
           <div class="jx-pinwrap jx-phone">
             <img src="joydotz_ux/m-subscribe-module.jpg" alt="Version 3 subscription module on mobile" loading="lazy" style="width:100%; display:block;">
-            <span class="jx-pin" style="left:93%; top:31%">1</span>
-            <span class="jx-pin" style="left:62%; top:33.6%">2</span>
-            <span class="jx-pin" style="left:56%; top:44.3%">3</span>
-            <span class="jx-pin" style="left:73%; top:50.2%">4</span>
-            <span class="jx-pin" style="left:82%; top:60%">5</span>
-            <span class="jx-pin" style="left:95%; top:73%">6</span>
+            <span class="jx-pin" data-n="1" style="left:96.2%; top:40%"></span>
+            <span class="jx-pin" data-n="2" style="left:49%; top:33.6%"></span>
+            <span class="jx-pin" data-n="3" style="left:52%; top:44.3%"></span>
+            <span class="jx-pin" data-n="4" style="left:69%; top:50.2%"></span>
+            <span class="jx-pin" data-n="5" style="left:79%; top:60%"></span>
+            <span class="jx-pin" data-n="6" style="left:96.4%; top:73%"></span>
           </div>
           <ol class="jx-ann">
             <li><b>One framed box, two options</b><p>Both choices sit inside a single outline, so it reads as "pick one" before any text is read.</p></li>
@@ -309,12 +323,12 @@
           <p class="jx-big">94<span>%</span></p>
           <p class="pb-lede" style="flex:1; min-width:260px; margin:0">Version 2 was designed laptop first, with many hover effects. With almost every visitor on a phone, version 3 rebuilds the same store mobile first: shapes visible without hover, the purchase module readable in one screen, and the subscription choice carried into the cart.</p>
         </div>
-        <div class="jx-3">
+        <div class="jx-4">
           <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-product-top.jpg" alt="Mobile product page, top: product image and thumbnails" loading="lazy"><figcaption>Product first</figcaption></figure>
           <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-subscribe-module.jpg" alt="Mobile purchase module" loading="lazy"><figcaption>Decide in one screen</figcaption></figure>
-          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-cart.jpg" alt="Mobile cart showing a subscription line item, Deliver every month, 15% off" loading="lazy"><figcaption>Cart keeps the choice visible</figcaption></figure>
+          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-sticky-bar.jpg" alt="Mobile sticky add-to-cart bar at the bottom while scrolling" loading="lazy"><figcaption>Add to cart stays in reach</figcaption></figure>
+          <figure class="jx-fig jx-phone"><img src="joydotz_ux/m-cart.jpg" alt="Mobile cart showing a subscription line item, Deliver every month, 15% off" loading="lazy"><figcaption>Cart keeps the choice</figcaption></figure>
         </div>
-        <figure class="jx-fig" style="margin-top:14px"><img src="joydotz_ux/v3-sticky-bar.jpg" alt="Sticky add-to-cart bar with the discounted subscription price" loading="lazy"><figcaption>Sticky add-to-cart bar keeps the action in reach while reading</figcaption></figure>
       </div>
     </div>
 
@@ -359,6 +373,29 @@
     </a>
   </div>
 
+  <script>
+  (function(){
+    var wrap=document.getElementById('jxSub'); if(!wrap) return;
+    var svg=wrap.querySelector('.jx-lines'), img=wrap.querySelector('.jx-pinwrap'), lis=wrap.querySelectorAll('.jx-ann li'), pins=wrap.querySelectorAll('.jx-pin');
+    function draw(){
+      if(window.innerWidth<=760){svg.innerHTML='';return;}
+      var W=wrap.getBoundingClientRect(), I=img.getBoundingClientRect(), out='';
+      var gx=I.right-W.left+18;
+      pins.forEach(function(p,i){
+        var li=lis[i]; if(!li) return;
+        var P=p.getBoundingClientRect(), L=li.getBoundingClientRect();
+        var x1=P.left+P.width/2-W.left, y1=P.top+P.height/2-W.top;
+        var x2=L.left-W.left-8, y2=L.top-W.top+(li.classList.contains('key')?29:15);
+        var gxi=gx+i*4;
+        out+='<path d="M'+x1+' '+y1+' H'+gxi+' L'+x2+' '+y2+'"/>';
+      });
+      svg.innerHTML=out;
+    }
+    window.addEventListener('resize',draw); window.addEventListener('load',draw);
+    var im=img.querySelector('img'); if(im.complete) draw(); else im.addEventListener('load',draw);
+    setTimeout(draw,600);
+  })();
+  </script>
   <script src="gradient.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
