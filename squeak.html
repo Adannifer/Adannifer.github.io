@@ -35,6 +35,36 @@
   <link rel="icon" href="favicon.ico?v=1" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+  <style>
+    .sq-prob{background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; padding:24px 26px;}
+    .sq-prob b,.sq-gh{display:block; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#7a3fd1; margin:0 0 8px;}
+    .sq-gh{margin:24px 0 10px;}
+    .sq-prob p{margin:0; font-family:'Inter',sans-serif; font-size:clamp(1.2rem,1.9vw,1.6rem); font-weight:700; line-height:1.3; color:#170a24;}
+    .sq-prob em{font-style:normal; color:#7a3fd1;}
+    .sq-success{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+    .sq-success div{background:#FFF6D6; border-radius:18px; padding:18px 20px;}
+    .sq-success i{font-style:normal; font-size:1.5rem;} .sq-success b{display:block; font-family:'Inter',sans-serif; font-weight:900; font-size:1.25rem; color:#170a24; margin:6px 0 2px;}
+    .sq-success p{margin:0; font-size:.88rem; line-height:1.45; color:#3a2c48;}
+    .sq-lede{font-size:.95rem; color:#3a2c48; margin:0 0 16px;}
+    .sq-mb{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .sq-opt{margin:0; background:#fff; border:1px solid rgba(23,10,36,.08); border-radius:18px; overflow:hidden; display:flex; flex-direction:column;}
+    .sq-opt--wide{grid-column:1/-1;}
+    .sq-img{background:#f7f4f0; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+    .sq-opt--wide .sq-img{aspect-ratio:21/9;}
+    .sq-img img{width:100%; height:100%; object-fit:contain; display:block;}
+    .sq-opt figcaption{padding:14px 18px 16px;}
+    .sq-opt figcaption span{display:inline-block; font-size:.7rem; font-weight:800; letter-spacing:.1em; border-radius:999px; padding:3px 10px; background:#F3EEF6; color:#6C6980; margin-bottom:6px;}
+    .sq-opt figcaption b{display:block; font-size:1.05rem; color:#170a24; margin-bottom:2px;}
+    .sq-opt figcaption p{margin:0; font-size:.86rem; line-height:1.45; color:#3a2c48;}
+    .sq-opt--x .sq-img img{filter:grayscale(1); opacity:.55;} .sq-opt--x figcaption span{background:#ffe1e1; color:#c0392b;} .sq-opt--x b{text-decoration:line-through; text-decoration-color:#c0392b;}
+    .sq-opt--ok{border:2px solid #7a3fd1;} .sq-opt--ok figcaption span{background:#7a3fd1; color:#fff;}
+    .sq-link{display:inline-block; margin-top:14px; border:1px solid rgba(23,10,36,.15); border-radius:999px; padding:8px 16px; font-size:.82rem; font-weight:700; color:#170a24; text-decoration:none;}
+    .sq-personas{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .sq-personas figure{margin:0;} .sq-personas img{width:100%; height:auto; display:block; border-radius:16px;}
+    .sq-mode{display:inline-block; font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; border-radius:999px; padding:6px 14px; margin-bottom:10px;}
+    .sq-mode--a{background:#FFE9A8; color:#8a5a00;} .sq-mode--b{background:#EBDDFB; color:#6a2fc0;}
+    @media (max-width:760px){ .sq-success,.sq-mb,.sq-personas{grid-template-columns:1fr;} }
+  </style>
 </head>
 <body class="project-page">
   <!-- Google Tag Manager (noscript) -->
@@ -117,7 +147,7 @@
 
       <div class="proj-right-col">
         <div style="position:relative; height:580px; border-radius:18px; overflow:hidden;">
-          <iframe src="https://player.vimeo.com/video/1177451982?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Squeak_Demo"></iframe>
+          <iframe src="https://player.vimeo.com/video/1177451982?badge=0&autoplay=1&muted=1&loop=1&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Squeak_Demo"></iframe>
         </div>
         <script src="https://player.vimeo.com/api/player.js"></script>
       </div>
@@ -127,8 +157,13 @@
     <div class="proj-section">
       <h2 class="proj-section-title">The Problem</h2>
       <div class="proj-section-body">
-        <p>NYC has a rat problem everyone knows about but no one agrees how to deal with. The existing civic tool — 311 — is slow, formal, and emotionally disconnected from how people actually experience rats in the city. Some people find rats funny and shareable. Others are genuinely afraid of them. No single reporting tool served both.</p>
-        <p>The design question: how do you build one civic platform that supports playful participation <em>and</em> emotional avoidance without forcing all users into the same experience?</p>
+        <div class="sq-prob"><b>Problem</b><p>Reporting rats in NYC today (311) is <em>too formal, too slow and emotionally disconnected</em> from how people actually feel about rats.</p></div>
+        <p class="sq-gh">What success looks like</p>
+        <div class="sq-success">
+          <div><i>🎉</i><b>Fun</b><p>Spotting a rat feels like a game, not a form.</p></div>
+          <div><i>🤝</i><b>Connected</b><p>Speaks to how people really feel: amused or afraid.</p></div>
+          <div><i>⚡</i><b>Smooth</b><p>Report or avoid in a few taps.</p></div>
+        </div>
       </div>
     </div>
 
@@ -136,9 +171,26 @@
     <div class="proj-section">
       <h2 class="proj-section-title">Moodboard</h2>
       <div class="proj-section-body">
-        <p>Research and visual reference — rat culture in NYC (data maps, street art, pop culture), competing civic apps, color palette exploration, and visual tone-setting.</p>
-        <div class="fanscape-img" style="margin-top:1.5rem;">
-          <img src="Squeak/moodboard.png" alt="Squeak moodboard — NYC rat culture, visual references, color palettes, competitive apps">
+        <p class="sq-lede">Five directions explored. One was ruled out, and it changed the whole product.</p>
+        <div class="sq-mb">
+          <figure class="sq-opt sq-opt--x"><div class="sq-img"><img src="Squeak/web/mb-real-rats.jpg" alt="Real NYC rat photos, rat maps and 311 sighting data" loading="lazy"></div><figcaption><span>01 ✕</span><b>Real NYC rats</b><p>Too real. Many people are scared of rats, which led to <strong>two modes</strong>.</p></figcaption></figure>
+          <figure class="sq-opt sq-opt--ok"><div class="sq-img"><img src="Squeak/web/mb-mascot.jpg" alt="Cute mascot and sticker references" loading="lazy"></div><figcaption><span>02 ✓</span><b>Cute mouse mascot</b><p>Friendly enough for both the curious and the scared.</p></figcaption></figure>
+          <figure class="sq-opt"><div class="sq-img"><img src="Squeak/web/mb-graffiti.jpg" alt="NYC rat graffiti and street art references" loading="lazy"></div><figcaption><span>03</span><b>NYC rat graffiti</b><p>Street attitude for illustrations and tone.</p></figcaption></figure>
+          <figure class="sq-opt"><div class="sq-img"><img src="Squeak/web/mb-color.jpg" alt="Three color palette explorations" loading="lazy"></div><figcaption><span>04</span><b>Color system</b><p>Palettes tested before landing on yellow and purple.</p></figcaption></figure>
+          <figure class="sq-opt"><div class="sq-img"><img src="Squeak/web/mb-report.jpg" alt="News apps and a community alert map as spotting and reporting references" loading="lazy"></div><figcaption><span>05</span><b>Real spotting &amp; report apps</b><p>Alert maps and news layouts for how sightings get shared.</p></figcaption></figure>
+        </div>
+        <a class="sq-link" href="Squeak/moodboard.png" target="_blank" rel="noopener">See the full moodboard ↗</a>
+      </div>
+    </div>
+
+    <!-- Personas -->
+    <div class="proj-section">
+      <h2 class="proj-section-title">Personas</h2>
+      <div class="proj-section-body">
+        <p class="sq-lede">Because some people love rats and some fear them, the app splits into two modes, one per persona.</p>
+        <div class="sq-personas">
+          <figure><span class="sq-mode sq-mode--a">Adventure mode · Rat Ranger</span><img src="Squeak/web/persona-ranger.jpg" alt="Persona: Miguel Torres, the Rat Collector" loading="lazy"></figure>
+          <figure><span class="sq-mode sq-mode--b">Squeak-free mode · Walker</span><img src="Squeak/web/persona-walker.jpg" alt="Persona: Sarah Lin, the Rat Avoider" loading="lazy"></figure>
         </div>
       </div>
     </div>
@@ -150,17 +202,6 @@
         <p>The sitemap defined the dual-mode structure — splitting the app at onboarding into Rat Ranger and Squeak-Free Walker paths, each with distinct screens and interaction logic.</p>
         <div class="fanscape-img" style="margin-top:1.5rem;">
           <img src="Squeak/site%20map.png" alt="Squeak sitemap — dual-mode structure, Rat Ranger and Squeak-Free Walker flows">
-        </div>
-      </div>
-    </div>
-
-    <!-- Personas -->
-    <div class="proj-section">
-      <h2 class="proj-section-title">Personas</h2>
-      <div class="proj-section-body">
-        <p>Two personas defined the emotional range of the product — one driven by curiosity and play, the other by anxiety and avoidance. The design had to work for both without compromise.</p>
-        <div style="margin-top:1.5rem;">
-          <img src="Squeak/persona.png" alt="Persona 1 — Rat Ranger" style="width:100%; border-radius:12px; display:block;">
         </div>
       </div>
     </div>
