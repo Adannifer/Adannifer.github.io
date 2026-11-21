@@ -116,6 +116,10 @@
         <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="about-blur"/>
         <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
       </filter>
+      <filter id="acid-title" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="title-blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -10"/>
+      </filter>
       <filter id="acid-bubble" x="-20%" y="-60%" width="140%" height="220%"
               color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" id="bubble-blur"/>
@@ -250,7 +254,11 @@
     #site-title{position:relative; z-index:2; text-align:center; padding:2vh 0 6vh; display:flex; flex-direction:column; align-items:center;}
     #site-title .st-eyebrow{font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(.7rem,.95vw,.9rem); line-height:1; letter-spacing:.32em; text-transform:uppercase; color:#170a24; margin:0;}
     #site-title h1{font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(3.2rem,11.5vw,11rem); line-height:.74; letter-spacing:-.055em; color:#170a24; margin:clamp(12px,1.55vw,26px) 0 0;}
-    #site-title h1 .st-star{color:#fff; font-size:.55em; vertical-align:.45em; margin:0 .02em;}
+    #site-title h1{filter:url(#acid-title); user-select:none; cursor:default;}
+    #site-title h1 .st-star{display:inline-block; color:#fff; font-size:.55em; vertical-align:.45em; margin:0 .02em;}
+    #site-title h1 .st-star-in{display:inline-block; transform-origin:50% 55%; animation:stTwinkle 3.2s ease-in-out infinite;}
+    @keyframes stTwinkle{0%{transform:rotate(0) scale(1);} 40%{transform:rotate(36deg) scale(1.18);} 60%{transform:rotate(36deg) scale(1.18);} 100%{transform:rotate(72deg) scale(1);}}
+    @media (prefers-reduced-motion:reduce){ #site-title h1 .st-star-in{animation:none;} }
     #site-title .st-row{display:flex; justify-content:center; flex-wrap:wrap; gap:10px 34px; margin:clamp(14px,1.75vw,30px) 0 0; font-family:'Inter',sans-serif; font-weight:800; font-size:clamp(.7rem,.95vw,.9rem); line-height:1; letter-spacing:.2em; text-transform:uppercase; color:#170a24;}
     #site-title .st-row a{color:inherit; text-decoration:none;}
   </style>
@@ -340,11 +348,11 @@
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="#f7f1ea" d="M0,58 C180,28 360,28 540,52 C720,76 900,80 1080,54 C1260,28 1350,34 1440,48 L1440,90 L0,90 Z">
         </path></svg>
       </div>
-      <header id="site-title"><p class="st-eyebrow">UI/UX &amp; Product Designer</p><h1>JENNIFER<span class="st-star">★</span>QIAN</h1><div class="st-row"><span>New York, NY</span><a href="mailto:qianlinzhiyi@gmail.com">qianlinzhiyi@gmail.com</a></div></header>
+      <header id="site-title"><p class="st-eyebrow">UI/UX &amp; Product Designer</p><h1>JENNIFER<span class="st-star"><span class="st-star-in">★</span></span>QIAN</h1><div class="st-row"><span>New York, NY</span><a href="mailto:qianlinzhiyi@gmail.com">qianlinzhiyi@gmail.com</a></div></header>
       <div class="work-group" id="digital">
         <div class="big-grid">
         <a class="vcard bg-feature" href="joydotz-ux.html">
-          <div class="vcard-media"><iframe src="https://player.vimeo.com/video/1248982323?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz product page" tabindex="-1"></iframe></div>
+          <div class="vcard-media"><iframe src="https://player.vimeo.com/video/1248989673?badge=0&amp;autopause=0&amp;background=1&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz product page hover" tabindex="-1" style="height:134.4%;"></iframe></div>
           <div class="vcard-meta"><span class="vcard-title">Product Page &amp; Purchase UX</span><span class="vcard-tag">Joydotz</span></div>
         </a>
         <a class="vcard bg-feature" href="headspace.html">
@@ -520,6 +528,32 @@
   (function(){var tabs=document.querySelectorAll('.pg-tabs button'), items=document.querySelectorAll('.pg-item');
     tabs.forEach(function(b){b.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('is-on',x===b)}); var f=b.dataset.f;
       items.forEach(function(it){it.classList.toggle('is-hidden', f!=='all' && it.dataset.cat!==f)});});});})();
+  </script>
+  <script>
+  /* Site title: acid mercury mouse effect */
+  (function(){
+    var h=document.querySelector('#site-title h1'); if(!h||!window.gsap) return;
+    function wrap(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){ var fr=document.createDocumentFragment(); n.textContent.split('').forEach(function(ch){ var sp=document.createElement('span'); sp.className='tc'; sp.style.display='inline-block'; sp.textContent=ch; fr.appendChild(sp); }); n.replaceWith(fr); }
+        else if(n.classList && n.classList.contains('st-star')) n.classList.add('tc'); else wrap(n);
+      });
+    }
+    wrap(h);
+    var chars=[].slice.call(h.querySelectorAll('.tc')), blur=document.getElementById('title-blur');
+    gsap.from(chars,{yPercent:40,opacity:0,duration:.7,stagger:.03,ease:'power3.out',delay:.1});
+    document.addEventListener('mousemove',function(e){
+      var r0=h.getBoundingClientRect(); if(r0.bottom<0||r0.top>innerHeight) return;
+      var maxF=0;
+      chars.forEach(function(c){
+        var r=c.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, d=Math.hypot(e.clientX-cx,e.clientY-cy), rad=200;
+        if(d<rad){ var t=1-d/rad, fo=t*t*34, a=Math.atan2(e.clientY-cy,e.clientX-cx); maxF=Math.max(maxF,t);
+          gsap.to(c,{x:-Math.cos(a)*fo,y:-Math.sin(a)*fo,duration:.28,ease:'power2.out',overwrite:'auto'}); }
+        else gsap.to(c,{x:0,y:0,duration:.85,ease:'elastic.out(1, 0.45)',overwrite:'auto'});
+      });
+      if(blur) gsap.to(blur,{attr:{stdDeviation:maxF*5},duration:.25,ease:'power2.out',overwrite:'auto'});
+    });
+  })();
   </script>
 </body>
 </html>
