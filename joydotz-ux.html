@@ -155,19 +155,20 @@
     .jx-pinwrap{position:relative;}
     .jx-sub{position:relative;}
     .jx-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:2;}
-    .jx-lines path{fill:none; stroke:#FF1AA8; stroke-width:1.5; stroke-dasharray:4 4;}
+    .jx-lines line{stroke:#FF1AA8; stroke-width:1.5;}
     .jx-pin{position:absolute; z-index:3; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%; background:#FF1AA8; box-shadow:0 0 0 4px rgba(255,26,168,.25);}
     @media (max-width:760px){ .jx-lines{display:none;} .jx-pin{width:26px; height:26px; margin:-13px 0 0 -13px;} .jx-pin::after{content:attr(data-n); display:block; color:#fff; font:800 .8rem/26px 'Inter',sans-serif; text-align:center;} }
     .jx-ann{counter-reset:a; margin:0; padding:0; list-style:none;}
-    .jx-ann li{position:relative; padding:0 0 16px 44px; margin-bottom:16px; border-bottom:1px solid rgba(23,10,36,.08);}
+    .jx-ann li{position:relative; padding:0 0 0 44px; margin-bottom:10px; min-height:30px;}
     .jx-ann li::before{counter-increment:a; content:counter(a); position:absolute; left:0; top:0; width:30px; height:30px; border-radius:50%; background:#FF1AA8; color:#fff; font:800 .85rem/30px 'Inter',sans-serif; text-align:center;}
-    .jx-ann b{display:block; font-size:.95rem; color:#170a24; margin-bottom:4px;}
+    .jx-ann b{display:block; font-size:.95rem; color:#170a24; margin-bottom:2px; padding-top:4px;}
     .jx-ann p{margin:0; font-size:.88rem; line-height:1.55; color:#3a2c48;}
-    .jx-ann li.key{background:#FAD5ED; border-radius:14px; padding:14px 14px 14px 56px; border:0;}
+    .jx-ann li.key{background:#FAD5ED; border-radius:14px; padding:10px 14px 12px 56px;}
     .jx-ann li.key::before{left:14px; top:14px;}
+    .jx-sub{align-items:start;} .jx-ann{padding-top:0;}
     .jx-big{font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(4rem,10vw,8rem); line-height:.9; color:#170a24; letter-spacing:-.03em;}
     .jx-big span{color:#FF1AA8;}
-    .jx-pal{display:grid; grid-template-columns:repeat(6,1fr); gap:10px;}
+    .jx-pal{display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
     .jx-pal div{border-radius:12px; overflow:hidden; background:#fff; border:1px solid rgba(23,10,36,.08);}
     .jx-pal i{display:block; height:64px;}
     .jx-pal b{display:block; padding:8px 10px 0; font-size:.76rem; color:#170a24;}
@@ -229,7 +230,7 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Users</h2><p class="proj-section-note">Three questions on one product page.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">The core shopper is a Gen Z woman browsing on her phone, often right when a breakout shows up and she wants a fix now. Standing on the product page, she is weighing three things at once. Every decision in this case study answers one of them.</p>
+        <p class="pb-lede">Our core shoppers are Gen Z, browsing on their phones, often right when a breakout shows up and they want a fix now. On the product page, they are weighing three things at once. Every decision in this case study answers one of them.</p>
         <div class="jx-q">
           <div class="pb-card"><span>Q1</span><p>Which one is right for me?</p><em>Answered by Decisions 1 and 2</em></div>
           <div class="pb-card"><span>Q2</span><p>Buy once, or subscribe?</p><em>Answered by Decision 3</em></div>
@@ -250,12 +251,12 @@
           <div><b>Can't compare</b><p>Three names, no shapes to tell them apart.</p></div>
           <div><b>Can't commit</b><p>No subscription, and two equal buttons.</p></div>
         </div>
-        <div class="jx-hmw"><span>How might we</span><p>help her compare two ways to buy in one screen, and <em>subscribe without worry?</em></p></div>
+        <div class="jx-hmw"><span>How might we</span><p>help shoppers compare two ways to buy in one screen, and <em>subscribe without worry?</em></p></div>
       </div>
     </div>
 
     <div class="proj-section pb">
-      <div class="proj-section-head"><h2 class="proj-section-title">Decision 1</h2><p class="proj-section-note">What she sees first. Answers Q1.</p></div>
+      <div class="proj-section-head"><h2 class="proj-section-title">Decision 1</h2><p class="proj-section-note">What shoppers see first. Answers Q1.</p></div>
       <div class="proj-section-body">
         <p class="pb-step"><span>v2</span>Lead with mood</p>
         <p class="pb-lede">For version 2 I compared two openings: set the mood with atmosphere and color, or show the patches' shapes straight away. I chose atmosphere, and wrote the outline and storyboard for a homepage film, "A Little Joy Attack", where friends sneak patches onto each other's faces. A production team shot it.</p>
@@ -273,10 +274,7 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Decision 2</h2><p class="proj-section-note">Choosing by shape, not name. Answers Q1.</p></div>
       <div class="proj-section-body">
         <p class="pb-lede">"Blush Flower", "Daydream Cloud" and "Softwing Butterfly" mean little until you see them. People recognize the shape faster than the product name, so I turned the three shapes into icons above the listing. Hover a product and its shape lights up while the card switches to the patch being worn.</p>
-        <div class="jx-2">
-          <figure class="jx-fig"><img src="joydotz_branding/web/jd-lights-default.jpg" alt="Product listing with the three shape icons unlit" loading="lazy"><figcaption>Default: three shapes, unlit</figcaption></figure>
-          <figure class="jx-fig"><img src="joydotz_branding/web/jd-lights-hover.jpg" alt="Hovering Daydream Cloud lights up the cloud icon and shows the patch worn on a face" loading="lazy"><figcaption>Hover: cloud lights up, card shows it worn</figcaption></figure>
-        </div>
+        <figure class="jx-fig"><div class="jx-vid" style="padding-top:56.53%"><iframe src="https://player.vimeo.com/video/1248982323?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz product listing: shapes light up on hover" loading="lazy"></iframe></div><figcaption>Hover a product, its shape lights up</figcaption></figure>
         <p class="jx-fine">This relied on hover, which phones don't have. It's one reason version 3 puts the shapes themselves on the homepage, so the comparison works with a thumb.</p>
       </div>
     </div>
@@ -284,35 +282,32 @@
     <div class="proj-section pb">
       <div class="proj-section-head"><h2 class="proj-section-title">Decision 3</h2><p class="proj-section-note">The subscription module. Answers Q2 and Q3.</p></div>
       <div class="proj-section-body">
-        <p class="pb-lede">This is where a hesitant shopper either commits or leaves. The module had to make two ways of buying obvious at a glance, show the benefit of subscribing, and answer "will I get stuck paying?" before she has to ask.</p>
+        <p class="pb-lede">This is where a hesitant shopper either commits or leaves. The module had to make two ways of buying obvious at a glance, show the benefit of subscribing, and answer "will I get stuck paying?" before they have to ask.</p>
         <div class="jx-sub" id="jxSub"><svg class="jx-lines" aria-hidden="true"></svg>
           <div class="jx-pinwrap jx-phone">
             <img src="joydotz_ux/m-subscribe-module.jpg" alt="Version 3 subscription module on mobile" loading="lazy" style="width:100%; display:block;">
-            <span class="jx-pin" data-n="1" style="left:96.2%; top:40%"></span>
-            <span class="jx-pin" data-n="2" style="left:49%; top:33.6%"></span>
+            <span class="jx-pin" data-n="1" style="left:48%; top:33.6%"></span>
+            <span class="jx-pin" data-n="2" style="left:96.2%; top:39.6%"></span>
             <span class="jx-pin" data-n="3" style="left:52%; top:44.3%"></span>
             <span class="jx-pin" data-n="4" style="left:69%; top:50.2%"></span>
             <span class="jx-pin" data-n="5" style="left:79%; top:60%"></span>
             <span class="jx-pin" data-n="6" style="left:96.4%; top:73%"></span>
           </div>
           <ol class="jx-ann">
-            <li><b>One framed box, two options</b><p>Both choices sit inside a single outline, so it reads as "pick one" before any text is read.</p></li>
-            <li><b>Radio buttons, not a pill toggle</b><p>A control everyone already knows. No guessing whether it's a switch, a tab or a link.</p></li>
-            <li><b>The saving goes in the heading</b><p>"Subscribe and save 15%" puts the benefit first and the details second.</p></li>
-            <li><b>Frequency spelled out</b><p>"Deliver every month" says exactly what happens, so nobody has to guess how often a box arrives.</p></li>
-            <li class="key"><b>"Auto-renews, skip or cancel anytime." + policy link</b><p>The fear behind every subscription is being locked in. This one line answers it right where the worry starts, before the button, with the full policy one tap away instead of buried in the footer.</p></li>
-            <li><b>Clear action order</b><p>Quantity and "Add to cart" share one row as the main action; express checkout sits below. The purple "Buy with Shop" button is Shopify's own.</p></li>
+            <li><b>Radio buttons, not a pill toggle</b><p>A control everyone already knows.</p></li>
+            <li><b>One framed box, two options</b><p>Reads as "pick one" at a glance.</p></li>
+            <li><b>Saving in the heading</b><p>The benefit comes first.</p></li>
+            <li><b>Frequency spelled out</b><p>No guessing how often it ships.</p></li>
+            <li class="key"><b>"Skip or cancel anytime" + policy link</b><p>Answers the fear of getting locked in, right before the button.</p></li>
+            <li><b>Clear action order</b><p>Add to cart leads. "Buy with Shop" is Shopify's.</p></li>
           </ol>
         </div>
-        <p class="pb-step"><span>States</span>The choice follows her through</p>
+        <p class="pb-step"><span>States</span>The choice follows them through</p>
         <div class="jx-2">
           <figure class="jx-fig"><img src="joydotz_ux/v3-product-onetime.jpg" alt="Product page with one-time purchase selected, $8.99" loading="lazy"><figcaption>One-time selected · $8.99</figcaption></figure>
           <figure class="jx-fig"><img src="joydotz_ux/v3-product-subscribe.jpg" alt="Product page with subscription selected, price updates to $7.64 with the original crossed out" loading="lazy"><figcaption>Subscribe selected · price updates to $7.64, original struck through</figcaption></figure>
         </div>
-        <div class="jx-2" style="margin-top:14px">
-          <figure class="jx-fig"><div class="jx-vid" style="padding-top:56.53%"><iframe src="https://player.vimeo.com/video/1248982323?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz product page" loading="lazy"></iframe></div><figcaption>Product page walkthrough</figcaption></figure>
-          <figure class="jx-fig"><div class="jx-vid" style="padding-top:75%"><iframe src="https://player.vimeo.com/video/1248982546?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz add-to-cart flow" loading="lazy"></iframe></div><figcaption>Add-to-cart flow</figcaption></figure>
-        </div>
+        <figure class="jx-fig" style="margin-top:14px"><div class="jx-vid" style="padding-top:56.53%"><iframe src="https://player.vimeo.com/video/1248982546?autoplay=1&amp;muted=1&amp;loop=1&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Joydotz add-to-cart flow" loading="lazy" style="top:-16.35%; height:132.7%;"></iframe></div><figcaption>Add-to-cart flow</figcaption></figure>
       </div>
     </div>
 
@@ -353,12 +348,11 @@
       <div class="proj-section-head"><h2 class="proj-section-title">Visual System</h2><p class="proj-section-note">The new UI stays inside the brand.</p></div>
       <div class="proj-section-body">
         <div class="jx-pal">
-          <div><i style="background:#191D42"></i><b>Ink navy</b><code>#191D42</code></div>
-          <div><i style="background:#F3D6EC"></i><b>Blush</b><code>#F3D6EC</code></div>
-          <div><i style="background:#B8C8F9"></i><b>Periwinkle</b><code>#B8C8F9</code></div>
-          <div><i style="background:#D2CAF1"></i><b>Lavender</b><code>#D2CAF1</code></div>
-          <div><i style="background:#F8F8EC"></i><b>Cream</b><code>#F8F8EC</code></div>
-          <div><i style="background:#F6F6FF"></i><b>Mist</b><code>#F6F6FF</code></div>
+          <div><i style="background:#B3C8FC"></i><b>Sky</b><code>#B3C8FC</code></div>
+          <div><i style="background:#FAD5ED"></i><b>Blush</b><code>#FAD5ED</code></div>
+          <div><i style="background:#FF79C4"></i><b>Joy Pink</b><code>#FF79C4</code></div>
+          <div><i style="background:#ACB3EF"></i><b>Periwinkle</b><code>#ACB3EF</code></div>
+          <div><i style="background:#865177"></i><b>Plum</b><code>#865177</code></div>
         </div>
         <a class="jx-link" href="joydotz.html">See the full brand system ↗</a>
       </div>
@@ -376,18 +370,21 @@
   <script>
   (function(){
     var wrap=document.getElementById('jxSub'); if(!wrap) return;
-    var svg=wrap.querySelector('.jx-lines'), img=wrap.querySelector('.jx-pinwrap'), lis=wrap.querySelectorAll('.jx-ann li'), pins=wrap.querySelectorAll('.jx-pin');
+    var svg=wrap.querySelector('.jx-lines'), img=wrap.querySelector('.jx-pinwrap'), list=wrap.querySelector('.jx-ann'), lis=wrap.querySelectorAll('.jx-ann li'), pins=wrap.querySelectorAll('.jx-pin');
     function draw(){
+      lis.forEach(function(li){li.style.marginTop='';});
       if(window.innerWidth<=760){svg.innerHTML='';return;}
-      var W=wrap.getBoundingClientRect(), I=img.getBoundingClientRect(), out='';
-      var gx=I.right-W.left+18;
-      pins.forEach(function(p,i){
-        var li=lis[i]; if(!li) return;
-        var P=p.getBoundingClientRect(), L=li.getBoundingClientRect();
+      var W=wrap.getBoundingClientRect(), Lr=list.getBoundingClientRect(), prev=0, out='';
+      lis.forEach(function(li,i){
+        var P=pins[i].getBoundingClientRect(), ty=P.top+P.height/2-Lr.top-15;
+        var top=Math.max(ty, prev); li.style.marginTop=(top-prev)+'px';
+        prev=top+li.offsetHeight+10;
+      });
+      lis.forEach(function(li,i){
+        var P=pins[i].getBoundingClientRect(), L=li.getBoundingClientRect(), key=li.classList.contains('key');
         var x1=P.left+P.width/2-W.left, y1=P.top+P.height/2-W.top;
-        var x2=L.left-W.left-8, y2=L.top-W.top+(li.classList.contains('key')?29:15);
-        var gxi=gx+i*4;
-        out+='<path d="M'+x1+' '+y1+' H'+gxi+' L'+x2+' '+y2+'"/>';
+        var x2=L.left-W.left+(key?6:-6), y2=L.top-W.top+(key?29:15);
+        out+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';
       });
       svg.innerHTML=out;
     }
